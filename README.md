@@ -12,3 +12,7 @@ Team Members:
  - Kyomaru Inuke         kyomaru      kyomaru@ualberta.ca
  - Michael Nicholson     mjnichol     mjnichol@ualberta.ca
  - Austin Weber          arweber      arweber@ualberta.ca
+
+======================
+
+Project Co-ordinator(s):
