@@ -16,3 +16,13 @@ Team Members:
 ======================
 
 Project Co-ordinator(s):
+
+======================
+
+Mentor:
+
+======================
+
+Instructor:
+
+Abram Hindle
