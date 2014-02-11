@@ -1,8 +1,6 @@
-package com.CMPUT301W14T13.gpscommentlogger.model;
+package com.CMPUT301W14T13.gpscommentlogger;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import android.graphics.Bitmap;
 
@@ -16,11 +14,11 @@ public class Comment
 	private String username;
 	private Bitmap image;
 	private boolean hasImage;
-	private List<Integer>child_ID;
+	private List<int>child_ID;
 	private Date timestamp;
 	private String commentText;
 	
-	private HashMap<String, Vote> votes;
+	private HashSet<String, Vote> votes;
 		
 	public Comment(){
 		
