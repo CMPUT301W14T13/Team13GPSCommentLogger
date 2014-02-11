@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger;
+package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,8 +13,8 @@ public class Thread
 	private String title;
 	private Date freshness;
 	private Comment rootComment;
-	private HashMap <Integer,Comment> comments
-	private Location GPS_location
+	private HashMap <Integer,Comment> comments;
+	private Location GPSLocation;
 	
 	
 	
