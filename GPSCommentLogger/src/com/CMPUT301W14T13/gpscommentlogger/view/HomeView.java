@@ -1,10 +1,14 @@
-package com.CMPUT301W14T13.gpscommentlogger;
+package com.CMPUT301W14T13.gpscommentlogger.view;
+
+import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.R.layout;
+import com.CMPUT301W14T13.gpscommentlogger.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class HomePage extends Activity {
+public class HomeView extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
