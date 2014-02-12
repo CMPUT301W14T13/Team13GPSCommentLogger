@@ -2,7 +2,7 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientResult;
 
-public class ServerListener implements Runnable
+public class ServerListener extends Thread
 {
 	private ClientController client;
 	private ClientResult result;

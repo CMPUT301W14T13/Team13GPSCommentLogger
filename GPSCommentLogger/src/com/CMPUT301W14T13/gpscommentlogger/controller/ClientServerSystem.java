@@ -33,8 +33,8 @@ public class ClientServerSystem
 		server.setClient(client);
 		client.init();
 		server.init();
-		client.run();
-		server.run();
+		client.start();
+		server.start();
 		isInit = true;
 	}
 	
@@ -52,6 +52,12 @@ public class ClientServerSystem
 	public ServerController getServer()
 	{
 		return server;
+	}
+	
+	public void kill()
+	{
+		client.stop();
+		server.stop();
 	}
 	
 }

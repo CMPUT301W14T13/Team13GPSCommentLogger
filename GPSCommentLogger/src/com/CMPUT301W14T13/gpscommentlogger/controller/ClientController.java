@@ -42,7 +42,7 @@ public class ClientController extends Controller
 		
 		dispatcher = new ServerDispatcher(server);
 		listener = new ServerListener(this);
-		listener.run();
+		listener.start();
 		isInit = true;
 	}
 
@@ -106,6 +106,7 @@ public class ClientController extends Controller
 		this.server = server;
 		
 	}
+
 
 	
 }

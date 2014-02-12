@@ -40,7 +40,7 @@ public class ServerController extends Controller
 		
 		dispatcher = new ClientDispatcher(client);
 		listener = new ClientListener(this);
-		listener.run();
+		listener.start();
 		isInit = true;
 	}
 
@@ -103,4 +103,5 @@ public class ServerController extends Controller
 		debuggingWindow.setText(message);
 	}
 	
+
 }
