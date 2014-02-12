@@ -2,6 +2,8 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
 
+import android.widget.TextView;
+
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
@@ -23,10 +25,13 @@ public class ClientController extends Controller
 	//store server result
 	protected Result serverResult = null;
 	
+	//store reference to output window for debugging
+	protected TextView debuggingWindow;
 
-	public ClientController()
+	public ClientController(TextView debuggingWindow)
 	{
 		isInit = false;
+		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
 	}
 	

@@ -1,5 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
+import android.widget.TextView;
+
 /// @author kyomaru
 /// This class handles the task of creating a client and attaching it to a server.
 /// Since we have no server, we are simulating one on the client machine.
@@ -14,17 +16,30 @@ public class ClientServerSystem
 	private ClientController client;
 	private ServerController server;
 	
+	private boolean isInit = false;
+
 	private ClientServerSystem()
 	{
-		client = new ClientController();
-		server = new ServerController();
+
+	}
+	
+	public void init(TextView debuggingWindow)
+	{
+		if(isInit)return;
+		
+		client = new ClientController(debuggingWindow);
+		server = new ServerController(debuggingWindow);
 		client.setServer(server);
 		server.setClient(client);
 		client.init();
 		server.init();
+		client.run();
+		server.run();
+		isInit = true;
 	}
 	
-	public ClientServerSystem getInstance()
+	
+	public static ClientServerSystem getInstance()
 	{
 		return system;
 	}
@@ -38,4 +53,5 @@ public class ClientServerSystem
 	{
 		return server;
 	}
+	
 }

@@ -3,6 +3,8 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
 
+import android.widget.TextView;
+
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
@@ -21,10 +23,13 @@ public class ServerController extends Controller
 	//store list of tasks
 	private ArrayList<Task> tasks;
 	
+	//store reference to output window for debugging
+	protected TextView debuggingWindow;
 
-	public ServerController()
+	public ServerController(TextView debuggingWindow)
 	{
 		isInit = false;
+		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
 	}
 	
@@ -42,6 +47,7 @@ public class ServerController extends Controller
 	@Override
 	public void run()
 	{
+		writeDebuggingMessage("Server Running");
 		while(true){
 			try{
 				//First check if there is something to do	
@@ -66,6 +72,7 @@ public class ServerController extends Controller
 	public synchronized void addTask(Task task)
 	{
 		tasks.add(task);
+		writeDebuggingMessage("Task added to Server");
 		notify();
 	}
 	
@@ -87,6 +94,13 @@ public class ServerController extends Controller
 	public void setClient(ClientController client)
 	{
 		this.client = client;
+	}
+	
+	private void writeDebuggingMessage(String message)
+	{
+		if (debuggingWindow == null) return;
+		
+		debuggingWindow.setText(message);
 	}
 	
 }
