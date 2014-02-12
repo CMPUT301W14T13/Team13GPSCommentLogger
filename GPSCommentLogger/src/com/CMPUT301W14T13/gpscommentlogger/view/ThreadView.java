@@ -24,6 +24,7 @@ public class ThreadView
 	
 	
 	
+	
 	{
 		return c;
 	}
@@ -37,13 +38,14 @@ public class ThreadView
 	
 	
 	
+	
 	{
 		this.c = c;
 	}
 
 	/** 
 	 * @uml.property name="cc"
-	 * @uml.associationEnd multiplicity="(0 -1)" inverse="t:com.CMPUT301W14T13.gpscommentlogger.view.CommentView"
+	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.view.CommentView"
 	 */
 	private Collection<CommentView> cc;
 
@@ -53,6 +55,7 @@ public class ThreadView
 	 * @uml.property  name="cc"
 	 */
 	public Collection<CommentView> getCc()
+	
 	
 	{
 		return cc;
@@ -64,6 +67,7 @@ public class ThreadView
 	 * @uml.property  name="cc"
 	 */
 	public void setCc(Collection<CommentView> cc)
+	
 	
 	{
 		this.cc = cc;

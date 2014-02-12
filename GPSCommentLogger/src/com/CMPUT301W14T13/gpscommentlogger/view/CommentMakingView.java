@@ -2,24 +2,25 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 
 
 /**
- * @uml.dependency   supplier="com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
  * @uml.dependency   supplier="com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
+ * @uml.dependency   supplier="com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
  */
 public class CommentMakingView
 {
 
-	/** 
-	 * @uml.property name="i"
-	 * @uml.associationEnd aggregation="composite" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.ImageAttachmentView"
+	/**
+	 * @uml.property   name="i"
+	 * @uml.associationEnd   aggregation="composite" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.PictureAttachmentView"
 	 */
-	private ImageAttachmentView i;
+	private PictureAttachmentView i;
 
 	/** 
 	 * Getter of the property <tt>i</tt>
 	 * @return  Returns the i.
 	 * @uml.property  name="i"
 	 */
-	public ImageAttachmentView getI()
+	public PictureAttachmentView getI()
+	
 	
 	
 	
@@ -38,7 +39,8 @@ public class CommentMakingView
 	 * @param i  The i to set.
 	 * @uml.property  name="i"
 	 */
-	public void setI(ImageAttachmentView i)
+	public void setI(PictureAttachmentView i)
+	
 	
 	
 	
@@ -52,9 +54,9 @@ public class CommentMakingView
 		this.i = i;
 	}
 
-	/** 
-	 * @uml.property name="l"
-	 * @uml.associationEnd aggregation="composite" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.LocationSelectionView"
+	/**
+	 * @uml.property   name="l"
+	 * @uml.associationEnd   aggregation="composite" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.LocationSelectionView"
 	 */
 	private LocationSelectionView l;
 
@@ -64,6 +66,7 @@ public class CommentMakingView
 	 * @uml.property  name="l"
 	 */
 	public LocationSelectionView getL()
+	
 	
 	
 	
@@ -86,13 +89,14 @@ public class CommentMakingView
 	
 	
 	
+	
 	{
 		this.l = l;
 	}
 
-	/** 
-	 * @uml.property name="h"
-	 * @uml.associationEnd multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
+	/**
+	 * @uml.property   name="h"
+	 * @uml.associationEnd   multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
 	private HomeView h = new com.CMPUT301W14T13.gpscommentlogger.view.HomeView();
 
@@ -102,6 +106,7 @@ public class CommentMakingView
 	 * @uml.property  name="h"
 	 */
 	public HomeView getH()
+	
 	
 	
 	
@@ -122,13 +127,14 @@ public class CommentMakingView
 	
 	
 	
+	
 	{
 		this.h = h;
 	}
 
-	/** 
-	 * @uml.property name="t"
-	 * @uml.associationEnd multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
+	/**
+	 * @uml.property   name="t"
+	 * @uml.associationEnd   multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
 	 */
 	private ThreadView t = new com.CMPUT301W14T13.gpscommentlogger.view.ThreadView();
 
@@ -138,6 +144,7 @@ public class CommentMakingView
 	 * @uml.property  name="t"
 	 */
 	public ThreadView getT()
+	
 	
 	
 	
@@ -156,10 +163,27 @@ public class CommentMakingView
 	
 	
 	
+	
 	{
 		this.t = t;
 	}
 
-	
+		
+		/**
+		 */
+	private void attachPicture(){
+			
+	}
 
+	private void selectUsername(){
+		
+	}
+
+	private void editLocation(){
+		
+	}
+	
+	private void commentText(){
+		
+	}
 }

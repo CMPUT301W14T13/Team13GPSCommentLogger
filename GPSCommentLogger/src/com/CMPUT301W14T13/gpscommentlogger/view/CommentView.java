@@ -28,6 +28,7 @@ public class CommentView
 	
 	
 	
+	
 	{
 	
 		return homeView;
@@ -39,6 +40,7 @@ public class CommentView
 	 * @uml.property  name="homeView"
 	 */
 	public void setHomeView(HomeView homeView)
+	
 	
 	
 	
@@ -71,6 +73,7 @@ public class CommentView
 	
 	
 	
+	
 	{
 	
 		return homeView1;
@@ -82,6 +85,7 @@ public class CommentView
 	 * @uml.property  name="homeView1"
 	 */
 	public void setHomeView1(HomeView homeView1)
+	
 	
 	
 	
@@ -112,6 +116,7 @@ public class CommentView
 	
 	
 	
+	
 	{
 	
 		return homeView2;
@@ -123,6 +128,7 @@ public class CommentView
 	 * @uml.property  name="homeView2"
 	 */
 	public void setHomeView2(HomeView homeView2)
+	
 	
 	
 	
@@ -151,6 +157,7 @@ public class CommentView
 	
 	
 	
+	
 	{
 	
 		return homeView3;
@@ -162,6 +169,7 @@ public class CommentView
 	 * @uml.property  name="homeView3"
 	 */
 	public void setHomeView3(HomeView homeView3)
+	
 	
 	
 	
@@ -188,6 +196,7 @@ public class CommentView
 	
 	
 	
+	
 	{
 	
 		return homeView4;
@@ -199,6 +208,7 @@ public class CommentView
 	 * @uml.property  name="homeView4"
 	 */
 	public void setHomeView4(HomeView homeView4)
+	
 	
 	
 	
@@ -223,6 +233,7 @@ public class CommentView
 	
 	
 	
+	
 	{
 	
 		return homeView5;
@@ -234,6 +245,7 @@ public class CommentView
 	 * @uml.property  name="homeView5"
 	 */
 	public void setHomeView5(HomeView homeView5)
+	
 	
 	
 	
@@ -256,6 +268,7 @@ public class CommentView
 	public HomeView getH()
 	
 	
+	
 	{
 	
 		return h;
@@ -267,6 +280,7 @@ public class CommentView
 	 * @uml.property  name="h"
 	 */
 	public void setH(HomeView h)
+	
 	
 	
 	{
@@ -287,6 +301,7 @@ public class CommentView
 	 */
 	public ThreadView getT()
 	
+	
 	{
 		return t;
 	}
@@ -297,6 +312,7 @@ public class CommentView
 	 * @uml.property  name="t"
 	 */
 	public void setT(ThreadView t)
+	
 	
 	{
 		this.t = t;
