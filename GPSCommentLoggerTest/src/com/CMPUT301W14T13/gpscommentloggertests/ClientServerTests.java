@@ -19,7 +19,7 @@ public class ClientServerTests extends ActivityInstrumentationTestCase2<DebugAct
 		super(DebugActivity.class);
 	}
 	
-	public void testThreadCreation()
+	public void testThreadCreation() throws InterruptedException
 	{
 		Intent intent = new Intent();
 		setActivityIntent(intent);
@@ -34,11 +34,8 @@ public class ClientServerTests extends ActivityInstrumentationTestCase2<DebugAct
 		Handler handler = activity.getHandler();
 		ClientServerSystem.getInstance().init(handler, view);
 
-		int j = 0;
-		for(int i = 1; i < 1000000; i++)
-		{
-			j++;
-		}
+		Thread.sleep(2000);
+		
 		assertEquals("Server should register message on window","Server Running", view.getText().toString());
 
 	}
