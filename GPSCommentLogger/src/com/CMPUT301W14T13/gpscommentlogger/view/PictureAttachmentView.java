@@ -1,13 +1,15 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
 
-
-public class LocationSelectionView
+/**
+ * @uml.dependency   supplier="com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"
+ */
+public class PictureAttachmentView
 {
 
 	/** 
 	 * @uml.property name="c"
-	 * @uml.associationEnd multiplicity="(1 1)" inverse="l:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"
+	 * @uml.associationEnd multiplicity="(1 1)" inverse="i:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"
 	 */
 	private CommentMakingView c = new com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView();
 
@@ -17,6 +19,7 @@ public class LocationSelectionView
 	 * @uml.property  name="c"
 	 */
 	public CommentMakingView getC()
+	
 	
 	{
 		return c;
@@ -29,9 +32,9 @@ public class LocationSelectionView
 	 */
 	public void setC(CommentMakingView c)
 	
+	
 	{
 		this.c = c;
 	}
 
-	
 }
