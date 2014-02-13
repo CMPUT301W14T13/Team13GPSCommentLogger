@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
+import android.os.Handler;
 import android.widget.TextView;
 
 /// @author kyomaru
@@ -23,12 +24,12 @@ public class ClientServerSystem
 
 	}
 	
-	public void init(TextView debuggingWindow)
+	public void init(Handler handler, TextView debuggingWindow)
 	{
 		if(isInit)return;
 		
 		client = new ClientController(debuggingWindow);
-		server = new ServerController(debuggingWindow);
+		server = new ServerController(handler, debuggingWindow);
 		client.setServer(server);
 		server.setClient(client);
 		client.init();
@@ -53,11 +54,6 @@ public class ClientServerSystem
 	{
 		return server;
 	}
-	
-	public void kill()
-	{
-		client.stop();
-		server.stop();
-	}
+
 	
 }

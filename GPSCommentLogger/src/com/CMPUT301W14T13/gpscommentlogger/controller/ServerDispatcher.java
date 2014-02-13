@@ -12,7 +12,7 @@ public class ServerDispatcher
 		this.server = server;
 	}
 	
-	public void dispatch(ServerTask task)
+	public void dispatch(ServerTask task) throws InterruptedException
 	{
 		server.addTask(task);
 	}

@@ -3,6 +3,10 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerResult;
@@ -25,10 +29,12 @@ public class ServerController extends Controller
 	
 	//store reference to output window for debugging
 	protected TextView debuggingWindow;
+	protected Handler handler;
 
-	public ServerController(TextView debuggingWindow)
+	public ServerController(Handler handler, TextView debuggingWindow)
 	{
 		isInit = false;
+		this.handler = handler;
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
 	}
@@ -42,12 +48,17 @@ public class ServerController extends Controller
 		listener = new ClientListener(this);
 		listener.start();
 		isInit = true;
+
 	}
 
 	@Override
 	public void run()
 	{
-		writeDebuggingMessage("Server Running");
+		try {
+			writeDebuggingMessage("Server Running");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		while(true){
 			try{
 				//First check if there is something to do	
@@ -69,7 +80,7 @@ public class ServerController extends Controller
 		if(tasks.isEmpty()) wait();
 	}
 	
-	public synchronized void addTask(Task task)
+	public synchronized void addTask(Task task) throws InterruptedException
 	{
 		tasks.add(task);
 		writeDebuggingMessage("Task added to Server");
@@ -96,11 +107,15 @@ public class ServerController extends Controller
 		this.client = client;
 	}
 	
-	private void writeDebuggingMessage(String message)
+	private void writeDebuggingMessage(String message) throws InterruptedException
 	{
 		if (debuggingWindow == null) return;
-		
-		debuggingWindow.setText(message);
+		//Message msg = handler.obtainMessage(0, message);
+		Message msg = new Message();
+		msg.obj = message;
+		Log.w("DebugMessage", "Message Sent");
+		//msg.sendToTarget();	
+		handler.dispatchMessage(msg);
 	}
 	
 

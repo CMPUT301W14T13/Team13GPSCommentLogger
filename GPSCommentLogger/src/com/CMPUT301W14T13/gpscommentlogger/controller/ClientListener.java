@@ -40,7 +40,7 @@ public class ClientListener extends Thread
 		if (task == null) wait();
 	}
 	
-	private void passTask(){
+	private void passTask() throws InterruptedException{
 		server.addTask(task);
 		task = null;
 	}

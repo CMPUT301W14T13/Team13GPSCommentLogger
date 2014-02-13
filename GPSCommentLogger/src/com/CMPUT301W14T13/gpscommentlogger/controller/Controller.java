@@ -16,7 +16,7 @@ public abstract class Controller extends Thread
 
 	protected abstract void checkTasks() throws InterruptedException;
 	
-	public abstract void addTask(Task task);
+	public abstract void addTask(Task task) throws InterruptedException;
 	
 	protected abstract Result doTask() throws InterruptedException;
 	protected abstract void processResult(Result result);

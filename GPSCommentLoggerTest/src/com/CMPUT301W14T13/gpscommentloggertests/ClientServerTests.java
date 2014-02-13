@@ -5,6 +5,7 @@ import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
@@ -30,12 +31,16 @@ public class ClientServerTests extends ActivityInstrumentationTestCase2<DebugAct
 		
 		assertNotNull(view);
 		
-		ClientServerSystem.getInstance().init(view);
-		
+		Handler handler = activity.getHandler();
+		ClientServerSystem.getInstance().init(handler, view);
+
+		int j = 0;
+		for(int i = 1; i < 1000000; i++)
+		{
+			j++;
+		}
 		assertEquals("Server should register message on window","Server Running", view.getText().toString());
 
-		
-		ClientServerSystem.getInstance().kill();
 	}
 
 }
