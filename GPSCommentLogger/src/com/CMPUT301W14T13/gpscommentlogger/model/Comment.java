@@ -10,35 +10,40 @@ import java.util.Collection;
 
 
 
-public class Comment
+public class Comment implements Viewable
 {
 
-	private int ID;
+	private String ID;
 	private String username;
 	private Bitmap image;
 	private boolean hasImage;
-	private List<Integer>childID;
+	private List<String>childID;
 	private Date timestamp;
 	private String commentText;
 	
 	private HashMap<String, Vote> votes;
 		
 	public Comment(){
-		
+		//TODO: automatic ID gen
+		setID("default");
+	}
+
+	public Comment(String ID) {
+		this.setID(ID);
 	}
 
 	/** 
 	 * @uml.property name="t"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.model.Thread"
 	 */
-	private Thread t = new com.CMPUT301W14T13.gpscommentlogger.model.Thread();
+	private CommentThread t = new com.CMPUT301W14T13.gpscommentlogger.model.CommentThread();
 
 	/** 
 	 * Getter of the property <tt>t</tt>
 	 * @return  Returns the t.
 	 * @uml.property  name="t"
 	 */
-	public Thread getT()
+	public CommentThread getT()
 	
 	
 	
@@ -48,6 +53,10 @@ public class Comment
 	}
 
 	
+
+	public String getID() {
+		return ID;
+	}
 
 	/** 
 	 * @uml.property name="v"

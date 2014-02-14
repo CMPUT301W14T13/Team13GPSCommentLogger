@@ -9,14 +9,29 @@ import java.util.Collection;
 
 
 
-public class Thread
+public class CommentThread implements Viewable
 {
 
 	private String title;
+	private String ID;
 	private Date freshness;
 	private Comment rootComment;
-	private HashMap <Integer,Comment> comments;
+	private HashMap <String,Comment> comments;
 	private Location GPSLocation;
+	
+	public CommentThread()
+	{
+		//TODO: create sutomatic ID generation system
+		ID = "default";
+	}
+	
+	public CommentThread(String ID)
+	{
+		this.ID = ID;
+	}
+	
+	public 
+	
 	/** 
 	 * @uml.property name="v"
 	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
@@ -71,6 +86,10 @@ public class Thread
 
 		this.c = c;
 	}
+	public String getID() {
+		return ID;
+	}
+
 	
 	
 	

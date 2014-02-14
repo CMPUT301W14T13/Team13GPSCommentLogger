@@ -31,8 +31,7 @@ public class ClientServerTests extends ActivityInstrumentationTestCase2<DebugAct
 		
 		assertNotNull(view);
 		
-		Handler handler = activity.getHandler();
-		ClientServerSystem.getInstance().init(handler, view);
+		Handler handler = activity.getTextHandler();
 
 		Thread.sleep(2000);
 		
