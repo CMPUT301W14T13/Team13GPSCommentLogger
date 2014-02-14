@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 import java.util.Date;
 import java.util.HashMap;
 
+
 import android.location.Location;
 import java.util.Collection;
 

@@ -17,7 +17,7 @@ public class Comment
 	private String username;
 	private Bitmap image;
 	private boolean hasImage;
-	private List<Integer>child_ID;
+	private List<Integer>childID;
 	private Date timestamp;
 	private String commentText;
 	
