@@ -27,6 +27,22 @@ public class HomeView extends Activity {
     }
 
 
+    private void viewFavourites(){
+    	
+    }
+    
+    private void sortBy(){
+    	
+    }
+    
+    private void createThread(){
+    	
+    }
+    
+    //View comments that have been marked as "read later"
+    private void viewReadLater(){
+    	
+    }
 	/** 
 	 * @uml.property name="c"
 	 * @uml.associationEnd aggregation="composite" inverse="h:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"

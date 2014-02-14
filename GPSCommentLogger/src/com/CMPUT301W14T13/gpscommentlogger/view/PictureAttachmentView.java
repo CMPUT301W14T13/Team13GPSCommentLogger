@@ -7,6 +7,9 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 public class PictureAttachmentView
 {
 
+	private void getPicture(){
+		
+	}
 	/** 
 	 * @uml.property name="c"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="i:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"

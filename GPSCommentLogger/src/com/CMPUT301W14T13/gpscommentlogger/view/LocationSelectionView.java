@@ -5,6 +5,9 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 public class LocationSelectionView
 {
 
+	private void getLocation(){
+		
+	}
 	/** 
 	 * @uml.property name="c"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="l:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"

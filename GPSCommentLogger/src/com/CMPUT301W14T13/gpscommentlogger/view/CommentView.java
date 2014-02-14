@@ -8,6 +8,26 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 public class CommentView
 {
 
+	//I want to reply to this comment
+	private void reply(){
+		
+	}
+	
+	//I want to add this comment to my favourites list
+	private void addToFavourites(){
+		
+		
+	}
+	
+	//I want to read this comment and/or its replies later
+	private void readLater(){
+		
+	}
+	
+	//I want to edit my comment
+	private void editComment(){
+		
+	}
 	/**
 	 * @uml.property  name="homeView"
 	 * @uml.associationEnd  inverse="commentView:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
@@ -318,4 +338,5 @@ public class CommentView
 		this.t = t;
 	}
 
+	
 }

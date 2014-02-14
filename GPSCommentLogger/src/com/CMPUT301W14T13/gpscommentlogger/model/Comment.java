@@ -47,19 +47,7 @@ public class Comment
 		return t;
 	}
 
-	/** 
-	 * Setter of the property <tt>t</tt>
-	 * @param t  The t to set.
-	 * @uml.property  name="t"
-	 */
-	public void setT(Thread t)
 	
-	
-	
-	
-	{
-		this.t = t;
-	}
 
 	/** 
 	 * @uml.property name="v"
@@ -67,30 +55,9 @@ public class Comment
 	 */
 	private Collection<Vote> v;
 
-	/** 
-	 * Getter of the property <tt>v</tt>
-	 * @return  Returns the v.
-	 * @uml.property  name="v"
-	 */
-	public Collection<Vote> getV()
 	
-	
-	
-	{
-		return v;
-	}
 
-	/** 
-	 * Setter of the property <tt>v</tt>
-	 * @param v  The v to set.
-	 * @uml.property  name="v"
-	 */
-	public void setV(Collection<Vote> v)
 	
-	
-	{
-		this.v = v;
-	}
 
 	
 	
