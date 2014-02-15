@@ -1,0 +1,6 @@
+import android.test.ActivityInstrumentationTestCase2;
+
+
+public class MakeCommentTest extends ActivityInstrumentationTestCase2<T> {
+
+}

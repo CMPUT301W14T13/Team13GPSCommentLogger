@@ -1,0 +1,11 @@
+package com.CMPUT301W14T13.gpscommentlogger.test;
+
+import android.test.ActivityInstrumentationTestCase2;
+
+public class SetusernameTest extends ActivityInstrumentationTestCase2<T> {
+
+	public SetusernameTest(String name) {
+		super(name);
+	}
+
+}

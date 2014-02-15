@@ -1,0 +1,15 @@
+package com.CMPUT301W14T13.gpscommentlogger.test;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+
+import android.test.ActivityInstrumentationTestCase2;
+
+
+public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActivity> {
+
+	
+	public MakeCommentTest() {
+		super(DebugActivity.class);
+	}
+	
+	
+}
