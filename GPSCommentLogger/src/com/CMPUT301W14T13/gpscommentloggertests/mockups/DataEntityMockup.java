@@ -3,10 +3,13 @@ package com.CMPUT301W14T13.gpscommentloggertests.mockups;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
+import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 public class DataEntityMockup {
@@ -30,7 +33,7 @@ public class DataEntityMockup {
 		CommentThread thread2 = new CommentThread("thread2");
 		CommentThread thread3 = new CommentThread("thread3");
 		
-		ArrayList<CommentThread> rootThreads = new ArrayList<CommentThread>();
+		ArrayList<Viewable> rootThreads = new ArrayList<Viewable>();
 		rootThreads.add(thread1);
 		rootThreads.add(thread2);
 		rootThreads.add(thread3);
@@ -46,19 +49,19 @@ public class DataEntityMockup {
 		Comment comment3_2 = new Comment("comment3_2");
 		Comment comment3_3 = new Comment("comment3_3");
 		
-		ArrayList<Comment> thread1comments = new ArrayList<Comment>();
+		ArrayList<Viewable> thread1comments = new ArrayList<Viewable>();
 		thread1comments.add(comment1_1);
 		thread1comments.add(comment1_2);
 		thread1comments.add(comment1_3);
 		thread1.setC(thread1comments);
 		
-		ArrayList<Comment> thread2comments = new ArrayList<Comment>();
+		ArrayList<Viewable> thread2comments = new ArrayList<Viewable>();
 		thread2comments.add(comment2_1);
 		thread2comments.add(comment2_2);
 		thread2comments.add(comment2_3);
 		thread2.setC(thread2comments);
 		
-		ArrayList<Comment> thread3comments = new ArrayList<Comment>();
+		ArrayList<Viewable> thread3comments = new ArrayList<Viewable>();
 		thread3comments.add(comment3_1);
 		thread3comments.add(comment3_2);
 		thread3comments.add(comment3_3);
@@ -81,8 +84,8 @@ public class DataEntityMockup {
 
 	public void pageRequest(String obj) {
 		
-		MockResult result = new MockResult();
-		
+		MockResult result = new MockResult(comments.get(obj));
+		Log.w("DEMockup", "Page Request Sent");
 		clientController.registerResult(result);
 	}
 	

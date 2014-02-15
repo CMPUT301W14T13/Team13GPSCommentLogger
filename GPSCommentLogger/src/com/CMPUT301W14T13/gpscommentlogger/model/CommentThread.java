@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ public class CommentThread implements Viewable
 	private String ID;
 	private Date freshness;
 	private Comment rootComment;
-	private HashMap <String,Comment> comments;
+	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
 	
 	public CommentThread()
@@ -30,8 +31,6 @@ public class CommentThread implements Viewable
 		this.ID = ID;
 	}
 	
-	public 
-	
 	/** 
 	 * @uml.property name="v"
 	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
@@ -44,26 +43,15 @@ public class CommentThread implements Viewable
 	 */
 	public Collection<Vote> getV()
 	
-	
-	
 	{
 		return v;
 	}
-	/** 
-	 * @uml.property name="c"
-	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Comment"
-	 */
-	private Collection<Comment> c;
-	/** 
-	 * Getter of the property <tt>c</tt>
-	 * @return  Returns the c.
-	 * @uml.property  name="c"
-	 */
-	public Collection<Comment> getC()
+
+	public ArrayList<Viewable> getC()
 	
 	
 	{
-		return c;
+		return comments;
 	}
 	/** 
 	 * Setter of the property <tt>v</tt>
@@ -81,10 +69,10 @@ public class CommentThread implements Viewable
 	 * @param c  The c to set.
 	 * @uml.property  name="c"
 	 */
-	public void setC(Collection<Comment> c)
+	public void setC(ArrayList<Viewable> c)
 	{
 
-		this.c = c;
+		comments = c;
 	}
 	public String getID() {
 		return ID;

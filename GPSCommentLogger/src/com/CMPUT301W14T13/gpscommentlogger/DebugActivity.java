@@ -9,7 +9,9 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
 import android.app.Activity;
@@ -26,10 +28,10 @@ import android.widget.TextView;
 public class DebugActivity extends Activity
 {
 	Handler textHandler;
-	ArrayList<CommentThread> commentThreads;
-	ArrayAdapter<CommentThread> rootAdapter;
-	ArrayList<Comment> comments;
-	ArrayAdapter<Comment> commentAdapter;
+	Handler listHandler;
+	Viewable currentComment;
+	ArrayList<Viewable> contentList;
+	ArrayAdapter<Viewable> commentAdapter;
 	ClientController client;
 	ServerController server;
 	ListView root;
@@ -40,7 +42,7 @@ public class DebugActivity extends Activity
         setContentView(R.layout.debug_view);
         
         final TextView debugWindow = (TextView)findViewById(R.id.debug_window);
-        final Activity activity = this;
+        final DebugActivity activity = this;
         debugWindow.setText("Hello World!");
         
         textHandler = new Handler(Looper.getMainLooper()) {
@@ -58,15 +60,30 @@ public class DebugActivity extends Activity
             }
         };
         
-        commentThreads = new ArrayList<CommentThread>();
+        currentComment = new CommentRoot();
+        contentList = currentComment.getC();
         root = (ListView)findViewById(R.id.debug_main_list);
-        rootAdapter = new ArrayAdapter<CommentThread>(activity, 0, 0, commentThreads);
-        root.setAdapter(rootAdapter);
+        commentAdapter = new ArrayAdapter<Viewable>(activity, 0, 0, contentList);
+        root.setAdapter(commentAdapter);
         
-        comments = new ArrayList<Comment>();
-        commentAdapter = new ArrayAdapter<Comment>(activity,0,0,comments);
+        listHandler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(Message inputMessage) {
+            	final Viewable msg = (Viewable)inputMessage.obj;
+            	activity.runOnUiThread(new Runnable(){
+					@Override
+					public void run() {
+						Log.w("DebugMessage", "Message Received: " + msg);
+				    	currentComment = msg;
+				    	contentList = msg.getC();
+				    	commentAdapter.notifyDataSetChanged();
+		            	Log.w("Debug Message", "Current Comment: " + currentComment.getID());
+		            	}});			
+            }
+        };
         
-        ClientServerSystem.getInstance().init(textHandler, debugWindow);
+        ClientServerSystem.getInstance().init(activity, textHandler, listHandler, debugWindow);
         client = ClientServerSystem.getInstance().getClient();
         server = ClientServerSystem.getInstance().getServer();
         
@@ -74,6 +91,8 @@ public class DebugActivity extends Activity
     	task.setTaskCode(ClientTaskCode.BROWSE);
     	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
     	task.setObj("root");
+    	client.addTask(task);
+  	
         
     }
     
@@ -82,43 +101,22 @@ public class DebugActivity extends Activity
     	return textHandler;
     }
     
-    public void switchToRoot()
-    {
-    	root.setAdapter(rootAdapter);
-    }
-    
-    public void switchToComment()
-    {
-    	root.setAdapter(commentAdapter);
-    }
-    
-    public void notifyRootAdapter()
-    {
-    	rootAdapter.notifyDataSetChanged();
-    }
-    
-    public void notifyCommentAdapter()
-    {
-    	commentAdapter.notifyDataSetChanged();
-    }
-    
-    public ArrayList<CommentThread> getRoot()
-    {
-    	return commentThreads;
-    }
-    
-    public ArrayList<Comment> getCommentThread()
-    {
-    	return comments;
-    }
-    
+
     public void simulateBrowseClick(int index)
     {
     	ClientTask task = new ClientTask();
     	task.setTaskCode(ClientTaskCode.BROWSE);
     	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
-    	task.setObj(commentThreads.get(index).getID());
+    	task.setObj(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
+    
+	public Viewable getCurrentComment() {
+		return currentComment;
+	}
+
+	public ArrayList<Viewable> getContentList() {
+		return contentList;
+	}
 }

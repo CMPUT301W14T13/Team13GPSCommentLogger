@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,11 +26,11 @@ public class Comment implements Viewable
 		
 	public Comment(){
 		//TODO: automatic ID gen
-		setID("default");
+		this.ID = "default";
 	}
 
 	public Comment(String ID) {
-		this.setID(ID);
+		this.ID = ID;
 	}
 
 	/** 
@@ -53,7 +54,7 @@ public class Comment implements Viewable
 	}
 
 	
-
+	@Override
 	public String getID() {
 		return ID;
 	}
@@ -63,6 +64,12 @@ public class Comment implements Viewable
 	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="c:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
 	 */
 	private Collection<Vote> v;
+
+	@Override
+	public ArrayList<Viewable> getC() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 

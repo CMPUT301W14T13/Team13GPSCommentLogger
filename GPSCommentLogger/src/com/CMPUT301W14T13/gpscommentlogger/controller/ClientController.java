@@ -2,12 +2,19 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
+import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.Task;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
 
@@ -34,6 +41,8 @@ public class ClientController extends Controller
 	
 	//mockup for debugging
 	DataEntityMockup dataEntityMockup;
+	DebugActivity debugActivity;
+	Handler handler;
 
 	public ClientController(TextView debuggingWindow)
 	{
@@ -41,6 +50,16 @@ public class ClientController extends Controller
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
 		dataEntityMockup = new DataEntityMockup(this);
+	}
+	
+	public ClientController(DebugActivity activity, Handler handler, TextView debuggingWindow)
+	{
+		isInit = false;
+		this.debuggingWindow = debuggingWindow;
+		tasks = new ArrayList<Task>();
+		dataEntityMockup = new DataEntityMockup(this);
+		debugActivity = activity;
+		this.handler = handler;
 	}
 	
 	@Override
@@ -100,7 +119,7 @@ public class ClientController extends Controller
 		//TODO: code in tasks for server here
 		//ServerTask sTask= new ServerTask();
 		//dispatcher.dispatch(sTask);
-		wait();
+		//wait();
 		
 		return result;
 	}
@@ -129,7 +148,17 @@ public class ClientController extends Controller
 	
 	protected void processResult(Result result)
 	{
-		//TODO: handle results here
+		Log.w("ClientController", "Result received");
+		if(result instanceof MockResult)
+		{
+			Log.w("ClientController", "Mock Result received");
+			MockResult mock = (MockResult)result;
+			Viewable data = mock.getData();
+			Message msg = new Message();
+			msg.obj = data;
+			Log.w("DebugMessage", "Message Sent");	
+			handler.dispatchMessage(msg);
+		}
 	}
 
 	public void setServer(ServerController server)

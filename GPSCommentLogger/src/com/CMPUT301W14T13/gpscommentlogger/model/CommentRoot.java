@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,21 +12,22 @@ public class CommentRoot implements Viewable {
 	private String title;
 	private String ID;
 	private Date freshness;
-	private List<CommentThread> comments;
+	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
 	
 	public CommentRoot()
 	{
 		//TODO: create sutomatic ID generation system
 		ID = "default";
+		comments = new ArrayList<Viewable>();
 	}
 	
 	public CommentRoot(String ID)
 	{
 		this.ID = ID;
+		comments = new ArrayList<Viewable>();
 	}
 	
-	public 
 	
 	/** 
 	 * @uml.property name="v"
@@ -54,11 +56,12 @@ public class CommentRoot implements Viewable {
 	 * @return  Returns the c.
 	 * @uml.property  name="c"
 	 */
-	public Collection<Comment> getC()
+	@Override
+	public ArrayList<Viewable> getC()
 	
 	
 	{
-		return c;
+		return comments;
 	}
 	/** 
 	 * Setter of the property <tt>v</tt>
@@ -76,11 +79,12 @@ public class CommentRoot implements Viewable {
 	 * @param c  The c to set.
 	 * @uml.property  name="c"
 	 */
-	public void setC(Collection<CommentThread> c)
+	public void setC(ArrayList<Viewable> c)
 	{
 
-		this.c = c;
+		comments = c;
 	}
+	@Override
 	public String getID() {
 		return ID;
 	}
