@@ -8,6 +8,7 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 public class CommentView
 {
 
+
 	//I want to reply to this comment
 	private void reply(){
 		
@@ -337,6 +338,7 @@ public class CommentView
 	{
 		this.t = t;
 	}
+
 
 	
 }
