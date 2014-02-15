@@ -15,6 +15,7 @@ public class Comment implements Viewable
 {
 
 	private String ID;
+	private String title;
 	private String username;
 	private Bitmap image;
 	private boolean hasImage;
@@ -27,10 +28,29 @@ public class Comment implements Viewable
 	public Comment(){
 		//TODO: automatic ID gen
 		this.ID = "default";
+		username = "default";
+		title = "initial title";
 	}
 
 	public Comment(String ID) {
 		this.ID = ID;
+		username = "default";
+		title = "initial title";
+	}
+	
+	public Comment(String username, boolean cheatingOverloadSignature)
+	{
+		//TODO: automatic ID gen
+		this.ID = "default";
+		this.username = username;
+		title = "initial title";
+	}
+	
+	public Comment(String ID, String username)
+	{
+		this.ID = ID;
+		this.username = username;
+		title = "initial title";
 	}
 
 	/** 
@@ -69,6 +89,22 @@ public class Comment implements Viewable
 	public ArrayList<Viewable> getC() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public void setTitle(String newTitle) {
+		title = newTitle;
+		
 	}
 
 	

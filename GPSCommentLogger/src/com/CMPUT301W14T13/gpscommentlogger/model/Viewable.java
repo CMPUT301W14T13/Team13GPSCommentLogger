@@ -6,7 +6,10 @@ import java.util.Collection;
 public interface Viewable {
 
 	String getID();
+	String getUsername();
 
 	ArrayList<Viewable> getC();
+	String getTitle();
 
+	void setTitle(String newTitle);
 }

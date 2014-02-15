@@ -119,4 +119,25 @@ public class DebugActivity extends Activity
 	public ArrayList<Viewable> getContentList() {
 		return contentList;
 	}
+	
+	public void simulateConnectToServer()
+	{
+		client.simulateConnectToServer();
+	}
+	
+	public void simulateDisconnectFromServer()
+	{
+		client.simulateDiconnectFromServer();
+	}
+	
+	public void forceChangeOnline(String title)
+	{
+		client.forceChangeOnline(title);
+	}
+	
+	public void forceChangeOffline(String title)
+	{
+		client.forceChangeOffline(title);
+	}
+	
 }

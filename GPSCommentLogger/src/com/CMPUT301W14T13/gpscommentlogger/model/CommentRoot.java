@@ -10,6 +10,7 @@ import android.location.Location;
 
 public class CommentRoot implements Viewable {
 	private String title;
+	private final String username = "default";
 	private String ID;
 	private Date freshness;
 	private ArrayList<Viewable> comments;
@@ -19,12 +20,14 @@ public class CommentRoot implements Viewable {
 	{
 		//TODO: create sutomatic ID generation system
 		ID = "default";
+		title = "initial title";
 		comments = new ArrayList<Viewable>();
 	}
 	
 	public CommentRoot(String ID)
 	{
 		this.ID = ID;
+		title = "initial title";
 		comments = new ArrayList<Viewable>();
 	}
 	
@@ -87,6 +90,21 @@ public class CommentRoot implements Viewable {
 	@Override
 	public String getID() {
 		return ID;
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public void setTitle(String newTitle) {
+		title = newTitle;
 	}
 
 }

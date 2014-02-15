@@ -15,6 +15,7 @@ public class CommentThread implements Viewable
 
 	private String title;
 	private String ID;
+	private String username;
 	private Date freshness;
 	private Comment rootComment;
 	private ArrayList<Viewable> comments;
@@ -24,11 +25,28 @@ public class CommentThread implements Viewable
 	{
 		//TODO: create sutomatic ID generation system
 		ID = "default";
+		title = "initial title";
 	}
 	
 	public CommentThread(String ID)
 	{
 		this.ID = ID;
+		title = "initial title";
+	}
+	
+	public CommentThread(String username, boolean cheatingOverloadSignature)
+	{
+		//TODO: automatic ID gen
+		this.ID = "default";
+		title = "initial title";
+		this.username = username;
+	}
+	
+	public CommentThread(String ID, String username)
+	{
+		this.ID = ID;
+		title = "initial title";
+		this.username = username;
 	}
 	
 	/** 
@@ -76,6 +94,21 @@ public class CommentThread implements Viewable
 	}
 	public String getID() {
 		return ID;
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public void setTitle(String newTitle) {
+		title = newTitle;	
 	}
 
 	

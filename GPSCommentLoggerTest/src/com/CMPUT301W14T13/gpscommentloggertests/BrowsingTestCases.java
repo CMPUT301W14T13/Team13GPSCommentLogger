@@ -1,6 +1,7 @@
 package com.CMPUT301W14T13.gpscommentloggertests;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
 
@@ -16,7 +17,7 @@ public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugAct
 		super(DebugActivity.class);
 	}
 	
-	public void testBrowse1() throws InterruptedException
+	public void testBrowse() throws InterruptedException
 	{
 		Intent intent = new Intent();
 		setActivityIntent(intent);
@@ -29,6 +30,7 @@ public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugAct
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof CommentRoot);
 		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getC().size());
+		assertEquals("default comment has default username","default",activity.getCurrentComment().getUsername());
 		
 		Log.w("DebugBrowsing", "Current is: " + activity.getCurrentComment().getID());
 		
@@ -39,8 +41,9 @@ public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugAct
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof CommentThread);
 		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getC().size());
+		assertEquals("first layer comment has correct username","kyomaru",activity.getCurrentComment().getUsername());
 		
 		Log.w("DebugBrowsing", "Current is: " + activity.getCurrentComment().getID());
 	}
-
+	
 }

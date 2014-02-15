@@ -30,8 +30,6 @@ public class ClientServerTests extends ActivityInstrumentationTestCase2<DebugAct
 		TextView view = (TextView)activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.debug_window);
 		
 		assertNotNull(view);
-		
-		Handler handler = activity.getTextHandler();
 
 		Thread.sleep(2000);
 		

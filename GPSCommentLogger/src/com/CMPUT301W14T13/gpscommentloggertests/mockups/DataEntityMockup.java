@@ -29,9 +29,9 @@ public class DataEntityMockup {
 		
 		CommentRoot root = new CommentRoot("root");
 		
-		CommentThread thread1 = new CommentThread("thread1");
-		CommentThread thread2 = new CommentThread("thread2");
-		CommentThread thread3 = new CommentThread("thread3");
+		CommentThread thread1 = new CommentThread("thread1", "kyomaru");
+		CommentThread thread2 = new CommentThread("thread2", "kyomaru");
+		CommentThread thread3 = new CommentThread("thread3", "kyomaru");
 		
 		ArrayList<Viewable> rootThreads = new ArrayList<Viewable>();
 		rootThreads.add(thread1);
@@ -39,15 +39,15 @@ public class DataEntityMockup {
 		rootThreads.add(thread3);
 		root.setC(rootThreads);
 		
-		Comment comment1_1 = new Comment("comment1_1");
-		Comment comment1_2 = new Comment("comment1_2");
-		Comment comment1_3 = new Comment("comment1_3");
-		Comment comment2_1 = new Comment("comment2_1");
-		Comment comment2_2 = new Comment("comment2_2");
-		Comment comment2_3 = new Comment("comment2_3");
-		Comment comment3_1 = new Comment("comment3_1");
-		Comment comment3_2 = new Comment("comment3_2");
-		Comment comment3_3 = new Comment("comment3_3");
+		Comment comment1_1 = new Comment("comment1_1", "kyomaru");
+		Comment comment1_2 = new Comment("comment1_2", "kyomaru");
+		Comment comment1_3 = new Comment("comment1_3", "kyomaru");
+		Comment comment2_1 = new Comment("comment2_1", "kyomaru");
+		Comment comment2_2 = new Comment("comment2_2", "kyomaru");
+		Comment comment2_3 = new Comment("comment2_3", "kyomaru");
+		Comment comment3_1 = new Comment("comment3_1", "kyomaru");
+		Comment comment3_2 = new Comment("comment3_2", "kyomaru");
+		Comment comment3_3 = new Comment("comment3_3", "kyomaru");
 		
 		ArrayList<Viewable> thread1comments = new ArrayList<Viewable>();
 		thread1comments.add(comment1_1);
@@ -87,6 +87,11 @@ public class DataEntityMockup {
 		MockResult result = new MockResult(comments.get(obj));
 		Log.w("DEMockup", "Page Request Sent");
 		clientController.registerResult(result);
+	}
+	
+	public void forceTestChange(String newString)
+	{
+		comments.get("comment1_1").setTitle(newString);
 	}
 	
 	

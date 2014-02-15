@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
@@ -39,17 +40,19 @@ public class ClientController extends Controller
 	//stores reference to current page
 	String pageReference;
 	
-	//mockup for debugging
-	DataEntityMockup dataEntityMockup;
+	//mockups for debugging
+	DataEntityMockup onlineDataEntityMockup;
+	DataEntityMockup offlineDataEntityMockup;
 	DebugActivity debugActivity;
 	Handler handler;
+	boolean hasConnection = true;
 
 	public ClientController(TextView debuggingWindow)
 	{
 		isInit = false;
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
-		dataEntityMockup = new DataEntityMockup(this);
+		onlineDataEntityMockup = new DataEntityMockup(this);
 	}
 	
 	public ClientController(DebugActivity activity, Handler handler, TextView debuggingWindow)
@@ -57,7 +60,8 @@ public class ClientController extends Controller
 		isInit = false;
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
-		dataEntityMockup = new DataEntityMockup(this);
+		onlineDataEntityMockup = new DataEntityMockup(this);
+		offlineDataEntityMockup = new DataEntityMockup(this);
 		debugActivity = activity;
 		this.handler = handler;
 	}
@@ -131,7 +135,10 @@ public class ClientController extends Controller
 		//case LOCAL_DATA:
 			//break;
 		case MOCK_DATA_ENTITY:
-			dataEntityMockup.pageRequest(task.getObj());
+			if(hasConnection)
+				onlineDataEntityMockup.pageRequest(task.getObj());
+			else
+				offlineDataEntityMockup.pageRequest(task.getObj());
 			break;
 		//case SERVER_DATA:
 			//break;
@@ -167,7 +174,42 @@ public class ClientController extends Controller
 		this.server = server;
 		
 	}
-
-
 	
+	//
+	// For simulating server connection
+	//
+
+	public void simulateConnectToServer()
+	{
+		hasConnection = true;
+		
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setObj(debugActivity.getCurrentComment().getID());
+		
+		this.addTask(task);
+	}
+
+	public void simulateDiconnectFromServer()
+	{
+		hasConnection = false;
+		
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setObj(debugActivity.getCurrentComment().getID());
+		
+		this.addTask(task);
+	}
+	
+	public void forceChangeOnline(String title)
+	{
+		onlineDataEntityMockup.forceTestChange(title);
+	}
+	
+	public void forceChangeOffline(String title)
+	{
+		offlineDataEntityMockup.forceTestChange(title);
+	}
 }
