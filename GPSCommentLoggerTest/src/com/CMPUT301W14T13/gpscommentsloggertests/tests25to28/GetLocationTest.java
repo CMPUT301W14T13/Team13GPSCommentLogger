@@ -23,7 +23,8 @@ public class GetLocationTest extends ActivityInstrumentationTestCase2<LocationSe
 		// or using the one from LocationSelectionView.
 	    locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000L,500.0f, locationListener);
 	    Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
+	    
+	    // Get current long and lat
 	    double latitude=0;
 	    double longitude=0;
 	    latitude = location.getLatitude();
