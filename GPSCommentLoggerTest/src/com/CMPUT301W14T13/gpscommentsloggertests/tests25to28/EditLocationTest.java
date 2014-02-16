@@ -9,7 +9,7 @@ import com.CMPUT301W14T13.gpscommentslogger.LocationSelectionView
 import com.CMPUT301W14T13.gpscommentslogger.Comment;
 
 @SuppressLint("NewApi")
-public class GetLocationTest extends ActivityInstrumentationTestCase2<LocationSelectionView> {
+public class EditLocationTest extends ActivityInstrumentationTestCase2<LocationSelectionView> {
 
 	// Test coordinates. Insure they are different from mock emulator location.	
 	private static final String PROVIDER = "flp";
