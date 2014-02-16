@@ -1,11 +1,13 @@
 package com.CMPUT301W14T13.gpscommentloggertests.makeComments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 
+@SuppressLint("NewApi")
 public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	public SetUsernameTest() {
@@ -42,7 +44,7 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActiv
 		String username = "Austin";
 		
 		//create new comment with username
-		Comment comment = new Comment(username);
+		Comment comment = new Comment(username, true);
 		
 		assertEquals("Username should be what was entered", "Austin", comment.getUsername());
 	}

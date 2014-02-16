@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 
+import android.graphics.Bitmap;
 import android.location.Location;
 import java.util.Collection;
 
@@ -16,6 +17,7 @@ public class CommentThread implements Viewable
 	private String title;
 	private String ID;
 	private String username;
+	private Bitmap image;
 	private Date freshness;
 	private Comment rootComment;
 	private ArrayList<Viewable> comments;
@@ -54,6 +56,7 @@ public class CommentThread implements Viewable
 	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
 	 */
 	private Collection<Vote> v;
+	private String commentText;
 	/** 
 	 * Getter of the property <tt>v</tt>
 	 * @return  Returns the v.
@@ -109,6 +112,29 @@ public class CommentThread implements Viewable
 	@Override
 	public void setTitle(String newTitle) {
 		title = newTitle;	
+	}
+
+	@Override
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
+		
+	}
+
+	@Override
+	public String getCommentText() {
+		return commentText;
+	}
+
+	@Override
+	public void setImage(Bitmap picture) {
+		this.image = picture;
+		
+	}
+
+	@Override
+	public Bitmap getImage() {
+		
+		return image;
 	}
 
 	

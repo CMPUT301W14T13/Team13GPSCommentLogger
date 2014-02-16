@@ -1,11 +1,16 @@
 package com.CMPUT301W14T13.gpscommentloggertests.makeComments;
+import java.util.Date;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 
+@SuppressLint("NewApi")
 public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	
@@ -44,7 +49,7 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		assertNotNull(comment.getTimestamp());
 		
 		
-		if (comment.getCommentText == null){
+		if (comment.getCommentText() == null){
 			assertEquals("If comment text is empty, then it must have a picture", true, 
 							comment.getHasPicture());
 		}
@@ -70,19 +75,19 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		 * used for testing the asserts below 
 		 */
 		
-		int ID = 4324;
+		String ID = "4324";
 		String username = "Austin";
-		Bitmap picture = Bitmap.createBitmap(); //must add arguments
-		boolean hasPicture = false;
-		Date timestamp;
+		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+		//boolean hasPicture = false;
+		Date timestamp = new Date();
 		String commentText = "Test comment";
 		
-		Comment comment = new Comment();
+		Comment comment = new Comment(ID, username, picture, timestamp, commentText);
 		
 		assertEquals("Comment IDs should be the same", ID, comment.getID());
 		assertEquals("Usernames should be the same", username, comment.getUsername());
 		assertEquals("Picture should be the attached picture", picture.hashCode(), 
-						comment.getPicture().hashCode());
+						comment.getImage().hashCode());
 		assertEquals("Timestamps should be the same", timestamp, comment.getTimestamp());
 		assertEquals("Comment text should be the same", commentText, comment.getCommentText());
 		

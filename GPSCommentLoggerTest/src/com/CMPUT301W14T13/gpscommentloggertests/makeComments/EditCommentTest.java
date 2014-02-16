@@ -8,6 +8,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 @SuppressLint("NewApi")
 public class EditCommentTest extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -25,7 +26,7 @@ public class EditCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 
 		assertNotNull(activity);
 		
-		Comment comment = activity.getCurrentComment();
+		Viewable comment = activity.getCurrentComment();
 		String newText = "Test Edit";
 		
 		comment.setCommentText(newText);
@@ -41,7 +42,7 @@ public class EditCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 
 		assertNotNull(activity);
 		
-		Comment comment = activity.getCurrentComment();
+		Viewable comment = activity.getCurrentComment();
 		
 		
 		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //put some arguments in here to create a bitmap
