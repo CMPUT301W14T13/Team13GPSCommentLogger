@@ -12,10 +12,10 @@ public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment>
 	}
 	
 	public void testAttachPicture () {
-		// Goal: create bitmap, attach to comment, check if comment attachment check returns true
+		// Goal: create bitmap, attach to comment, check if comment picture has same hash code
 		
 		// Create Bitmap object
-		Bitmap picture = new Bitmap();
+		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888);
 		
 		// Create new comment
 		Comment comment = new Comment();
@@ -24,7 +24,7 @@ public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment>
 		comment.attach(picture);
 		
 		// Check last child
-		assertTrue("Comment attachment check should return true", comment.checkAttachment());
+		assertEquals("Picture hash codes should be the same", picture.hashCode(), comment.getPicture().hashCode());
 	}
 
 }
