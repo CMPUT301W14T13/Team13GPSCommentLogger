@@ -17,7 +17,7 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<LocationS
     private static final double LNG = -122.086966;
     private static final float ACCURACY = 3.0f;
     
-    public GetLocationTest(String name) {
+    public EditLocationTest(String name) {
 		super(LocationSelectionView.class);
 	}
     
