@@ -10,6 +10,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
+import com.CMPUT301W14T13.gpscommentlogger.model.MockResultType;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 public class DataEntityMockup {
@@ -84,14 +85,24 @@ public class DataEntityMockup {
 
 	public void pageRequest(String obj) {
 		
-		MockResult result = new MockResult(comments.get(obj));
+		MockResult result = new MockResult(comments.get(obj), MockResultType.BROWSE);
 		Log.w("DEMockup", "Page Request Sent");
+		Log.w("DEMockup", "Page: " + obj);
 		clientController.registerResult(result);
 	}
 	
 	public void forceTestChange(String newString)
 	{
 		comments.get("comment1_1").setTitle(newString);
+	}
+
+	public void postRequest(Viewable currentComment, Comment obj) {
+		comments.get(currentComment.getID()).getC().add(obj);
+		comments.put(obj.getID(), obj);
+		
+		MockResult result = new MockResult(true, MockResultType.POST);
+		Log.w("DEMockup", "Post Request Sent");
+		clientController.registerResult(result);
 	}
 	
 	

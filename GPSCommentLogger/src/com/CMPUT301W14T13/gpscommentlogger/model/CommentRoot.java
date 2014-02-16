@@ -6,12 +6,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 
 public class CommentRoot implements Viewable {
 	private String title;
 	private final String username = "default";
 	private String ID;
+	private String commentText;
+	private Bitmap image;
+	private Date timestamp;
 	private Date freshness;
 	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
@@ -105,6 +109,31 @@ public class CommentRoot implements Viewable {
 	@Override
 	public void setTitle(String newTitle) {
 		title = newTitle;
+	}
+
+	@Override
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
+	}
+
+	@Override
+	public String getCommentText() {
+		return commentText;
+	}
+
+	@Override
+	public void setImage(Bitmap picture) {
+		this.image = picture;
+	}
+
+	@Override
+	public Bitmap getImage() {
+		return image;
+	}
+
+	@Override
+	public Date getTimestamp() {
+		return timestamp;
 	}
 
 }
