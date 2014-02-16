@@ -19,12 +19,14 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
+		DataManager dm = new DataManager();//an unimplemented class that
+										   // deals with local data
 
 		assertNotNull(activity);
 		Comment comment = new comment();
-		SaveInFile(comment);//not implemented in code
+		dm.SaveInFile(comment);//not implemented in code
 		
-		ArrayList<Comment> fromFile = loadSavedCommentsFromFile();// not implemented in code
+		ArrayList<Comment> fromFile = dm.loadFromFile();// not implemented in code
 		
 		AssertEquals(comment,fromFile.get(0));
 	}
@@ -34,15 +36,15 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-
+		DataManager dm = new DataManager();
 		assertNotNull(activity);
 
 		CommentThread topComment = new CommentRoot();
 		Comment reply = new Comment();
 		topComment.setC(reply);
 		
-		setFavorite(topComment); // not Implemented
-		ArrayList<CommentThread> favorites = LoadFavorites();
+		dm.setFavorite(topComment); // not Implemented
+		ArrayList<CommentThread> favorites = dm.LoadFavorites();
 		
 		assertEquals(topComment,favorites.get(0));
 		assertEquals(reply,favorites.get(0).getC(0)); //get the first child
@@ -54,11 +56,12 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		CommentThread topComment = new CommentThread();
 		Comment reply = new Comment();
 		ArrayList<Viewable> c = {reply};
+		DataManager dm = new DataManager();
 		topComment.setC(c);
-		//now set as favorite
-		SetFavorite(topComment); //not implemented
 		
-		ArrayList<CommentThread> favorites = LoadFavorites();
+		dm.setFavorite(topComment); //not implemented
+		
+		ArrayList<CommentThread> favorites = dm.LoadFavorites();
 		assertEquals(topComment,favorites.get(0));
 		assertEquals(reply,favorites.get(0).getC(0)); //get the first child
 		
@@ -66,7 +69,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		c.add(secondReply);
 		topComment.setC(c);
 		
-		UpdateFavorites();//normally periodically called while connected to server
+		dm.UpdateFavorites();//normally periodically called while connected to server
 		
 		assertEquals(topComment,favorites.get(0));
 		assertEquals(reply,favorites.get(0).getC(0)); //compare the first child
