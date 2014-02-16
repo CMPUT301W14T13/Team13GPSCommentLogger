@@ -21,6 +21,10 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		super(DebugActivity.class);
 	}
 	
+	/*
+	 * To test that a comment was pushed, it must be pushed and then
+	 * retrieved to check that its fields are what was entered
+	 */
 	public void testPushComment() throws InterruptedException
 	{
 		Intent intent = new Intent();
@@ -75,6 +79,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		assertEquals("comment fields should be the same", picture.hashCode(), activity.getCurrentComment().getImage().hashCode());
 		assertEquals("comment fields should be the same", timestamp, activity.getCurrentComment().getTimestamp());
 		assertEquals("comment fields should be the same", commentText, activity.getCurrentComment().getCommentText());
+		//assertEquals("comment fields should be the same", GPS, activity.getCurrentComment().getGPS());
 	}
 
 }
