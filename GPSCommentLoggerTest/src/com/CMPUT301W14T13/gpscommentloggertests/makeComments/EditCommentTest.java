@@ -18,7 +18,11 @@ public class EditCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 	}
 
 	
-	
+	/*
+	 * A comment's text will be edited if the new text that
+	 * was set in the comment is the same as the text that
+	 * is retrieved from the comment.
+	 */
 	public void testEditCommentText(){
 		Intent intent = new Intent();
 		setActivityIntent(intent);
@@ -35,6 +39,11 @@ public class EditCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 				
 		}
 
+	/*
+	 * To test if a picture was added, the hashcode of the picture
+	 * created and the hashcode of the picture in the comment can be
+	 * compared to see if they are the same.
+	 */
 	public void testEditPicture(){
 		Intent intent = new Intent();
 		setActivityIntent(intent);
