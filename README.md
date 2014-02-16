@@ -19,7 +19,7 @@ Project Co-ordinator(s):
 
 ======================
 
-Mentor:
+Mentor: Joshua Campbell
 
 ======================
 
