@@ -51,7 +51,7 @@ import java.util.Date;
 
 	/* check the ordering of the comments */
 	for(Comment comment : thread.getComments()){
-	    if( prev_date > comment.getTimestamp()){
+	    if( prev_date.after(comment.getTimestamp()) ){
 		sorted = false;
 		break;
 	    }
@@ -68,7 +68,7 @@ import java.util.Date;
 
 	/* check the ordering of the comments */
 	for(Comment comment : thread.getComments()){
-	    if( prev_date < comment.getTimestamp()){
+	    if( prev_date.before(comment.getTimestamp()) ){
 		sorted = false;
 		break;
 	    }
@@ -114,7 +114,7 @@ import java.util.Date;
 
 	/* check the ordering of the comments */
 	for(CommentThread thread : root.getCommentThreads()){
-	    if( prev_date > thread.getTimestamp()){
+	    if( prev_date.after(thread.getTimestamp())){
 		sorted = false;
 		break;
 	    }
@@ -131,7 +131,7 @@ import java.util.Date;
 
 	/* check the ordering of the comments */
 	for(CommentThread thread : root.getCommentThreads()){
-	    if( prev_date < thread.getTimestamp()){
+	    if( prev_date.before(thread.getTimestamp()) ){
 		sorted = false;
 		break;
 	    }
