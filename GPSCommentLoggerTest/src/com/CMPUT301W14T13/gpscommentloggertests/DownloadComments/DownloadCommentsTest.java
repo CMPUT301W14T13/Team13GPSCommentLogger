@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 
+import java.sql.DriverManager;
 import java.util.ArrayList;
 
 import com.CMPUT301W14T13.gpscommentloggertests.makeComments.DebugActivity;
@@ -36,10 +37,10 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-		DataManager dm = new DataManager();
+		DriverManager dm = new DataManager();
 		assertNotNull(activity);
 
-		CommentThread topComment = new CommentRoot();
+		CommentThread topComment = new CommentThread();
 		Comment reply = new Comment();
 		topComment.setC(reply);
 		
