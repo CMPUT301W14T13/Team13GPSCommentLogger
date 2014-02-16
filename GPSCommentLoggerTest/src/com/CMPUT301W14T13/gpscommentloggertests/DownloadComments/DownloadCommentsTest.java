@@ -78,8 +78,8 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		dm.UpdateFavorites();//normally periodically called while connected to server
 		
-		assertTrue("top comment is the same",favorites.contains(topComment));
-		assertTrue("first reply is the same",favorites.contains(reply)); //compare the first child
+		assertTrue("top comment is still saved locally",favorites.contains(topComment));
+		assertTrue("first reply is still saved locally",favorites.contains(reply)); //compare the first child
 		assertTrue("second reply should be saved locally now",favorites.contains(secondreply));// compare second child
 
 		
