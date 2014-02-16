@@ -1,22 +1,37 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.List;
 
 import android.location.Location;
-import java.util.Collection;
 
-
-
-public class Thread
-{
-
+public class CommentRoot implements Viewable {
 	private String title;
+	private final String username = "default";
+	private String ID;
 	private Date freshness;
-	private Comment rootComment;
-	private HashMap <Integer,Comment> comments;
+	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
+	
+	public CommentRoot()
+	{
+		//TODO: create sutomatic ID generation system
+		ID = "default";
+		title = "initial title";
+		comments = new ArrayList<Viewable>();
+	}
+	
+	public CommentRoot(String ID)
+	{
+		this.ID = ID;
+		title = "initial title";
+		comments = new ArrayList<Viewable>();
+	}
+	
+	
 	/** 
 	 * @uml.property name="v"
 	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
@@ -44,11 +59,12 @@ public class Thread
 	 * @return  Returns the c.
 	 * @uml.property  name="c"
 	 */
-	public Collection<Comment> getC()
+	@Override
+	public ArrayList<Viewable> getC()
 	
 	
 	{
-		return c;
+		return comments;
 	}
 	/** 
 	 * Setter of the property <tt>v</tt>
@@ -66,13 +82,29 @@ public class Thread
 	 * @param c  The c to set.
 	 * @uml.property  name="c"
 	 */
-	public void setC(Collection<Comment> c)
+	public void setC(ArrayList<Viewable> c)
 	{
 
-		this.c = c;
+		comments = c;
 	}
-	
-	
-	
-	
+	@Override
+	public String getID() {
+		return ID;
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public void setTitle(String newTitle) {
+		title = newTitle;
+	}
+
 }
