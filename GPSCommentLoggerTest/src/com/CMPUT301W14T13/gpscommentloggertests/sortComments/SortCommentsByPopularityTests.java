@@ -44,7 +44,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 	thread.sortByPopularity();
 	boolean sorted = true;
-	Integer prev_count = MAX_VALUE;
+	Integer prev_count = Integer.MAX_VALUE;
 
 	/* check the ordering of the comments */
 	for(Comment comment : thread.getComments()){
@@ -65,7 +65,7 @@ import android.test.ActivityInstrumentationTestCase2;
 	thread.sortByPopularity();
 
 	sorted = true;
-	prev_count = MAX_VALUE;
+	prev_count = Integer.MAX_VALUE;
 
 	/* check comment ordering */
 	for(Comment comment : thread.getComments()){
@@ -112,7 +112,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 	root.sortByPopularity();
 	boolean sorted = true;
-	Integer prev_count = MAX_VALUE;
+	Integer prev_count = Integer.MAX_VALUE;
 
 	/* check the ordering of the comments */
 	for(CommentThread thread : root.getCommentThreads()){
@@ -132,7 +132,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 	thread.sortByPopularity();
 	sorted = true;
-	prev_count = MAX_VALUE;
+	prev_count = Integer.MAX_VALUE;
 
 	/* check the ordering of the comments */
 	for(CommentThread thread : root.getThreads()){

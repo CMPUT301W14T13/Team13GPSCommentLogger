@@ -61,7 +61,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 	thread.sortByProximity();
 	boolean sorted = true;
-	Float prev_count = MIN_VALUE;
+	Float prev_count = Float.MIN_VALUE;
 
 	/* check the ordering of the comments */
 	for(Comment comment : thread.getComments()){
@@ -119,7 +119,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 	thread.sortByProximity();
 	boolean sorted = true;
-	Float prev_count = MIN_VALUE;
+	Float prev_count = Float.MIN_VALUE;
 
 	/* check the ordering of the comments */
 	for(CommentThread thread : root.getCommentThreads()){
