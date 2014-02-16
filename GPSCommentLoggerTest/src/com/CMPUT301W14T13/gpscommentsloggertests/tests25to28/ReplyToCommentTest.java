@@ -24,7 +24,7 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<Comment
 		
 		// Check last child
 		assertEquals("Comment reply should appear as latest comment child", replyText,
-				comment.getChildren.getPosition(getChildren().lenghth()));
+				comment.getChildren.getPosition(getChildren().length()));
 		
 		
 	}
