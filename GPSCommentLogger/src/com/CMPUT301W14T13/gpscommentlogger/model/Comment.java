@@ -20,7 +20,7 @@ public class Comment implements Viewable
 	private String username;
 	private Bitmap image;
 	private boolean hasImage;
-	private List<String>childID;
+	private List<String> childID;
 	private Date timestamp;
 	private String commentText;
 
