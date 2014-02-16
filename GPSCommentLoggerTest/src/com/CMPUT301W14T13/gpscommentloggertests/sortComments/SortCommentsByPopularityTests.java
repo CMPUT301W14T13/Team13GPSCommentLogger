@@ -53,7 +53,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
     }
 
-
+    /* add this once you figure out how the threads are being stored */
     public void testSortCommentThreadsByPopularity()
     {
 
