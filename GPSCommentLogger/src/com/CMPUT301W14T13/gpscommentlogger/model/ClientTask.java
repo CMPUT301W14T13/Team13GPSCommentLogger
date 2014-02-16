@@ -9,7 +9,7 @@ public class ClientTask implements Task
 	private ClientTaskCode sourceCode;
 	private boolean isSourceCodeSet = false;
 	
-	private String obj;
+	private Object obj;
 	
 	public ClientTask()
 	{
@@ -44,12 +44,12 @@ public class ClientTask implements Task
 		return sourceCode;
 	}
 	
-	public void setObj(String obj)
+	public void setObj(Object obj)
 	{
 		this.obj = obj;
 	}
 	
-	public String getObj()
+	public Object getObj()
 	{
 		return obj;
 	}

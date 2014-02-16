@@ -24,7 +24,7 @@ public class Comment implements Viewable
 	private Date timestamp;
 	private String commentText;
 
-
+	private ArrayList<Viewable> children;
 	private HashMap<String, Vote> votes;
 
 
@@ -34,6 +34,7 @@ public class Comment implements Viewable
 		username = "Anonymous";
 		title = "initial title";
 		timestamp = new Date();
+		children = new ArrayList<Viewable>();
 	}
 
 
@@ -42,6 +43,7 @@ public class Comment implements Viewable
 		username = "Anonymous";
 		title = "initial title";
 		timestamp = new Date();
+		children = new ArrayList<Viewable>();
 	}
 
 
@@ -52,6 +54,7 @@ public class Comment implements Viewable
 		this.username = username;
 		title = "initial title";
 		timestamp = new Date();
+		children = new ArrayList<Viewable>();
 	}
 
 
@@ -61,6 +64,7 @@ public class Comment implements Viewable
 		this.username = username;
 		title = "initial title";
 		timestamp = new Date();
+		children = new ArrayList<Viewable>();
 	}
 
 
@@ -71,6 +75,7 @@ public class Comment implements Viewable
 		this.image = picture;
 		this.timestamp = timestamp;
 		this.commentText = commentText;
+		children = new ArrayList<Viewable>();
 	}
 
 
@@ -117,8 +122,7 @@ public class Comment implements Viewable
 
 	@Override
 	public ArrayList<Viewable> getC() {
-		// TODO Auto-generated method stub
-		return null;
+		return children;
 	}
 
 

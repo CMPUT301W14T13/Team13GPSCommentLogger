@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
@@ -117,6 +118,9 @@ public class ClientController extends Controller
 		case BROWSE:
 			processBrowseRequest(currentTask);
 			break;
+		case POST:
+			processPostRequest(currentTask);
+			break;
 		default:
 			throw new InterruptedException("Invalid Task Code in ClientController");
 		}
@@ -136,10 +140,32 @@ public class ClientController extends Controller
 			//break;
 		case MOCK_DATA_ENTITY:
 			if(hasConnection)
-				onlineDataEntityMockup.pageRequest(task.getObj());
+				onlineDataEntityMockup.pageRequest((String)task.getObj());
 			else
-				offlineDataEntityMockup.pageRequest(task.getObj());
+				offlineDataEntityMockup.pageRequest((String)task.getObj());
 			break;
+		//case SERVER_DATA:
+			//break;
+		default:
+			throw new InterruptedException("Invalid Source Code in ClientController");
+		}
+	}
+	
+	private void processPostRequest(ClientTask task) throws InterruptedException
+	{
+		switch(task.getSourceCode())
+		{
+		//case LOCAL_DATA:
+			//break;
+		case MOCK_DATA_ENTITY:
+			if(hasConnection)
+			{
+				onlineDataEntityMockup.postRequest(debugActivity.getCurrentComment(),(Comment)task.getObj());
+				break;
+			}
+			else
+				throw new InterruptedException("Cannot post while offline");
+			
 		//case SERVER_DATA:
 			//break;
 		default:
@@ -158,13 +184,26 @@ public class ClientController extends Controller
 		Log.w("ClientController", "Result received");
 		if(result instanceof MockResult)
 		{
-			Log.w("ClientController", "Mock Result received");
-			MockResult mock = (MockResult)result;
-			Viewable data = mock.getData();
-			Message msg = new Message();
-			msg.obj = data;
-			Log.w("DebugMessage", "Message Sent");	
-			handler.dispatchMessage(msg);
+			switch(((MockResult) result).getType())
+			{
+				case BROWSE:
+					Log.w("ClientController", "Mock Result received");
+					MockResult mock = (MockResult)result;
+					Viewable data = (Viewable)mock.getData();
+					Message msg = new Message();
+					msg.obj = data;
+					Log.w("DebugMessage", "Message Sent");	
+					handler.dispatchMessage(msg);
+					break;
+				case POST:
+					Log.w("ClientController", "Mock Result received");
+					mock = (MockResult)result;
+					boolean success = Boolean.parseBoolean(mock.getData().toString());
+					Log.w("ClientController", "Post result: " + success);
+					break;
+				default:
+					throw new IllegalArgumentException("Illegal MockResult Type");
+			}
 		}
 	}
 

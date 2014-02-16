@@ -15,6 +15,7 @@ public class CommentRoot implements Viewable {
 	private String ID;
 	private String commentText;
 	private Bitmap image;
+	private Date timestamp;
 	private Date freshness;
 	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
@@ -128,6 +129,11 @@ public class CommentRoot implements Viewable {
 	@Override
 	public Bitmap getImage() {
 		return image;
+	}
+
+	@Override
+	public Date getTimestamp() {
+		return timestamp;
 	}
 
 }

@@ -112,6 +112,16 @@ public class DebugActivity extends Activity
     	client.addTask(task);
     }
     
+    public void simulateAddComment(Comment comment)
+    {
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskCode.POST);
+    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setObj(comment);
+    	
+    	client.addTask(task);
+    }
+    
 	public Viewable getCurrentComment() {
 		return currentComment;
 	}

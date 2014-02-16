@@ -2,6 +2,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import android.graphics.Bitmap;
 
@@ -18,4 +19,5 @@ public interface Viewable {
 	String getCommentText();
 	void setImage(Bitmap picture);
 	Bitmap getImage();
+	Date getTimestamp();
 }

@@ -18,6 +18,7 @@ public class CommentThread implements Viewable
 	private String ID;
 	private String username;
 	private Bitmap image;
+	private Date timestamp;
 	private Date freshness;
 	private Comment rootComment;
 	private ArrayList<Viewable> comments;
@@ -135,6 +136,11 @@ public class CommentThread implements Viewable
 	public Bitmap getImage() {
 		
 		return image;
+	}
+
+	@Override
+	public Date getTimestamp() {
+		return timestamp;
 	}
 
 	
