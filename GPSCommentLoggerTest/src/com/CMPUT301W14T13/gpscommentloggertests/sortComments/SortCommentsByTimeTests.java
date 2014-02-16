@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentloggertests;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import java.util.Date;
 	assertNotNull(activity);
 
 	/* Make a thread to contain the comments */
-	CommentThread thread = new CommentThread();
+	Topic thread = new Topic();
 
 	/* make two comments and set their locations */
 	Comment comment_1 = new Comment();
@@ -90,12 +90,12 @@ import java.util.Date;
 	assertNotNull(activity);
 
 	/* Make a thread to contain the comments */
-	CommentRoot root = new CommentRoot();
+	Root root = new Root();
 
 	/* make two comments and set their locations */
-	CommentThread thread_1 = new CommentThread();
-	CommentThread thread_2 = new CommentThread();
-	CommentThread thread_3 = new CommentThread();
+	Topic thread_1 = new Topic();
+	Topic thread_2 = new Topic();
+	Topic thread_3 = new Topic();
 
 	/* set the locations of the comments */
 	thread_1.setTimestamp(new Date()); /* current time*/
@@ -113,7 +113,7 @@ import java.util.Date;
 	Date prev_date = new Date(0);
 
 	/* check the ordering of the comments */
-	for(CommentThread thread : root.getCommentThreads()){
+	for(Topic thread : root.getCommentThreads()){
 	    if( prev_date.after(thread.getTimestamp())){
 		sorted = false;
 		break;
@@ -130,7 +130,7 @@ import java.util.Date;
 	prev_date = new Date(Long.MAX_VALUE);
 
 	/* check the ordering of the comments */
-	for(CommentThread thread : root.getCommentThreads()){
+	for(Topic thread : root.getCommentThreads()){
 	    if( prev_date.before(thread.getTimestamp()) ){
 		sorted = false;
 		break;

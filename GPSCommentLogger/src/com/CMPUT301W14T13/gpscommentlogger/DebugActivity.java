@@ -9,8 +9,8 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
@@ -60,7 +60,7 @@ public class DebugActivity extends Activity
             }
         };
         
-        currentComment = new CommentRoot();
+        currentComment = new Root();
         contentList = currentComment.getC();
         root = (ListView)findViewById(R.id.debug_main_list);
         commentAdapter = new ArrayAdapter<Viewable>(activity, 0, 0, contentList);

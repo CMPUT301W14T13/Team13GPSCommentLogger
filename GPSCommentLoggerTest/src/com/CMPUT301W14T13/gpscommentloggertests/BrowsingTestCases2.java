@@ -2,8 +2,8 @@ package com.CMPUT301W14T13.gpscommentloggertests;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -29,7 +29,7 @@ public class BrowsingTestCases2 extends
 		Thread.sleep(2000);
 		
 		assertNotNull(activity.getCurrentComment());
-		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof CommentRoot);
+		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
 		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getC().size());
 		
 		activity.simulateBrowseClick(0);
@@ -37,7 +37,7 @@ public class BrowsingTestCases2 extends
 		Thread.sleep(2000);
 		
 		assertNotNull(activity.getCurrentComment());
-		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof CommentThread);
+		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof Topic);
 		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getC().size());
 		
 		activity.simulateBrowseClick(0);

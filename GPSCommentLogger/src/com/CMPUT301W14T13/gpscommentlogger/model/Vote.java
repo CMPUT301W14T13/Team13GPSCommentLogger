@@ -13,13 +13,13 @@ public class Vote
 	 * @uml.property name="t"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="v:com.CMPUT301W14T13.gpscommentlogger.model.Thread"
 	 */
-	private CommentThread t = new com.CMPUT301W14T13.gpscommentlogger.model.CommentThread();
+	private Topic t = new com.CMPUT301W14T13.gpscommentlogger.model.Topic();
 	/** 
 	 * Getter of the property <tt>t</tt>
 	 * @return  Returns the t.
 	 * @uml.property  name="t"
 	 */
-	public CommentThread getT()
+	public Topic getT()
 	
 	
 	
@@ -32,7 +32,7 @@ public class Vote
 	 * @param t  The t to set.
 	 * @uml.property  name="t"
 	 */
-	public void setT(CommentThread t)
+	public void setT(Topic t)
 	
 	
 	

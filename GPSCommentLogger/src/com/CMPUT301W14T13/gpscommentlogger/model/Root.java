@@ -9,7 +9,7 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.location.Location;
 
-public class CommentRoot implements Viewable {
+public class Root implements Viewable {
 	private String title;
 	private final String username = "default";
 	private String ID;
@@ -20,7 +20,7 @@ public class CommentRoot implements Viewable {
 	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
 	
-	public CommentRoot()
+	public Root()
 	{
 		//TODO: create sutomatic ID generation system
 		ID = "default";
@@ -28,7 +28,7 @@ public class CommentRoot implements Viewable {
 		comments = new ArrayList<Viewable>();
 	}
 	
-	public CommentRoot(String ID)
+	public Root(String ID)
 	{
 		this.ID = ID;
 		title = "initial title";

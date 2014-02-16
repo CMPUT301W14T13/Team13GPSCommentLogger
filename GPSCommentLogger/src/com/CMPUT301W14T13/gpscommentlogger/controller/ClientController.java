@@ -11,7 +11,7 @@ import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;

@@ -11,7 +11,7 @@ import java.util.Collection;
 
 
 
-public class CommentThread implements Viewable
+public class Topic implements Viewable
 {
 
 	private String title;
@@ -24,20 +24,20 @@ public class CommentThread implements Viewable
 	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
 	
-	public CommentThread()
+	public Topic()
 	{
 		//TODO: create sutomatic ID generation system
 		ID = "default";
 		title = "initial title";
 	}
 	
-	public CommentThread(String ID)
+	public Topic(String ID)
 	{
 		this.ID = ID;
 		title = "initial title";
 	}
 	
-	public CommentThread(String username, boolean cheatingOverloadSignature)
+	public Topic(String username, boolean cheatingOverloadSignature)
 	{
 		//TODO: automatic ID gen
 		this.ID = "default";
@@ -45,7 +45,7 @@ public class CommentThread implements Viewable
 		this.username = username;
 	}
 	
-	public CommentThread(String ID, String username)
+	public Topic(String ID, String username)
 	{
 		this.ID = ID;
 		title = "initial title";

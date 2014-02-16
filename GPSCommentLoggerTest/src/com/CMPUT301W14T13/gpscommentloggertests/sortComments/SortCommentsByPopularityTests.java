@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentloggertests;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -25,7 +25,7 @@ import android.test.ActivityInstrumentationTestCase2;
 	assertNotNull(activity);
 
 	/* Make a thread to contain the comments */
-	CommentThread thread = new CommentThread();
+	Topic thread = new Topic();
 
 	/* make two comments and set their vote counts */
 	Comment comment_1 = new Comment();
@@ -93,12 +93,12 @@ import android.test.ActivityInstrumentationTestCase2;
 	assertNotNull(activity);
 
 	/* Make a thread to contain the comments */
-	CommentRoot root = new CommentRoot();
+	Root root = new Root();
 
 	/* make two comments and set their vote counts */
-	CommentThread thread_1 = new CommentThread();
-	CommentThread thread_2 = new CommentThread();
-	CommentThread thread_3 = new CommentThread();
+	Topic thread_1 = new Topic();
+	Topic thread_2 = new Topic();
+	Topic thread_3 = new Topic();
 
 	/* set the vote count of each */
 	thread_1.setVoteCount(1);
@@ -115,7 +115,7 @@ import android.test.ActivityInstrumentationTestCase2;
 	Integer prev_count = Integer.MAX_VALUE;
 
 	/* check the ordering of the comments */
-	for(CommentThread thread : root.getCommentThreads()){
+	for(Topic thread : root.getCommentThreads()){
 	    if( prev_count < thread.getVoteCount()){
 		sorted = false;
 		break;
@@ -135,7 +135,7 @@ import android.test.ActivityInstrumentationTestCase2;
 	prev_count = Integer.MAX_VALUE;
 
 	/* check the ordering of the comments */
-	for(CommentThread thread : root.getThreads()){
+	for(Topic thread : root.getThreads()){
 	    if( prev_count < thread.getVoteCount()){
 		sorted = false;
 		break;

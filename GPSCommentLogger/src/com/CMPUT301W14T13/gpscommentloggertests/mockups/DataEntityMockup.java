@@ -7,8 +7,8 @@ import android.util.Log;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResultType;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
@@ -28,11 +28,11 @@ public class DataEntityMockup {
 		
 		comments = new HashMap<String, Viewable>();
 		
-		CommentRoot root = new CommentRoot("root");
+		Root root = new Root("root");
 		
-		CommentThread thread1 = new CommentThread("thread1", "kyomaru");
-		CommentThread thread2 = new CommentThread("thread2", "kyomaru");
-		CommentThread thread3 = new CommentThread("thread3", "kyomaru");
+		Topic thread1 = new Topic("thread1", "kyomaru");
+		Topic thread2 = new Topic("thread2", "kyomaru");
+		Topic thread3 = new Topic("thread3", "kyomaru");
 		
 		ArrayList<Viewable> rootThreads = new ArrayList<Viewable>();
 		rootThreads.add(thread1);

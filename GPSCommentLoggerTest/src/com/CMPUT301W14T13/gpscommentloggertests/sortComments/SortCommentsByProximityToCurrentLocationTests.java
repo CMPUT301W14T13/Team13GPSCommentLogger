@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentloggertests;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 
 import android.location.Location;
 import android.location.LocationManager;
@@ -32,7 +32,7 @@ import android.test.ActivityInstrumentationTestCase2;
 	Location my_gps = lm.getLastKnownLocation(GPS_PROVIDER);
 
 	/* Make a thread to contain the comments */
-	CommentThread thread = new CommentThread();
+	Topic thread = new Topic();
 
 	/* make two comments and set their locations */
 	Comment comment_1 = new Comment();
@@ -90,12 +90,12 @@ import android.test.ActivityInstrumentationTestCase2;
 	Location my_gps = lm.getLastKnownLocation(GPS_PROVIDER);
 
 	/* Make a thread to contain the comments */
-	CommentRoot root = new CommentRoot();
+	Root root = new Root();
 
 	/* make two comments and set their locations */
-	CommentThread thread_1 = new CommentThread();
-	CommentThread thread_2 = new CommentThread();
-	CommentThread thread_3 = new CommentThread();
+	Topic thread_1 = new Topic();
+	Topic thread_2 = new Topic();
+	Topic thread_3 = new Topic();
 
 	/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
 	Location tokyo = new Location(GPS_PROVIDER);
@@ -122,7 +122,7 @@ import android.test.ActivityInstrumentationTestCase2;
 	Float prev_count = Float.MIN_VALUE;
 
 	/* check the ordering of the comments */
-	for(CommentThread thread : root.getCommentThreads()){
+	for(Topic thread : root.getCommentThreads()){
 	    if( prev_count > my_gps.distanceTo(thread.getLocation())){
 		sorted = false;
 		break;
