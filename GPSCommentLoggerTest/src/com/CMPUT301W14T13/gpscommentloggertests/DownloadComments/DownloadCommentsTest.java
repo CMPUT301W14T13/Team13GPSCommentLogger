@@ -20,9 +20,11 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 
 		assertNotNull(activity);
 		Comment comment = new comment();
-		SaveInFile(comment)
-		//check file for this comment
+		SaveInFile(comment);//not implemented in code
 		
+		ArrayList<Comment> fromFile = loadSavedFromFile();// not implemented in code
+		
+		AssertEquals(comment,fromFile.get(0));
 	}
 	
 	//Use Case 4.1
@@ -36,7 +38,8 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		CommentThread topComment = new CommentRoot();
 		Comment reply = new Comment();
 		topComment.setC(reply);
-		SetFavorite(topComment); // saves comment and children into file
+		
+		setFavorite(topComment); // not Implemented
 		
 		//now check if file AND children have been saved locally
 		//make reply
