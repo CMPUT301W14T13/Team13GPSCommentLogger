@@ -15,7 +15,8 @@ public class GetLocationTest extends ActivityInstrumentationTestCase2<LocationSe
 	}
 	
 	public void testCurrentLocation () {
-		// Get location locally in the test file, compare against LocationSelectionView
+		// Goal: Get location locally in the test file, compare against LocationSelectionView.
+		
 		LocationManager locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);         
 
 		// For locationListener, there is the option of implementing it here,
