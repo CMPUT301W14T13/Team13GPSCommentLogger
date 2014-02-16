@@ -60,7 +60,7 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 	}
 	
 	
-	//test to check that 
+	//test to check that comment fields are correctly set
 	public void testCommentFields(){
 		
 		Intent intent = new Intent();
