@@ -19,7 +19,7 @@ import android.test.ActivityInstrumentationTestCase2;
     
 
     /* Test the sorting of comments within a thread by distance from cur location */
-    public void testSortCommentsByProximityToCurrent()
+    public void testSortCommentsByProximityToCurrentLocation()
     {
 	Intent intent = new Intent();
 	setActivityIntent(intent);
@@ -77,7 +77,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
     }
     /* Test the sorting of threads distance from cur location */
-    public void testSortCommentsByProximityToCurrent()
+    public void testSortThreadsByProximityToCurrentLocation()
     {
 	Intent intent = new Intent();
 	setActivityIntent(intent);
