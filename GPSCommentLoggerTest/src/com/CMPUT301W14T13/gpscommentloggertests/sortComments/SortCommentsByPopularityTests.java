@@ -94,35 +94,52 @@ import android.test.ActivityInstrumentationTestCase2;
 	CommentRoot root = new CommentRoot();
 
 	/* make two comments and set their vote counts */
-	Comment thread_1 = new CommentThread();
-	Comment thread_2 = new CommentThread();
+	CommentThread thread_1 = new CommentThread();
+	CommentThread thread_2 = new CommentThread();
+	CommentThread thread_3 = new CommentThread();
 
 	/* set the vote count of each */
 	thread_1.setVoteCount(1);
 	thread_2.setVoteCount(0);
+	thread_3.setVoteCount(101);
 
 	/* add the comments to the thread */
-	root.addComment(comment_1);
-	root.addComment(comment_2);
+	root.addThread(thread_1);
+	root.addThread(thread_2);
+	root.addThread(thread_3);
 
 	root.sortByPopularity();
+	boolean sorted = true;
+	Integer prev_count = MAX_VALUE;
 
-	/* get the votes of the top two comments*/
-	Integer v0 = root.getThreads().get(0).getVoteCount();
-	Integer v1 = root.getThreads().get(1).getVoteCount();
+	/* check the ordering of the comments */
+	for(CommentThread thread : root.getThreads()){
+	    if( prev_count < thread.getVoteCount()){
+		sorted = false;
+		break;
+	    }
+	}
 
 	/* check the comment order */
-	assertTrue("failure - comment 1 should preceed comment 2", v0 >= v1);
+	assertTrue("failure - comments not sorted by descending popularity", sorted);
 
 	/* test using negative popularities */
 	thread_1.setVoteCount(-10);
 	thread_2.setVoteCount(-99);
 
 	thread.sortByPopularity();
+	sorted = true;
+	prev_count = MAX_VALUE;
 
-	/* get the votes of the top two comments*/
-	v0 = thread.getComments().get(0).getVoteCount();
-	v1 = thread.getComments().get(1).getVoteCount();
+	/* check the ordering of the comments */
+	for(CommentThread thread : root.getThreads()){
+	    if( prev_count < thread.getVoteCount()){
+		sorted = false;
+		break;
+	    }
+	}
+	/* check the comment order */
+	assertTrue("failure - comments not sorted by descending popularity", sorted);
 
     }
 
