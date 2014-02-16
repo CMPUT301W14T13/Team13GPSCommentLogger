@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentsloggertests.tests25to28;
+package com.CMPUT301W14T13.gpscommentloggertests.tests25to28;
 
 import com.CMPUT301W14T13.gpscommentslogger.Comment;
 
