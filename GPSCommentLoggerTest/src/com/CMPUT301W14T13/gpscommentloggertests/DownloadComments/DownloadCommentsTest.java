@@ -1,5 +1,7 @@
 package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 
+import java.util.ArrayList;
+
 import com.CMPUT301W14T13.gpscommentloggertests.makeComments.DebugActivity;
 
 import android.content.Intent;
@@ -22,7 +24,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		Comment comment = new comment();
 		SaveInFile(comment);//not implemented in code
 		
-		ArrayList<Comment> fromFile = loadSavedFromFile();// not implemented in code
+		ArrayList<Comment> fromFile = loadSavedCommentsFromFile();// not implemented in code
 		
 		AssertEquals(comment,fromFile.get(0));
 	}
@@ -40,11 +42,10 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		topComment.setC(reply);
 		
 		setFavorite(topComment); // not Implemented
+		ArrayList<CommentThread> favorites = LoadFavorites();
 		
-		//now check if file AND children have been saved locally
-		//make reply
-		//set top level comment as favorite
-		//check file for comment and reply
+		assertEquals(topComment,favorites.get(0));
+		assertEquals(reply,favorites.get(0).getC(0)); //get the first child
 		
 	}
 	
@@ -52,16 +53,25 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	public void testUpdateFavorite() {
 		CommentThread topComment = new CommentThread();
 		Comment reply = new Comment();
-		topComment.setC(reply);
+		ArrayList<Viewable> c = {reply};
+		topComment.setC(c);
 		//now set as favorite
-		SetFavorite(topComment); // saves comment and children into file
-		//check to see if comment and children have been saved
-		Comment secondReply = new Comment();
-		topComment.setC(secondReply);
-		// manually call update favorite which would normally operate
-		// automatically while device connected
+		SetFavorite(topComment); //not implemented
 		
-		//check to see if new comment saved 
+		ArrayList<CommentThread> favorites = LoadFavorites();
+		assertEquals(topComment,favorites.get(0));
+		assertEquals(reply,favorites.get(0).getC(0)); //get the first child
+		
+		Comment secondReply = new Comment();
+		c.add(secondReply);
+		topComment.setC(c);
+		
+		UpdateFavorites();//normally periodically called while connected to server
+		
+		assertEquals(topComment,favorites.get(0));
+		assertEquals(reply,favorites.get(0).getC(0)); //compare the first child
+		assertEquals(secondReply,favorites.get(0).getC(1));// compare second child
+
 		
 	}
 }
