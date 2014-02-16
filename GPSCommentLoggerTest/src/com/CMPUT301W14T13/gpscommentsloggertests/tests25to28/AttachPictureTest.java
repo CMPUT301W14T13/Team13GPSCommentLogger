@@ -12,8 +12,9 @@ public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment>
 	}
 	
 	public void testAttachPicture () {
-		//Goal: create bitmap, attach to comment, check if comment attachment check returns true
+		// Goal: create bitmap, attach to comment, check if comment attachment check returns true
 		
+		// Create Bitmap object
 		Bitmap picture = new Bitmap();
 		
 		// Create new comment
@@ -24,8 +25,6 @@ public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment>
 		
 		// Check last child
 		assertTrue("Comment attachment check should return true", comment.checkAttachment());
-		
-		
 	}
 
 }

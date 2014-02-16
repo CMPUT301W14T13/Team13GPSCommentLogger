@@ -34,8 +34,6 @@ public class GetLocationTest extends ActivityInstrumentationTestCase2<LocationSe
 	    assertEquals("Latitudes should be equal", LocationSelectionView.getLocation().getLatitude(), latitude);
 	    // Test longitude
 	    assertEquals("Longitudes should be equal", LocationSelectionView.getLocation().getLongitude(), longitude);
-		
-			
 	}
 
 }

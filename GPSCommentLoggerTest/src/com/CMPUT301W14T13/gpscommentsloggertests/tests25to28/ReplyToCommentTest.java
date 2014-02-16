@@ -13,6 +13,7 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<Comment
 	public void testCommentReply () {
 		//Goal: create comment, reply to it, check that reply is a child of the comment
 		
+		// Create reply string
 		String replyText = "My reply";
 		
 		// Create new comment
