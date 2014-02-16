@@ -15,6 +15,11 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActiv
 	}
 
 	
+	/*
+	 *  Test to check if the default username is
+	 *  used for the comment if the user does not
+	 *  provide one.
+	 */
 	
 	public void testDefaultUsername(){
 		
@@ -32,7 +37,10 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 	}
 	
-	
+	/*
+	 * Check if the username that was entered by the
+	 * user is stored in the comment
+	 */
 	public void testSetUsername(){
 		
 		Intent intent = new Intent();
