@@ -1,13 +1,17 @@
 package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 
-import java.sql.DriverManager;
 import java.util.ArrayList;
 
-import com.CMPUT301W14T13.gpscommentloggertests.makeComments.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
+@SuppressLint("NewApi")
 public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	public DownloadCommentsTest(String name) {
@@ -17,41 +21,58 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	
 	//Use Case 4
 	public void testDownloadComments(){
+		String testPath = "test.sav";
+		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-		DataManager dm = new DataManager();//an unimplemented class that
-										   // deals with local data
+		DataManager dm = new DataManager(testPath);
 
 		assertNotNull(activity);
-		Comment comment = new comment();
-		dm.SaveInFile(comment);//not implemented in code
+		String testID = "This is a test ID";
+		Comment comment = new Comment(testID);
+		dm.saveData(comment);
 		
-		ArrayList<Comment> fromFile = dm.loadFromFile();// not implemented in code
+		activity.finish();
+		activity= getActivity();
+		dm = new DataManager(testPath);
 		
-		AssertTrue("The comment we load from file should be the same as the comment we saved",
-				fromFile.contains(comment));
+		Comment fromFile = (Comment)dm.getData(testID);
+		
+		assertEquals("The comment we load from file should be the same as the comment we saved",
+				comment, fromFile);
+		
+		activity.finish();
 	}
 	
 	//Use Case 4.1
 	public void testSetAsFavorite() {
+		String testPath = "test2.sav";
+		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-		DriverManager dm = new DataManager();
+		DataManager dm = new DataManager(testPath);
 		assertNotNull(activity);
 
-		CommentThread topComment = new CommentThread();
+		String testID = "This is a test ID";
+		Topic topComment = new Topic(testID);
 		Comment reply = new Comment();
-		topComment.setC(reply);
+		topComment.getC().add(reply);
 		
-		dm.setFavorite(topComment); // not Implemented
-		ArrayList<CommentThread> favorites = dm.LoadFavorites();
+		dm.saveFavourite(topComment);
 		
-		assertTrue("top comment we load is the same as the top comment we saved",
-				favorites.contains(topComment));
-		assertTrue("the reply we loaded is the same as the reply we saved",
-				favorites.contains(reply)); //compare the first child
+		activity.finish();
+		activity = getActivity();
+		
+		dm = new DataManager(testPath);
+		
+		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
+		
+		assertEquals("top comment we load is the same as the top comment we saved",
+				topComment, favoritedTopic);
+		assertEquals("the reply we loaded is the same as the reply we saved",
+				reply, favoritedTopic.getC().get(0)); //compare the first child
 		
 	}
 	

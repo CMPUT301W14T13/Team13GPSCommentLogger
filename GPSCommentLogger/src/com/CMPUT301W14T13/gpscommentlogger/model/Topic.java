@@ -29,12 +29,16 @@ public class Topic implements Viewable
 		//TODO: create sutomatic ID generation system
 		ID = "default";
 		title = "initial title";
+		timestamp = new Date();
+		comments = new ArrayList<Viewable>();
 	}
 	
 	public Topic(String ID)
 	{
 		this.ID = ID;
 		title = "initial title";
+		timestamp = new Date();
+		comments = new ArrayList<Viewable>();
 	}
 	
 	public Topic(String username, boolean cheatingOverloadSignature)
@@ -43,6 +47,8 @@ public class Topic implements Viewable
 		this.ID = "default";
 		title = "initial title";
 		this.username = username;
+		timestamp = new Date();
+		comments = new ArrayList<Viewable>();
 	}
 	
 	public Topic(String ID, String username)
@@ -50,6 +56,8 @@ public class Topic implements Viewable
 		this.ID = ID;
 		title = "initial title";
 		this.username = username;
+		timestamp = new Date();
+		comments = new ArrayList<Viewable>();
 	}
 	
 	/** 
