@@ -6,6 +6,7 @@ import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,21 +15,23 @@ import android.test.ActivityInstrumentationTestCase2;
 @SuppressLint("NewApi")
 public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
-	public DownloadCommentsTest(String name) {
+	public DownloadCommentsTest() {
 		super(DebugActivity.class);
 		
 	}
 	
 	//Use Case 4
 	public void testDownloadComments(){
-		String testPath = "test.sav";
-		
+
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-		DataManager dm = new DataManager(testPath);
-
 		assertNotNull(activity);
+		
+		String testPath = activity.getFilesDir().getPath().toString() + "test.sav";
+
+		
+		DataManager dm = new DataManager(testPath);
 		String testID = "This is a test ID";
 		Comment comment = new Comment(testID);
 		dm.saveData(comment);
@@ -74,26 +77,45 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		assertEquals("the reply we loaded is the same as the reply we saved",
 				reply, favoritedTopic.getC().get(0)); //compare the first child
 		
+		activity.finish();
+		
 	}
 	
 	//Use Case 4.1.1
 	public void testUpdateFavorite() {
-		CommentThread topComment = new CommentThread();
+		String testPath = "test3.sav";
+		
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
+		DataManager dm = new DataManager(testPath);
+		assertNotNull(activity);
+		
+		String testID = "This is a test ID";
+		Topic topComment = new Topic(testID);
 		Comment reply = new Comment();
-		ArrayList<Viewable> c = {reply};
-		DataManager dm = new DataManager();
+		ArrayList<Viewable> c = new ArrayList<Viewable>();
+		c.add(reply);
 		topComment.setC(c);
 		
-		dm.setFavorite(topComment); //not implemented
+		dm.saveFavourite(topComment); 
 		
-		ArrayList<CommentThread> favorites = dm.LoadFavorites();
+		activity.finish();
+		activity = getActivity();
 		
-		assertTrue("top comment we load is the same as the top comment we saved",
-				favorites.contains(topComment));
-		assertTrue("the reply we loaded is the same as the reply we saved",
-				favorites.contains(reply)); //compare the first child
+		dm = new DataManager(testPath);
 		
-		Comment secondReply = new Comment();
+		Topic favorite = (Topic)dm.getData(testID);
+		
+		assertEquals("top comment we load is the same as the top comment we saved",
+				topComment, favorite);
+		assertEquals("the reply we loaded is the same as the reply we saved",
+				reply, favorite.getC().get(0)); //compare the first child
+		
+		/* TODO: route this through the clientController
+		 * This part needs connection to server or mockup via clientController
+		 * 
+		 * Comment secondReply = new Comment();
 		c.add(secondReply);
 		topComment.setC(c);
 		
@@ -102,7 +124,9 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		assertTrue("top comment is still saved locally",favorites.contains(topComment));
 		assertTrue("first reply is still saved locally",favorites.contains(reply)); //compare the first child
 		assertTrue("second reply should be saved locally now",favorites.contains(secondreply));// compare second child
-
+		 */
 		
 	}
+	
+	//TODO: rewrite tests so that they go through the clientController
 }

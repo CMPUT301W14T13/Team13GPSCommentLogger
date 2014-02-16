@@ -1,6 +1,8 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.io.BufferedReader;
+import com.CMPUT301W14T13.gpscommentlogger.model.ViewableSerializer;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -13,13 +15,15 @@ import android.util.Log;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class DataManager {
 	private HashMap<String, Viewable> saves;
 	private HashMap<String, Viewable> favourites;
 	private String filepath;
-	private Gson gson = new Gson();
+	private Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new ViewableSerializer()).create();
+
 	
 	public DataManager(String filepath)
 	{
@@ -73,6 +77,7 @@ public class DataManager {
 		FileWriter fw = new FileWriter(filepath);
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(gson.toJson(saves));
+		bw.newLine();
 		bw.write(gson.toJson(favourites));
 		bw.close();
 		fw.close();
