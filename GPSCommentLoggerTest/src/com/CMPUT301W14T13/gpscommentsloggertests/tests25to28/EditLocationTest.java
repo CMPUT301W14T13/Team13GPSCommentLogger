@@ -34,7 +34,7 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<LocationS
 		// Goal: Get location locally in the test file, compare against LocationSelectionView.
 		
 		// Create comment with default location
-		Comment comment = Comment();
+		Comment comment = new Comment();
 		
 		// Create a new Location from test data
 	    Location testLocation = createLocation(LAT, LNG, ACCURACY);

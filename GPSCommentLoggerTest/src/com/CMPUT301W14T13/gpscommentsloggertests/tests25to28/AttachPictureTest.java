@@ -18,7 +18,7 @@ public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment>
 		Bitmap picture = new Bitmap();
 		
 		// Create new comment
-		Comment comment = Comment();
+		Comment comment = new Comment();
 		
 		// Attach picture to comment
 		comment.attach(picture);

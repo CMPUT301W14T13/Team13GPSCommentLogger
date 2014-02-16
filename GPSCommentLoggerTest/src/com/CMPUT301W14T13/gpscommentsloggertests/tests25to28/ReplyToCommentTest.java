@@ -17,14 +17,14 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<Comment
 		String replyText = "My reply";
 		
 		// Create new comment
-		Comment comment = Comment();
+		Comment comment = new Comment();
 		
 		// Reply to comment
 		comment.reply(replyText);
 		
 		// Check last child
 		assertEquals("Comment reply should appear as latest comment child", replyText,
-				comment.getChildren.getPosition(getChildren.lenghth()));
+				comment.getChildren.getPosition(getChildren().lenghth()));
 		
 		
 	}
