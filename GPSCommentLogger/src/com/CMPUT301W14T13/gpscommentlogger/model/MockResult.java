@@ -4,16 +4,23 @@ import java.util.ArrayList;
 
 public class MockResult implements Result{
 
-	private Viewable data;
+	private Object data;
+	private MockResultType type;
 	
-	public MockResult(Viewable data)
+	public MockResult(Object b, MockResultType type)
 	{
-		this.data = data;
+		this.data = b;
+		this.type = type;
 	}
 	
-	public Viewable getData()
+	public Object getData()
 	{
 		return data;
+	}
+	
+	public MockResultType getType()
+	{
+		return type;
 	}
 	
 }
