@@ -55,6 +55,20 @@ public class Comment
 	 */
 	private Collection<Vote> v;
 
+	public void setImage(Bitmap image) {
+		this.image = image;
+		
+	}
+
+	public Object getImage() {
+		return image;
+	}
+
+	public void setCommentText(String newText) {
+		this.commentText = newText;
+		
+	}
+
 	
 
 	

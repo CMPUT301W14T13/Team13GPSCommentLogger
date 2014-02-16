@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.test;
+package com.CMPUT301W14T13.gpscommentloggertests.makeComments;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;

@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentloggertests;
+package com.CMPUT301W14T13.gpscommentloggertests.generalFunctionality;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
