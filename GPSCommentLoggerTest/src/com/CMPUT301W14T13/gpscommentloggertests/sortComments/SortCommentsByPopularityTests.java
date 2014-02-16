@@ -52,6 +52,7 @@ import android.test.ActivityInstrumentationTestCase2;
 		sorted = false;
 		break;
 	    }
+	    prev_count = comment.getVoteCount();
 	}
 
 	/* check the comment order */
@@ -72,6 +73,7 @@ import android.test.ActivityInstrumentationTestCase2;
 		sorted = false;
 		break;
 	    }
+	    prev_count = comment.getVoteCount();
 	}
 
 
@@ -104,20 +106,21 @@ import android.test.ActivityInstrumentationTestCase2;
 	thread_3.setVoteCount(101);
 
 	/* add the comments to the thread */
-	root.addThread(thread_1);
-	root.addThread(thread_2);
-	root.addThread(thread_3);
+	root.addCommentThread(thread_1);
+	root.addCommentThread(thread_2);
+	root.addCommentThread(thread_3);
 
 	root.sortByPopularity();
 	boolean sorted = true;
 	Integer prev_count = MAX_VALUE;
 
 	/* check the ordering of the comments */
-	for(CommentThread thread : root.getThreads()){
+	for(CommentThread thread : root.getCommentThreads()){
 	    if( prev_count < thread.getVoteCount()){
 		sorted = false;
 		break;
 	    }
+	    prev_count = thread.getVoteCount();
 	}
 
 	/* check the comment order */
@@ -137,6 +140,7 @@ import android.test.ActivityInstrumentationTestCase2;
 		sorted = false;
 		break;
 	    }
+	    prev_count = thread.getVoteCount();
 	}
 	/* check the comment order */
 	assertTrue("failure - comments not sorted by descending popularity", sorted);
