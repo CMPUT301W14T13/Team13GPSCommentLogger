@@ -19,7 +19,11 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 	}
 	
 	
-	//Certain fields in a comment cannot be null
+	/*
+	 * Certain fields in a comment cannot be null. The only field
+	 * allowed to be null is the comment's text, but only if
+	 * it has an attached picture
+	 */
 	public void testNullFields(){
 		
 		Intent intent = new Intent();
@@ -40,14 +44,14 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		//boolean hasPicture = false;
 		//Date timestamp;
 		//String commentText = "Test comment";
-		
+		//
 		Comment comment = new Comment();
 		
 		
 		assertNotNull(comment.getID());
 		assertNotNull(comment.getUsername());
 		assertNotNull(comment.getTimestamp());
-		
+		//assertNotNull(comment.getGPS());
 		
 		if (comment.getCommentText() == null){
 			assertEquals("If comment text is empty, then it must have a picture", true, 
@@ -60,7 +64,11 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 	}
 	
 	
-	//test to check that comment fields are correctly set
+	/*
+	 * test to check that comment fields are correctly set
+	 * by comparing the values used to create the comment with
+	 * what is actually in the comment
+	 */
 	public void testCommentFields(){
 		
 		Intent intent = new Intent();
@@ -78,10 +86,9 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		String ID = "4324";
 		String username = "Austin";
 		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
-		//boolean hasPicture = false;
 		Date timestamp = new Date();
 		String commentText = "Test comment";
-		
+		//
 		Comment comment = new Comment(ID, username, picture, timestamp, commentText);
 		
 		assertEquals("Comment IDs should be the same", ID, comment.getID());
@@ -90,7 +97,7 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 						comment.getImage().hashCode());
 		assertEquals("Timestamps should be the same", timestamp, comment.getTimestamp());
 		assertEquals("Comment text should be the same", commentText, comment.getCommentText());
-		
+		//assertEquals("GPS coordinates should be the same", GPS, comment.getGPS());
 		
 	}
 }
