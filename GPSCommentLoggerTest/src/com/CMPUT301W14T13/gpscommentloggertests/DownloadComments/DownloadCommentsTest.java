@@ -29,8 +29,8 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		ArrayList<Comment> fromFile = dm.loadFromFile();// not implemented in code
 		
-		AssertEquals("The comment we load from file should be the same as the comment we saved",
-				comment,fromFile.get(0));
+		AssertTrue("The comment we load from file should be the same as the comment we saved",
+				fromFile.contains(comment));
 	}
 	
 	//Use Case 4.1
@@ -48,10 +48,10 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		dm.setFavorite(topComment); // not Implemented
 		ArrayList<CommentThread> favorites = dm.LoadFavorites();
 		
-		assertEquals("top comment we load is the same as the top comment we saved",
-				topComment,favorites.get(0));
-		assertEquals("the reply we loaded is the same as the reply we saved",
-				reply,favorites.get(0).getC(0)); //get the first child
+		assertTrue("top comment we load is the same as the top comment we saved",
+				favorites.contains(topComment));
+		assertTrue("the reply we loaded is the same as the reply we saved",
+				favorites.contains(reply)); //compare the first child
 		
 	}
 	
@@ -67,10 +67,10 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		ArrayList<CommentThread> favorites = dm.LoadFavorites();
 		
-		assertEquals("top comment we load is the same as the top comment we saved",
-				topComment,favorites.get(0));
-		assertEquals("the reply we loaded is the same as the reply we saved",
-				reply,favorites.get(0).getC(0)); //compare the first child
+		assertTrue("top comment we load is the same as the top comment we saved",
+				favorites.contains(topComment));
+		assertTrue("the reply we loaded is the same as the reply we saved",
+				favorites.contains(reply)); //compare the first child
 		
 		Comment secondReply = new Comment();
 		c.add(secondReply);
@@ -78,9 +78,9 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		dm.UpdateFavorites();//normally periodically called while connected to server
 		
-		assertEquals("top comment is the same",topComment,favorites.get(0));
-		assertEquals("first reply is the same",reply,favorites.get(0).getC(0)); //compare the first child
-		assertEquals("second reply should be saved locally now",secondReply,favorites.get(0).getC(1));// compare second child
+		assertTrue("top comment is the same",favorites.contains(topComment));
+		assertTrue("first reply is the same",favorites.contains(reply)); //compare the first child
+		assertTrue("second reply should be saved locally now",favorites.contains(secondreply));// compare second child
 
 		
 	}
