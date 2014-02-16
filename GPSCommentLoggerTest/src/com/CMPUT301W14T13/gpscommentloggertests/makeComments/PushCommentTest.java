@@ -45,9 +45,11 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		activity.simulateBrowseClick(0);
 		
+		Thread.sleep(2000);
+		
 		assertNotNull(activity.getCurrentComment());
 		Log.w("DebugMessage", activity.getCurrentComment().toString());
-		//assertEquals("second layer is a comment", true, activity.getCurrentComment() instanceof Comment);
+		assertEquals("second layer is a comment", true, activity.getCurrentComment() instanceof Comment);
 		assertEquals("comment originally should have 0 replies", 0, activity.getCurrentComment().getC().size());
 		
 		String ID = "4324";
@@ -64,6 +66,8 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		assertEquals("comment should now have 1 reply", 1, activity.getCurrentComment().getC().size());
 		
 		activity.simulateBrowseClick(0);
+		
+		Thread.sleep(2000);
 		
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("comment fields should be the same", ID, activity.getCurrentComment().getID());

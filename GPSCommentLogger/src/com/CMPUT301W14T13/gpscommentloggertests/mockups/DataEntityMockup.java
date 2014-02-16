@@ -98,6 +98,7 @@ public class DataEntityMockup {
 
 	public void postRequest(Viewable currentComment, Comment obj) {
 		comments.get(currentComment.getID()).getC().add(obj);
+		comments.put(obj.getID(), obj);
 		
 		MockResult result = new MockResult(true, MockResultType.POST);
 		Log.w("DEMockup", "Post Request Sent");
