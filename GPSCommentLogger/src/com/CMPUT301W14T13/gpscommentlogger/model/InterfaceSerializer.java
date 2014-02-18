@@ -2,6 +2,9 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import java.lang.reflect.Type;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -10,32 +13,39 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class ViewableSerializer implements
-        JsonSerializer<Object>, JsonDeserializer<Object> {
+public class InterfaceSerializer<T> implements
+        JsonSerializer<T>, JsonDeserializer<T> {
 
     private static final String CLASS_META_KEY = "CLASS_META_KEY";
+    private static final String CLASS_DATA = "CLASS_DATA";
 
     @Override
-    public Object deserialize(JsonElement jsonElement, Type type,
+    public T deserialize(JsonElement jsonElement, Type type,
             JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+        Log.w("Deserialization", "Type: " + type);
+        Log.w("Deserialization", "JSONOBJ : " + jsonElement);
         String className = jsonObj.get(CLASS_META_KEY).getAsString();
+        Log.w("Deserialization", "Class type: " + className);
         try {
             Class<?> clz = Class.forName(className);
-            return jsonDeserializationContext.deserialize(jsonElement, clz);
+            return jsonDeserializationContext.deserialize(jsonObj.get(CLASS_DATA), clz);
         } catch (ClassNotFoundException e) {
             throw new JsonParseException(e);
         }
     }
 
     @Override
-    public JsonElement serialize(Object object, Type type,
+    public JsonElement serialize(T object, Type type,
             JsonSerializationContext jsonSerializationContext) {
-        JsonElement jsonEle = jsonSerializationContext.serialize(object, object.getClass());
-        jsonEle.getAsJsonObject().addProperty(CLASS_META_KEY,
+        
+        JsonObject jsonObj = new JsonObject();
+        jsonObj.addProperty(CLASS_META_KEY,
                 object.getClass().getCanonicalName());
-        return jsonEle;
+        jsonObj.add(CLASS_DATA, new Gson().toJsonTree(object,object.getClass()));
+        Log.w("Serialization", "Class type: " + object.getClass().getCanonicalName());
+        return jsonObj;
     }
 
 }

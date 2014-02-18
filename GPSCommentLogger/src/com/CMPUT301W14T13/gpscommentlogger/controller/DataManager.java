@@ -1,7 +1,8 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.io.BufferedReader;
-import com.CMPUT301W14T13.gpscommentlogger.model.ViewableSerializer;
+import com.CMPUT301W14T13.gpscommentlogger.model.InterfaceSerializer;
+import com.CMPUT301W14T13.gpscommentlogger.model.MapOfInterfacesSerializer;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,7 +23,6 @@ public class DataManager {
 	private HashMap<String, Viewable> saves;
 	private HashMap<String, Viewable> favourites;
 	private String filepath;
-	private Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new ViewableSerializer()).create();
 
 	
 	public DataManager(String filepath)
@@ -30,14 +30,14 @@ public class DataManager {
 		saves = new HashMap<String, Viewable>();
 		favourites = new HashMap<String, Viewable>();
 		this.filepath = filepath;
-
+/*
 		try {
 			load();
 		} catch (IOException e) {
 			Log.e("DataManager", "Load Error");
 			e.printStackTrace();
 		}
-
+*/
 	}
 	
 	public void saveData(Viewable data)
@@ -74,31 +74,37 @@ public class DataManager {
 	
 	public void save() throws IOException
 	{
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(HashMap.class, new MapOfInterfacesSerializer()).create();
+		
 		FileWriter fw = new FileWriter(filepath);
 		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(gson.toJson(saves));
+		bw.write(gson.toJson(saves, HashMap.class));
+		Log.w("DataSaving", "JSON result: " + gson.toJson(saves, HashMap.class));
 		bw.newLine();
-		bw.write(gson.toJson(favourites));
+		bw.write(gson.toJson(favourites, HashMap.class));
+		Log.w("DataSaving", "JSON result: " + gson.toJson(favourites, HashMap.class));
+		
 		bw.close();
 		fw.close();
 	}
 	
 	public void load() throws IOException
 	{
-		Type stringViewableMap = new TypeToken<HashMap<String, Viewable>>(){}.getType();
-		
 		File f = new File(filepath);
 		if(!f.exists() || f.isDirectory())return;
+		
+		Gson gson = new GsonBuilder().registerTypeAdapter(HashMap.class, new MapOfInterfacesSerializer()).create();
 		
 		FileReader fr = new FileReader(filepath);
 		BufferedReader br = new BufferedReader(fr);
 		
 		String json = br.readLine();
-		saves = gson.fromJson(json, stringViewableMap);
+		saves = gson.fromJson(json, HashMap.class);
 		
 		json = br.readLine();
-		favourites = gson.fromJson(json, stringViewableMap);
+		favourites = gson.fromJson(json, HashMap.class);
 
+		br.close();
 		fr.close();
 	}
 }

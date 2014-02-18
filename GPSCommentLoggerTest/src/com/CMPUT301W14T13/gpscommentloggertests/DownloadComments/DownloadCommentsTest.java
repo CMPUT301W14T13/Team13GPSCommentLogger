@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
@@ -11,6 +12,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 @SuppressLint("NewApi")
 public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -28,8 +30,8 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath = activity.getFilesDir().getPath().toString() + "test.sav";
-
+		String testPath = activity.getFilesDir().getPath().toString() + "/test.sav";
+		Log.w("DownloadCommentTest", "Filepath = " + testPath);
 		
 		DataManager dm = new DataManager(testPath);
 		String testID = "This is a test ID";
@@ -37,8 +39,14 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		dm.saveData(comment);
 		
 		activity.finish();
-		activity= getActivity();
+		setActivityIntent(intent);
+		activity = getActivity();
 		dm = new DataManager(testPath);
+		try {
+			dm.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		Comment fromFile = (Comment)dm.getData(testID);
 		
@@ -50,14 +58,17 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	
 	//Use Case 4.1
 	public void testSetAsFavorite() {
-		String testPath = "test2.sav";
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-		DataManager dm = new DataManager(testPath);
 		assertNotNull(activity);
+		
+		String testPath =  activity.getFilesDir().getPath().toString() + "/test2.sav";
+		Log.w("DownloadCommentTest", "Filepath = " + testPath);
 
+		DataManager dm = new DataManager(testPath);
+		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
 		Comment reply = new Comment();
@@ -66,9 +77,15 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		dm.saveFavourite(topComment);
 		
 		activity.finish();
+		setActivityIntent(intent);
 		activity = getActivity();
 		
 		dm = new DataManager(testPath);
+		try {
+			dm.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
 		
@@ -83,13 +100,16 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	
 	//Use Case 4.1.1
 	public void testUpdateFavorite() {
-		String testPath = "test3.sav";
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
-		DataManager dm = new DataManager(testPath);
 		assertNotNull(activity);
+		
+		String testPath =  activity.getFilesDir().getPath().toString() + "/test3.sav";
+		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		
+		DataManager dm = new DataManager(testPath);
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
@@ -101,9 +121,15 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		dm.saveFavourite(topComment); 
 		
 		activity.finish();
+		setActivityIntent(intent);
 		activity = getActivity();
 		
 		dm = new DataManager(testPath);
+		try {
+			dm.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		Topic favorite = (Topic)dm.getData(testID);
 		
@@ -125,7 +151,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		assertTrue("first reply is still saved locally",favorites.contains(reply)); //compare the first child
 		assertTrue("second reply should be saved locally now",favorites.contains(secondreply));// compare second child
 		 */
-		
+		activity.finish();
 	}
 	
 	//TODO: rewrite tests so that they go through the clientController
