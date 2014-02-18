@@ -41,7 +41,7 @@ public class InterfaceSerializer<T> implements
     public JsonElement serialize(T object, Type type,
             JsonSerializationContext jsonSerializationContext) {
         
-    	Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, this).create();
+    	Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, this).setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
     	
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty(CLASS_META_KEY,

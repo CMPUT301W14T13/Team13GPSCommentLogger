@@ -8,6 +8,9 @@ import java.util.List;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.util.Log;
+
 import java.util.Collection;
 
 
@@ -15,17 +18,17 @@ public class Comment implements Viewable
 {
 
 
-	private String ID;
-	private String title;
-	private String username;
-	private Bitmap image;
-	private boolean hasImage;
-	private List<String> childID;
-	private Date timestamp;
-	private String commentText;
+	private String ID = "default";
+	private String title = "default title";
+	private String username = "Anonymous";
+	private Bitmap image = null;
+	private boolean hasImage = false;;
+	private List<String> childID = new ArrayList<String>();
+	private Date timestamp = new Date();
+	private String commentText = "default";
 
-	private ArrayList<Viewable> children;
-	private HashMap<String, Vote> votes;
+	private ArrayList<Viewable> children = new ArrayList<Viewable>();
+	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
 
 
 	public Comment(){
@@ -77,34 +80,6 @@ public class Comment implements Viewable
 		this.commentText = commentText;
 		children = new ArrayList<Viewable>();
 	}
-
-
-	/** 
-	 * @uml.property name="t"
-	 * @uml.associationEnd multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.model.Thread"
-	 */
-	private Topic t = new com.CMPUT301W14T13.gpscommentlogger.model.Topic();
-
-
-	/** 
-	 * Getter of the property <tt>t</tt>
-	 * @return  Returns the t.
-	 * @uml.property  name="t"
-	 */
-	public Topic getT()
-
-
-
-
-
-
-
-
-	{
-		return t;
-	}
-
-
 
 
 	@Override
@@ -177,18 +152,44 @@ public class Comment implements Viewable
 		return image != null;
 	}
 
-	
-
-	
-
-	
-	
-	
-	
-
-	
-	
-	
-	
+	@Override
+	public boolean equals(Object other)
+	{    
+		if (other == null) return false;
+    	if (other == this) return true;
+		if (!(other instanceof Comment))return false;
+		Comment o = (Comment)other; 
+		
+		Log.w("Comment Equals", "ID: " + ID.equals(o.ID));
+		Log.w("Comment Equals", "title: " + title.equals(o.title));
+		Log.w("Comment Equals", "username: " + username.equals(o.username));
+		Log.w("Comment Equals", "hasImage: " + Boolean.toString(hasImage == o.hasImage));
+		Log.w("Comment Equals", "childID: " + childID.equals(o.childID));
+		Log.w("Comment Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
+		Log.w("Comment Equals", "commentText: " + commentText.equals(o.commentText));
+		Log.w("Comment Equals", "children: " + children.equals(o.children));
+		Log.w("Comment Equals", "votes: " + votes.equals(o.votes));
+		
+		boolean imageEquals = true;
+		if(image == null)
+		{
+			if (o.image != null)imageEquals = false;
+		}
+		else
+		{
+			imageEquals = image.equals(o.image);
+		}
+		
+		return ID.equals(o.ID)
+				&& title.equals(o.title)
+				&& username.equals(o.username)
+				&& imageEquals
+				&& hasImage == o.hasImage
+				&& childID.equals(o.childID)
+				&& timestamp.equals(o.timestamp)
+				&& commentText.equals(o.commentText)
+				&& children.equals(o.children)
+				&& votes.equals(votes);
+	}
 	
 }

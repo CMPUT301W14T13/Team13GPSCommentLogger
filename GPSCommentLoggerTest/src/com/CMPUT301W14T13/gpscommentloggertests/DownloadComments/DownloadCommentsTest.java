@@ -50,8 +50,12 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		Comment fromFile = (Comment)dm.getData(testID);
 		
-		assertEquals("The comment we load from file should be the same as the comment we saved",
+		/*assertEquals("The comment we load from file should be the same as the comment we saved",
 				comment, fromFile);
+		*/
+		
+		assertTrue("The comment we load from file should be the same as the comment we saved",
+				comment.equals(fromFile));
 		
 		activity.finish();
 	}
@@ -89,10 +93,16 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
 		
+		/*
 		assertEquals("top comment we load is the same as the top comment we saved",
 				topComment, favoritedTopic);
 		assertEquals("the reply we loaded is the same as the reply we saved",
 				reply, favoritedTopic.getC().get(0)); //compare the first child
+		*/
+		assertTrue("top comment we load is the same as the top comment we saved",
+				topComment.equals(favoritedTopic));
+		assertTrue("the reply we loaded is the same as the reply we saved",
+				reply.equals(favoritedTopic.getC().get(0))); //compare the first child
 		
 		activity.finish();
 		
@@ -108,17 +118,15 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		String testPath =  activity.getFilesDir().getPath().toString() + "/test3.sav";
 		Log.w("DownloadCommentTest", "Filepath = " + testPath);
-		
+
 		DataManager dm = new DataManager(testPath);
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
 		Comment reply = new Comment();
-		ArrayList<Viewable> c = new ArrayList<Viewable>();
-		c.add(reply);
-		topComment.setC(c);
+		topComment.getC().add(reply);
 		
-		dm.saveFavourite(topComment); 
+		dm.saveFavourite(topComment);
 		
 		activity.finish();
 		setActivityIntent(intent);
@@ -131,12 +139,18 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 			e.printStackTrace();
 		}
 		
-		Topic favorite = (Topic)dm.getData(testID);
+		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
 		
+		/*
 		assertEquals("top comment we load is the same as the top comment we saved",
-				topComment, favorite);
+				topComment, favoritedTopic);
 		assertEquals("the reply we loaded is the same as the reply we saved",
-				reply, favorite.getC().get(0)); //compare the first child
+				reply, favoritedTopic.getC().get(0)); //compare the first child
+		*/
+		assertTrue("top comment we load is the same as the top comment we saved",
+				topComment.equals(favoritedTopic));
+		assertTrue("the reply we loaded is the same as the reply we saved",
+				reply.equals(favoritedTopic.getC().get(0))); //compare the first child
 		
 		/* TODO: route this through the clientController
 		 * This part needs connection to server or mockup via clientController

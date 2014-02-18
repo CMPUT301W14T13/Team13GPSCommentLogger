@@ -6,7 +6,10 @@ import java.util.HashMap;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.location.Location;
+import android.util.Log;
+
 import java.util.Collection;
 
 
@@ -14,15 +17,16 @@ import java.util.Collection;
 public class Topic implements Viewable
 {
 
-	private String title;
-	private String ID;
-	private String username;
-	private Bitmap image;
-	private Date timestamp;
-	private Date freshness;
-	private Comment rootComment;
-	private ArrayList<Viewable> comments;
-	private Location GPSLocation;
+	private String title = "default title";
+	private String ID = "default";
+	private String username = "Anonymous";
+	private Bitmap image = null;
+	private Date timestamp = new Date();
+	private Date freshness = new Date();
+	private Comment rootComment = new Comment();
+	private String commentText = ""; 
+	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
+	private Location GPSLocation = new Location("default");
 	
 	public Topic()
 	{
@@ -65,7 +69,6 @@ public class Topic implements Viewable
 	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
 	 */
 	private Collection<Vote> v;
-	private String commentText;
 	/** 
 	 * Getter of the property <tt>v</tt>
 	 * @return  Returns the v.
@@ -152,7 +155,45 @@ public class Topic implements Viewable
 	}
 
 	
-	
+	@Override
+	public boolean equals(Object other)
+	{
+	    if (other == null) return false;
+	    if (other == this) return true;
+		if (!(other instanceof Topic))return false;
+		Topic o = (Topic)other; 
+		
+		Log.w("Topic Equals", "ID: " + ID.equals(o.ID));
+		Log.w("Topic Equals", "title: " + title.equals(o.title));
+		Log.w("Topic Equals", "username: " + username.equals(o.username));
+		Log.w("Topic Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
+		Log.w("Topic Equals", "freshness: " + freshness.getTime() + " " + o.freshness.getTime());
+		Log.w("Topic Equals", "commentText: " + commentText.equals(o.commentText));
+		Log.w("Topic Equals", "rootComment: " + rootComment.equals(o.rootComment));
+		Log.w("Topic Equals", "comments: " + comments.equals(o.comments));
+
+		
+		boolean imageEquals = true;
+		if(image == null)
+		{
+			if (o.image != null)imageEquals = false;
+		}
+		else
+		{
+			imageEquals = image.equals(o.image);
+		}
+		
+		return ID.equals(o.ID)
+				&& title.equals(o.title)
+				&& username.equals(o.username)
+				&& imageEquals
+				&& timestamp.equals(o.timestamp)
+				&& commentText.equals(o.commentText)
+				&& freshness.equals(o.freshness)
+				&& rootComment.equals(o.rootComment)
+				&& comments.equals(comments)
+				&& GPSLocation.equals(GPSLocation);
+	}
 	
 	
 }

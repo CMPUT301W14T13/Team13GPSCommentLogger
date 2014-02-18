@@ -27,7 +27,7 @@ public class MapOfInterfacesSerializer implements
 
 		HashMap<String, Viewable> out = new HashMap<String, Viewable>();
 		
-		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
 		
 		JsonObject jObject =  arg0.getAsJsonObject();
         Iterator<Entry<String,JsonElement>> keys = jObject.entrySet().iterator();
@@ -46,7 +46,7 @@ public class MapOfInterfacesSerializer implements
 	public JsonElement serialize(HashMap<String, Viewable> arg0, Type arg1,
 			JsonSerializationContext arg2) {
 
-		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
 		
 		Iterator<Entry<String, Viewable>> it = arg0.entrySet().iterator();
 		JsonObject jObj = new JsonObject();
