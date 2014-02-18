@@ -27,13 +27,14 @@ public class MapOfInterfacesSerializer implements
 
 		HashMap<String, Viewable> out = new HashMap<String, Viewable>();
 		
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		JsonObject jObject =  arg0.getAsJsonObject();
         Iterator<Entry<String,JsonElement>> keys = jObject.entrySet().iterator();
 
         while( keys.hasNext() ){
         	Entry<String,JsonElement> pairs = (Entry<String,JsonElement>)keys.next();
+        	Log.w("MapDeserialization", "JSONElement: " + pairs.getValue());
         	Log.w("MapDeserialization",pairs.getKey() + "==" + gson.fromJson(pairs.getValue(), Viewable.class));
             out.put(pairs.getKey(), gson.fromJson(pairs.getValue(),Viewable.class));
         }
@@ -45,7 +46,7 @@ public class MapOfInterfacesSerializer implements
 	public JsonElement serialize(HashMap<String, Viewable> arg0, Type arg1,
 			JsonSerializationContext arg2) {
 
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		Iterator<Entry<String, Viewable>> it = arg0.entrySet().iterator();
 		JsonObject jObj = new JsonObject();

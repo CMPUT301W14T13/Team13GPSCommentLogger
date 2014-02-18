@@ -99,9 +99,11 @@ public class DataManager {
 		BufferedReader br = new BufferedReader(fr);
 		
 		String json = br.readLine();
+		Log.w("DMLoad", "Saves: " + json);
 		saves = gson.fromJson(json, HashMap.class);
 		
 		json = br.readLine();
+		Log.w("DMLoad", "Favourites: " + json);
 		favourites = gson.fromJson(json, HashMap.class);
 
 		br.close();

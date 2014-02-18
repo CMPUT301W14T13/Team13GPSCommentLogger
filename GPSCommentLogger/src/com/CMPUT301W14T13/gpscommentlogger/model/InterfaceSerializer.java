@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -40,10 +41,12 @@ public class InterfaceSerializer<T> implements
     public JsonElement serialize(T object, Type type,
             JsonSerializationContext jsonSerializationContext) {
         
+    	Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, this).create();
+    	
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty(CLASS_META_KEY,
                 object.getClass().getCanonicalName());
-        jsonObj.add(CLASS_DATA, new Gson().toJsonTree(object,object.getClass()));
+        jsonObj.add(CLASS_DATA, gson.toJsonTree(object,object.getClass()));
         Log.w("Serialization", "Class type: " + object.getClass().getCanonicalName());
         return jsonObj;
     }
