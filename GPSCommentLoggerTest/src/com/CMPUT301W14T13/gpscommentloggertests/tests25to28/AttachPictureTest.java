@@ -1,14 +1,18 @@
 package com.CMPUT301W14T13.gpscommentloggertests.tests25to28;
 
-import com.CMPUT301W14T13.gpscommentslogger.Comment;
-
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment> {
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+
+@SuppressLint("NewApi")
+public class AttachPictureTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	public AttachPictureTest(String name) {
-		super(Comment.class);
+		super(DebugActivity.class);
 	}
 	
 	public void testAttachPicture () {
@@ -21,10 +25,10 @@ public class AttachPictureTest extends ActivityInstrumentationTestCase2<Comment>
 		Comment comment = new Comment();
 		
 		// Attach picture to comment
-		comment.attach(picture);
+		comment.setImage(picture);
 		
 		// Check last child
-		assertEquals("Picture hash codes should be the same", picture.hashCode(), comment.getPicture().hashCode());
+		assertEquals("Picture hash codes should be the same", picture.hashCode(), comment.getImage().hashCode());
 	}
 
 }
