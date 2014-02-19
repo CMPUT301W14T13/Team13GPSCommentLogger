@@ -2,14 +2,13 @@ package com.CMPUT301W14T13.gpscommentloggertests.tests25to28;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
-import android.location.LocationManager;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.CMPUT301W14T13.gpscommentslogger.LocationSelectionView
-import com.CMPUT301W14T13.gpscommentslogger.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 @SuppressLint("NewApi")
-public class EditLocationTest extends ActivityInstrumentationTestCase2<LocationSelectionView> {
+public class EditLocationTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	// Test coordinates. Insure they are different from mock emulator location.	
 	private static final String PROVIDER = "flp";
@@ -18,7 +17,7 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<LocationS
     private static final float ACCURACY = 3.0f;
     
     public EditLocationTest(String name) {
-		super(LocationSelectionView.class);
+		super(DebugActivity.class);
 	}
     
     public Location createLocation(double lat, double lng, float accuracy) {
@@ -34,19 +33,19 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<LocationS
 		// Goal: Get location locally in the test file, compare against LocationSelectionView.
 		
 		// Create comment with default location
-		Comment comment = new Comment();
+		Topic topic = new Topic();
 		
 		// Create a new Location from test data
 	    Location testLocation = createLocation(LAT, LNG, ACCURACY);
 	    
 	    // Save old location
-	    Location oldLocation = comment.getLocation();
+	    Location oldLocation = topic.getLocation();
 	    
 	    // Set new location to comment
-	    comment.setLocation(testLocation);
+	    topic.setLocation(testLocation);
 	    
 	    // Test difference
-	    assertNotSame("Old location should be different that test location", oldLocation, comment.getLocation());
+	    assertNotSame("Old location should be different that test location", oldLocation, topic.getLocation());
 		
 		
 			
