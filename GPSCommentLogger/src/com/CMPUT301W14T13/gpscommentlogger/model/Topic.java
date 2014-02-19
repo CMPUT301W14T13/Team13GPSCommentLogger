@@ -144,7 +144,11 @@ public class Topic implements Viewable
 	}
 
 	
+	public void setLocation(Location location){
+		this.GPSLocation = location;
+	}
 	
-	
-	
+	public Location getLocation(){
+		return GPSLocation;
+	}
 }
