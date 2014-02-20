@@ -56,5 +56,7 @@ public class TestFunctions extends Activity {
 	    }
 	    
 	    
-	    
+	    public void cancel(View v){
+	    	finish();
+	    }
 }
