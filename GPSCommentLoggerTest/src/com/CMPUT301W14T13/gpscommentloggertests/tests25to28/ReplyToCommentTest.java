@@ -1,13 +1,16 @@
 package com.CMPUT301W14T13.gpscommentloggertests.tests25to28;
 
-import com.CMPUT301W14T13.gpscommentslogger.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 
+import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<Comment> {
+@SuppressLint("NewApi")
+public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	public ReplyToCommentTest(String name) {
-		super(Comment.class);
+		super(DebugActivity.class);
 	}
 	
 	public void testCommentReply () {
@@ -18,13 +21,13 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<Comment
 		
 		// Create new comment
 		Comment comment = new Comment();
-		
+		Comment reply = new Comment();
 		// Reply to comment
-		comment.reply(replyText);
+		comment.getC().add(reply);
 		
 		// Check last child
 		assertEquals("Comment reply should appear as latest comment child", replyText,
-				comment.getChildren.getPosition(getChildren().length()));
+				comment.getC().get(comment.getNumberOfReplies()));
 		
 		
 	}
