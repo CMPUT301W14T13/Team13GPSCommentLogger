@@ -177,7 +177,9 @@ public class Comment implements Viewable
 		return image != null;
 	}
 
-	
+	public int getNumberOfReplies(){
+		return childID.size();
+	}
 
 	
 
