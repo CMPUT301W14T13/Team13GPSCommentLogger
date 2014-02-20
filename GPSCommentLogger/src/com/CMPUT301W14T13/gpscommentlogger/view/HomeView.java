@@ -39,7 +39,7 @@ public class HomeView extends Activity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_post_thread:
-                createThread();
+                createTopic();
                 return true;
            
             default:
@@ -56,9 +56,9 @@ public class HomeView extends Activity {
     	
     }
     
-    private void createThread(){
-    	Intent thread = new Intent(this, TopicMakingView.class);
-    	startActivity(thread);
+    private void createTopic(){
+    	Intent topic = new Intent(this, CreateTopic.class);
+    	startActivity(topic);
     }
     
     //View comments that have been marked as "read later"
