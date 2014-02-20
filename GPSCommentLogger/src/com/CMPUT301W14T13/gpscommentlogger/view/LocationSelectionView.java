@@ -1,12 +1,23 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
 
 
 public class LocationSelectionView
 {
-
-	private void getLocation(){
-		
+	
+	private static Location currentLocation;
+	private static LocationListener locationListener;
+	
+	public static Location getLocation(){
+		return currentLocation;
+	}
+	
+	public static LocationListener getLocationListener(){
+		return locationListener;
 	}
 	/** 
 	 * @uml.property name="c"
@@ -34,6 +45,11 @@ public class LocationSelectionView
 	
 	{
 		this.c = c;
+	}
+
+	public static LocationManager getSystemService(String locationService) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
