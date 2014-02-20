@@ -3,5 +3,11 @@
 
     <string name="app_name">GPSCommentLogger</string>
     <string name="action_settings">Settings</string>
+    <string name="submit_button">submit</string>
+    <string name="attach_picture">Attach Picture</string>
+    <string name="coordinates">Select GPS Location</string>
+    <string name="title">Title</string>
+    <string name="username">Username</string>
+    <string name="text">Text</string>
 
 </resources>
