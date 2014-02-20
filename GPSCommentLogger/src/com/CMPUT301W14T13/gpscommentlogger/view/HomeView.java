@@ -1,15 +1,14 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.R.layout;
-import com.CMPUT301W14T13.gpscommentlogger.R.menu;
-
-import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
-import java.util.Collection;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.CMPUT301W14T13.gpscommentlogger.R;
 
 
 public class HomeView extends Activity {
@@ -20,17 +19,35 @@ public class HomeView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_view);
         
+       
+       
     }
     
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    	// Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_action_bar, menu);
+        return super.onCreateOptionsMenu(menu);
+
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_post_thread:
+                createThread();
+                return true;
+           
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+                
+                
     private void viewFavourites(){
     	
     }
@@ -40,75 +57,15 @@ public class HomeView extends Activity {
     }
     
     private void createThread(){
-    	
+    	Intent thread = new Intent(this, TopicMakingView.class);
+    	startActivity(thread);
     }
     
     //View comments that have been marked as "read later"
     private void viewReadLater(){
     	
     }
-	/** 
-	 * @uml.property name="c"
-	 * @uml.associationEnd aggregation="composite" inverse="h:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"
-	 */
-	private CommentMakingView c;
-
-
-	/** 
-	 * Getter of the property <tt>c</tt>
-	 * @return  Returns the c.
-	 * @uml.property  name="c"
-	 */
-	public CommentMakingView getC()
 	
-	
-	{
-		return c;
-	}
-
-
-	/** 
-	 * Setter of the property <tt>c</tt>
-	 * @param c  The c to set.
-	 * @uml.property  name="c"
-	 */
-	public void setC(CommentMakingView c)
-	
-	
-	{
-		this.c = c;
-	}
-
-
-	/**
-	 * @uml.property  name="cc"
-	 * @uml.associationEnd  multiplicity="(0 -1)" aggregation="composite" inverse="h:com.CMPUT301W14T13.gpscommentlogger.view.CommentView"
-	 */
-	private Collection<CommentView> cc;
-
-
-	/**
-	 * Getter of the property <tt>cc</tt>
-	 * @return  Returns the cc.
-	 * @uml.property  name="cc"
-	 */
-	public Collection<CommentView> getCc()
-	{
-
-		return cc;
-	}
-
-
-	/**
-	 * Setter of the property <tt>cc</tt>
-	 * @param cc  The cc to set.
-	 * @uml.property  name="cc"
-	 */
-	public void setCc(Collection<CommentView> cc)
-	{
-
-		this.cc = cc;
-	}
 
 
 	 

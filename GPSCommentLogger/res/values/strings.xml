@@ -9,5 +9,6 @@
     <string name="title">Title</string>
     <string name="username">Username</string>
     <string name="text">Text</string>
+    <string name="action_post">Create a new thread</string>
 
 </resources>
