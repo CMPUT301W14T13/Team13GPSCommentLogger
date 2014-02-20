@@ -21,14 +21,24 @@
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+               
             </intent-filter>
         </activity>
         <activity
             android:name="com.CMPUT301W14T13.gpscommentlogger.DebugActivity"
             android:label="@string/app_name" >
+            <intent-filter>
+                
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="TestFunctions">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

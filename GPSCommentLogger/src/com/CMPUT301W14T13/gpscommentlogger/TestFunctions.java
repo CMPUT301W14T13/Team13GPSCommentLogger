@@ -1,7 +1,10 @@
 package com.CMPUT301W14T13.gpscommentlogger;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 
@@ -37,6 +40,21 @@ public class TestFunctions extends Activity {
 	    
 	    
 	    public void makeComment(View v){
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        // Get the layout inflater
+	        LayoutInflater inflater = this.getLayoutInflater();
+
+	        // Inflate and set the layout for the dialog
+	        // Pass null as the parent view because its going in the dialog layout
+	        builder.setView(inflater.inflate(R.layout.comment_making_view, null));
+	         //Add action buttons
+	                 
+	        builder.create();
+	        builder.show();
+	    	
 	    	
 	    }
+	    
+	    
+	    
 }
