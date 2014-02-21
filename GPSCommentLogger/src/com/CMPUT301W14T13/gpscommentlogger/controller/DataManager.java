@@ -30,14 +30,14 @@ public class DataManager {
 		saves = new HashMap<String, Viewable>();
 		favourites = new HashMap<String, Viewable>();
 		this.filepath = filepath;
-/*
+
 		try {
 			load();
 		} catch (IOException e) {
 			Log.e("DataManager", "Load Error");
 			e.printStackTrace();
 		}
-*/
+
 	}
 	
 	public void saveData(Viewable data)

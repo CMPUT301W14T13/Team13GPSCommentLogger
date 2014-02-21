@@ -41,11 +41,11 @@ public class ClientServerSystem
 		isInit = true;
 	}
 	
-	public void init(DebugActivity activity, Handler textHandler, Handler listHandler, TextView debuggingWindow)
+	public void init(DebugActivity activity, String saveLocation, Handler textHandler, Handler listHandler, TextView debuggingWindow)
 	{
 		if(isInit)return;
 		
-		client = new ClientController(activity, listHandler, debuggingWindow);
+		client = new ClientController(activity, saveLocation, listHandler, debuggingWindow);
 		server = new ServerController(textHandler, debuggingWindow);
 		client.setServer(server);
 		server.setClient(client);
