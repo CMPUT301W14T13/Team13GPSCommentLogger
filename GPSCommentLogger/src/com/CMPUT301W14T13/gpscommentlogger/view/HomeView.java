@@ -1,6 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
-import android.app.ActionBar;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,18 +10,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 
 public class HomeView extends Activity {
 
+	
+	private ArrayList<Topic> topics = new ArrayList<Topic>();
+	private Comment comment;
+	private Listview topicListview;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_view);
         
+       //Test topic to display
+       Topic topic = new Topic();
+       comment = new Comment("testing");
+       topic.setRootComment(comment);
+       topics.add(topic);
        
-       
+       //set up adapter
     }
     
 

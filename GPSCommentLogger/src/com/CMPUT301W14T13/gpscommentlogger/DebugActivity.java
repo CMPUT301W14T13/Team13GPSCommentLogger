@@ -61,7 +61,7 @@ public class DebugActivity extends Activity
         };
         
         currentComment = new Root();
-        contentList = currentComment.getC();
+        contentList = currentComment.getChildren();
         root = (ListView)findViewById(R.id.debug_main_list);
         commentAdapter = new ArrayAdapter<Viewable>(activity, 0, 0, contentList);
         root.setAdapter(commentAdapter);
@@ -76,7 +76,7 @@ public class DebugActivity extends Activity
 					public void run() {
 						Log.w("DebugMessage", "Message Received: " + msg);
 				    	currentComment = msg;
-				    	contentList = msg.getC();
+				    	contentList = msg.getChildren();
 				    	commentAdapter.notifyDataSetChanged();
 		            	Log.w("Debug Message", "Current Comment: " + currentComment.getID());
 		            	}});			
