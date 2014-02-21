@@ -18,7 +18,7 @@ public class CreateTopic extends Activity{
 	private String title;
 	private String commentText;
 	private boolean submission_ok;
-	private boolean bool;
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
