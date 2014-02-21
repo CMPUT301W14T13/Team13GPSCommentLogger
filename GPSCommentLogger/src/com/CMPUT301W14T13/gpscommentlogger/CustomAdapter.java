@@ -21,7 +21,7 @@ public class CustomAdapter extends BaseAdapter {
 
 	Context context;
 	ArrayList<Topic> data = new ArrayList<Topic>();
-	boolean mainActivity;
+	
 	    private static LayoutInflater inflater = null;
 	
 	    public CustomAdapter(Context context, ArrayList<Topic> data) {
