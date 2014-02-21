@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:inputType="textCapSentences"
+        android:imeOptions="actionDone"
         android:ems="10" >
 
        
@@ -23,6 +25,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/setTitle"
         android:layout_marginTop="54dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:ems="10" />
 
     <EditText
@@ -33,6 +37,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/setUsername"
         android:layout_marginTop="69dp"
+        android:inputType="textCapSentences"
+        android:imeOptions="actionDone"
         android:ems="10" />
 
     <Button

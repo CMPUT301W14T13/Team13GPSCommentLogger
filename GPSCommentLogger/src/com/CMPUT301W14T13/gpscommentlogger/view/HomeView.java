@@ -29,14 +29,20 @@ public class HomeView extends Activity {
         setContentView(R.layout.home_view);
         
        //Test topic to display
-       addTestTopics();
+       //addTestTopics();
        
        //set up adapter and listview
        topicListview = (ListView) findViewById(R.id.topic_listview);
-       topicListview.setAdapter(new CustomAdapter(this, topics));
+      
     }
     
 
+    protected void onResume(){
+    	super.onResume();
+    	
+    	topicListview.setAdapter(new CustomAdapter(this, topics));
+    }
+    
     private void addTestTopics() {
     	Topic topic = new Topic();
         comment = new Comment();
@@ -87,15 +93,25 @@ public class HomeView extends Activity {
     
     private void createTopic(){
     	Intent topic = new Intent(this, CreateTopic.class);
-    	startActivity(topic);
+    	startActivityForResult(topic, 0);
     }
     
+   
     //View comments that have been marked as "read later"
     private void viewReadLater(){
     	
     }
 	
-
-
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		if (requestCode == 0){
+			if (resultCode == RESULT_OK){
+				
+				Topic topic = (Topic) data.getSerializableExtra("Topic");
+				topics.add(topic);
+			}	
+		}
 	 
+	}
+	
 }
