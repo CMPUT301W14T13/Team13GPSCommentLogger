@@ -30,7 +30,7 @@ public class Topic implements Viewable
 		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
-		
+		username = "Anonymous";
 	}
 	
 	public Topic(String ID)
@@ -72,6 +72,11 @@ public class Topic implements Viewable
 		return username;
 	}
 
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
+	
 	@Override
 	public String getTitle() {
 		return title;

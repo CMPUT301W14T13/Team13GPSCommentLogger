@@ -29,19 +29,31 @@ public class HomeView extends Activity {
         setContentView(R.layout.home_view);
         
        //Test topic to display
-       Topic topic = new Topic();
-       comment = new Comment("testing comment text");
-       topic.setTitle("TestingTitle");
-       topic.setRootComment(comment);
-       topics.add(topic);
+       addTestTopics();
        
-       //set up adapter
+       //set up adapter and listview
        topicListview = (ListView) findViewById(R.id.topic_listview);
        topicListview.setAdapter(new CustomAdapter(this, topics));
     }
     
 
-    @Override
+    private void addTestTopics() {
+    	Topic topic = new Topic();
+        comment = new Comment();
+        topic.setTitle("TestingTitle");
+        topic.setRootComment(comment);
+        topics.add(topic);
+        
+        topic = new Topic();
+        comment = new Comment();
+        topic.setUsername("Austin");
+        topic.setRootComment(comment);
+        topics.add(topic);
+		
+	}
+
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
     	// Inflate the menu items for use in the action bar

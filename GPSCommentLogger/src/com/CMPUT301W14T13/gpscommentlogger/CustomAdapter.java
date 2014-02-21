@@ -62,9 +62,16 @@ public View getView(int position, View convertView, ViewGroup parent) {
         text.setText(String.valueOf(data.get(position).getTitle()));
         
         text = (TextView) vi.findViewById(R.id.username);
-        text.setText(String.valueOf(data.get(position).getUsername()));
+        text.setText("by " + String.valueOf(data.get(position).getUsername()));
         
-         
+        text = (TextView) vi.findViewById(R.id.coordinates);
+        text.setText("coordinates");
+        
+        text = (TextView) vi.findViewById(R.id.age);
+        text.setText(String.valueOf("age"));
+        
+        text = (TextView) vi.findViewById(R.id.number_of_comments);
+        text.setText(String.valueOf("number of comments"));
         return vi;
 }
 
