@@ -54,19 +54,19 @@ public class DataEntityMockup {
 		thread1comments.add(comment1_1);
 		thread1comments.add(comment1_2);
 		thread1comments.add(comment1_3);
-		thread1.setC(thread1comments);
+		thread1.setChildren(thread1comments);
 		
 		ArrayList<Viewable> thread2comments = new ArrayList<Viewable>();
 		thread2comments.add(comment2_1);
 		thread2comments.add(comment2_2);
 		thread2comments.add(comment2_3);
-		thread2.setC(thread2comments);
+		thread2.setChildren(thread2comments);
 		
 		ArrayList<Viewable> thread3comments = new ArrayList<Viewable>();
 		thread3comments.add(comment3_1);
 		thread3comments.add(comment3_2);
 		thread3comments.add(comment3_3);
-		thread3.setC(thread3comments);
+		thread3.setChildren(thread3comments);
 		
 		comments.put(root.getID(), root);
 		comments.put(thread1.getID(), thread1);
@@ -97,7 +97,7 @@ public class DataEntityMockup {
 	}
 
 	public void postRequest(Viewable currentComment, Comment obj) {
-		comments.get(currentComment.getID()).getC().add(obj);
+		comments.get(currentComment.getID()).getChildren().add(obj);
 		comments.put(obj.getID(), obj);
 		
 		MockResult result = new MockResult(true, MockResultType.POST);

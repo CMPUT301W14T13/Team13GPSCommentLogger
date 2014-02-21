@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
@@ -19,7 +21,7 @@ public class HomeView extends Activity {
 	
 	private ArrayList<Topic> topics = new ArrayList<Topic>();
 	private Comment comment;
-	private Listview topicListview;
+	private ListView topicListview;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,14 @@ public class HomeView extends Activity {
         
        //Test topic to display
        Topic topic = new Topic();
-       comment = new Comment("testing");
+       comment = new Comment("testing comment text");
+       topic.setTitle("TestingTitle");
        topic.setRootComment(comment);
        topics.add(topic);
        
        //set up adapter
+       topicListview = (ListView) findViewById(R.id.topic_listview);
+       topicListview.setAdapter(new CustomAdapter(this, topics));
     }
     
 

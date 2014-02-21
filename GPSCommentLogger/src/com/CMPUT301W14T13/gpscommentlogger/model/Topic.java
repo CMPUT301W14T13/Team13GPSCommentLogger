@@ -126,4 +126,9 @@ public class Topic implements Viewable
 	public Comment getRootComment(){
 		return rootComment;
 	}
+
+	public void setChildren(ArrayList<Viewable> threadComments) {
+		// TODO Auto-generated method stub
+		comments = threadComments;
+	}
 }
