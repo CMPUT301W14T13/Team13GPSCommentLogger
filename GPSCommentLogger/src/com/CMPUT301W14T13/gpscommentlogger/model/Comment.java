@@ -79,33 +79,7 @@ public class Comment implements Viewable
 	}
 
 
-	/** 
-	 * @uml.property name="t"
-	 * @uml.associationEnd multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.model.Thread"
-	 */
-	private Topic t = new com.CMPUT301W14T13.gpscommentlogger.model.Topic();
-
-
-	/** 
-	 * Getter of the property <tt>t</tt>
-	 * @return  Returns the t.
-	 * @uml.property  name="t"
-	 */
-	public Topic getT()
-
-
-
-
-
-
-
-
-	{
-		return t;
-	}
-
-
-
+	
 
 	@Override
 	public String getID() {
@@ -113,15 +87,9 @@ public class Comment implements Viewable
 	}
 
 
-	/** 
-	 * @uml.property name="v"
-	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="c:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
-	 */
-	private Collection<Vote> v;
-
 
 	@Override
-	public ArrayList<Viewable> getC() {
+	public ArrayList<Viewable> getChildren() {
 		return children;
 	}
 

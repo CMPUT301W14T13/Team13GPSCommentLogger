@@ -64,7 +64,7 @@ public class Root implements Viewable {
 	 * @uml.property  name="c"
 	 */
 	@Override
-	public ArrayList<Viewable> getC()
+	public ArrayList<Viewable> getChildren()
 	
 	
 	{

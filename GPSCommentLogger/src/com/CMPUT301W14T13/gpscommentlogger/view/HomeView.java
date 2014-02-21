@@ -1,36 +1,88 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.R.layout;
-import com.CMPUT301W14T13.gpscommentlogger.R.menu;
+import java.util.ArrayList;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
-import java.util.Collection;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 
 public class HomeView extends Activity {
 
+	
+	private ArrayList<Topic> topics = new ArrayList<Topic>();
+	private Comment comment;
+	private ListView topicListview;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_view);
         
+       //Test topic to display
+       //addTestTopics();
+       
+       //set up adapter and listview
+       topicListview = (ListView) findViewById(R.id.topic_listview);
+      
     }
     
 
-    @Override
+    protected void onResume(){
+    	super.onResume();
+    	
+    	topicListview.setAdapter(new CustomAdapter(this, topics));
+    }
+    
+    private void addTestTopics() {
+    	Topic topic = new Topic();
+        comment = new Comment();
+        topic.setTitle("TestingTitle");
+        topic.setRootComment(comment);
+        topics.add(topic);
+        
+        topic = new Topic();
+        comment = new Comment();
+        topic.setUsername("Austin");
+        topic.setRootComment(comment);
+        topics.add(topic);
+		
+	}
+
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    	// Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_action_bar, menu);
+        return super.onCreateOptionsMenu(menu);
+
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_post_thread:
+                createTopic();
+                return true;
+           
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+                
+                
     private void viewFavourites(){
     	
     }
@@ -39,77 +91,27 @@ public class HomeView extends Activity {
     	
     }
     
-    private void createThread(){
-    	
+    private void createTopic(){
+    	Intent topic = new Intent(this, CreateTopic.class);
+    	startActivityForResult(topic, 0);
     }
     
+   
     //View comments that have been marked as "read later"
     private void viewReadLater(){
     	
     }
-	/** 
-	 * @uml.property name="c"
-	 * @uml.associationEnd aggregation="composite" inverse="h:com.CMPUT301W14T13.gpscommentlogger.view.CommentMakingView"
-	 */
-	private CommentMakingView c;
-
-
-	/** 
-	 * Getter of the property <tt>c</tt>
-	 * @return  Returns the c.
-	 * @uml.property  name="c"
-	 */
-	public CommentMakingView getC()
 	
-	
-	{
-		return c;
-	}
-
-
-	/** 
-	 * Setter of the property <tt>c</tt>
-	 * @param c  The c to set.
-	 * @uml.property  name="c"
-	 */
-	public void setC(CommentMakingView c)
-	
-	
-	{
-		this.c = c;
-	}
-
-
-	/**
-	 * @uml.property  name="cc"
-	 * @uml.associationEnd  multiplicity="(0 -1)" aggregation="composite" inverse="h:com.CMPUT301W14T13.gpscommentlogger.view.CommentView"
-	 */
-	private Collection<CommentView> cc;
-
-
-	/**
-	 * Getter of the property <tt>cc</tt>
-	 * @return  Returns the cc.
-	 * @uml.property  name="cc"
-	 */
-	public Collection<CommentView> getCc()
-	{
-
-		return cc;
-	}
-
-
-	/**
-	 * Setter of the property <tt>cc</tt>
-	 * @param cc  The cc to set.
-	 * @uml.property  name="cc"
-	 */
-	public void setCc(Collection<CommentView> cc)
-	{
-
-		this.cc = cc;
-	}
-
-
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		if (requestCode == 0){
+			if (resultCode == RESULT_OK){
+				
+				Topic topic = (Topic) data.getSerializableExtra("Topic");
+				topics.add(topic);
+			}	
+		}
 	 
+	}
+	
 }

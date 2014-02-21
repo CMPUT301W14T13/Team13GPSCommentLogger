@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/setTitle"
+        android:hint="@string/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:inputType="textCapSentences"
+        android:imeOptions="actionDone"
+        android:ems="10" >
+
+       
+    </EditText>
+
+    <EditText
+        android:id="@+id/setUsername"
+        android:hint="@string/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/setTitle"
+        android:layout_marginTop="54dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/commentText"
+        android:hint="@string/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/setUsername"
+        android:layout_marginTop="69dp"
+        android:inputType="textCapSentences"
+        android:imeOptions="actionDone"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/attach_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/commentText"
+        android:layout_marginTop="54dp"
+        android:onClick="attachPicture"
+        android:text="@string/attach_picture" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:onClick="submitTopic"
+        android:text="@string/submit_button" />
+
+    <Button
+        android:id="@+id/set_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/attach_picture"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/attach_picture"
+        android:onClick="setCoordinates"
+        android:text="@string/coordinates" />
+
+</RelativeLayout>

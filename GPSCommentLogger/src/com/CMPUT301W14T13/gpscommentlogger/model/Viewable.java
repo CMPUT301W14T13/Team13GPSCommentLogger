@@ -11,7 +11,7 @@ public interface Viewable {
 	String getID();
 	String getUsername();
 
-	ArrayList<Viewable> getC();
+	ArrayList<Viewable> getChildren();
 	String getTitle();
 
 	void setTitle(String newTitle);
