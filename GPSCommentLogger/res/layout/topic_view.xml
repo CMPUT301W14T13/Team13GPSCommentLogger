@@ -13,15 +13,7 @@
         android:layout_marginTop="30dp"
         android:text="Comment" />
 
-    <ListView
-        android:id="@+id/comment_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/topic_comment" >
-
-    </ListView>
+   
 
     <TextView
         android:id="@+id/topic_username"
@@ -39,4 +31,24 @@
         android:layout_alignParentTop="true"
         android:text="Title" />
 
+    <Button
+        android:id="@+id/reply_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/topic_comment"
+        android:layout_marginTop="16dp"
+        android:onClick="replyToComment"
+        android:text="Reply" />
+
+     <ListView
+         android:id="@+id/comment_list"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/reply_button" >
+	
+    </ListView>
 </RelativeLayout>

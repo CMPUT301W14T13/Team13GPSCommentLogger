@@ -3,11 +3,14 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
@@ -57,6 +60,23 @@ public class TopicView extends Activity
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(topic.getTitle());
 		
-		//commentListview.setAdapter(new CustomAdapter(this, topic.getChildren()));
+		commentListview.setAdapter(new CommentAdapter(this, topic.getChildren()));
 	}
+	
+	public void replyToComment(View v){
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.comment_making_view, null));
+         //Add action buttons
+                 
+        builder.create();
+        builder.show();
+		
+	}
+	
 }
