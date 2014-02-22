@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/topic_username"
         android:layout_marginTop="30dp"
-        android:text="TextView" />
+        android:text="Comment" />
 
     <ListView
         android:id="@+id/comment_list"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="TextView" />
+        android:text="Username" />
 
     <TextView
         android:id="@+id/topic_title"
@@ -37,6 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="TextView" />
+        android:text="Title" />
 
 </RelativeLayout>

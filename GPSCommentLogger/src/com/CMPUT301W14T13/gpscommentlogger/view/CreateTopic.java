@@ -36,7 +36,7 @@ public class CreateTopic extends Activity{
 		text = (EditText) findViewById(R.id.setUsername);
 		username = text.getText().toString().trim();
 		
-		text = (EditText) findViewById(R.id.commentText);
+		text = (EditText) findViewById(R.id.setCommentText);
 		commentText = text.getText().toString().trim();
 	}
 	

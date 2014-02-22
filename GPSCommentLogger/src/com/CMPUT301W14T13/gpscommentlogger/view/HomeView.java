@@ -27,6 +27,7 @@ public class HomeView extends Activity {
 	private Comment comment;
 	private ListView topicListview;
 	
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
