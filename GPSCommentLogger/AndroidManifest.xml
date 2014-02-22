@@ -47,6 +47,13 @@
                 
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="com.CMPUT301W14T13.gpscommentlogger.view.TopicView">
+            <intent-filter>
+                
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

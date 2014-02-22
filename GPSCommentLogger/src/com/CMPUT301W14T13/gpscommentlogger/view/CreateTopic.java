@@ -93,7 +93,7 @@ public class CreateTopic extends Activity{
 			
 			topic.setTitle(title);
 			topic.setUsername(username);
-			
+			topic.setCommentText(commentText);
 			
 			submit.putExtra("Topic", topic); 
 			setResult(RESULT_OK, submit);
