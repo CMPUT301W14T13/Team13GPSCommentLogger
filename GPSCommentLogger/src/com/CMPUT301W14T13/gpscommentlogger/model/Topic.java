@@ -12,8 +12,6 @@ import android.os.Parcelable;
 
 import java.util.Collection;
 
-
-
 public class Topic implements Viewable, Serializable
 {
 
@@ -22,6 +20,8 @@ public class Topic implements Viewable, Serializable
 	private String title;
 	private String ID;
 	private String username;
+	private boolean hasImage;
+
 	private Bitmap image;
 	private Date timestamp;
 	private Date freshness;
@@ -161,4 +161,12 @@ public class Topic implements Viewable, Serializable
 		// TODO Auto-generated method stub
 		
 	}
+	public boolean isHasImage() {
+		return hasImage;
+	}
+
+	public void setHasImage(boolean hasImage) {
+		this.hasImage = hasImage;
+	}
+
 }

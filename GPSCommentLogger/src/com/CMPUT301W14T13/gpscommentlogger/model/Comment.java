@@ -79,6 +79,7 @@ public class Comment implements Viewable
 		this.timestamp = timestamp;
 		this.commentText = commentText;
 		children = new ArrayList<Viewable>();
+		this.hasImage = true;
 	}
 
 
@@ -157,10 +158,15 @@ public class Comment implements Viewable
 		this.timestamp = timestamp;
 	}
 	
-	public boolean getHasPicture() {
-		return image != null;
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
 	}
 
+	public void setHasImage(boolean state){
+		hasImage = state;
+	}
+	
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
@@ -171,7 +177,6 @@ public class Comment implements Viewable
 		children.add(post);
 		
 	}
-
 
 	@Override
 	public Integer getPopularity() {
@@ -185,17 +190,4 @@ public class Comment implements Viewable
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
 }

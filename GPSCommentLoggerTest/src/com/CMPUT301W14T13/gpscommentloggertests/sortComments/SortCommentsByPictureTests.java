@@ -1,13 +1,10 @@
-package com.CMPUT301W14T13.gpscommentloggertests;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
-
+package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import java.util.Date;
+
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 
 @SuppressLint("NewApi")
     public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -27,7 +24,7 @@ import java.util.Date;
 	assertNotNull(activity);
 
 	/* Make a thread to contain the comments */
-	CommentThread thread = new CommentThread();
+	Topic thread = new Topic();
 
 	/* make two comments and set their locations */
 	Comment comment_1 = new Comment();
