@@ -11,6 +11,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.HomeView;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
     public class SortCommentsByProximityToCurrentLocationTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -64,7 +66,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	thread.addChild(comment_2);
 	thread.addChild(comment_3);
 
-	thread.sortByProximity();
+	TopicView topicView= new TopicView(thread);
+	
+	topicView.sortBy("proximity");
 	boolean sorted = true;
 	Float prev_count = Float.MIN_VALUE;
 
@@ -125,8 +129,12 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	root.addChild(thread_1);
 	root.addChild(thread_2);
 	root.addChild(thread_3);
-
-	root.sortByProximity();
+	
+	HomeView rootView= new HomeView(root);
+	
+	/* sort by closest comments */
+	rootView.sortBy("proximity");
+	
 	boolean sorted = true;
 	Float prev_count = Float.MIN_VALUE;
 

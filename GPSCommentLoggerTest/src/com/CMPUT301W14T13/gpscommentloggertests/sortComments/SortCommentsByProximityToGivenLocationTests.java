@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -10,6 +11,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.HomeView;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
 public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -28,8 +31,14 @@ public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrum
 
 		assertNotNull(activity);
 
+		/* Get the current location */
+		LocationManager locationManager;
+		Context mContext;	
+		
+		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+	
 		/* Test from Jamaica 17°59′N 76°48′W */
-		Location given_gps;
+		Location given_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		given_gps.setLatitude(17.59);
 		given_gps.setLongitude(76.48);
 
@@ -60,8 +69,11 @@ public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrum
 		thread.addChild(comment_1);
 		thread.addChild(comment_2);
 		thread.addChild(comment_3);
-
-		thread.sortByProximity();
+		
+		TopicView topicView= new TopicView(thread);
+		
+		topicView.sortBy("proximity");
+		
 		boolean sorted = true;
 		Float prev_count = Float.MIN_VALUE;
 
@@ -88,7 +100,14 @@ public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrum
 		assertNotNull(activity);
 
 		/* Test from Jamaica 17°59′N 76°48′W */
-		Location given_gps;
+		/* Get the current location */
+		LocationManager locationManager;
+		Context mContext;	
+		
+		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+	
+		/* Test from Jamaica 17°59′N 76°48′W */
+		Location given_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		given_gps.setLatitude(17.59);
 		given_gps.setLongitude(76.48);
 
@@ -120,7 +139,11 @@ public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrum
 		root.addChild(thread_2);
 		root.addChild(thread_3);
 
-		root.sortByProximity();
+		HomeView rootView= new HomeView(root);
+		
+		/* sort by closest comments */
+		rootView.sortBy("proximity");
+		
 		boolean sorted = true;
 		Float prev_count = Float.MIN_VALUE;
 
