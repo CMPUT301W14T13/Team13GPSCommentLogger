@@ -1,14 +1,15 @@
-package com.CMPUT301W14T13.gpscommentloggertests;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-
+package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 @SuppressLint("NewApi")
     public class SortCommentsByProximityToCurrentLocationTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -28,8 +29,11 @@ import android.test.ActivityInstrumentationTestCase2;
 	assertNotNull(activity);
 
 	/* Get the current location */
-	Context lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-	Location my_gps = lm.getLastKnownLocation(GPS_PROVIDER);
+	LocationManager locationManager;
+	Context mContext;	
+	
+	locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+	Location my_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 	/* Make a thread to contain the comments */
 	Topic thread = new Topic();
@@ -40,12 +44,12 @@ import android.test.ActivityInstrumentationTestCase2;
 	Comment comment_3 = new Comment();
 
 	/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
-	Location tokyo = new Location(GPS_PROVIDER);
+	Location tokyo = new Location(LocationManager.GPS_PROVIDER);
 	tokyo.setLatitude(35.412222);
 	tokyo.setLongitude(139.413012);
 
 	/* set chicago GPS:41°52′55″N 087°37′40″W */
-	Location chicago = new Location(GPS_PROVIDER);
+	Location chicago = new Location(LocationManager.GPS_PROVIDER);
 	chicago.setLatitude(41.5255);
 	chicago.setLongitude(87.3740);
 
@@ -84,10 +88,14 @@ import android.test.ActivityInstrumentationTestCase2;
 	DebugActivity activity = getActivity();
 
 	assertNotNull(activity);
-
+	
+	/* Declare the context and location managers*/
+	LocationManager locationManager;
+	Context mContext;	
+	
 	/* Get the current location */
-	Context lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-	Location my_gps = lm.getLastKnownLocation(GPS_PROVIDER);
+	locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+	Location my_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 	/* Make a thread to contain the comments */
 	Root root = new Root();
@@ -98,12 +106,12 @@ import android.test.ActivityInstrumentationTestCase2;
 	Topic thread_3 = new Topic();
 
 	/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
-	Location tokyo = new Location(GPS_PROVIDER);
+	Location tokyo = new Location(LocationManager.GPS_PROVIDER);
 	tokyo.setLatitude(35.412222);
 	tokyo.setLongitude(139.413012);
 
 	/* set chicago GPS:41°52′55″N 087°37′40″W */
-	Location chicago = new Location(GPS_PROVIDER);
+	Location chicago = new Location(LocationManager.GPS_PROVIDER);
 	chicago.setLatitude(41.5255);
 	chicago.setLongitude(87.3740);
 
@@ -113,9 +121,9 @@ import android.test.ActivityInstrumentationTestCase2;
 	thread_3.setLocation(chicago);
 
 	/* add the comments to the thread */
-	root.addCommentThread(comment_1);
-	root.addCommentThread(comment_2);
-	root.addCommentThread(comment_3);
+	root.addCommentThread(thread_1);
+	root.addCommentThread(thread_2);
+	root.addCommentThread(thread_3);
 
 	thread.sortByProximity();
 	boolean sorted = true;
