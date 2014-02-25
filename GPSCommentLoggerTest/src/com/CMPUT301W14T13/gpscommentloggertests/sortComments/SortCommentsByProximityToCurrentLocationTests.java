@@ -60,16 +60,16 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	comment_3.setGPSLocation(chicago);
 
 	/* add the comments to the thread */
-	thread.addComment(comment_1);
-	thread.addComment(comment_2);
-	thread.addComment(comment_3);
+	thread.addChild(comment_1);
+	thread.addChild(comment_2);
+	thread.addChild(comment_3);
 
 	thread.sortByProximity();
 	boolean sorted = true;
 	Float prev_count = Float.MIN_VALUE;
 
 	/* check the ordering of the comments */
-	for(Comment comment : thread.getComments()){
+	for(Viewable comment : thread.getChildren()){
 	    if( prev_count > my_gps.distanceTo(comment.getGPSLocation())){
 		sorted = false;
 		break;
@@ -122,16 +122,16 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	thread_3.setGPSLocation(chicago);
 
 	/* add the comments to the thread */
-	root.addCommentThread(thread_1);
-	root.addCommentThread(thread_2);
-	root.addCommentThread(thread_3);
+	root.addChild(thread_1);
+	root.addChild(thread_2);
+	root.addChild(thread_3);
 
 	root.sortByProximity();
 	boolean sorted = true;
 	Float prev_count = Float.MIN_VALUE;
 
 	/* check the ordering of the comments */
-	for(Topic thread : root.getChildren()){
+	for(Viewable thread : root.getChildren()){
 	    if( prev_count > my_gps.distanceTo(thread.getGPSLocation())){
 		sorted = false;
 		break;

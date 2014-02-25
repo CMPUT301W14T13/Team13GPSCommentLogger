@@ -167,6 +167,13 @@ public class Comment implements Viewable
 		return childID.size();
 	}
 
+
+	@Override
+	public void addChild(Viewable post) {
+		children.add(post);
+		
+	}
+
 	
 
 	

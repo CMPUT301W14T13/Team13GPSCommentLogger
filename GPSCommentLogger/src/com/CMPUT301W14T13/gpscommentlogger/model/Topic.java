@@ -141,4 +141,10 @@ public class Topic implements Viewable, Serializable
 		// TODO Auto-generated method stub
 		comments = threadComments;
 	}
+
+
+	public void addChild(Viewable post) {
+		comments.add(post);
+		
+	}
 }

@@ -22,12 +22,13 @@ public class Root implements Viewable {
 	
 	public Root()
 	{
-		//TODO: create sutomatic ID generation system
+		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
 		comments = new ArrayList<Viewable>();
 	}
 	
+
 	public Root(String ID)
 	{
 		this.ID = ID;
@@ -134,6 +135,20 @@ public class Root implements Viewable {
 	@Override
 	public Date getTimestamp() {
 		return timestamp;
+	}
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
+
+
+	@Override
+	public void addChild(Viewable post) {
+		comments.add(post);
+		
 	}
 
 }
