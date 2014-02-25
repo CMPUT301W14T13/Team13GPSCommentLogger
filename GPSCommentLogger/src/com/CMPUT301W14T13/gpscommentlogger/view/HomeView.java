@@ -13,11 +13,15 @@ import android.widget.ListView;
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
-
+/* I think this whole implementation needs to change */
 public class HomeView extends Activity {
 
+	public HomeView(Root root){
+	
+	}
 	
 	private ArrayList<Topic> topics = new ArrayList<Topic>();
 	private Comment comment;
@@ -87,7 +91,7 @@ public class HomeView extends Activity {
     	
     }
     
-    private void sortBy(){
+    public void sortBy(String sort){
     	
     }
     

@@ -10,6 +10,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.HomeView;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
     public class SortCommentsByTimeTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -46,8 +48,11 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	thread.addChild(comment_2);
 	thread.addChild(comment_3);
 
+	/* make a topic view object */
+	TopicView topicView= new TopicView(thread);
+	
 	/* sort by newest comments */
-	thread.sortByTimeFresh();
+	topicView.sortBy("time_fresh");
 	boolean sorted = true;
 	Date prev_date = new Date(0);
 
@@ -64,7 +69,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	assertTrue("failure - comments not from newest first", sorted);
 
 	/* sort by oldest comments */
-	thread.sortByTimeOldest();
+	topicView.sortBy("time_old");
 	sorted = true;
 	prev_date = new Date(Long.MAX_VALUE);
 
@@ -109,8 +114,10 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	root.addChild(thread_2);
 	root.addChild(thread_3);
 
+	HomeView rootView= new HomeView(root);
+	
 	/* sort by newest comments */
-	root.sortByTimeFresh();
+	rootView.sortBy("time_new");
 	boolean sorted = true;
 	Date prev_date = new Date(0);
 
@@ -127,7 +134,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	assertTrue("failure - comments not from newest first", sorted);
 
 	/* sort by oldest comments */
-	root.sortByTimeOldest();
+	rootView.sortBy("time_old");
 	sorted = true;
 	prev_date = new Date(Long.MAX_VALUE);
 
