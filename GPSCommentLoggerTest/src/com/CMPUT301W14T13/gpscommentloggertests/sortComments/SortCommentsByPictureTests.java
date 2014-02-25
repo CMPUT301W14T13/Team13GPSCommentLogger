@@ -8,6 +8,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.HomeView;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
 public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -44,8 +46,10 @@ public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2
 		thread.addChild(comment_2);
 		thread.addChild(comment_3);
 
+		TopicView topicView= new TopicView(thread);
+		
 		/* sort by comments with pictures */
-		thread.sortByImage();
+		topicView.sortBy("image");
 		boolean sorted = true;
 		boolean prev_has_img = true;
 
@@ -90,8 +94,9 @@ public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2
 		root.addChild(thread_2);
 		root.addChild(thread_3);
 
+		HomeView rootView= new HomeView(root);
 		/* sort by comments with pictures */
-		root.sortByImage();
+		rootView.sortBy("image");
 		boolean sorted = true;
 		boolean prev_has_img = true;
 
