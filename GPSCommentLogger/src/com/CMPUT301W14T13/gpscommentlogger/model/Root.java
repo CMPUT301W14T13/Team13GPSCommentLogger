@@ -15,6 +15,7 @@ public class Root implements Viewable {
 	private String ID;
 	private String commentText;
 	private Bitmap image;
+	private boolean hasImage;
 	private Date timestamp;
 	private Date freshness;
 	private ArrayList<Viewable> comments;
@@ -165,4 +166,12 @@ public class Root implements Viewable {
 		
 	}
 
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+
+	public void setHasImage(boolean state){
+		hasImage = state;
+	}
 }

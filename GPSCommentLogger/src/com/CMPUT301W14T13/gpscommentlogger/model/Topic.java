@@ -165,8 +165,12 @@ public class Topic implements Viewable, Serializable
 		return hasImage;
 	}
 
-	public void setHasImage(boolean hasImage) {
-		this.hasImage = hasImage;
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
 	}
 
+	public void setHasImage(boolean state){
+		hasImage = state;
+	}
 }
