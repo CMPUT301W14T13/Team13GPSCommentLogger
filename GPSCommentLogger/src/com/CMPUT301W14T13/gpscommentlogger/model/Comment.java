@@ -8,6 +8,8 @@ import java.util.List;
 
 
 import android.graphics.Bitmap;
+import android.location.Location;
+
 import java.util.Collection;
 
 
@@ -23,6 +25,9 @@ public class Comment implements Viewable
 	private List<String> childID;
 	private Date timestamp;
 	private String commentText;
+	private Location GPSLocation;
+	
+
 
 	private ArrayList<Viewable> children;
 	private HashMap<String, Vote> votes;
@@ -140,7 +145,20 @@ public class Comment implements Viewable
 		return timestamp;
 	}
 
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
 
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
+
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+	
 	public boolean getHasPicture() {
 		return image != null;
 	}

@@ -10,6 +10,7 @@ import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 @SuppressLint("NewApi")
     public class SortCommentsByProximityToCurrentLocationTests extends ActivityInstrumentationTestCase2<DebugActivity> {
@@ -54,9 +55,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 	chicago.setLongitude(87.3740);
 
 	/* set the locations of the comments */
-	comment_1.setLocation(my_gps); /* this should be bang on to my location */
-	comment_2.setLocation(tokyo);
-	comment_3.setLocation(chicago);
+	comment_1.setGPSLocation(my_gps); /* this should be bang on to my location */
+	comment_2.setGPSLocation(tokyo);
+	comment_3.setGPSLocation(chicago);
 
 	/* add the comments to the thread */
 	thread.addComment(comment_1);
@@ -69,11 +70,11 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 	/* check the ordering of the comments */
 	for(Comment comment : thread.getComments()){
-	    if( prev_count > my_gps.distanceTo(comment.getLocation())){
+	    if( prev_count > my_gps.distanceTo(comment.getGPSLocation())){
 		sorted = false;
 		break;
 	    }
-	    prev_count = my_gps.distanceTo(comment.getLocation());
+	    prev_count = my_gps.distanceTo(comment.getGPSLocation());
 	}
 	
 	/* check the comment order */
@@ -116,26 +117,26 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 	chicago.setLongitude(87.3740);
 
 	/* set the locations of the comments */
-	thread_1.setLocation(my_gps); /* this should be bang on to my location */
-	thread_2.setLocation(tokyo);
-	thread_3.setLocation(chicago);
+	thread_1.setGPSLocation(my_gps); /* this should be bang on to my location */
+	thread_2.setGPSLocation(tokyo);
+	thread_3.setGPSLocation(chicago);
 
 	/* add the comments to the thread */
 	root.addCommentThread(thread_1);
 	root.addCommentThread(thread_2);
 	root.addCommentThread(thread_3);
 
-	thread.sortByProximity();
+	root.sortByProximity();
 	boolean sorted = true;
 	Float prev_count = Float.MIN_VALUE;
 
 	/* check the ordering of the comments */
-	for(Topic thread : root.getCommentThreads()){
-	    if( prev_count > my_gps.distanceTo(thread.getLocation())){
+	for(Topic thread : root.getChildren()){
+	    if( prev_count > my_gps.distanceTo(thread.getGPSLocation())){
 		sorted = false;
 		break;
 	    }
-	    prev_count = my_gps.distanceTo(thread.getLocation());
+	    prev_count = my_gps.distanceTo(thread.getGPSLocation());
 	    
 	}
 	

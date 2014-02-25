@@ -30,6 +30,8 @@ public class Topic implements Viewable, Serializable
 	private Location GPSLocation;
 	private String commentText;
 	
+
+
 	public Topic()
 	{
 		//TODO: create automatic ID generation system
@@ -59,7 +61,13 @@ public class Topic implements Viewable, Serializable
 		this.username = username;
 	}
 	
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
 
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
 
 	public ArrayList<Viewable> getChildren()
 	
@@ -120,15 +128,7 @@ public class Topic implements Viewable, Serializable
 		return timestamp;
 	}
 
-	
-	public void setLocation(Location location){
-		this.GPSLocation = location;
-	}
-	
-	public Location getLocation(){
-		return GPSLocation;
-	}
-	
+		
 	public void setRootComment(Comment comment){
 		this.rootComment = comment;
 	}
