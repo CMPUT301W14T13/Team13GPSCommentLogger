@@ -27,8 +27,6 @@ public class Comment implements Viewable
 	private String commentText;
 	private Location GPSLocation;
 	
-
-
 	private ArrayList<Viewable> children;
 	private HashMap<String, Vote> votes;
 
@@ -171,6 +169,20 @@ public class Comment implements Viewable
 	@Override
 	public void addChild(Viewable post) {
 		children.add(post);
+		
+	}
+
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setPopularity(Integer votes) {
+		// TODO Auto-generated method stub
 		
 	}
 

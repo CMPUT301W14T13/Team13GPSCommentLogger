@@ -28,4 +28,7 @@ public interface Viewable {
 	void setGPSLocation(Location location);
 	
 	void addChild(Viewable post);
+	
+	Integer getPopularity();
+	void setPopularity(Integer votes);
 }

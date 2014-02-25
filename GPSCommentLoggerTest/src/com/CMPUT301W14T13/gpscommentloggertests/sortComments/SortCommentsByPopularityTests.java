@@ -1,150 +1,152 @@
-package com.CMPUT301W14T13.gpscommentloggertests;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-
+package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+
 @SuppressLint("NewApi")
-    public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCase2<DebugActivity> {
+public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCase2<DebugActivity> {
 
-    public SortCommentsByPopularityTests() {
-	super(DebugActivity.class);
-    }
-    
-
-    /* Test the sorting of comments within a thread by popularity */
-    public void testSortCommentsByPopularity()
-    {
-	Intent intent = new Intent();
-	setActivityIntent(intent);
-	DebugActivity activity = getActivity();
-
-	assertNotNull(activity);
-
-	/* Make a thread to contain the comments */
-	Topic thread = new Topic();
-
-	/* make two comments and set their vote counts */
-	Comment comment_1 = new Comment();
-	Comment comment_2 = new Comment();
-	Comment comment_3 = new Comment();
-
-	/* set the vote count of each */
-	comment_1.setVoteCount(1);
-	comment_2.setVoteCount(0);
-	comment_3.setVoteCount(87);
-
-	/* add the comments to the thread */
-	thread.addComment(comment_1);
-	thread.addComment(comment_2);
-	thread.addComment(comment_3);
-
-	thread.sortByPopularity();
-	boolean sorted = true;
-	Integer prev_count = Integer.MAX_VALUE;
-
-	/* check the ordering of the comments */
-	for(Comment comment : thread.getComments()){
-	    if( prev_count < comment.getVoteCount()){
-		sorted = false;
-		break;
-	    }
-	    prev_count = comment.getVoteCount();
-	}
-
-	/* check the comment order */
-	assertTrue("failure - comments not sorted by descending popularity", sorted);
-
-	/* test using negative popularities */
-	thread.getComments().get(0).setVoteCount(-10);
-	thread.getComments().get(1).setVoteCount(-99);
-
-	thread.sortByPopularity();
-
-	sorted = true;
-	prev_count = Integer.MAX_VALUE;
-
-	/* check comment ordering */
-	for(Comment comment : thread.getComments()){
-	    if( prev_count < comment.getVoteCount()){
-		sorted = false;
-		break;
-	    }
-	    prev_count = comment.getVoteCount();
+	public SortCommentsByPopularityTests() {
+		super(DebugActivity.class);
 	}
 
 
-	/* check the comment order */
-	assertTrue("failure - comments not sorted by descending popularity", sorted);
+	/* Test the sorting of comments within a thread by popularity */
+	public void testSortCommentsByPopularity()
+	{
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
 
-    }
+		assertNotNull(activity);
 
-    /* Test the sorting of entire CommentThreads by popularity */
-    public void testSortCommentThreadsByPopularity()
-    {
+		/* Make a thread to contain the comments */
+		Topic thread = new Topic();
 
-	Intent intent = new Intent();
-	setActivityIntent(intent);
-	DebugActivity activity = getActivity();
+		/* make two comments and set their vote counts */
+		Comment comment_1 = new Comment();
+		Comment comment_2 = new Comment();
+		Comment comment_3 = new Comment();
 
-	assertNotNull(activity);
+		/* set the vote count of each */
+		comment_1.setPopularity(1);
+		comment_2.setPopularity(0);
+		comment_3.setPopularity(87);
 
-	/* Make a thread to contain the comments */
-	Root root = new Root();
+		/* add the comments to the thread */
+		thread.addChild(comment_1);
+		thread.addChild(comment_2);
+		thread.addChild(comment_3);
 
-	/* make two comments and set their vote counts */
-	Topic thread_1 = new Topic();
-	Topic thread_2 = new Topic();
-	Topic thread_3 = new Topic();
+		thread.sortByPopularity();
+		boolean sorted = true;
+		Integer prev_count = Integer.MAX_VALUE;
 
-	/* set the vote count of each */
-	thread_1.setVoteCount(1);
-	thread_2.setVoteCount(0);
-	thread_3.setVoteCount(101);
+		/* check the ordering of the comments */
+		for(Viewable comment : thread.getChildren()){
+			if( prev_count < comment.getPopularity()){
+				sorted = false;
+				break;
+			}
+			prev_count = comment.getPopularity();
+		}
 
-	/* add the comments to the thread */
-	root.addCommentThread(thread_1);
-	root.addCommentThread(thread_2);
-	root.addCommentThread(thread_3);
+		/* check the comment order */
+		assertTrue("failure - comments not sorted by descending popularity", sorted);
 
-	root.sortByPopularity();
-	boolean sorted = true;
-	Integer prev_count = Integer.MAX_VALUE;
+		/* test using negative popularities */
+		thread.getChildren().get(0).setPopularity(-10);
+		thread.getChildren().get(1).setPopularity(-99);
 
-	/* check the ordering of the comments */
-	for(Topic thread : root.getCommentThreads()){
-	    if( prev_count < thread.getVoteCount()){
-		sorted = false;
-		break;
-	    }
-	    prev_count = thread.getVoteCount();
+		thread.sortByPopularity();
+
+		sorted = true;
+		prev_count = Integer.MAX_VALUE;
+
+		/* check comment ordering */
+		for(Viewable comment : thread.getChildren()){
+			if( prev_count < comment.getPopularity()){
+				sorted = false;
+				break;
+			}
+			prev_count = comment.getPopularity();
+		}
+
+
+		/* check the comment order */
+		assertTrue("failure - comments not sorted by descending popularity", sorted);
+
 	}
 
-	/* check the comment order */
-	assertTrue("failure - comments not sorted by descending popularity", sorted);
+	/* Test the sorting of entire CommentThreads by popularity */
+	public void testSortCommentThreadsByPopularity()
+	{
 
-	/* test using negative popularities */
-	thread_1.setVoteCount(-10);
-	thread_2.setVoteCount(-99);
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
 
-	thread.sortByPopularity();
-	sorted = true;
-	prev_count = Integer.MAX_VALUE;
+		assertNotNull(activity);
 
-	/* check the ordering of the comments */
-	for(Topic thread : root.getThreads()){
-	    if( prev_count < thread.getVoteCount()){
-		sorted = false;
-		break;
-	    }
-	    prev_count = thread.getVoteCount();
+		/* Make a thread to contain the comments */
+		Root root = new Root();
+
+		/* make two comments and set their vote counts */
+		Topic thread_1 = new Topic();
+		Topic thread_2 = new Topic();
+		Topic thread_3 = new Topic();
+
+		/* set the vote count of each */
+		thread_1.setPopularity(1);
+		thread_2.setPopularity(0);
+		thread_3.setPopularity(101);
+
+		/* add the comments to the thread */
+		root.addChild(thread_1);
+		root.addChild(thread_2);
+		root.addChild(thread_3);
+
+		root.sortByPopularity();
+		boolean sorted = true;
+		Integer prev_count = Integer.MAX_VALUE;
+
+		/* check the ordering of the comments */
+		for(Viewable thread : root.getChildren()){
+			if( prev_count < thread.getPopularity()){
+				sorted = false;
+				break;
+			}
+			prev_count = thread.getPopularity();
+		}
+
+		/* check the comment order */
+		assertTrue("failure - comments not sorted by descending popularity", sorted);
+
+		/* test using negative popularities */
+		thread_1.setPopularity(-10);
+		thread_2.setPopularity(-99);
+
+		thread.sortByPopularity();
+		sorted = true;
+		prev_count = Integer.MAX_VALUE;
+
+		/* check the ordering of the comments */
+		for(Viewable thread : root.getChildren()){
+			if( prev_count < thread.getPopularity()){
+				sorted = false;
+				break;
+			}
+			prev_count = thread.getPopularity();
+		}
+		/* check the comment order */
+		assertTrue("failure - comments not sorted by descending popularity", sorted);
+
 	}
-	/* check the comment order */
-	assertTrue("failure - comments not sorted by descending popularity", sorted);
-
-    }
 
 }
