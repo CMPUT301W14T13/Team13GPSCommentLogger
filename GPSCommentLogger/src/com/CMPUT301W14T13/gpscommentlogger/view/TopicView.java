@@ -4,7 +4,7 @@ import java.util.Collection;
 
 
 
-public class ThreadView
+public class TopicView
 {
 
 	

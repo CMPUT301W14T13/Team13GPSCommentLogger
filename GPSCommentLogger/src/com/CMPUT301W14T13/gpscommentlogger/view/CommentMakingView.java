@@ -136,14 +136,14 @@ public class CommentMakingView
 	 * @uml.property   name="t"
 	 * @uml.associationEnd   multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
 	 */
-	private ThreadView t = new com.CMPUT301W14T13.gpscommentlogger.view.ThreadView();
+	private TopicView t = new com.CMPUT301W14T13.gpscommentlogger.view.TopicView();
 
 	/** 
 	 * Getter of the property <tt>t</tt>
 	 * @return  Returns the t.
 	 * @uml.property  name="t"
 	 */
-	public ThreadView getT()
+	public TopicView getT()
 	
 	
 	
@@ -158,7 +158,7 @@ public class CommentMakingView
 	 * @param t  The t to set.
 	 * @uml.property  name="t"
 	 */
-	public void setT(ThreadView t)
+	public void setT(TopicView t)
 	
 	
 	
