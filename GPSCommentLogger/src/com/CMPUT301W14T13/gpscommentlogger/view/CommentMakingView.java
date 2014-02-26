@@ -1,5 +1,8 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+
 
 /**
  * @uml.dependency   supplier="com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
@@ -98,14 +101,14 @@ public class CommentMakingView
 	 * @uml.property   name="h"
 	 * @uml.associationEnd   multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView h = new com.CMPUT301W14T13.gpscommentlogger.view.HomeView();
+	private RootView h = new com.CMPUT301W14T13.gpscommentlogger.view.RootView(new Root());
 
 	/** 
 	 * Getter of the property <tt>h</tt>
 	 * @return  Returns the h.
 	 * @uml.property  name="h"
 	 */
-	public HomeView getH()
+	public RootView getH()
 	
 	
 	
@@ -121,7 +124,7 @@ public class CommentMakingView
 	 * @param h  The h to set.
 	 * @uml.property  name="h"
 	 */
-	public void setH(HomeView h)
+	public void setH(RootView h)
 	
 	
 	
@@ -136,7 +139,7 @@ public class CommentMakingView
 	 * @uml.property   name="t"
 	 * @uml.associationEnd   multiplicity="(1 1)" inverse="c:com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
 	 */
-	private TopicView t = new com.CMPUT301W14T13.gpscommentlogger.view.TopicView();
+	private TopicView t = new com.CMPUT301W14T13.gpscommentlogger.view.TopicView(new Topic());
 
 	/** 
 	 * Getter of the property <tt>t</tt>

@@ -11,7 +11,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.view.HomeView;
+import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
 import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
@@ -130,7 +130,7 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 	root.addChild(thread_2);
 	root.addChild(thread_3);
 	
-	HomeView rootView= new HomeView(root);
+	RootView rootView= new RootView(root);
 	
 	/* sort by closest comments */
 	rootView.sortBy("proximity");

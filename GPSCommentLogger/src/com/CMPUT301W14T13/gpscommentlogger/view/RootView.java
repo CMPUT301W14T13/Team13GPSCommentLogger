@@ -17,9 +17,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 /* I think this whole implementation needs to change */
-public class HomeView extends Activity {
+public class RootView extends Activity {
 
-	public HomeView(Root root){
+	public RootView(Root root){
 	
 	}
 	
