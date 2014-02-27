@@ -166,6 +166,7 @@ public class ClientController extends Controller
 		case LOCAL_DATA_SAVES:
 			throw new InterruptedException("Cannot post saves while offline");
 		case LOCAL_DATA_FAVOURITES:
+			//TODO: enable save from saves->favourites?
 			throw new InterruptedException("Cannot post favourites while offline");
 		case MOCK_DATA_ENTITY:
 			if(!hasConnection)throw new InterruptedException("Error attempt to post online while offline.");
@@ -214,9 +215,7 @@ public class ClientController extends Controller
 
 	public void setServer(ServerController server)
 	{
-
 		this.server = server;
-		
 	}
 	
 	//
