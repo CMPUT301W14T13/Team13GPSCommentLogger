@@ -92,7 +92,19 @@ public class ServerController extends Controller
 		ServerTask currentTask = (ServerTask)tasks.remove(0);
 		Result out = new ServerResult();
 		
-		//TODO: code in tasks here
+		switch(currentTask.getCode())
+		{
+			case DELETE:
+				throw new UnsupportedOperationException("Delete from server has not been implemented.");
+			case INSERT:
+				break;
+			case SEARCH:
+				throw new UnsupportedOperationException("Search the server has not been implemented.");
+			case UPDATE:
+				throw new UnsupportedOperationException("Update the server has not been implemented.");
+			default:
+				throw new IllegalArgumentException("This should never happen. ServerTaskCode error!!!");
+		}
 		
 		return out;
 	}
