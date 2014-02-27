@@ -182,6 +182,7 @@ public class ClientController extends Controller
 	public synchronized void registerResult(Result result)
 	{
 		this.result = result;
+		//TODO: separate out the response and task threads so that the notifys do not conflict
 		notify();
 	}
 	
