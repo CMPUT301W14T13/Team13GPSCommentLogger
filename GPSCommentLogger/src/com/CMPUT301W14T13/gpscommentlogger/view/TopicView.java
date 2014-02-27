@@ -3,10 +3,12 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +33,8 @@ public class TopicView extends Activity
         setContentView(R.layout.topic_view);
         
         topic = (Topic) getIntent().getSerializableExtra("Topic");
+        
+        //test add a comment to the topic
         Comment comment = new Comment();
         comment.setCommentText("testing");
         comments.add(comment);
@@ -63,20 +67,61 @@ public class TopicView extends Activity
 		commentListview.setAdapter(new CommentAdapter(this, topic.getChildren()));
 	}
 	
-	public void replyToComment(View v){
+	public void reply(View v) throws InterruptedException{
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // Get the layout inflater
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.comment_making_view, null));
-         //Add action buttons
-                 
-        builder.create();
-        builder.show();
+		Intent intent = new Intent(this, CreateCommentActivity.class);
+		int rowNumber;
+		
+				
+		 switch (v.getId()) {
+		 
+	         case R.id.topic_reply_button:
+	        	 //intent.putExtra("row number", -1);
+	        	 startActivityForResult(intent, 0);  //replying to a topic
+	             break;
+	             
+	         case R.id.comment_reply_button:
+	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
+	        	 intent.putExtra("row number", rowNumber);
+	        	 startActivityForResult(intent, 1); //replying to a comment
+	        	 break;
+	        	 
+	         default:
+	 			throw new InterruptedException("Invalid button press");
+		 }
+		 
 		
 	}
 	
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			
+		Comment comment = (Comment) data.getSerializableExtra("comment");
+		int row;
+				
+		if (resultCode == RESULT_OK){
+				
+			switch (requestCode){
+				
+			case(0):
+				topic.getChildren().add(comment);
+				break;
+				
+			case(1):
+				row = data.getIntExtra("row number", -1);
+				topic.getChildren().get(row).getChildren().add(comment);
+				break;
+				
+			 default:
+				Log.d("onActivityResult", "Error adding comment reply");
+			}
+			
+		}
+			
+		//update the listview after the reply has been added
+		((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();
+		
+	}
+		 
+		
 }

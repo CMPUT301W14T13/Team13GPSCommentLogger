@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
-public class CreateTopic extends Activity{
+public class CreateTopicActivity extends Activity{
 
 	private String username;
 	private String title;

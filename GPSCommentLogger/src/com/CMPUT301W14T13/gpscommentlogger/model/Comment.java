@@ -1,20 +1,21 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-
 import android.graphics.Bitmap;
-import java.util.Collection;
 
 
-public class Comment implements Viewable
+public class Comment implements Viewable, Serializable
 {
 
 
+	
+	private static final long serialVersionUID = 2L;
 	private String ID;
 	private String title;
 	private String username;

@@ -2,15 +2,15 @@
 
 	import java.util.ArrayList;
 
-	import android.content.Context;
-	import android.view.LayoutInflater;
-	import android.view.View;
-	import android.view.ViewGroup;
-	import android.widget.BaseAdapter;
-	import android.widget.TextView;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.TextView;
 
-	import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-	import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 	/*
@@ -56,11 +56,15 @@
 		public View getView(int position, View convertView, ViewGroup parent) {
 		
 				View vi = convertView;
+				Button button;
+				
 		        if (vi == null){
 		        	
 		        	vi = inflater.inflate(R.layout.comment_view, null);
 		        	setTopicView(vi, position);
 		        	
+		        	button = (Button) vi.findViewById(R.id.comment_reply_button);
+		        	button.setTag(position); //gives a unique tag for identifying comments
 		         }
 		        
 		       

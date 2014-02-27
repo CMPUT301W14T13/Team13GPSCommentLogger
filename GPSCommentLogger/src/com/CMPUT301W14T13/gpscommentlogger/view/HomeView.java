@@ -110,7 +110,7 @@ public class HomeView extends Activity {
     }
     
     private void createTopic(){
-    	Intent topic = new Intent(this, CreateTopic.class);
+    	Intent topic = new Intent(this, CreateTopicActivity.class);
     	startActivityForResult(topic, 0);
     }
     

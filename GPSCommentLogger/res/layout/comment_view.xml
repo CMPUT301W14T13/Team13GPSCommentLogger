@@ -20,4 +20,14 @@
         android:layout_marginTop="46dp"
         android:text="Comment" />
 
+    <Button
+        android:id="@+id/comment_reply_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/commentText"
+        android:onClick="reply"
+        android:text="Reply" />
+
 </RelativeLayout>

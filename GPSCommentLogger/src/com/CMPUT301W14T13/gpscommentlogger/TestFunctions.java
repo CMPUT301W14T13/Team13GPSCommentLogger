@@ -46,7 +46,7 @@ public class TestFunctions extends Activity {
 
 	        // Inflate and set the layout for the dialog
 	        // Pass null as the parent view because its going in the dialog layout
-	        builder.setView(inflater.inflate(R.layout.comment_making_view, null));
+	        builder.setView(inflater.inflate(R.layout.create_comment, null));
 	         //Add action buttons
 	                 
 	        builder.create();
