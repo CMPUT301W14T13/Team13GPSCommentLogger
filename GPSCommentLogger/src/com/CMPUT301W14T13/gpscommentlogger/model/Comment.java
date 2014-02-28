@@ -158,10 +158,6 @@ public class Comment implements Viewable
 		/* return image != null; */
 		return hasImage;
 	}
-
-	public void setHasImage(boolean state){
-		hasImage = state;
-	}
 	
 	public int getNumberOfReplies(){
 		return childID.size();

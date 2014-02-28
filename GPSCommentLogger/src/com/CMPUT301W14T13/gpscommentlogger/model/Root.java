@@ -165,7 +165,4 @@ public class Root implements Viewable {
 		return hasImage;
 	}
 
-	public void setHasImage(boolean state){
-		hasImage = state;
-	}
 }

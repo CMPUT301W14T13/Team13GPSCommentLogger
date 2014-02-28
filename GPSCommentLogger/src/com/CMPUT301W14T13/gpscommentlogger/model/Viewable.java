@@ -31,6 +31,5 @@ public interface Viewable {
 	
 	Integer getPopularity();
 		
-	void setHasImage(boolean state);
 	boolean getHasImage();
 }
