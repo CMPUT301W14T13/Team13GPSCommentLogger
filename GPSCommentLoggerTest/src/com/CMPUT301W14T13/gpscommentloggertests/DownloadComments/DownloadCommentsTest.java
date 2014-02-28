@@ -45,12 +45,16 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		activity.simulateConnectToServer();
 		activity.simulateAddComment(comment); // not implemented in this branch but is in the master
 		activity.simulateAddComment(comment2);
+		activity.simulateSaveClick(comment2.index);// we have not implemented simulated save button click in debugActivity.
 		activity.simulateBrowseClick(comment.index);//should automatically save this comment locally
-		activity.simulateDisconnectFromServer();
-		activity.simulateBrowseClick(index);// this should load the offline saved comment
-		assertTrue("both comment we save and comment we loaded should be the samw",
-				comment.equals(activity.getCurrentComment()));
 		
+		activity.simulateDisconnectFromServer();
+		activity.simulateBrowseClick(comment.index);// this should load the offline saved comment
+		assertTrue("both the comment we save and the comment we loaded should be the same",
+				comment.equals(activity.getCurrentComment()));
+		activity.simulateBrowseClick(comment2.index);
+		assertTrue("both the comment we save and the comment we loaded should be the same",
+				comment2.equals(activity.getCurrentComment()));
 		dm.saveData(comment);
 	
 		
