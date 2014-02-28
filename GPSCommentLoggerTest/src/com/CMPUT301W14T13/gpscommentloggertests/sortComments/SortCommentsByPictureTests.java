@@ -1,6 +1,10 @@
 package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
@@ -9,6 +13,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
+import com.CMPUT301W14T13.gpscommentlogger.view.SortParameter;
 import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
@@ -31,25 +36,26 @@ public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2
 		/* Make a thread to contain the comments */
 		Topic thread = new Topic();
 
-		/* make two comments and set their locations */
-		Comment comment_1 = new Comment();
+		
+		String ID = "4324";
+		String username = "Austin";
+		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+		Date timestamp = new Date();
+		String commentText = "Test comment";
+		
+		/*make some comments with and without pictures */
+		Comment comment_1 = new Comment(ID, username, picture, timestamp, commentText);
 		Comment comment_2 = new Comment();
-		Comment comment_3 = new Comment();
-
-		/* set the locations of the comments */
-		comment_1.setHasImage(true); 
-		comment_2.setHasImage(false);
-		comment_3.setHasImage(true);
-
+		Comment comment_3 = new Comment(ID, username, picture, timestamp, commentText);
+		
 		/* add the comments to the thread */
 		thread.addChild(comment_1);
 		thread.addChild(comment_2);
 		thread.addChild(comment_3);
 
 		TopicView topicView= new TopicView(thread);
-		
 		/* sort by comments with pictures */
-		topicView.sortBy("image");
+		topicView.sortBy(SortParameter.IMAGE);
 		boolean sorted = true;
 		boolean prev_has_img = true;
 
@@ -79,15 +85,17 @@ public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2
 		/* Make a thread to contain the comments */
 		Root root = new Root();
 
-		/* make two comments and set their locations */
-		Topic thread_1 = new Topic();
+		
+		String ID = "4324";
+		String username = "Austin";
+		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+		Date timestamp = new Date();
+		String commentText = "Test comment";
+		
+		/*make some comments with and without pictures */
+		Topic thread_1 = new Topic(ID, username, picture, timestamp, commentText);
 		Topic thread_2 = new Topic();
-		Topic thread_3 = new Topic();
-
-		/* set the image properties */
-		thread_1.setHasImage(true); 
-		thread_2.setHasImage(false);
-		thread_3.setHasImage(true);
+		Topic thread_3 = new Topic(ID, username, picture, timestamp, commentText);
 
 		/* add the comments to the thread */
 		root.addChild(thread_1);
@@ -96,7 +104,7 @@ public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2
 
 		RootView rootView= new RootView(root);
 		/* sort by comments with pictures */
-		rootView.sortBy("image");
+		rootView.sortBy(SortParameter.IMAGE);
 		boolean sorted = true;
 		boolean prev_has_img = true;
 

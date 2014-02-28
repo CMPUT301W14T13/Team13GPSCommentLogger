@@ -13,7 +13,7 @@ public class CommentView
 	}
 	
 	// I want to sort the comments by an ID
-	public void sortBy(sortParameter sort_type){
+	public void sortBy(SortParameter sort_type){
 		
 	}
 	

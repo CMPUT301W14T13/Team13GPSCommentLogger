@@ -11,7 +11,7 @@ public class TopicView
 	}
 	
 	// I want to sort the comments by an ID
-	public void sortBy(sortParameter sort){
+	public void sortBy(SortParameter sort){
 
 	}
 

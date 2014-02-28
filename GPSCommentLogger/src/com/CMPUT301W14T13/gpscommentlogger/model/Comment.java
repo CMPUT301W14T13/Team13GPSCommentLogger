@@ -16,7 +16,6 @@ import java.util.Collection;
 public class Comment implements Viewable
 {
 
-
 	private String ID;
 	private String title;
 	private String username;
@@ -39,7 +38,6 @@ public class Comment implements Viewable
 		timestamp = new Date();
 		children = new ArrayList<Viewable>();
 	}
-
 
 	public Comment(String ID) {
 		this.ID = ID;
@@ -81,9 +79,6 @@ public class Comment implements Viewable
 		children = new ArrayList<Viewable>();
 		this.hasImage = true;
 	}
-
-
-	
 
 	@Override
 	public String getID() {

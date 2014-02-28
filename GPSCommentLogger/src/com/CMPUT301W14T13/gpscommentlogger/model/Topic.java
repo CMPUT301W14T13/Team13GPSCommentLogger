@@ -61,6 +61,17 @@ public class Topic implements Viewable, Serializable
 		this.username = username;
 	}
 	
+	public Topic(String ID, String username, Bitmap picture, Date timestamp,
+			String commentText) {
+		this.ID = ID;
+		this.username = username;
+		this.image = picture;
+		this.timestamp = timestamp;
+		this.commentText = commentText;
+		comments = new ArrayList<Viewable>();
+		this.hasImage = true;
+	}
+	
 	public Location getGPSLocation() {
 		return GPSLocation;
 	}

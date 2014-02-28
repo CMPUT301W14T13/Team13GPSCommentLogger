@@ -3,6 +3,8 @@ import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
@@ -11,6 +13,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
+import com.CMPUT301W14T13.gpscommentlogger.view.SortParameter;
 import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
@@ -33,15 +36,15 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 	/* Make a thread to contain the comments */
 	Topic thread = new Topic();
 
-	/* make two comments and set their locations */
-	Comment comment_1 = new Comment();
-	Comment comment_2 = new Comment();
-	Comment comment_3 = new Comment();
-
-	/* set the locations of the comments */
-	comment_1.setTimestamp(new Date()); /* current time*/
-	comment_2.setTimestamp(new Date(0)); /* epoch */
-	comment_3.setTimestamp(new Date(Long.MAX_VALUE)); /* maximum possible time*/
+	String ID = "4324";
+	String username = "Austin";
+	Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+	String commentText = "Test comment";
+	
+	/* make comments with different dates */
+	Comment comment_1 = new Comment(ID, username, picture, new Date(), commentText);
+	Comment comment_2 = new Comment(ID, username, picture, new Date(0), commentText);
+	Comment comment_3 = new Comment(ID, username, picture, new Date(Long.MAX_VALUE), commentText);
 
 	/* add the comments to the thread */
 	thread.addChild(comment_1);
@@ -52,7 +55,7 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 	TopicView topicView= new TopicView(thread);
 	
 	/* sort by newest comments */
-	topicView.sortBy("time_fresh");
+	topicView.sortBy(SortParameter.TIME_NEW);
 	boolean sorted = true;
 	Date prev_date = new Date(0);
 
@@ -69,7 +72,7 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 	assertTrue("failure - comments not from newest first", sorted);
 
 	/* sort by oldest comments */
-	topicView.sortBy("time_old");
+	topicView.sortBy(SortParameter.TIME_OLD);
 	sorted = true;
 	prev_date = new Date(Long.MAX_VALUE);
 
@@ -98,17 +101,17 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 	/* Make a thread to contain the comments */
 	Root root = new Root();
-
-	/* make two comments and set their locations */
-	Topic thread_1 = new Topic();
-	Topic thread_2 = new Topic();
-	Topic thread_3 = new Topic();
-
-	/* set the locations of the comments */
-	thread_1.setTimestamp(new Date()); /* current time*/
-	thread_2.setTimestamp(new Date(0)); /* epoch */
-	thread_3.setTimestamp(new Date(Long.MAX_VALUE)); /* maximum possible time*/
-
+	
+	String ID = "4324";
+	String username = "Austin";
+	Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+	String commentText = "Test comment";
+	
+	/* make topics with different dates */
+	Topic thread_1 = new Topic(ID, username, picture, new Date(), commentText);
+	Topic thread_2 = new Topic(ID, username, picture, new Date(0), commentText);
+	Topic thread_3 = new Topic(ID, username, picture, new Date(Long.MAX_VALUE), commentText);
+	
 	/* add the comments to the thread */
 	root.addChild(thread_1);
 	root.addChild(thread_2);
@@ -117,7 +120,7 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 	RootView rootView= new RootView(root);
 	
 	/* sort by newest comments */
-	rootView.sortBy("time_new");
+	rootView.sortBy(SortParameter.TIME_NEW);
 	boolean sorted = true;
 	Date prev_date = new Date(0);
 
@@ -134,7 +137,7 @@ import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 	assertTrue("failure - comments not from newest first", sorted);
 
 	/* sort by oldest comments */
-	rootView.sortBy("time_old");
+	rootView.sortBy(SortParameter.TIME_OLD);
 	sorted = true;
 	prev_date = new Date(Long.MAX_VALUE);
 

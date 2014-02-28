@@ -9,6 +9,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
+import com.CMPUT301W14T13.gpscommentlogger.view.SortParameter;
 import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
@@ -48,7 +49,7 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		
 		TopicView topicView= new TopicView(thread);
 		
-		topicView.sortBy("popularity");
+		topicView.sortBy(SortParameter.POPULARITY);
 		boolean sorted = true;
 		Integer prev_count = Integer.MAX_VALUE;
 
@@ -68,7 +69,7 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		thread.getChildren().get(0).setPopularity(-10);
 		thread.getChildren().get(1).setPopularity(-99);
 
-		topicView.sortBy("popularity");
+		topicView.sortBy(SortParameter.POPULARITY);
 
 		sorted = true;
 		prev_count = Integer.MAX_VALUE;
@@ -118,7 +119,7 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		
 		RootView rootView= new RootView(root);
 		
-		rootView.sortBy("popularity");
+		rootView.sortBy(SortParameter.POPULARITY);
 		boolean sorted = true;
 		Integer prev_count = Integer.MAX_VALUE;
 
@@ -138,7 +139,7 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		thread_1.setPopularity(-10);
 		thread_2.setPopularity(-99);
 
-		rootView.sortBy("popularity");
+		rootView.sortBy(SortParameter.POPULARITY);
 		sorted = true;
 		prev_count = Integer.MAX_VALUE;
 
