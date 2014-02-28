@@ -47,22 +47,6 @@ public class RootView extends Activity {
     	topicListview.setAdapter(new CustomAdapter(this, topics));
     }
     
-    private void addTestTopics() {
-    	Topic topic = new Topic();
-        comment = new Comment();
-        topic.setTitle("TestingTitle");
-        topic.setRootComment(comment);
-        topics.add(topic);
-        
-        topic = new Topic();
-        comment = new Comment();
-        topic.setUsername("Austin");
-        topic.setRootComment(comment);
-        topics.add(topic);
-		
-	}
-
-
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
