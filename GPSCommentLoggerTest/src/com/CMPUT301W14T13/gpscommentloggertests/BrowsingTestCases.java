@@ -29,7 +29,7 @@ public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugAct
 		
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
-		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getC().size());
+		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getChildren().size());
 		assertEquals("default comment has default username","default",activity.getCurrentComment().getUsername());
 		
 		Log.w("DebugBrowsing", "Current is: " + activity.getCurrentComment().getID());
@@ -40,7 +40,7 @@ public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugAct
 		
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof Topic);
-		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getC().size());
+		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getChildren().size());
 		assertEquals("first layer comment has correct username","kyomaru",activity.getCurrentComment().getUsername());
 		
 		Log.w("DebugBrowsing", "Current is: " + activity.getCurrentComment().getID());

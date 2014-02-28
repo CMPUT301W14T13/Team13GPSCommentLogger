@@ -3,16 +3,20 @@ package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 
-import com.CMPUT301W14T13.gpscommentloggertests.makeComments.DebugActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+
+@SuppressLint("NewApi")
 public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
-	public DownloadCommentsTest(String name) {
-		super(DebugActivity.class);
-		
+	public DownloadCommentsTest() {
+		super(DebugActivity.class);	
 	}
 	
 	//Use Case 4
@@ -24,7 +28,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 										   // deals with local data
 
 		assertNotNull(activity);
-		Comment comment = new comment();
+		Comment comment = new Comment();
 		dm.SaveInFile(comment);//not implemented in code
 		
 		ArrayList<Comment> fromFile = dm.loadFromFile();// not implemented in code
@@ -41,12 +45,12 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DriverManager dm = new DataManager();
 		assertNotNull(activity);
 
-		CommentThread topComment = new CommentThread();
+		Topic topComment = new Topic();
 		Comment reply = new Comment();
 		topComment.setC(reply);
 		
 		dm.setFavorite(topComment); // not Implemented
-		ArrayList<CommentThread> favorites = dm.LoadFavorites();
+		ArrayList<Topic> favorites = dm.LoadFavorites();
 		
 		assertTrue("top comment we load is the same as the top comment we saved",
 				favorites.contains(topComment));
@@ -57,7 +61,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	
 	//Use Case 4.1.1
 	public void testUpdateFavorite() {
-		CommentThread topComment = new CommentThread();
+		Topic topComment = new Topic();
 		Comment reply = new Comment();
 		ArrayList<Viewable> c = {reply};
 		DataManager dm = new DataManager();
@@ -65,7 +69,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		dm.setFavorite(topComment); //not implemented
 		
-		ArrayList<CommentThread> favorites = dm.LoadFavorites();
+		ArrayList<Topic> favorites = dm.LoadFavorites();
 		
 		assertTrue("top comment we load is the same as the top comment we saved",
 				favorites.contains(topComment));
