@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 /*
@@ -19,20 +20,20 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 public class CustomAdapter extends BaseAdapter {
 
 
-	Context context;
-	ArrayList<Topic> data = new ArrayList<Topic>();
+	private Context context;
+	private ArrayList<Topic> data = new ArrayList<Topic>();
+	private static LayoutInflater inflater = null;
 	
-	    private static LayoutInflater inflater = null;
 	
-	    public CustomAdapter(Context context, ArrayList<Topic> data) {
+	    public CustomAdapter(Context context, ArrayList<Topic> topics) {
 	       
 	        this.context = context;
-	        this.data = data;
-	        
+	        this.data = topics;
 	        inflater = (LayoutInflater) context
 	                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    }
 	    
+	   
 	@Override
 	public int getCount() {
 	
@@ -55,10 +56,20 @@ public class CustomAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 	
 			View vi = convertView;
-	        if (vi == null)
-	            vi = inflater.inflate(R.layout.root_comment_view, null);
+	        if (vi == null){
+	        	
+	        	vi = inflater.inflate(R.layout.root_comment_view, null);
+	        	setHomeView(vi, position);
+	        	
+	         }
 	        
-	        TextView text = (TextView) vi.findViewById(R.id.title);
+	       
+	        return vi;
+	}
+
+
+	public void setHomeView(View vi, int position){
+		    TextView text = (TextView) vi.findViewById(R.id.title);
 	        text.setText(String.valueOf(data.get(position).getTitle()));
 	        
 	        text = (TextView) vi.findViewById(R.id.username);
@@ -72,9 +83,14 @@ public class CustomAdapter extends BaseAdapter {
 	        
 	        text = (TextView) vi.findViewById(R.id.number_of_comments);
 	        text.setText(String.valueOf("number of comments"));
-	        return vi;
 	}
-
-
-
+	
+	/*public void setTopicView(View vi, int position){
+		
+		TextView text = (TextView) vi.findViewById(R.id.comment_username);
+        text.setText(String.valueOf(comments.get(position).getUsername()));
+        
+        text = (TextView) vi.findViewById(R.id.commentText);
+        text.setText(String.valueOf(comments.get(position).getCommentText()));
+	}*/
 }

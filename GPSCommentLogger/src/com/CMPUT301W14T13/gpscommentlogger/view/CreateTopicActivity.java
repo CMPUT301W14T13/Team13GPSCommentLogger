@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
-public class CreateTopic extends Activity{
+public class CreateTopicActivity extends Activity{
 
 	private String username;
 	private String title;
@@ -36,7 +36,7 @@ public class CreateTopic extends Activity{
 		text = (EditText) findViewById(R.id.setUsername);
 		username = text.getText().toString().trim();
 		
-		text = (EditText) findViewById(R.id.commentText);
+		text = (EditText) findViewById(R.id.setCommentText);
 		commentText = text.getText().toString().trim();
 	}
 	
@@ -93,7 +93,7 @@ public class CreateTopic extends Activity{
 			
 			topic.setTitle(title);
 			topic.setUsername(username);
-			
+			topic.setCommentText(commentText);
 			
 			submit.putExtra("Topic", topic); 
 			setResult(RESULT_OK, submit);

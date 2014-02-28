@@ -33,19 +33,17 @@
                 
             </intent-filter>
         </activity>
-        
+       
         <activity
-            android:name="TestFunctions">
-            <intent-filter>
-                
-            </intent-filter>
+            android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateTopicActivity">
         </activity>
         
         <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateTopic">
-            <intent-filter>
-                
-            </intent-filter>
+            android:name="com.CMPUT301W14T13.gpscommentlogger.view.TopicView">
+        </activity>
+        
+        <activity
+            android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateCommentActivity">
         </activity>
     </application>
 

@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
@@ -23,6 +27,7 @@ public class HomeView extends Activity {
 	private Comment comment;
 	private ListView topicListview;
 	
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +38,20 @@ public class HomeView extends Activity {
        
        //set up adapter and listview
        topicListview = (ListView) findViewById(R.id.topic_listview);
-      
+       
+       //set up listener for topic clicks
+       topicListview.setOnItemClickListener(new OnItemClickListener() {
+           
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        	   Intent viewTopic = new Intent(HomeView.this, TopicView.class);
+        	   viewTopic.putExtra("Topic", topics.get(position));
+        	   startActivity(viewTopic);
+          
+           
+           }
+       });
     }
     
 
@@ -92,7 +110,7 @@ public class HomeView extends Activity {
     }
     
     private void createTopic(){
-    	Intent topic = new Intent(this, CreateTopic.class);
+    	Intent topic = new Intent(this, CreateTopicActivity.class);
     	startActivityForResult(topic, 0);
     }
     
