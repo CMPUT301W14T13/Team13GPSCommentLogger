@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.google.inject.TypeLiteral;
+//import com.google.inject.TypeLiteral;
 
 public class MapOfInterfacesSerializer implements
 	JsonSerializer<HashMap<String,Viewable>>, JsonDeserializer<HashMap<String,Viewable>>{

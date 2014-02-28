@@ -15,7 +15,11 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
@@ -108,10 +112,18 @@ public class HomeViewActivity extends Activity {
 	
 	private void pushTopicToServer(Topic topic){
 		
+		//Build task object
 		ClientTask task = new ClientTask();
-		//ClientTaskTaskCode taskCode = fd; 
-		//task.setTaskCode
+		ClientTaskTaskCode taskCode = ClientTaskTaskCode.values()[1]; 
+		ClientTaskSourceCode sourceCode = ClientTaskSourceCode.values()[3];
 		
+		task.setTaskCode(taskCode);
+		task.setSourceCode(sourceCode);
+		task.setObj(topic);
+		
+		ClientController controller = new ClientController();
+		
+		controller.addTask(task);
 		
 	}
 	

@@ -35,7 +35,7 @@ public class Topic implements Viewable, Serializable
 	private Comment rootComment = new Comment();
 	private String commentText = ""; 
 	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
-	private Location GPSLocation = new Location("default");
+	private Location GPSLocation;// = new Location("default");
 
 	
 	public Topic()

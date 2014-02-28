@@ -135,6 +135,16 @@ public class DebugActivity extends Activity
     	client.addTask(task);
     }
     
+    public void simulatePostTopic(Topic topic){
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskTaskCode.POST);
+    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
+    	task.setObj(topic);
+    	
+    	client.addTask(task);
+    	
+    }
+    
     public void simulatePostComment(Comment comment)
     {
     	ClientTask task = new ClientTask();
