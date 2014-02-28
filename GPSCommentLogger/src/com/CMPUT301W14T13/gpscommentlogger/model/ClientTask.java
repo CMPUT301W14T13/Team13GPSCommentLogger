@@ -3,10 +3,10 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 
 public class ClientTask implements Task
 {	
-	private ClientTaskCode taskCode;
+	private ClientTaskTaskCode taskCode;
 	private boolean isTaskCodeSet = false;
 	
-	private ClientTaskCode sourceCode;
+	private ClientTaskSourceCode sourceCode;
 	private boolean isSourceCodeSet = false;
 	
 	private Object obj;
@@ -16,7 +16,7 @@ public class ClientTask implements Task
 		
 	}
 	
-	public boolean setTaskCode(ClientTaskCode code)
+	public boolean setTaskCode(ClientTaskTaskCode code)
 	{
 		if(isTaskCodeSet)return false;
 		
@@ -25,12 +25,12 @@ public class ClientTask implements Task
 		return true;
 	}
 	
-	public ClientTaskCode getTaskCode()
+	public ClientTaskTaskCode getTaskCode()
 	{
 		return taskCode;
 	}
 	
-	public boolean setSourceCode(ClientTaskCode code)
+	public boolean setSourceCode(ClientTaskSourceCode code)
 	{
 		if(isSourceCodeSet)return false;
 		
@@ -39,7 +39,7 @@ public class ClientTask implements Task
 		return true;
 	}
 	
-	public ClientTaskCode getSourceCode()
+	public ClientTaskSourceCode getSourceCode()
 	{
 		return sourceCode;
 	}

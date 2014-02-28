@@ -20,7 +20,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 
-public class TopicView extends Activity
+public class TopicViewActivity extends Activity
 {
 
 	private Topic topic = new Topic();
@@ -100,11 +100,11 @@ public class TopicView extends Activity
 				
 			switch (requestCode){
 				
-			case(0):
+			case(0):  //reply to topic
 				topic.getChildren().add(comment);
 				break;
 				
-			case(1):
+			case(1): //reply to comment
 				row = data.getIntExtra("row number", -1);
 				topic.getChildren().get(row).getChildren().add(comment);
 				break;

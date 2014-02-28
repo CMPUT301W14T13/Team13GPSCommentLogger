@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.Config;
 import android.location.Location;
 
 public class Root implements Viewable {
 	private String title;
 	private final String username = "default";
 	private String ID;
-	private String commentText;
-	private Bitmap image;
-	private Date timestamp;
-	private Date freshness;
+	private String commentText = "";
+	private Bitmap image = Bitmap.createBitmap(1,1, Config.ARGB_8888);
+	private Date timestamp = new Date();
 	private ArrayList<Viewable> comments;
-	private Location GPSLocation;
 	
 	public Root()
 	{
@@ -47,9 +47,6 @@ public class Root implements Viewable {
 	 * @uml.property  name="v"
 	 */
 	public Collection<Vote> getV()
-	
-	
-	
 	{
 		return v;
 	}
@@ -64,9 +61,10 @@ public class Root implements Viewable {
 	 * @uml.property  name="c"
 	 */
 	@Override
+
 	public ArrayList<Viewable> getChildren()
 	
-	
+
 	{
 		return comments;
 	}
@@ -76,9 +74,7 @@ public class Root implements Viewable {
 	 * @uml.property  name="v"
 	 */
 	public void setV(Collection<Vote> v)
-	
 	{
-	
 		this.v = v;
 	}
 	/** 
@@ -88,7 +84,6 @@ public class Root implements Viewable {
 	 */
 	public void setC(ArrayList<Viewable> c)
 	{
-
 		comments = c;
 	}
 	@Override
@@ -134,6 +129,23 @@ public class Root implements Viewable {
 	@Override
 	public Date getTimestamp() {
 		return timestamp;
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+	    if (other == null) return false;
+	    if (other == this) return true;
+		if (!(other instanceof Root))return false;
+		Root o = (Root)other; 
+		
+		return ID.equals(o.ID)
+				&& title.equals(o.title)
+				&& username.equals(o.username)
+				&& image.equals(o.image)
+				&& timestamp.equals(o.timestamp)
+				&& commentText.equals(o.commentText)
+				&& comments.equals(o.comments);
 	}
 
 }

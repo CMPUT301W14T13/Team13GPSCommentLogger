@@ -73,13 +73,6 @@ public class CreateTopicActivity extends Activity{
 		
 	}
 	
-	public void attachPicture(View v){
-		
-	}
-	
-	public void setCoordinates(View v){
-		
-	}
 	
 	public void submitTopic(View v){
 		

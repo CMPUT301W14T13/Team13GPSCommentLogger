@@ -11,16 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 
-public class HomeView extends Activity {
+public class HomeViewActivity extends Activity {
 
 	
 	private ArrayList<Topic> topics = new ArrayList<Topic>();
@@ -43,7 +43,7 @@ public class HomeView extends Activity {
            @Override
            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        	   Intent viewTopic = new Intent(HomeView.this, TopicView.class);
+        	   Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
         	   viewTopic.putExtra("Topic", topics.get(position));
         	   startActivity(viewTopic);
           
@@ -85,14 +85,6 @@ public class HomeView extends Activity {
         }
     }
                 
-                
-    private void viewFavourites(){
-    	
-    }
-    
-    private void sortBy(){
-    	
-    }
     
     private void createTopic(){
     	Intent topic = new Intent(this, CreateTopicActivity.class);
@@ -100,21 +92,34 @@ public class HomeView extends Activity {
     }
     
    
-    //View comments that have been marked as "read later"
-    private void viewReadLater(){
-    	
-    }
-	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		if (requestCode == 0){
 			if (resultCode == RESULT_OK){
 				
 				Topic topic = (Topic) data.getSerializableExtra("Topic");
-				topics.add(topic);
+				//topics.add(topic);
+				pushTopicToServer(topic);
 			}	
 		}
 	 
 	}
+	
+	
+	private void pushTopicToServer(Topic topic){
+		
+		ClientTask task = new ClientTask();
+		//ClientTaskTaskCode taskCode = fd; 
+		//task.setTaskCode
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

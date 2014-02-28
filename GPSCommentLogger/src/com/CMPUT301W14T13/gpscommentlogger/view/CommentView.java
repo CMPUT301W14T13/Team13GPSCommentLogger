@@ -33,14 +33,14 @@ public class CommentView
 	 * @uml.property  name="homeView"
 	 * @uml.associationEnd  inverse="commentView:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView homeView;
+	private HomeViewActivity homeView;
 
 	/**
 	 * Getter of the property <tt>homeView</tt>
 	 * @return  Returns the homeView.
 	 * @uml.property  name="homeView"
 	 */
-	public HomeView getHomeView()
+	public HomeViewActivity getHomeView()
 	
 	
 	
@@ -60,7 +60,7 @@ public class CommentView
 	 * @param homeView  The homeView to set.
 	 * @uml.property  name="homeView"
 	 */
-	public void setHomeView(HomeView homeView)
+	public void setHomeView(HomeViewActivity homeView)
 	
 	
 	
@@ -79,14 +79,14 @@ public class CommentView
 	 * @uml.property  name="homeView1"
 	 * @uml.associationEnd  inverse="commentView1:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView homeView1;
+	private HomeViewActivity homeView1;
 
 	/**
 	 * Getter of the property <tt>homeView1</tt>
 	 * @return  Returns the homeView1.
 	 * @uml.property  name="homeView1"
 	 */
-	public HomeView getHomeView1()
+	public HomeViewActivity getHomeView1()
 	
 	
 	
@@ -105,7 +105,7 @@ public class CommentView
 	 * @param homeView1  The homeView1 to set.
 	 * @uml.property  name="homeView1"
 	 */
-	public void setHomeView1(HomeView homeView1)
+	public void setHomeView1(HomeViewActivity homeView1)
 	
 	
 	
@@ -123,14 +123,14 @@ public class CommentView
 	 * @uml.property  name="homeView2"
 	 * @uml.associationEnd  aggregation="composite" inverse="commentView2:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView homeView2;
+	private HomeViewActivity homeView2;
 
 	/**
 	 * Getter of the property <tt>homeView2</tt>
 	 * @return  Returns the homeView2.
 	 * @uml.property  name="homeView2"
 	 */
-	public HomeView getHomeView2()
+	public HomeViewActivity getHomeView2()
 	
 	
 	
@@ -148,7 +148,7 @@ public class CommentView
 	 * @param homeView2  The homeView2 to set.
 	 * @uml.property  name="homeView2"
 	 */
-	public void setHomeView2(HomeView homeView2)
+	public void setHomeView2(HomeViewActivity homeView2)
 	
 	
 	
@@ -165,14 +165,14 @@ public class CommentView
 	 * @uml.property  name="homeView3"
 	 * @uml.associationEnd  aggregation="composite" inverse="commentView3:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView homeView3;
+	private HomeViewActivity homeView3;
 
 	/**
 	 * Getter of the property <tt>homeView3</tt>
 	 * @return  Returns the homeView3.
 	 * @uml.property  name="homeView3"
 	 */
-	public HomeView getHomeView3()
+	public HomeViewActivity getHomeView3()
 	
 	
 	
@@ -189,7 +189,7 @@ public class CommentView
 	 * @param homeView3  The homeView3 to set.
 	 * @uml.property  name="homeView3"
 	 */
-	public void setHomeView3(HomeView homeView3)
+	public void setHomeView3(HomeViewActivity homeView3)
 	
 	
 	
@@ -205,14 +205,14 @@ public class CommentView
 	 * @uml.property  name="homeView4"
 	 * @uml.associationEnd  aggregation="composite" inverse="commentView4:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView homeView4;
+	private HomeViewActivity homeView4;
 
 	/**
 	 * Getter of the property <tt>homeView4</tt>
 	 * @return  Returns the homeView4.
 	 * @uml.property  name="homeView4"
 	 */
-	public HomeView getHomeView4()
+	public HomeViewActivity getHomeView4()
 	
 	
 	
@@ -228,7 +228,7 @@ public class CommentView
 	 * @param homeView4  The homeView4 to set.
 	 * @uml.property  name="homeView4"
 	 */
-	public void setHomeView4(HomeView homeView4)
+	public void setHomeView4(HomeViewActivity homeView4)
 	
 	
 	
@@ -243,14 +243,14 @@ public class CommentView
 	 * @uml.property  name="homeView5"
 	 * @uml.associationEnd  inverse="commentView5:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView homeView5;
+	private HomeViewActivity homeView5;
 
 	/**
 	 * Getter of the property <tt>homeView5</tt>
 	 * @return  Returns the homeView5.
 	 * @uml.property  name="homeView5"
 	 */
-	public HomeView getHomeView5()
+	public HomeViewActivity getHomeView5()
 	
 	
 	
@@ -265,7 +265,7 @@ public class CommentView
 	 * @param homeView5  The homeView5 to set.
 	 * @uml.property  name="homeView5"
 	 */
-	public void setHomeView5(HomeView homeView5)
+	public void setHomeView5(HomeViewActivity homeView5)
 	
 	
 	
@@ -279,14 +279,14 @@ public class CommentView
 	 * @uml.property  name="h"
 	 * @uml.associationEnd  multiplicity="(1 1)" inverse="cc:com.CMPUT301W14T13.gpscommentlogger.view.HomeView"
 	 */
-	private HomeView h = new com.CMPUT301W14T13.gpscommentlogger.view.HomeView();
+	private HomeViewActivity h = new com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity();
 
 	/**
 	 * Getter of the property <tt>h</tt>
 	 * @return  Returns the h.
 	 * @uml.property  name="h"
 	 */
-	public HomeView getH()
+	public HomeViewActivity getH()
 	
 	
 	
@@ -300,7 +300,7 @@ public class CommentView
 	 * @param h  The h to set.
 	 * @uml.property  name="h"
 	 */
-	public void setH(HomeView h)
+	public void setH(HomeViewActivity h)
 	
 	
 	
@@ -313,14 +313,14 @@ public class CommentView
 	 * @uml.property name="t"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="cc:com.CMPUT301W14T13.gpscommentlogger.view.ThreadView"
 	 */
-	private TopicView t = new com.CMPUT301W14T13.gpscommentlogger.view.TopicView();
+	private TopicViewActivity t = new com.CMPUT301W14T13.gpscommentlogger.view.TopicViewActivity();
 
 	/** 
 	 * Getter of the property <tt>t</tt>
 	 * @return  Returns the t.
 	 * @uml.property  name="t"
 	 */
-	public TopicView getT()
+	public TopicViewActivity getT()
 	
 	
 	{
@@ -332,7 +332,7 @@ public class CommentView
 	 * @param t  The t to set.
 	 * @uml.property  name="t"
 	 */
-	public void setT(TopicView t)
+	public void setT(TopicViewActivity t)
 	
 	
 	{

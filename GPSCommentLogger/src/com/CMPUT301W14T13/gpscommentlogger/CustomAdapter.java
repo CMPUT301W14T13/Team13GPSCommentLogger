@@ -85,12 +85,5 @@ public class CustomAdapter extends BaseAdapter {
 	        text.setText(String.valueOf("number of comments"));
 	}
 	
-	/*public void setTopicView(View vi, int position){
-		
-		TextView text = (TextView) vi.findViewById(R.id.comment_username);
-        text.setText(String.valueOf(comments.get(position).getUsername()));
-        
-        text = (TextView) vi.findViewById(R.id.commentText);
-        text.setText(String.valueOf(comments.get(position).getCommentText()));
-	}*/
+	
 }
