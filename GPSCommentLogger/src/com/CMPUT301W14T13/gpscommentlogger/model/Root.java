@@ -160,12 +160,6 @@ public class Root implements Viewable {
 	}
 
 
-	@Override
-	public void setPopularity(Integer votes) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public boolean getHasImage() {
 		/* return image != null; */
 		return hasImage;

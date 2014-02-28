@@ -30,8 +30,7 @@ public interface Viewable {
 	void addChild(Viewable post);
 	
 	Integer getPopularity();
-	void setPopularity(Integer votes);
-	
+		
 	void setHasImage(boolean state);
 	boolean getHasImage();
 }

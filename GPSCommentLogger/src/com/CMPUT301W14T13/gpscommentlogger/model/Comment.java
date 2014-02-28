@@ -184,10 +184,4 @@ public class Comment implements Viewable
 		return null;
 	}
 
-
-	@Override
-	public void setPopularity(Integer votes) {
-		// TODO Auto-generated method stub
-		
-	}
 }

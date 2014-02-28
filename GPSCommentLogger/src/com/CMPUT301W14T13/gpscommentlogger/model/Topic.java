@@ -156,11 +156,6 @@ public class Topic implements Viewable, Serializable
 		return null;
 	}
 
-	@Override
-	public void setPopularity(Integer votes) {
-		// TODO Auto-generated method stub
-		
-	}
 	public boolean isHasImage() {
 		return hasImage;
 	}

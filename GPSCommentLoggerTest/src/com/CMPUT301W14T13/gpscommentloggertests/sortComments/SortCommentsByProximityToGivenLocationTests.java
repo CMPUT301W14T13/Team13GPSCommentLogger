@@ -33,9 +33,8 @@ public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrum
 
 		/* Get the current location */
 		LocationManager locationManager;
-		Context mContext;	
 		
-		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 	
 		/* Test from Jamaica 17°59′N 76°48′W */
 		Location given_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -102,9 +101,8 @@ public class SortCommentsByProximityToGivenLocationTests extends ActivityInstrum
 		/* Test from Jamaica 17°59′N 76°48′W */
 		/* Get the current location */
 		LocationManager locationManager;
-		Context mContext;	
 		
-		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 	
 		/* Test from Jamaica 17°59′N 76°48′W */
 		Location given_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
