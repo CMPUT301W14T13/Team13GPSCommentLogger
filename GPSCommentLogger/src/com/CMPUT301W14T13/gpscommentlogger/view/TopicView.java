@@ -34,6 +34,9 @@ public class TopicView extends Activity
         
         topic = (Topic) getIntent().getSerializableExtra("Topic");
         
+        
+        topic.setChildren(comments); //initialize children
+        
         commentListview = (ListView) findViewById(R.id.comment_list);
 	}
 	
