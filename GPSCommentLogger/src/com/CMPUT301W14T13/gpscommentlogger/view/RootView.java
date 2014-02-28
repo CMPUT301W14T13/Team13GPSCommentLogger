@@ -22,7 +22,7 @@ public class RootView {
     	
     }
     
-    public void sortBy(String sort){
+    public void sortBy(sortParameter sort){
     	
     }
     
