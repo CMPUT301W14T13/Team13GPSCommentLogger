@@ -22,9 +22,8 @@ public class CommentView
 		
 	}
 	
-	//I want to add this comment to my favourites list
+	//I want to add this comment to my favorites list
 	private void addToFavourites(){
-		
 		
 	}
 	
