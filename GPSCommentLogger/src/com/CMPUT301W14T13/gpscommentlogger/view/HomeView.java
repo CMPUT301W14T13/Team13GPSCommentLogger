@@ -33,8 +33,6 @@ public class HomeView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_view);
         
-       //Test topic to display
-       //addTestTopics();
        
        //set up adapter and ListView
        topicListview = (ListView) findViewById(R.id.topic_listview);
@@ -61,20 +59,7 @@ public class HomeView extends Activity {
     	topicListview.setAdapter(new CustomAdapter(this, topics));
     }
     
-    private void addTestTopics() {
-    	Topic topic = new Topic();
-        comment = new Comment();
-        topic.setTitle("TestingTitle");
-        topic.setRootComment(comment);
-        topics.add(topic);
-        
-        topic = new Topic();
-        comment = new Comment();
-        topic.setUsername("Austin");
-        topic.setRootComment(comment);
-        topics.add(topic);
-		
-	}
+   
 
 
 	@Override
