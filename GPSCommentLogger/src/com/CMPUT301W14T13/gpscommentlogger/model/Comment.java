@@ -80,6 +80,16 @@ public class Comment implements Viewable
 		this.hasImage = true;
 	}
 
+	/* increment the vote count (remember users can only vote once) */
+	public void upVote(String phoneID){
+		
+	}
+	
+	/* decrement the vote count (remember users can only vote once)*/
+	public void downVote(String phoneID){
+		
+	}
+	
 	@Override
 	public String getID() {
 		return ID;

@@ -37,18 +37,23 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		Comment comment_2 = new Comment();
 		Comment comment_3 = new Comment();
 
+		String[] phone_hashes = new String[3];
+		phone_hashes[0] = "49f0bad299687c62334182178bfd75d8";
+		phone_hashes[1] = "026f70ac4899ae2e829d0538281960ff";
+		phone_hashes[2] = "aa42b4ad1657c7d912db1cdaa88a30d4";
+		
 		/* set the vote count of each */
-		comment_1.setPopularity(1);
-		comment_2.setPopularity(0);
-		comment_3.setPopularity(87);
-
+		for (int i = 0; i < phone_hashes.length ; i++){ 
+			comment_1.upVote(phone_hashes[i]);
+			comment_3.downVote(phone_hashes[i]);
+		}
 		/* add the comments to the thread */
 		thread.addChild(comment_1);
 		thread.addChild(comment_2);
 		thread.addChild(comment_3);
-		
+
 		TopicView topicView= new TopicView(thread);
-		
+
 		topicView.sortBy(SortParameter.POPULARITY);
 		boolean sorted = true;
 		Integer prev_count = Integer.MAX_VALUE;
@@ -61,28 +66,6 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 			}
 			prev_count = comment.getPopularity();
 		}
-
-		/* check the comment order */
-		assertTrue("failure - comments not sorted by descending popularity", sorted);
-
-		/* test using negative popularities */
-		thread.getChildren().get(0).setPopularity(-10);
-		thread.getChildren().get(1).setPopularity(-99);
-
-		topicView.sortBy(SortParameter.POPULARITY);
-
-		sorted = true;
-		prev_count = Integer.MAX_VALUE;
-
-		/* check comment ordering */
-		for(Viewable comment : thread.getChildren()){
-			if( prev_count < comment.getPopularity()){
-				sorted = false;
-				break;
-			}
-			prev_count = comment.getPopularity();
-		}
-
 
 		/* check the comment order */
 		assertTrue("failure - comments not sorted by descending popularity", sorted);
@@ -107,18 +90,24 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		Topic thread_2 = new Topic();
 		Topic thread_3 = new Topic();
 
+		String[] phone_hashes = new String[3];
+		phone_hashes[0] = "49f0bad299687c62334182178bfd75d8";
+		phone_hashes[1] = "026f70ac4899ae2e829d0538281960ff";
+		phone_hashes[2] = "aa42b4ad1657c7d912db1cdaa88a30d4";
+		
 		/* set the vote count of each */
-		thread_1.setPopularity(1);
-		thread_2.setPopularity(0);
-		thread_3.setPopularity(101);
+		for (int i = 0; i < phone_hashes.length ; i++){ 
+			thread_1.upVote(phone_hashes[i]);
+			thread_3.downVote(phone_hashes[i]);
+		}
 
 		/* add the comments to the thread */
 		root.addChild(thread_1);
 		root.addChild(thread_2);
 		root.addChild(thread_3);
-		
+
 		RootView rootView= new RootView(root);
-		
+
 		rootView.sortBy(SortParameter.POPULARITY);
 		boolean sorted = true;
 		Integer prev_count = Integer.MAX_VALUE;
@@ -135,25 +124,5 @@ public class SortCommentsByPopularityTests extends ActivityInstrumentationTestCa
 		/* check the comment order */
 		assertTrue("failure - comments not sorted by descending popularity", sorted);
 
-		/* test using negative popularities */
-		thread_1.setPopularity(-10);
-		thread_2.setPopularity(-99);
-
-		rootView.sortBy(SortParameter.POPULARITY);
-		sorted = true;
-		prev_count = Integer.MAX_VALUE;
-
-		/* check the ordering of the comments */
-		for(Viewable thread : root.getChildren()){
-			if( prev_count < thread.getPopularity()){
-				sorted = false;
-				break;
-			}
-			prev_count = thread.getPopularity();
-		}
-		/* check the comment order */
-		assertTrue("failure - comments not sorted by descending popularity", sorted);
-
 	}
-
 }

@@ -87,6 +87,16 @@ public class Topic implements Viewable, Serializable
 		return comments;
 	}
 	
+	/* increment the vote count (remember users can only vote once) */
+	public void upVote(String phoneID){
+		
+	}
+	
+	/* decrement the vote count (remember users can only vote once)*/
+	public void downVote(String phoneID){
+		
+	}
+	
 	public String getID() {
 		return ID;
 	}
