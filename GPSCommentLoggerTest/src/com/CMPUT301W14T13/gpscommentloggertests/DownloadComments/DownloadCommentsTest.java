@@ -30,13 +30,29 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
+		
+		
 		String testPath = activity.getFilesDir().getPath().toString() + "/test.sav";
 		Log.w("DownloadCommentTest", "Filepath = " + testPath);
 		
 		DataManager dm = new DataManager(testPath);
+		
 		String testID = "This is a test ID";
 		Comment comment = new Comment(testID);
+		String testID2 = "This is a test ID 2";
+		Comment comment2 = new Comment(testID2);
+		
+		activity.simulateConnectToServer();
+		activity.simulateAddComment(comment); // not implemented in this branch but is in the master
+		activity.simulateAddComment(comment2);
+		activity.simulateBrowseClick(comment.index);//should automatically save this comment locally
+		activity.simulateDisconnectFromServer();
+		activity.simulateBrowseClick(index);// this should load the offline saved comment
+		assertTrue("both comment we save and comment we loaded should be the samw",
+				comment.equals(activity.getCurrentComment()));
+		
 		dm.saveData(comment);
+	
 		
 		activity.finish();
 		setActivityIntent(intent);
