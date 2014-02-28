@@ -36,7 +36,7 @@ public class HomeView extends Activity {
        //Test topic to display
        //addTestTopics();
        
-       //set up adapter and listview
+       //set up adapter and ListView
        topicListview = (ListView) findViewById(R.id.topic_listview);
        
        //set up listener for topic clicks
