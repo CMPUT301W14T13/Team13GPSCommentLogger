@@ -8,6 +8,8 @@ import java.util.List;
 
 
 import android.graphics.Bitmap;
+import android.location.Location;
+
 import java.util.Collection;
 
 
@@ -23,7 +25,8 @@ public class Comment implements Viewable
 	private List<String> childID;
 	private Date timestamp;
 	private String commentText;
-
+	private Location GPSLocation;
+	
 	private ArrayList<Viewable> children;
 	private HashMap<String, Vote> votes;
 
@@ -76,6 +79,7 @@ public class Comment implements Viewable
 		this.timestamp = timestamp;
 		this.commentText = commentText;
 		children = new ArrayList<Viewable>();
+		this.hasImage = true;
 	}
 
 
@@ -140,25 +144,36 @@ public class Comment implements Viewable
 		return timestamp;
 	}
 
-
-	public boolean getHasPicture() {
-		return image != null;
+	public Location getGPSLocation() {
+		return GPSLocation;
 	}
 
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
+
+	
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+	
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
 
-	
 
-	
-	
-	
-	
+	@Override
+	public void addChild(Viewable post) {
+		children.add(post);
+		
+	}
 
-	
-	
-	
-	
-	
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

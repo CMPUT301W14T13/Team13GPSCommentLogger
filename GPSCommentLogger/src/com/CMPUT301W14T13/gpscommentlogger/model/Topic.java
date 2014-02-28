@@ -12,8 +12,6 @@ import android.os.Parcelable;
 
 import java.util.Collection;
 
-
-
 public class Topic implements Viewable, Serializable
 {
 
@@ -22,6 +20,8 @@ public class Topic implements Viewable, Serializable
 	private String title;
 	private String ID;
 	private String username;
+	private boolean hasImage;
+
 	private Bitmap image;
 	private Date timestamp;
 	private Date freshness;
@@ -30,6 +30,8 @@ public class Topic implements Viewable, Serializable
 	private Location GPSLocation;
 	private String commentText;
 	
+
+
 	public Topic()
 	{
 		//TODO: create automatic ID generation system
@@ -59,7 +61,13 @@ public class Topic implements Viewable, Serializable
 		this.username = username;
 	}
 	
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
 
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
 
 	public ArrayList<Viewable> getChildren()
 	
@@ -120,15 +128,7 @@ public class Topic implements Viewable, Serializable
 		return timestamp;
 	}
 
-	
-	public void setLocation(Location location){
-		this.GPSLocation = location;
-	}
-	
-	public Location getLocation(){
-		return GPSLocation;
-	}
-	
+		
 	public void setRootComment(Comment comment){
 		this.rootComment = comment;
 	}
@@ -141,4 +141,26 @@ public class Topic implements Viewable, Serializable
 		// TODO Auto-generated method stub
 		comments = threadComments;
 	}
+
+
+	public void addChild(Viewable post) {
+		comments.add(post);
+		
+	}
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isHasImage() {
+		return hasImage;
+	}
+
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+
 }

@@ -13,11 +13,15 @@ import android.widget.ListView;
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
+/* I think this whole implementation needs to change */
+public class RootView extends Activity {
 
-public class HomeView extends Activity {
-
+	public RootView(Root root){
+	
+	}
 	
 	private ArrayList<Topic> topics = new ArrayList<Topic>();
 	private Comment comment;
@@ -43,22 +47,6 @@ public class HomeView extends Activity {
     	topicListview.setAdapter(new CustomAdapter(this, topics));
     }
     
-    private void addTestTopics() {
-    	Topic topic = new Topic();
-        comment = new Comment();
-        topic.setTitle("TestingTitle");
-        topic.setRootComment(comment);
-        topics.add(topic);
-        
-        topic = new Topic();
-        comment = new Comment();
-        topic.setUsername("Austin");
-        topic.setRootComment(comment);
-        topics.add(topic);
-		
-	}
-
-
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -87,7 +75,7 @@ public class HomeView extends Activity {
     	
     }
     
-    private void sortBy(){
+    public void sortBy(String sort){
     	
     }
     
