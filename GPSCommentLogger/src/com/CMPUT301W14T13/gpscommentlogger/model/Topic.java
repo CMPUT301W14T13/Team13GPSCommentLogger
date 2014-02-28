@@ -127,9 +127,7 @@ public class Topic implements Viewable, Serializable
 	public Date getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(Date date) {
-		timestamp = date;
-	}
+
 		
 	public void setRootComment(Comment comment){
 		this.rootComment = comment;

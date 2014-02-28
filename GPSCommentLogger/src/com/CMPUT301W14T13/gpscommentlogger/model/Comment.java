@@ -153,10 +153,6 @@ public class Comment implements Viewable
 		GPSLocation = gPSLocation;
 	}
 
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
 	
 	public boolean getHasImage() {
 		/* return image != null; */
