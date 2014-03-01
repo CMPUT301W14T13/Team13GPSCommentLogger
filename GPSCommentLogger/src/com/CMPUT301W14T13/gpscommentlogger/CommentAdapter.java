@@ -1,6 +1,5 @@
-	package com.CMPUT301W14T13.gpscommentlogger;
-
-	import java.util.ArrayList;
+package com.CMPUT301W14T13.gpscommentlogger;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.LayoutInflater;

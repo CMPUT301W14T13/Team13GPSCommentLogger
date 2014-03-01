@@ -1,13 +1,11 @@
 package com.CMPUT301W14T13.gpscommentloggertests.generalFunctionality;
 
-import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Handler;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
+
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 
 
 @SuppressLint("NewApi")
