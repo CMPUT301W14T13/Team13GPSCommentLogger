@@ -8,12 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.location.Location;
+
+import java.util.Collection;
 
 
 public class Comment implements Viewable, Serializable
 {
-
-
 	
 	private static final long serialVersionUID = 2L;
 	private String ID;
@@ -24,7 +25,8 @@ public class Comment implements Viewable, Serializable
 	private List<String> childID;
 	private Date timestamp;
 	private String commentText;
-
+	private Location GPSLocation;
+	
 	private ArrayList<Viewable> children;
 	private HashMap<String, Vote> votes;
 
@@ -37,7 +39,6 @@ public class Comment implements Viewable, Serializable
 		timestamp = new Date();
 		children = new ArrayList<Viewable>();
 	}
-
 
 	public Comment(String ID) {
 		this.ID = ID;
@@ -77,11 +78,19 @@ public class Comment implements Viewable, Serializable
 		this.timestamp = timestamp;
 		this.commentText = commentText;
 		children = new ArrayList<Viewable>();
+		this.hasImage = true;
 	}
 
-
+	/* increment the vote count (remember users can only vote once) */
+	public void upVote(String phoneID){
+		
+	}
 	
-
+	/* decrement the vote count (remember users can only vote once)*/
+	public void downVote(String phoneID){
+		
+	}
+	
 	@Override
 	public String getID() {
 		return ID;
@@ -144,25 +153,36 @@ public class Comment implements Viewable, Serializable
 		return timestamp;
 	}
 
-
-	public boolean getHasPicture() {
-		return image != null;
+	public Location getGPSLocation() {
+		return GPSLocation;
 	}
 
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
+
+	
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+	
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
 
-	
 
-	
-	
-	
-	
+	@Override
+	public void addChild(Viewable post) {
+		children.add(post);
+		
+	}
 
-	
-	
-	
-	
-	
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

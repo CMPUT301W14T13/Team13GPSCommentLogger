@@ -1,139 +1,155 @@
-package com.CMPUT301W14T13.gpscommentloggertests;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-
+package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
+import com.CMPUT301W14T13.gpscommentlogger.view.SortParameter;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
+
 @SuppressLint("NewApi")
-    public class SortCommentsByProximityToCurrentLocationTests extends ActivityInstrumentationTestCase2<DebugActivity> {
+public class SortCommentsByProximityToCurrentLocationTests extends ActivityInstrumentationTestCase2<DebugActivity> {
 
-    public SortCommentsByProximityToCurrentLocationTests() {
-	super(DebugActivity.class);
-    }
-    
-
-    /* Test the sorting of comments within a thread by distance from cur location */
-    public void testSortCommentsByProximityToCurrentLocation()
-    {
-	Intent intent = new Intent();
-	setActivityIntent(intent);
-	DebugActivity activity = getActivity();
-
-	assertNotNull(activity);
-
-	/* Get the current location */
-	Context lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-	Location my_gps = lm.getLastKnownLocation(GPS_PROVIDER);
-
-	/* Make a thread to contain the comments */
-	Topic thread = new Topic();
-
-	/* make two comments and set their locations */
-	Comment comment_1 = new Comment();
-	Comment comment_2 = new Comment();
-	Comment comment_3 = new Comment();
-
-	/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
-	Location tokyo = new Location(GPS_PROVIDER);
-	tokyo.setLatitude(35.412222);
-	tokyo.setLongitude(139.413012);
-
-	/* set chicago GPS:41°52′55″N 087°37′40″W */
-	Location chicago = new Location(GPS_PROVIDER);
-	chicago.setLatitude(41.5255);
-	chicago.setLongitude(87.3740);
-
-	/* set the locations of the comments */
-	comment_1.setLocation(my_gps); /* this should be bang on to my location */
-	comment_2.setLocation(tokyo);
-	comment_3.setLocation(chicago);
-
-	/* add the comments to the thread */
-	thread.addComment(comment_1);
-	thread.addComment(comment_2);
-	thread.addComment(comment_3);
-
-	thread.sortByProximity();
-	boolean sorted = true;
-	Float prev_count = Float.MIN_VALUE;
-
-	/* check the ordering of the comments */
-	for(Comment comment : thread.getComments()){
-	    if( prev_count > my_gps.distanceTo(comment.getLocation())){
-		sorted = false;
-		break;
-	    }
-	    prev_count = my_gps.distanceTo(comment.getLocation());
+	public SortCommentsByProximityToCurrentLocationTests() {
+		super(DebugActivity.class);
 	}
-	
-	/* check the comment order */
-	assertTrue("failure - comments not sorted by ascending distance", sorted);
 
-    }
-    /* Test the sorting of threads distance from cur location */
-    public void testSortThreadsByProximityToCurrentLocation()
-    {
-	Intent intent = new Intent();
-	setActivityIntent(intent);
-	DebugActivity activity = getActivity();
 
-	assertNotNull(activity);
+	/* Test the sorting of comments within a thread by distance from cur location */
+	public void testSortCommentsByProximityToCurrentLocation()
+	{
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
 
-	/* Get the current location */
-	Context lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-	Location my_gps = lm.getLastKnownLocation(GPS_PROVIDER);
+		assertNotNull(activity);
 
-	/* Make a thread to contain the comments */
-	Root root = new Root();
+		/* Get the current location */
+		LocationManager locationManager;	
 
-	/* make two comments and set their locations */
-	Topic thread_1 = new Topic();
-	Topic thread_2 = new Topic();
-	Topic thread_3 = new Topic();
+		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+		Location my_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-	/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
-	Location tokyo = new Location(GPS_PROVIDER);
-	tokyo.setLatitude(35.412222);
-	tokyo.setLongitude(139.413012);
+		/* Make a thread to contain the comments */
+		Topic thread = new Topic();
 
-	/* set chicago GPS:41°52′55″N 087°37′40″W */
-	Location chicago = new Location(GPS_PROVIDER);
-	chicago.setLatitude(41.5255);
-	chicago.setLongitude(87.3740);
+		/* make two comments and set their locations */
+		Comment comment_1 = new Comment();
+		Comment comment_2 = new Comment();
+		Comment comment_3 = new Comment();
 
-	/* set the locations of the comments */
-	thread_1.setLocation(my_gps); /* this should be bang on to my location */
-	thread_2.setLocation(tokyo);
-	thread_3.setLocation(chicago);
+		/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
+		Location tokyo = new Location(LocationManager.GPS_PROVIDER);
+		tokyo.setLatitude(35.412222);
+		tokyo.setLongitude(139.413012);
 
-	/* add the comments to the thread */
-	root.addCommentThread(comment_1);
-	root.addCommentThread(comment_2);
-	root.addCommentThread(comment_3);
+		/* set chicago GPS:41°52′55″N 087°37′40″W */
+		Location chicago = new Location(LocationManager.GPS_PROVIDER);
+		chicago.setLatitude(41.5255);
+		chicago.setLongitude(87.3740);
 
-	thread.sortByProximity();
-	boolean sorted = true;
-	Float prev_count = Float.MIN_VALUE;
+		/* set the locations of the comments */
+		comment_1.setGPSLocation(my_gps); /* this should be bang on to my location */
+		comment_2.setGPSLocation(tokyo);
+		comment_3.setGPSLocation(chicago);
 
-	/* check the ordering of the comments */
-	for(Topic thread : root.getCommentThreads()){
-	    if( prev_count > my_gps.distanceTo(thread.getLocation())){
-		sorted = false;
-		break;
-	    }
-	    prev_count = my_gps.distanceTo(thread.getLocation());
-	    
+		/* add the comments to the thread */
+		thread.addChild(comment_1);
+		thread.addChild(comment_2);
+		thread.addChild(comment_3);
+
+		TopicView topicView= new TopicView(thread);
+
+		topicView.sortBy(SortParameter.PROXIMITY);
+		boolean sorted = true;
+		Float prev_count = Float.MIN_VALUE;
+
+		/* check the ordering of the comments */
+		for(Viewable comment : thread.getChildren()){
+			if( prev_count > my_gps.distanceTo(comment.getGPSLocation())){
+				sorted = false;
+				break;
+			}
+			prev_count = my_gps.distanceTo(comment.getGPSLocation());
+		}
+
+		/* check the comment order */
+		assertTrue("failure - comments not sorted by ascending distance", sorted);
+
 	}
-	
-	/* check the comment order */
-	assertTrue("failure - comments not sorted by ascending distance", sorted);
+	/* Test the sorting of threads distance from cur location */
+	public void testSortThreadsByProximityToCurrentLocation()
+	{
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
 
-    }
+		assertNotNull(activity);
+
+		/* Declare the context and location managers*/
+		LocationManager locationManager;
+
+		/* Get the current location */
+		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+		Location my_gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		/* Make a thread to contain the comments */
+		Root root = new Root();
+
+		/* make two comments and set their locations */
+		Topic thread_1 = new Topic();
+		Topic thread_2 = new Topic();
+		Topic thread_3 = new Topic();
+
+		/* set tokyo GPS: 35°41′22.22″N 139°41′30.12″E */
+		Location tokyo = new Location(LocationManager.GPS_PROVIDER);
+		tokyo.setLatitude(35.412222);
+		tokyo.setLongitude(139.413012);
+
+		/* set chicago GPS:41°52′55″N 087°37′40″W */
+		Location chicago = new Location(LocationManager.GPS_PROVIDER);
+		chicago.setLatitude(41.5255);
+		chicago.setLongitude(87.3740);
+
+		/* set the locations of the comments */
+		thread_1.setGPSLocation(my_gps); /* this should be bang on to my location */
+		thread_2.setGPSLocation(tokyo);
+		thread_3.setGPSLocation(chicago);
+
+		/* add the comments to the thread */
+		root.addChild(thread_1);
+		root.addChild(thread_2);
+		root.addChild(thread_3);
+
+		RootView rootView= new RootView(root);
+
+		/* sort by closest comments */
+		rootView.sortBy(SortParameter.PROXIMITY);
+
+		boolean sorted = true;
+		Float prev_count = Float.MIN_VALUE;
+
+		/* check the ordering of the comments */
+		for(Viewable thread : root.getChildren()){
+			if( prev_count > my_gps.distanceTo(thread.getGPSLocation())){
+				sorted = false;
+				break;
+			}
+			prev_count = my_gps.distanceTo(thread.getGPSLocation());
+
+		}
+
+		/* check the comment order */
+		assertTrue("failure - comments not sorted by ascending distance", sorted);
+
+	}
 
 }

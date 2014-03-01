@@ -1,111 +1,125 @@
-package com.CMPUT301W14T13.gpscommentloggertests;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentThread;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentRoot;
+package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
-import java.util.Date;
+
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
+import com.CMPUT301W14T13.gpscommentlogger.view.SortParameter;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
 
 @SuppressLint("NewApi")
-    public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2<DebugActivity> {
+public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2<DebugActivity> {
 
-    public SortCommentsByPictureTests() {
-	super(DebugActivity.class);
-    }
-    
-
-    /* Test the sorting of comments within a thread by picture proximity */
-    public void testSortCommentsByPictures()
-    {
-	Intent intent = new Intent();
-	setActivityIntent(intent);
-	DebugActivity activity = getActivity();
-
-	assertNotNull(activity);
-
-	/* Make a thread to contain the comments */
-	CommentThread thread = new CommentThread();
-
-	/* make two comments and set their locations */
-	Comment comment_1 = new Comment();
-	Comment comment_2 = new Comment();
-	Comment comment_3 = new Comment();
-
-	/* set the locations of the comments */
-	comment_1.setHasImage(true); 
-	comment_2.setHasImage(false);
-	comment_3.setHasImage(true);
-
-	/* add the comments to the thread */
-	thread.addComment(comment_1);
-	thread.addComment(comment_2);
-	thread.addComment(comment_3);
-
-	/* sort by comments with pictures */
-	thread.sortByImage();
-	boolean sorted = true;
-	boolean prev_has_img = true;
-
-	/* check the ordering of the comments */
-	for(Comment comment : thread.getComments()){
-	    /* if it switches from false to true then the comments have mixing of pictures and no pictures*/
-	    if( prev_has_image != comment.getHasImage() && prev_has_image == false ){
-		sorted = false;
-		break;
-	    }
-	    prev_has_img = comment.getHasImage();
+	public SortCommentsByPictureTests() {
+		super(DebugActivity.class);
 	}
-	
-	/* check the comment order */
-	assertTrue("failure - comments with and without images are mixed", sorted);
 
-    }
-    /* Test the sorting of comments within a thread by picture proximity */
-    public void testSortThreadsByPictures()
-    {
-	Intent intent = new Intent();
-	setActivityIntent(intent);
-	DebugActivity activity = getActivity();
 
-	assertNotNull(activity);
+	/* Test the sorting of comments within a thread by picture proximity */
+	public void testSortCommentsByPictures()
+	{
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
 
-	/* Make a thread to contain the comments */
-	CommentRoot root = new CommentRoot();
+		assertNotNull(activity);
 
-	/* make two comments and set their locations */
-	CommentThread thread_1 = new CommentThread();
-	CommentThread thread_2 = new CommentThread();
-	CommentThread thread_3 = new CommentThread();
+		/* Make a thread to contain the comments */
+		Topic thread = new Topic();
 
-	/* set the image properties */
-	thread_1.setHasImage(true); 
-	thread_2.setHasImage(false);
-	thread_3.setHasImage(true);
+		
+		String ID = "4324";
+		String username = "Austin";
+		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+		Date timestamp = new Date();
+		String commentText = "Test comment";
+		
+		/*make some comments with and without pictures */
+		Comment comment_1 = new Comment(ID, username, picture, timestamp, commentText);
+		Comment comment_2 = new Comment();
+		Comment comment_3 = new Comment(ID, username, picture, timestamp, commentText);
+		
+		/* add the comments to the thread */
+		thread.addChild(comment_1);
+		thread.addChild(comment_2);
+		thread.addChild(comment_3);
 
-	/* add the comments to the thread */
-	root.addCommentThread(comment_1);
-	root.addCommentThread(comment_2);
-	root.addCommentThread(comment_3);
+		TopicView topicView= new TopicView(thread);
+		/* sort by comments with pictures */
+		topicView.sortBy(SortParameter.IMAGE);
+		boolean sorted = true;
+		boolean prev_has_img = true;
 
-	/* sort by comments with pictures */
-	thread.sortByImage();
-	boolean sorted = true;
-	boolean prev_has_img = true;
+		/* check the ordering of the comments */
+		for(Viewable comment : thread.getChildren()){
+			/* if it switches from false to true then the comments have mixing of pictures and no pictures*/
+			if( prev_has_img != comment.getHasImage() && prev_has_img == false ){
+				sorted = false;
+				break;
+			}
+			prev_has_img = comment.getHasImage();
+		}
 
-	/* check the ordering of the comments */
-	for(CommentThread thread : root.getCommentThreads()){
-	    /* if it switches from false to true then the comments have mixing of pictures and no pictures*/
-	    if( prev_has_image != thread.getHasImage() && prev_has_image == false ){
-		sorted = false;
-		break;
-	    }
-	    prev_has_img = thread.getHasImage();
+		/* check the comment order */
+		assertTrue("failure - comments with and without images are mixed", sorted);
+
 	}
-	
-	/* check the comment order */
-	assertTrue("failure - comments with and without images are mixed", sorted);
+	/* Test the sorting of comments within a thread by picture proximity */
+	public void testSortThreadsByPictures()
+	{
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		DebugActivity activity = getActivity();
 
-    }
+		assertNotNull(activity);
+
+		/* Make a thread to contain the comments */
+		Root root = new Root();
+
+		
+		String ID = "4324";
+		String username = "Austin";
+		Bitmap picture = Bitmap.createBitmap(1,1, Config.ARGB_8888); //must add arguments
+		Date timestamp = new Date();
+		String commentText = "Test comment";
+		
+		/*make some comments with and without pictures */
+		Topic thread_1 = new Topic(ID, username, picture, timestamp, commentText);
+		Topic thread_2 = new Topic();
+		Topic thread_3 = new Topic(ID, username, picture, timestamp, commentText);
+
+		/* add the comments to the thread */
+		root.addChild(thread_1);
+		root.addChild(thread_2);
+		root.addChild(thread_3);
+
+		RootView rootView= new RootView(root);
+		/* sort by comments with pictures */
+		rootView.sortBy(SortParameter.IMAGE);
+		boolean sorted = true;
+		boolean prev_has_img = true;
+
+		/* check the ordering of the comments */
+		for(Viewable thread : root.getChildren()){
+			/* if it switches from false to true then the comments have mixing of pictures and no pictures*/
+			if( prev_has_img != thread.getHasImage() && prev_has_img == false ){
+				sorted = false;
+				break;
+			}
+			prev_has_img = thread.getHasImage();
+		}
+
+		/* check the comment order */
+		assertTrue("failure - comments with and without images are mixed", sorted);
+
+	}
+}

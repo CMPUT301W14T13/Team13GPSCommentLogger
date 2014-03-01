@@ -15,6 +15,7 @@ public class Root implements Viewable {
 	private String ID;
 	private String commentText;
 	private Bitmap image;
+	private boolean hasImage;
 	private Date timestamp;
 	private Date freshness;
 	private ArrayList<Viewable> comments;
@@ -22,12 +23,13 @@ public class Root implements Viewable {
 	
 	public Root()
 	{
-		//TODO: create sutomatic ID generation system
+		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
 		comments = new ArrayList<Viewable>();
 	}
 	
+
 	public Root(String ID)
 	{
 		this.ID = ID;
@@ -134,6 +136,33 @@ public class Root implements Viewable {
 	@Override
 	public Date getTimestamp() {
 		return timestamp;
+	}
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
+
+
+	@Override
+	public void addChild(Viewable post) {
+		comments.add(post);
+		
+	}
+
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
 	}
 
 }
