@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,16 @@ public class CustomAdapter extends BaseAdapter {
 	        	
 	         }
 	        
+	        /*
+	         * Sets the colour of the background for the listview rows, alternating every time.
+	         * Change as needed
+	         */
+	        if (position % 2 == 0){
+	        	vi.setBackgroundColor(Color.argb(255,0,0,0)); //black
+	        }
+	        else{
+	        	vi.setBackgroundColor(Color.argb(255, 128, 128, 128)); //grey
+	        }
 	       
 	        return vi;
 	}
@@ -83,6 +94,7 @@ public class CustomAdapter extends BaseAdapter {
 	        
 	        text = (TextView) vi.findViewById(R.id.number_of_comments);
 	        text.setText(String.valueOf("number of comments"));
+	        
 	}
 	
 	
