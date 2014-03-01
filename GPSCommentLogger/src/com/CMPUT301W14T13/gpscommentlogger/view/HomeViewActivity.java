@@ -28,7 +28,6 @@ public class HomeViewActivity extends Activity {
 
 	
 	private ArrayList<Topic> topics = new ArrayList<Topic>();
-	private Comment comment;
 	private ListView topicListview;
 	
 	
@@ -102,8 +101,8 @@ public class HomeViewActivity extends Activity {
 			if (resultCode == RESULT_OK){
 				
 				Topic topic = (Topic) data.getSerializableExtra("Topic");
-				//topics.add(topic);
-				pushTopicToServer(topic);
+				topics.add(topic);
+				//pushTopicToServer(topic);
 			}	
 		}
 	 
@@ -114,16 +113,15 @@ public class HomeViewActivity extends Activity {
 		
 		//Build task object
 		ClientTask task = new ClientTask();
-		ClientTaskTaskCode taskCode = ClientTaskTaskCode.values()[1]; 
-		ClientTaskSourceCode sourceCode = ClientTaskSourceCode.values()[3];
-		
-		task.setTaskCode(taskCode);
-		task.setSourceCode(sourceCode);
+	
+		task.setTaskCode(ClientTaskTaskCode.POST);
+		task.setSourceCode(ClientTaskSourceCode.SERVER_DATA);
 		task.setObj(topic);
 		
-		ClientController controller = new ClientController();
+		//Add task object
+		//ClientController controller = new ClientController();
 		
-		controller.addTask(task);
+		//controller.addTask(task);
 		
 	}
 	
