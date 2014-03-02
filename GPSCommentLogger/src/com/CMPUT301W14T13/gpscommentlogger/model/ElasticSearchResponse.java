@@ -8,7 +8,12 @@ public class ElasticSearchResponse<T> {
     boolean exists;
     T _source;
     double max_score;
+    
     public T getSource() {
         return _source;
+    }
+    
+    public String getESID() {
+        return _id;
     }
 }

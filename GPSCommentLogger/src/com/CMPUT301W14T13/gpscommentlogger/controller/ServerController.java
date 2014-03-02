@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -176,7 +177,7 @@ public class ServerController extends Controller
 
 		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		HttpClient client = new DefaultHttpClient();
-		HttpPost request = new HttpPost(WEB_URL);
+		HttpPost request = new HttpPost(WEB_URL + "_search");
 
 		try
 		{
@@ -213,6 +214,70 @@ public class ServerController extends Controller
 
 		return result;
 	}
+	
+	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
+	
+	public void processUpdateRequest(ServerTask currentTask) throws ClientProtocolException, IOException {
+		ServerResult result = new ServerResult();
+
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		HttpClient client = new DefaultHttpClient();
+		HttpPost request = new HttpPost(WEB_URL + "_search");
+
+		try
+		{
+			String query = 	"{\"query\" : {\"query_string\" : {\"default_field\" : \"ID\",\"query\" : \"" + currentTask.getSearchTerm() + "\"}}}";
+			StringEntity stringentity = new StringEntity(query);
+
+
+			request.setHeader("Accept","application/json");
+			request.setEntity(stringentity);
+
+
+			HttpResponse response = client.execute(request);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearch",status);
+
+
+			String json = getEntityContent(response);
+			String id = "";
+			
+			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<Viewable>>(){}.getType();
+			ElasticSearchSearchResponse<Viewable> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
+			System.err.println(esResponse);
+			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
+			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
+				id = r.getESID();
+				Log.w("ElasticSearch",id);
+			}
+
+
+			HttpPost updateRequest = new HttpPost(WEB_URL + "/" + id + "/_create");
+			updateRequest.setHeader("Accept","application/json");
+			String jsonString = gson.toJson(currentTask.getObj());
+			updateRequest.setEntity(new StringEntity(jsonString));
+
+			HttpResponse updateResponse = client.execute(request);
+			Log.w("ElasticSearch", updateResponse.getStatusLine().toString());
+
+			HttpEntity entity = updateResponse.getEntity();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+			String output = reader.readLine();
+			while(output != null)
+			{
+				Log.w("ElasticSearch", output);
+				output = reader.readLine();
+			}
+			
+			result.setContent(output);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}	
+
 	
 	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
 	
