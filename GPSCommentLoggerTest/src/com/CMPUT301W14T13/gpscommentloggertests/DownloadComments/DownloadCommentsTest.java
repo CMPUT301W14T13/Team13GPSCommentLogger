@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
@@ -29,54 +30,45 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
+		activity.simulateConnectToServer(); // need to be connected to server
+		assertNotNull(activity.getCurrentComment());
+		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
+		
+		String testID = "This is a test ID for topComment";
+		Topic topComment = new Topic(testID);
+		activity.simulateAddComment(topComment);
+		activity.simulateBrowseClick(0);
+		Thread.sleep(2000);
+		
+		assertNotNull(activity.getCurrentComment());
+		assertEquals("first layer is a Topic", true, activity.getCurrentComment() instanceof Topic);
+		assertEquals("The Topic should have the correct testID",
+				testID.equals(activity.getCurrentComment().getID()));
 		
 		
-		
-		String testPath = activity.getFilesDir().getPath().toString() + "/test.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
-		
-		DataManager dm = new DataManager(testPath);
-		
-		String testID = "This is a test ID";
+		String testID = "This is a test ID for comment";
 		Comment comment = new Comment(testID);
-		String testID2 = "This is a test ID 2";
+		String testID2 = "This is a test ID for comment2";
 		Comment comment2 = new Comment(testID2);
 		
-		activity.simulateConnectToServer();
+		
 		activity.simulateAddComment(comment); // not implemented in this branch but is in the master
 		activity.simulateAddComment(comment2);
+		
 		// i do not know how to get this index 
-		activity.simulateSaveClick(comment2.index);// we have not implemented simulated save button click in debugActivity.
-		activity.simulateBrowseClick(comment.index);//should automatically save this comment locally
+		activity.simulateSaveClick(topComment.index);//we need a saveButton click
+		
 		
 		activity.simulateDisconnectFromServer();
+		
 		activity.simulateBrowseClick(comment.index);// this should load the offline saved comment and i believe set it as current comment
 		assertTrue("both the comment we save and the comment we loaded should be the same",
 				comment.equals(activity.getCurrentComment()));
 		activity.simulateBrowseClick(comment2.index);// load comment2 as current comment
 		assertTrue("both the comment we save and the comment we loaded should be the same",
 				comment2.equals(activity.getCurrentComment()));
-		dm.saveData(comment);
+
 	
-		
-		activity.finish();
-		setActivityIntent(intent);
-		activity = getActivity();
-		dm = new DataManager(testPath);
-		try {
-			dm.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		Comment fromFile = (Comment)dm.getData(testID);
-		
-		/*assertEquals("The comment we load from file should be the same as the comment we saved",
-				comment, fromFile);
-		*/
-		
-		assertTrue("The comment we load from file should be the same as the comment we saved",
-				comment.equals(fromFile));
 		
 		activity.finish();
 	}
@@ -89,13 +81,10 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath =  activity.getFilesDir().getPath().toString() + "/test2.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
-
-		DataManager dm = new DataManager(testPath);
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
+		
 		Comment reply = new Comment();
 		topComment.getC().add(reply);
 		
