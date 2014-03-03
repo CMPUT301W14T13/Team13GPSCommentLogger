@@ -30,6 +30,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
+		
 		activity.simulateConnectToServer(); // need to be connected to server
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
@@ -54,18 +55,23 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		activity.simulateAddComment(comment); // not implemented in this branch but is in the master
 		activity.simulateAddComment(comment2);
-		
+		Thread.sleep(2000);
 		// i do not know how to get this index 
 		activity.simulateSaveClick(topComment.index);//we need a saveButton click
-		
+		Thread.sleep(2000);
 		
 		activity.simulateDisconnectFromServer();
+		Thread.sleep(2000);
 		
 		activity.simulateBrowseClick(topComment.index);// this should load the offline saved comment and i believe set it as current comment
+		Thread.sleep(2000);
+		
 		assertTrue("both the comment we save and the comment we loaded should be the same",
 				topComment.equals(activity.getCurrentComment()));
+		
 		activity.simulateBrowseClick(0);
-		// we dont save children so our current commen should still be the same
+		Thread.sleep(2000);
+		// we dont save children so our current comment should still be the same
 		assertTrue("both the comment we save and the comment we loaded should be the same",
 				topComment.equals(activity.getCurrentComment()));
 
@@ -82,38 +88,52 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
+		activity.simulateConnectToServer(); // need to be connected to server
+		assertNotNull(activity.getCurrentComment());
+		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
 		
-		String testID = "This is a test ID";
+		String testID = "This is a test ID for topComment";
 		Topic topComment = new Topic(testID);
+		activity.simulateAddComment(topComment);
+		activity.simulateBrowseClick(0);
+		Thread.sleep(2000);
 		
-		Comment reply = new Comment();
-		topComment.getC().add(reply);
+		assertNotNull(activity.getCurrentComment());
+		assertEquals("first layer is a Topic", true, activity.getCurrentComment() instanceof Topic);
+		assertEquals("The Topic should have the correct testID",
+				testID.equals(activity.getCurrentComment().getID()));
 		
-		dm.saveFavourite(topComment);
 		
-		activity.finish();
-		setActivityIntent(intent);
-		activity = getActivity();
+		String testID = "This is a test ID for comment";
+		Comment comment = new Comment(testID);
+		String testID2 = "This is a test ID for comment2";
+		Comment comment2 = new Comment(testID2);
 		
-		dm = new DataManager(testPath);
-		try {
-			dm.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//add to child comments to topComment
+		activity.simulateAddComment(comment); // not implemented in this branch but is in the master
+		activity.simulateAddComment(comment2);
+		Thread.sleep(2000);
 		
-		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
+		// i do not know how to get this index 
+		activity.simulateSaveClick(topComment.index);//we need a saveButton click
+		Thread.sleep(2000);
 		
-		/*
-		assertEquals("top comment we load is the same as the top comment we saved",
-				topComment, favoritedTopic);
-		assertEquals("the reply we loaded is the same as the reply we saved",
-				reply, favoritedTopic.getC().get(0)); //compare the first child
-		*/
-		assertTrue("top comment we load is the same as the top comment we saved",
-				topComment.equals(favoritedTopic));
-		assertTrue("the reply we loaded is the same as the reply we saved",
-				reply.equals(favoritedTopic.getC().get(0))); //compare the first child
+		activity.simulateDisconnectFromServer();
+		Thread.sleep(2000);
+		
+		activity.simulateBrowseClick(topComment.index);// this should load the offline saved comment and i believe set it as current comment
+		Thread.sleep(2000);
+		
+		assertTrue("both the comment we save and the comment we loaded should be the same",
+				topComment.equals(activity.getCurrentComment()));
+		
+		activity.simulateBrowseClick(0);
+		Thread.sleep(2000);
+		// we save child comments  as well
+		assertTrue("first child comment should be loaded",
+				comment.equals(activity.getCurrentComment()));
+
+	
 		
 		activity.finish();
 		
