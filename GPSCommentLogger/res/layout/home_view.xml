@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-	android:background="@android:color/black" >
+	android:background="@android:color/white" >
   
-
     <ListView
         android:id="@+id/topic_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:divider="#D1D1D1"
+        android:dividerHeight="4px" >
+
     </ListView>
 
 </LinearLayout>

@@ -68,12 +68,12 @@ public class CustomAdapter extends BaseAdapter {
 	         * Sets the colour of the background for the listview rows, alternating every time.
 	         * Change as needed
 	         */
-	        if (position % 2 == 0){
-	        	vi.setBackgroundColor(Color.argb(255,0,0,0)); //black
-	        }
-	        else{
-	        	vi.setBackgroundColor(Color.argb(255, 128, 128, 128)); //grey
-	        }
+	        //if (position % 2 == 0){
+	        //	vi.setBackgroundColor(Color.argb(255,0,0,0)); //black
+	        //}
+	        //else{
+	        //	vi.setBackgroundColor(Color.argb(255, 128, 128, 128)); //grey
+	        //}
 	       
 	        return vi;
 	}
