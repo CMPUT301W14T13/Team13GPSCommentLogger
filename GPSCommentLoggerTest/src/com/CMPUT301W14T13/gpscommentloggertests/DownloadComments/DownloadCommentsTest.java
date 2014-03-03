@@ -61,12 +61,13 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		
 		activity.simulateDisconnectFromServer();
 		
-		activity.simulateBrowseClick(comment.index);// this should load the offline saved comment and i believe set it as current comment
+		activity.simulateBrowseClick(topComment.index);// this should load the offline saved comment and i believe set it as current comment
 		assertTrue("both the comment we save and the comment we loaded should be the same",
-				comment.equals(activity.getCurrentComment()));
-		activity.simulateBrowseClick(comment2.index);// load comment2 as current comment
+				topComment.equals(activity.getCurrentComment()));
+		activity.simulateBrowseClick(0);
+		// we dont save children so our current commen should still be the same
 		assertTrue("both the comment we save and the comment we loaded should be the same",
-				comment2.equals(activity.getCurrentComment()));
+				topComment.equals(activity.getCurrentComment()));
 
 	
 		
