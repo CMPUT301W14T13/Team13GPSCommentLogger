@@ -10,13 +10,16 @@ import java.util.List;
 import android.graphics.Bitmap;
 
 import android.graphics.Bitmap.Config;
+import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.Collection;
 
 
 
-public class Comment implements Viewable, Serializable
+public class Comment implements Viewable, Parcelable
 {
 
 
@@ -86,7 +89,9 @@ public class Comment implements Viewable, Serializable
 		children = new ArrayList<Viewable>();
 	}
 
-
+	public Comment(Parcel in){
+		readFromParcel(in);
+	}
 
 
 	@Override
@@ -101,7 +106,12 @@ public class Comment implements Viewable, Serializable
 		return children;
 	}
 
-
+	
+	public void setChildren(ArrayList<Viewable> comments) {
+		// TODO Auto-generated method stub
+		children = comments;
+	}
+	
 	@Override
 	public String getUsername() {
 		return username;
@@ -203,5 +213,52 @@ public class Comment implements Viewable, Serializable
 				&& votes.equals(votes);
 	}
 
+
+	/* Interface for
+	 * Parcelable is
+	 * handled in the 
+	 * methods below
+	 */
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		//GPSLocation.writeToParcel(dest, flags);
+		dest.writeString(ID);
+		dest.writeString(username);
+		dest.writeString(commentText);
+		dest.writeValue(children);
+		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
+		dest.writeValue(image);
+		
+	}
+
+	public void readFromParcel(Parcel in){
+		//GPSLocation = Location.CREATOR.createFromParcel(in);
+		ID = in.readString();
+		username = in.readString();
+		commentText = in.readString();
+		children = in.readParcelable(Viewable.class.getClassLoader());
+		timestamp = new Date(in.readLong());
+		image = in.readParcelable(Bitmap.class.getClassLoader());
+		
+	}
 	
+	public static final Parcelable.Creator<Comment> CREATOR =
+			new Parcelable.Creator<Comment>(){
+		public Comment createFromParcel(Parcel in){
+			return new Comment(in);
+		}
+		
+		public Comment[] newArray(int size){
+			return new Comment[size];
+			
+		}
+	};
 }

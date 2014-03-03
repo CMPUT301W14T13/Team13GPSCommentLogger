@@ -24,7 +24,7 @@ public class TopicViewActivity extends Activity
 {
 
 	private Topic topic = new Topic();
-	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
+	private ArrayList<Viewable> comments;
 	
 	private ListView commentListview;
 	
@@ -32,9 +32,9 @@ public class TopicViewActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_view);
         
-        topic = (Topic) getIntent().getSerializableExtra("Topic");
+        topic = (Topic) getIntent().getParcelableExtra("Topic");
         
-        
+        comments = new ArrayList<Viewable>();
         topic.setChildren(comments); //initialize children
         
         commentListview = (ListView) findViewById(R.id.comment_list);
@@ -93,8 +93,12 @@ public class TopicViewActivity extends Activity
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			
-		Comment comment = (Comment) data.getSerializableExtra("comment");
 		int row;
+		
+		Comment comment = (Comment) data.getParcelableExtra("comment");
+		comments = new ArrayList<Viewable>();
+		comment.setChildren(comments); //initialize children
+		
 				
 		if (resultCode == RESULT_OK){
 				

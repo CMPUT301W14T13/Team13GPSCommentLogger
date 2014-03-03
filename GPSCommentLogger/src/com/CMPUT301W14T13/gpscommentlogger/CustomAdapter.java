@@ -3,7 +3,6 @@ package com.CMPUT301W14T13.gpscommentlogger;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 /*

@@ -54,11 +54,21 @@ public class CreateTopicActivity extends Activity{
 		
 		ExtractTextFields();
 		
+		/*Maybe create topic and then pass the topic in rather than all this
+		 * Can then check if instanceof topic or comment and handle it from there
+		 */
 		submission_ok = controller.checkTextFields(context, hasTitle, title, username, commentText);
 		if (submission_ok){
 			Topic topic = new Topic();
 			
 			topic.setTitle(title);
+			
+			//maybe put a default setter in the topic class
+			if (username.length() == 0){
+				username = "Anonymous";
+			
+			}
+			
 			topic.setUsername(username);
 			topic.setCommentText(commentText);
 			

@@ -57,6 +57,11 @@ public class CreateCommentActivity extends Activity
 		submission_ok = controller.checkTextFields(context, hasTitle, title, username, commentText);
 		if (submission_ok){
 			
+			if (username.length() == 0){
+				username = "Anonymous";
+			
+			}
+			
 			//create comment
 			Comment comment = new Comment();
 			comment.setUsername(username);

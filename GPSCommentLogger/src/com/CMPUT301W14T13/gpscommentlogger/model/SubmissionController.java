@@ -29,10 +29,10 @@ public class SubmissionController
 				submission_ok = false;
 			}
 			
-			if (username.length() == 0){
+			/*if (username.length() == 0){
 				username = "Anonymous";
 			
-			}
+			}*/
 			
 			if (commentText.length() == 0){
 				text += "\nComment cannot be blank";
