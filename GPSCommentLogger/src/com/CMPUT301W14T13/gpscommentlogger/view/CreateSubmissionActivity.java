@@ -131,7 +131,7 @@ public class CreateSubmissionActivity extends Activity{
 			case(2):
 				submit.putExtra("comment", (Comment) submission);
 				submit.putExtra("row number", rowNumber);
-				break;
+				
 				
 			}
 			

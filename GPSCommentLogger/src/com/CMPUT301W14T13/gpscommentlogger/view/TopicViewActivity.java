@@ -93,7 +93,7 @@ public class TopicViewActivity extends Activity
 		
 	}
 	
-public void edit(View v) throws InterruptedException{
+	public void edit(View v) throws InterruptedException{
 		
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;

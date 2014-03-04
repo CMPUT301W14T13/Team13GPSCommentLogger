@@ -5,8 +5,9 @@ import java.util.Date;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.Parcelable;
 
-public interface Viewable {
+public interface Viewable{
 
 	final String anonymous = "Anonymous";
 	void setAnonymous();
