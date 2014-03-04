@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.location.Location;
+
+import java.util.Collection;
 
 import android.graphics.Bitmap.Config;
 import android.location.Location;
@@ -23,6 +26,7 @@ public class Comment implements Viewable, Parcelable
 {
 
 
+
 	private static final long serialVersionUID = 2L;
 	
 	private String ID = "default";
@@ -33,10 +37,11 @@ public class Comment implements Viewable, Parcelable
 	private List<String> childID = new ArrayList<String>();
 	private Date timestamp = new Date();
 	private String commentText = "";
-
+	private Location GPSLocation;
 
 	private ArrayList<Viewable> children = new ArrayList<Viewable>();
 	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
+
 
 
 	public Comment(){
@@ -47,7 +52,6 @@ public class Comment implements Viewable, Parcelable
 		timestamp = new Date();
 		children = new ArrayList<Viewable>();
 	}
-
 
 	public Comment(String ID) {
 		this.ID = ID;
@@ -87,12 +91,26 @@ public class Comment implements Viewable, Parcelable
 		this.timestamp = timestamp;
 		this.commentText = commentText;
 		children = new ArrayList<Viewable>();
+		this.hasImage = true;
 	}
+
 
 	public Comment(Parcel in){
 		readFromParcel(in);
 	}
 
+
+
+	/* increment the vote count (remember users can only vote once) */
+	public void upVote(String phoneID){
+		
+	}
+	
+	/* decrement the vote count (remember users can only vote once)*/
+	public void downVote(String phoneID){
+		
+	}
+	
 
 	@Override
 	public String getID() {
@@ -161,15 +179,27 @@ public class Comment implements Viewable, Parcelable
 		return timestamp;
 	}
 
-
-	public boolean getHasPicture() {
-		return image != null;
+	public Location getGPSLocation() {
+		return GPSLocation;
 	}
 
+
+	public void setGPSLocation(Location location) {
+		GPSLocation = location;
+	}
+
+
+	
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+	
 
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
+
 
 	public void setAnonymous() {
 		// TODO Auto-generated method stub
@@ -267,4 +297,19 @@ public class Comment implements Viewable, Parcelable
 
 
 	
+
+
+	@Override
+	public void addChild(Viewable post) {
+		children.add(post);
+		
+	}
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

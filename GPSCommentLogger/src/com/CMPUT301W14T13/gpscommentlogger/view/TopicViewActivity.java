@@ -1,5 +1,4 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
-
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,8 +18,11 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 
+
 public class TopicViewActivity extends Activity
+
 {
+
 
 	private Topic topic = new Topic();
 	private ArrayList<Viewable> comments;
@@ -122,7 +123,7 @@ public class TopicViewActivity extends Activity
 		//update the listview after the reply has been added
 		((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();
 		
+
 	}
-		 
-		
+
 }

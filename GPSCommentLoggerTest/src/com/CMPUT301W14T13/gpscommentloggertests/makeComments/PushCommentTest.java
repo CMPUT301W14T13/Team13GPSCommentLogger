@@ -37,7 +37,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
-		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getC().size());
+		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getChildren().size());
 		
 		activity.simulateBrowseClick(0);
 		
@@ -45,7 +45,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		assertNotNull(activity.getCurrentComment());
 		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof Topic);
-		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getC().size());
+		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getChildren().size());
 		
 		activity.simulateBrowseClick(0);
 		
@@ -54,7 +54,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		assertNotNull(activity.getCurrentComment());
 		Log.w("DebugMessage", activity.getCurrentComment().toString());
 		assertEquals("second layer is a comment", true, activity.getCurrentComment() instanceof Comment);
-		assertEquals("comment originally should have 0 replies", 0, activity.getCurrentComment().getC().size());
+		assertEquals("comment originally should have 0 replies", 0, activity.getCurrentComment().getChildren().size());
 		
 		String ID = "4324";
 		String username = "Austin";
@@ -67,7 +67,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		Thread.sleep(2000);
 		
-		assertEquals("comment should now have 1 reply", 1, activity.getCurrentComment().getC().size());
+		assertEquals("comment should now have 1 reply", 1, activity.getCurrentComment().getChildren().size());
 		
 		activity.simulateBrowseClick(0);
 		

@@ -20,12 +20,15 @@ import java.util.Collection;
 
 
 
+
 public class Topic implements Viewable, Parcelable
+
 {
 
 
 	
 	private static final long serialVersionUID = 1L;
+
 	
 	private String title = "default title";
 	private String ID = "default";
@@ -37,8 +40,11 @@ public class Topic implements Viewable, Parcelable
 	private String commentText = ""; 
 	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
 	private Location GPSLocation = new Location("default");
+	private boolean hasImage;
 
 	
+
+
 	public Topic()
 	{
 		//TODO: create automatic ID generation system
@@ -79,17 +85,47 @@ public class Topic implements Viewable, Parcelable
 		comments = new ArrayList<Viewable>();
 	}
 	
+
 	public Topic(Parcel in){
 		readFromParcel(in);
 	}
 
 
+	public Topic(String ID, String username, Bitmap picture, Date timestamp,
+			String commentText) {
+		this.ID = ID;
+		this.username = username;
+		this.image = picture;
+		this.timestamp = timestamp;
+		this.commentText = commentText;
+		comments = new ArrayList<Viewable>();
+		this.hasImage = true;
+	}
+	
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
+
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
 
 	public ArrayList<Viewable> getChildren()
 	
 	
 	{
 		return comments;
+	}
+	
+	/* increment the vote count (remember users can only vote once) */
+	public void upVote(String phoneID){
+		
+	}
+	
+	/* decrement the vote count (remember users can only vote once)*/
+	public void downVote(String phoneID){
+		
 	}
 	
 	public String getID() {
@@ -143,6 +179,7 @@ public class Topic implements Viewable, Parcelable
 	public Date getTimestamp() {
 		return timestamp;
 	}
+
 
 	
 
@@ -201,6 +238,7 @@ public class Topic implements Viewable, Parcelable
 
 	}
 	
+
 	public void setRootComment(Comment comment){
 		this.rootComment = comment;
 	}
@@ -213,6 +251,7 @@ public class Topic implements Viewable, Parcelable
 		// TODO Auto-generated method stub
 		comments = threadComments;
 	}
+
 
 	
 	/* Interface for
@@ -266,4 +305,27 @@ public class Topic implements Viewable, Parcelable
 			
 		}
 	};
+
+
+	public void addChild(Viewable post) {
+		comments.add(post);
+		
+	}
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isHasImage() {
+		return hasImage;
+	}
+
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+
+
 }

@@ -23,11 +23,11 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<DebugAc
 		Comment comment = new Comment();
 		Comment reply = new Comment();
 		// Reply to comment
-		comment.getC().add(reply);
+		comment.getChildren().add(reply);
 		
 		// Check last child
 		assertEquals("Comment reply should appear as latest comment child", replyText,
-				comment.getC().get(comment.getNumberOfReplies()).getCommentText());
+				comment.getChildren().get(comment.getNumberOfReplies()).getCommentText());
 		
 		
 	}
