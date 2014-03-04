@@ -147,55 +147,64 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath =  activity.getFilesDir().getPath().toString() + "/test3.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
-
-		DataManager dm = new DataManager(testPath);
+		activity.simulateConnectToServer(); // need to be connected to server
+		assertNotNull(activity.getCurrentComment());
+		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
 		
-		String testID = "This is a test ID";
+		String testID = "This is a test ID for topComment";
 		Topic topComment = new Topic(testID);
-		Comment reply = new Comment();
-		topComment.getC().add(reply);
+		activity.simulateAddComment(topComment);
+		activity.simulateBrowseClick(0);
+		Thread.sleep(2000);
 		
-		dm.saveFavourite(topComment);
+		assertNotNull(activity.getCurrentComment());
+		assertEquals("first layer is a Topic", true, activity.getCurrentComment() instanceof Topic);
+		assertEquals("The Topic should have the correct testID",
+				testID.equals(activity.getCurrentComment().getID()));
 		
-		activity.finish();
-		setActivityIntent(intent);
-		activity = getActivity();
 		
-		dm = new DataManager(testPath);
-		try {
-			dm.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String testID = "This is a test ID for comment";
+		Comment comment = new Comment(testID);
+		String testID2 = "This is a test ID for comment2";
+		Comment comment2 = new Comment(testID2);
 		
-		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
+		//add to child comments to topComment
+		activity.simulateAddComment(comment); // not implemented in this branch but is in the master
+		Thread.sleep(2000);
 		
-		/*
-		assertEquals("top comment we load is the same as the top comment we saved",
-				topComment, favoritedTopic);
-		assertEquals("the reply we loaded is the same as the reply we saved",
-				reply, favoritedTopic.getC().get(0)); //compare the first child
-		*/
-		assertTrue("top comment we load is the same as the top comment we saved",
-				topComment.equals(favoritedTopic));
-		assertTrue("the reply we loaded is the same as the reply we saved",
-				reply.equals(favoritedTopic.getC().get(0))); //compare the first child
+		// i do not know how to get this index 
+		activity.simulateSaveClick(topComment.index);//we need a saveButton click
+		Thread.sleep(2000);
 		
-		/* TODO: route this through the clientController
-		 * This part needs connection to server or mockup via clientController
-		 * 
-		 * Comment secondReply = new Comment();
-		c.add(secondReply);
-		topComment.setC(c);
+		activity.simulateDisconnectFromServer();
+		Thread.sleep(2000);
 		
-		dm.UpdateFavorites();//normally periodically called while connected to server
+		activity.simulateBrowseClick(topComment.index);// this should load the offline saved comment and i believe set it as current comment
+		Thread.sleep(2000);
 		
-		assertTrue("top comment is still saved locally",favorites.contains(topComment));
-		assertTrue("first reply is still saved locally",favorites.contains(reply)); //compare the first child
-		assertTrue("second reply should be saved locally now",favorites.contains(secondreply));// compare second child
-		 */
+		assertTrue("both the comment we save and the comment we loaded should be the same",
+				topComment.equals(activity.getCurrentComment()));
+		
+		activity.simulateBrowseClick(0);
+		Thread.sleep(2000);
+		// we save child comments  as well
+		assertTrue("first child comment should be loaded",
+				comment.equals(activity.getCurrentComment()));
+		
+		activity.simulateConnectToServer();
+		Thread.sleep(2000);
+		activity.simulateAddComment(comment2);
+		activity.simulateDisconnectFromServer();
+		Thread.sleep(2000);
+		assertTrue("topComment should have two children ",activity.getCurrentComment().getC().size() == 2);
+		//do not know the correct index
+		activity.simulateBrowseClick(comment2.index);
+		Thread.sleep(2000);
+		asserTrue("currently viewing comment2", comment2.equals(activity.getCurrentComment()));
+		
+		
+	
+		
 		activity.finish();
 	}
 	
