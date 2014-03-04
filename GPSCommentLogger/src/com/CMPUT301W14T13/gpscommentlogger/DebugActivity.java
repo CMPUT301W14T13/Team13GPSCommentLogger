@@ -7,7 +7,8 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
@@ -83,13 +84,15 @@ public class DebugActivity extends Activity
             }
         };
         
-        ClientServerSystem.getInstance().init(activity, textHandler, listHandler, debugWindow);
+        //TODO: Add parceable to DebugActivity with String of file name;
+        //pass this string to next call as "saveLocation"
+        //ClientServerSystem.getInstance().init(activity, saveLocation, textHandler, listHandler, debugWindow);
         client = ClientServerSystem.getInstance().getClient();
         server = ClientServerSystem.getInstance().getServer();
         
     	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
     	task.setObj("root");
     	client.addTask(task);
   	
@@ -102,21 +105,51 @@ public class DebugActivity extends Activity
     }
     
 
-    public void simulateBrowseClick(int index)
+    public void simulateOnlineBrowseClick(int index)
     {
     	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
     	task.setObj(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
     
-    public void simulateAddComment(Comment comment)
+    public void simulateOfflineSaveBrowseClick(int index)
     {
     	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskCode.POST);
-    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_SAVES);
+    	task.setObj(contentList.get(index).getID());
+    	
+    	client.addTask(task);
+    }
+    
+    public void simulateOfflineFavouriteBrowseClick(int index)
+    {
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_FAVOURITES);
+    	task.setObj(contentList.get(index).getID());
+    	
+    	client.addTask(task);
+    }
+    
+    public void simulatePostTopic(Topic topic){
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskTaskCode.POST);
+    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
+    	task.setObj(topic);
+    	
+    	client.addTask(task);
+    	
+    }
+    
+    public void simulatePostComment(Comment comment)
+    {
+    	ClientTask task = new ClientTask();
+    	task.setTaskCode(ClientTaskTaskCode.POST);
+    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
     	task.setObj(comment);
     	
     	client.addTask(task);

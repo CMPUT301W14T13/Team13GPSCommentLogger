@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
@@ -41,9 +42,12 @@ public class ClientController extends Controller
 	//stores reference to current page
 	String pageReference;
 	
+	//data manager for local data storage
+	DataManager offlineDataEntity;
+	private final String DATA_STORAGE_LOCATION = "data.sav";
+	
 	//mockups for debugging
 	DataEntityMockup onlineDataEntityMockup;
-	DataEntityMockup offlineDataEntityMockup;
 	DebugActivity debugActivity;
 	Handler handler;
 	boolean hasConnection = true;
@@ -53,19 +57,21 @@ public class ClientController extends Controller
 		isInit = false;
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
-		onlineDataEntityMockup = new DataEntityMockup(this);
+		offlineDataEntity = new DataManager(DATA_STORAGE_LOCATION);
 	}
 	
-	public ClientController(DebugActivity activity, Handler handler, TextView debuggingWindow)
+	public ClientController(DebugActivity activity, String storageLocation, Handler handler, TextView debuggingWindow)
 	{
 		isInit = false;
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
 		onlineDataEntityMockup = new DataEntityMockup(this);
-		offlineDataEntityMockup = new DataEntityMockup(this);
+		offlineDataEntity = new DataManager(storageLocation);
 		debugActivity = activity;
 		this.handler = handler;
 	}
+	
+	
 	
 	@Override
 	public void init()
@@ -136,13 +142,15 @@ public class ClientController extends Controller
 	{
 		switch(task.getSourceCode())
 		{
-		//case LOCAL_DATA:
-			//break;
+		case LOCAL_DATA_SAVES:
+			offlineDataEntity.getData((String)task.getObj());
+			break;
+		case LOCAL_DATA_FAVOURITES:
+			offlineDataEntity.getFavourite((String)task.getObj());
+			break;
 		case MOCK_DATA_ENTITY:
-			if(hasConnection)
-				onlineDataEntityMockup.pageRequest((String)task.getObj());
-			else
-				offlineDataEntityMockup.pageRequest((String)task.getObj());
+			if(!hasConnection)throw new InterruptedException("Error attempt to browse online while offline.");
+			onlineDataEntityMockup.pageRequest((String)task.getObj());
 			break;
 		//case SERVER_DATA:
 			//break;
@@ -155,17 +163,15 @@ public class ClientController extends Controller
 	{
 		switch(task.getSourceCode())
 		{
-		//case LOCAL_DATA:
-			//break;
+		case LOCAL_DATA_SAVES:
+			throw new InterruptedException("Cannot post saves while offline");
+		case LOCAL_DATA_FAVOURITES:
+			//TODO: enable save from saves->favourites?
+			throw new InterruptedException("Cannot post favourites while offline");
 		case MOCK_DATA_ENTITY:
-			if(hasConnection)
-			{
-				onlineDataEntityMockup.postRequest(debugActivity.getCurrentComment(),(Comment)task.getObj());
-				break;
-			}
-			else
-				throw new InterruptedException("Cannot post while offline");
-			
+			if(!hasConnection)throw new InterruptedException("Error attempt to post online while offline.");
+			onlineDataEntityMockup.postRequest(debugActivity.getCurrentComment(),(Comment)task.getObj());
+			break;
 		//case SERVER_DATA:
 			//break;
 		default:
@@ -176,6 +182,7 @@ public class ClientController extends Controller
 	public synchronized void registerResult(Result result)
 	{
 		this.result = result;
+		//TODO: separate out the response and task threads so that the notifys do not conflict
 		notify();
 	}
 	
@@ -209,9 +216,7 @@ public class ClientController extends Controller
 
 	public void setServer(ServerController server)
 	{
-
 		this.server = server;
-		
 	}
 	
 	//
@@ -223,8 +228,8 @@ public class ClientController extends Controller
 		hasConnection = true;
 		
     	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
     	task.setObj(debugActivity.getCurrentComment().getID());
 		
 		this.addTask(task);
@@ -235,8 +240,8 @@ public class ClientController extends Controller
 		hasConnection = false;
 		
     	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskCode.MOCK_DATA_ENTITY);
+    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
+    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_SAVES);
     	task.setObj(debugActivity.getCurrentComment().getID());
 		
 		this.addTask(task);
@@ -249,6 +254,6 @@ public class ClientController extends Controller
 	
 	public void forceChangeOffline(String title)
 	{
-		offlineDataEntityMockup.forceTestChange(title);
+		//offlineDataEntity.forceTestChange(title);
 	}
 }

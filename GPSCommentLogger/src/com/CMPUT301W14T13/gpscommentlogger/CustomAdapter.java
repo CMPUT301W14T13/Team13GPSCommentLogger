@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 /*
@@ -63,6 +62,16 @@ public class CustomAdapter extends BaseAdapter {
 	        	
 	         }
 	        
+	        /*
+	         * Sets the colour of the background for the listview rows, alternating every time.
+	         * Change as needed
+	         */
+	        //if (position % 2 == 0){
+	        //	vi.setBackgroundColor(Color.argb(255,0,0,0)); //black
+	        //}
+	        //else{
+	        //	vi.setBackgroundColor(Color.argb(255, 128, 128, 128)); //grey
+	        //}
 	       
 	        return vi;
 	}
@@ -83,14 +92,8 @@ public class CustomAdapter extends BaseAdapter {
 	        
 	        text = (TextView) vi.findViewById(R.id.number_of_comments);
 	        text.setText(String.valueOf("number of comments"));
+	        
 	}
 	
-	/*public void setTopicView(View vi, int position){
-		
-		TextView text = (TextView) vi.findViewById(R.id.comment_username);
-        text.setText(String.valueOf(comments.get(position).getUsername()));
-        
-        text = (TextView) vi.findViewById(R.id.commentText);
-        text.setText(String.valueOf(comments.get(position).getCommentText()));
-	}*/
+	
 }

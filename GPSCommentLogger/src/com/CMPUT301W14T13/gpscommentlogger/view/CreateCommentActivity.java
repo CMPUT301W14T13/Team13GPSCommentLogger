@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.SubmissionController;
 
 
 
@@ -21,7 +20,8 @@ public class CreateCommentActivity extends Activity
 	private int rowNumber;
 	private String username;
 	private String commentText;
-	private boolean submission_ok;
+	private SubmissionController controller;
+	private Comment comment;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class CreateCommentActivity extends Activity
 	}
 	
 	
-public void handleTextFields(){
+	private void ExtractTextFields(){
 		
 		EditText text = (EditText) findViewById(R.id.set_comment_username);
 		username = text.getText().toString().trim();
@@ -44,45 +44,34 @@ public void handleTextFields(){
 		
 	}
 	
-	//check that text fields are valid
-	public void checkTextFields(){
+	//create the comment
+	private void constructComment(){
 		
-		submission_ok = true;
-		Context context = getApplicationContext();
-		String text = "";
-		int duration = Toast.LENGTH_LONG;
-		
+		comment = new Comment();
+		comment.setUsername(username);
+		comment.setCommentText(commentText);
 		
 		if (username.length() == 0){
-			username = "Anonymous";
+			comment.setAnonymous();
 		
 		}
-		
-		if (commentText.length() == 0){
-			text += "Comment cannot be blank";
-			submission_ok = false;
-		}
-		
-		if (!submission_ok){
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
-			toast.show();
-		}
-		
-		
 	}
 	
 	public void submitReply(View v){
 		
-		handleTextFields();
-		checkTextFields();
+		Context context = getApplicationContext();
+		boolean submission_ok;
+		controller = new SubmissionController();
 		
+		ExtractTextFields();
+		constructComment();
+		
+		submission_ok = controller.checkSubmission(context, comment); //check that the comment is valid
 		if (submission_ok){
 			
-			Comment comment = new Comment();
-			comment.setUsername(username);
-			comment.setCommentText(commentText);
 			
+			
+			//send comment back as well as which comment it belongs to
 			intent.putExtra("comment", comment);
 			intent.putExtra("row number", rowNumber);
 			

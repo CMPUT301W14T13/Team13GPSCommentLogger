@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.model.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 public class CreateTopicActivity extends Activity{
@@ -17,18 +18,19 @@ public class CreateTopicActivity extends Activity{
 	private String username;
 	private String title;
 	private String commentText;
-	private boolean submission_ok;
-	
+	private SubmissionController controller;
+	private Topic topic;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_topic);
-      
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        
     }
     
 	//extract the information that the user has entered
-	public void handleTextFields(){
+	public void extractTextFields(){
 		
 		EditText text = (EditText) findViewById(R.id.setTitle);
 		title = text.getText().toString().trim();
@@ -40,60 +42,34 @@ public class CreateTopicActivity extends Activity{
 		commentText = text.getText().toString().trim();
 	}
 	
-	//check that text fields are valid
-	public void checkTextFields(){
+	
+	
+	public void constructTopic(){
+		topic = new Topic();
 		
-		submission_ok = true;
-		Context context = getApplicationContext();
-		String text = "";
-		int duration = Toast.LENGTH_LONG;
-		
-		
-		if (title.length() == 0){
-			text += "Title cannot be blank";
-			submission_ok = false;
-		}
+		topic.setTitle(title);
+		topic.setUsername(username);
+		topic.setCommentText(commentText);
 		
 		if (username.length() == 0){
-			username = "Anonymous";
+			topic.setAnonymous();
 		
 		}
-		
-		if (commentText.length() == 0){
-			text += "\nComment cannot be blank";
-			submission_ok = false;
-		}
-		
-		if (!submission_ok){
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
-			toast.show();
-		}
-		
-		
-	}
-	
-	public void attachPicture(View v){
-		
-	}
-	
-	public void setCoordinates(View v){
 		
 	}
 	
 	public void submitTopic(View v){
 		
 		Intent submit = getIntent();
+		Context context = getApplicationContext();
+		controller = new SubmissionController();
+		boolean submission_ok;
 		
-		handleTextFields();
-		checkTextFields();
+		extractTextFields();
+		constructTopic();
 		
+		submission_ok = controller.checkSubmission(context, topic); //check that the topic is valid
 		if (submission_ok){
-			Topic topic = new Topic();
-			
-			topic.setTitle(title);
-			topic.setUsername(username);
-			topic.setCommentText(commentText);
 			
 			submit.putExtra("Topic", topic); 
 			setResult(RESULT_OK, submit);

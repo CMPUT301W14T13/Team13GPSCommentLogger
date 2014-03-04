@@ -8,6 +8,9 @@ import android.location.Location;
 
 public interface Viewable {
 
+	final String anonymous = "Anonymous";
+	void setAnonymous();
+	
 	String getID();
 	String getUsername();
 

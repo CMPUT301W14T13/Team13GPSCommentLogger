@@ -3,12 +3,15 @@
 
     <string name="app_name">GPSCommentLogger</string>
     <string name="action_settings">Settings</string>
-    <string name="submit_button">submit</string>
+    <string name="submit_button">Submit</string>
     <string name="attach_picture">Attach Picture</string>
     <string name="coordinates">Select GPS Location</string>
     <string name="title">Title</string>
     <string name="username">Username</string>
     <string name="text">Text</string>
-    <string name="action_post">Create a new thread</string>
+    <string name="action_post">New Thread</string>
+    <string name="saved">Saved Pages</string>
+    
+    <string name="create_topic_label">New Topic</string>
 
 </resources>

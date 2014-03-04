@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.Config;
 import android.location.Location;
 
 public class Root implements Viewable {
@@ -18,8 +20,8 @@ public class Root implements Viewable {
 	private boolean hasImage;
 	private Date timestamp;
 	private Date freshness;
-	private ArrayList<Viewable> comments;
 	private Location GPSLocation;
+	private ArrayList<Viewable> comments;
 	
 	public Root()
 	{
@@ -49,9 +51,6 @@ public class Root implements Viewable {
 	 * @uml.property  name="v"
 	 */
 	public Collection<Vote> getV()
-	
-	
-	
 	{
 		return v;
 	}
@@ -66,9 +65,10 @@ public class Root implements Viewable {
 	 * @uml.property  name="c"
 	 */
 	@Override
+
 	public ArrayList<Viewable> getChildren()
 	
-	
+
 	{
 		return comments;
 	}
@@ -78,9 +78,7 @@ public class Root implements Viewable {
 	 * @uml.property  name="v"
 	 */
 	public void setV(Collection<Vote> v)
-	
 	{
-	
 		this.v = v;
 	}
 	/** 
@@ -90,7 +88,6 @@ public class Root implements Viewable {
 	 */
 	public void setC(ArrayList<Viewable> c)
 	{
-
 		comments = c;
 	}
 	@Override
@@ -137,6 +134,30 @@ public class Root implements Viewable {
 	public Date getTimestamp() {
 		return timestamp;
 	}
+
+	
+	@Override
+	public boolean equals(Object other)
+	{
+	    if (other == null) return false;
+	    if (other == this) return true;
+		if (!(other instanceof Root))return false;
+		Root o = (Root)other; 
+		
+		return ID.equals(o.ID)
+				&& title.equals(o.title)
+				&& username.equals(o.username)
+				&& image.equals(o.image)
+				&& timestamp.equals(o.timestamp)
+				&& commentText.equals(o.commentText)
+				&& comments.equals(o.comments);
+	}
+
+	@Override
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		
+	}
 	public Location getGPSLocation() {
 		return GPSLocation;
 	}
@@ -163,6 +184,7 @@ public class Root implements Viewable {
 	public boolean getHasImage() {
 		/* return image != null; */
 		return hasImage;
+
 	}
 
 }

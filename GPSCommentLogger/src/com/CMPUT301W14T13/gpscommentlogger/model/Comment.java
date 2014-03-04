@@ -12,23 +12,36 @@ import android.location.Location;
 
 import java.util.Collection;
 
+import android.graphics.Bitmap.Config;
+import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
-public class Comment implements Viewable, Serializable
+import java.util.Collection;
+
+
+
+public class Comment implements Viewable, Parcelable
 {
-	
+
+
+
 	private static final long serialVersionUID = 2L;
-	private String ID;
-	private String title;
-	private String username;
-	private Bitmap image;
-	private boolean hasImage;
-	private List<String> childID;
-	private Date timestamp;
-	private String commentText;
-	private Location GPSLocation;
 	
-	private ArrayList<Viewable> children;
-	private HashMap<String, Vote> votes;
+	private String ID = "default";
+	private String title = "default title";
+	private String username = "Anonymous";
+	private Bitmap image = null;
+	private boolean hasImage = false;;
+	private List<String> childID = new ArrayList<String>();
+	private Date timestamp = new Date();
+	private String commentText = "";
+	private Location GPSLocation;
+
+	private ArrayList<Viewable> children = new ArrayList<Viewable>();
+	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
+
 
 
 	public Comment(){
@@ -81,6 +94,13 @@ public class Comment implements Viewable, Serializable
 		this.hasImage = true;
 	}
 
+
+	public Comment(Parcel in){
+		readFromParcel(in);
+	}
+
+
+
 	/* increment the vote count (remember users can only vote once) */
 	public void upVote(String phoneID){
 		
@@ -91,6 +111,7 @@ public class Comment implements Viewable, Serializable
 		
 	}
 	
+
 	@Override
 	public String getID() {
 		return ID;
@@ -103,7 +124,12 @@ public class Comment implements Viewable, Serializable
 		return children;
 	}
 
-
+	
+	public void setChildren(ArrayList<Viewable> comments) {
+		// TODO Auto-generated method stub
+		children = comments;
+	}
+	
 	@Override
 	public String getUsername() {
 		return username;
@@ -158,9 +184,10 @@ public class Comment implements Viewable, Serializable
 	}
 
 
-	public void setGPSLocation(Location gPSLocation) {
-		GPSLocation = gPSLocation;
+	public void setGPSLocation(Location location) {
+		GPSLocation = location;
 	}
+
 
 	
 	public boolean getHasImage() {
@@ -168,9 +195,108 @@ public class Comment implements Viewable, Serializable
 		return hasImage;
 	}
 	
+
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
+
+
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		this.username = anonymous;
+	}
+
+	@Override
+	public boolean equals(Object other)
+	{    
+		if (other == null) return false;
+    	if (other == this) return true;
+		if (!(other instanceof Comment))return false;
+		Comment o = (Comment)other; 
+		
+		Log.w("Comment Equals", "ID: " + ID.equals(o.ID));
+		Log.w("Comment Equals", "title: " + title.equals(o.title));
+		Log.w("Comment Equals", "username: " + username.equals(o.username));
+		Log.w("Comment Equals", "hasImage: " + Boolean.toString(hasImage == o.hasImage));
+		Log.w("Comment Equals", "childID: " + childID.equals(o.childID));
+		Log.w("Comment Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
+		Log.w("Comment Equals", "commentText: " + commentText.equals(o.commentText));
+		Log.w("Comment Equals", "children: " + children.equals(o.children));
+		Log.w("Comment Equals", "votes: " + votes.equals(o.votes));
+		
+		boolean imageEquals = true;
+		if(image == null)
+		{
+			if (o.image != null)imageEquals = false;
+		}
+		else
+		{
+			imageEquals = image.equals(o.image);
+		}
+		
+		return ID.equals(o.ID)
+				&& title.equals(o.title)
+				&& username.equals(o.username)
+				&& imageEquals
+				&& hasImage == o.hasImage
+				&& childID.equals(o.childID)
+				&& timestamp.equals(o.timestamp)
+				&& commentText.equals(o.commentText)
+				&& children.equals(o.children)
+				&& votes.equals(votes);
+	}
+
+
+	/* Interface for
+	 * Parcelable is
+	 * handled in the 
+	 * methods below
+	 */
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		//GPSLocation.writeToParcel(dest, flags);
+		dest.writeString(ID);
+		dest.writeString(username);
+		dest.writeString(commentText);
+		dest.writeValue(children);
+		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
+		dest.writeValue(image);
+		
+	}
+
+	public void readFromParcel(Parcel in){
+		//GPSLocation = Location.CREATOR.createFromParcel(in);
+		ID = in.readString();
+		username = in.readString();
+		commentText = in.readString();
+		children = in.readParcelable(Viewable.class.getClassLoader());
+		timestamp = new Date(in.readLong());
+		image = in.readParcelable(Bitmap.class.getClassLoader());
+		
+	}
+	
+	public static final Parcelable.Creator<Comment> CREATOR =
+			new Parcelable.Creator<Comment>(){
+		public Comment createFromParcel(Parcel in){
+			return new Comment(in);
+		}
+		
+		public Comment[] newArray(int size){
+			return new Comment[size];
+			
+		}
+	};
+
+
+	
 
 
 	@Override
@@ -184,5 +310,6 @@ public class Comment implements Viewable, Serializable
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }
