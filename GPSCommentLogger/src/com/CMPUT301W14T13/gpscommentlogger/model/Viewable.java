@@ -18,7 +18,7 @@ public interface Viewable {
 	String getTitle();
 
 	void setTitle(String newTitle);
-	
+	void setUsername(String newUsername);
 	void setCommentText(String commentText);
 	String getCommentText();
 	

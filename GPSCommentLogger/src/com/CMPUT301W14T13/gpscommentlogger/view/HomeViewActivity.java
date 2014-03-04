@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,12 +16,9 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
-import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
 
@@ -35,7 +33,8 @@ public class HomeViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
-
+		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+		
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
 		topics.add(top1);
@@ -103,7 +102,8 @@ public class HomeViewActivity extends Activity {
 
 
 	private void createTopic(){
-		Intent topic = new Intent(this, CreateTopicActivity.class);
+		Intent topic = new Intent(this, CreateSubmissionActivity.class);
+		topic.putExtra("code", 0);
 		startActivityForResult(topic, 0);
 	}
 

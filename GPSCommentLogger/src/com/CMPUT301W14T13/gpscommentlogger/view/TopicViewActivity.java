@@ -67,7 +67,7 @@ public class TopicViewActivity extends Activity
 	
 	public void reply(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(this, CreateCommentActivity.class);
+		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
 		
 				
@@ -75,11 +75,13 @@ public class TopicViewActivity extends Activity
 		 
 	         case R.id.topic_reply_button:
 	        	 //intent.putExtra("row number", -1);
+	        	 intent.putExtra("code", 1);
 	        	 startActivityForResult(intent, 0);  //replying to a topic
 	             break;
 	             
 	         case R.id.comment_reply_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
+	        	 intent.putExtra("code", 1);
 	        	 intent.putExtra("row number", rowNumber);
 	        	 startActivityForResult(intent, 1); //replying to a comment
 	        	 break;

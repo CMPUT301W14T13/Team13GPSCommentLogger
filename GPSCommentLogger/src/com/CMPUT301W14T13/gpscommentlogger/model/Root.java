@@ -187,4 +187,11 @@ public class Root implements Viewable {
 
 	}
 
+
+	@Override
+	public void setUsername(String newUsername) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
