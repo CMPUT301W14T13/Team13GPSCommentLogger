@@ -148,4 +148,10 @@ public class Root implements Viewable {
 				&& comments.equals(o.comments);
 	}
 
+	@Override
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

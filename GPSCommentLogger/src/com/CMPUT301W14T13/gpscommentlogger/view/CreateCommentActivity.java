@@ -20,9 +20,8 @@ public class CreateCommentActivity extends Activity
 	private int rowNumber;
 	private String username;
 	private String commentText;
-	SubmissionController controller;
-	private String title = null;
-	private boolean hasTitle = false;
+	private SubmissionController controller;
+	private Comment comment;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,7 @@ public class CreateCommentActivity extends Activity
 	}
 	
 	
-	public void ExtractTextFields(){
+	private void ExtractTextFields(){
 		
 		EditText text = (EditText) findViewById(R.id.set_comment_username);
 		username = text.getText().toString().trim();
@@ -45,6 +44,18 @@ public class CreateCommentActivity extends Activity
 		
 	}
 	
+	//create the comment
+	private void constructComment(){
+		
+		comment = new Comment();
+		comment.setUsername(username);
+		comment.setCommentText(commentText);
+		
+		if (username.length() == 0){
+			comment.setAnonymous();
+		
+		}
+	}
 	
 	public void submitReply(View v){
 		
@@ -53,19 +64,12 @@ public class CreateCommentActivity extends Activity
 		controller = new SubmissionController();
 		
 		ExtractTextFields();
+		constructComment();
 		
-		submission_ok = controller.checkTextFields(context, hasTitle, title, username, commentText);
+		submission_ok = controller.checkSubmission(context, comment); //check that the comment is valid
 		if (submission_ok){
 			
-			if (username.length() == 0){
-				username = "Anonymous";
 			
-			}
-			
-			//create comment
-			Comment comment = new Comment();
-			comment.setUsername(username);
-			comment.setCommentText(commentText);
 			
 			//send comment back as well as which comment it belongs to
 			intent.putExtra("comment", comment);

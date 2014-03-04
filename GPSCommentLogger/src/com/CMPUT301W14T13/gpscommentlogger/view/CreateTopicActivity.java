@@ -19,7 +19,7 @@ public class CreateTopicActivity extends Activity{
 	private String title;
 	private String commentText;
 	private SubmissionController controller;
-	private boolean hasTitle = true;
+	private Topic topic;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class CreateTopicActivity extends Activity{
     }
     
 	//extract the information that the user has entered
-	public void ExtractTextFields(){
+	public void extractTextFields(){
 		
 		EditText text = (EditText) findViewById(R.id.setTitle);
 		title = text.getText().toString().trim();
@@ -44,6 +44,19 @@ public class CreateTopicActivity extends Activity{
 	
 	
 	
+	public void constructTopic(){
+		topic = new Topic();
+		
+		topic.setTitle(title);
+		topic.setUsername(username);
+		topic.setCommentText(commentText);
+		
+		if (username.length() == 0){
+			topic.setAnonymous();
+		
+		}
+		
+	}
 	
 	public void submitTopic(View v){
 		
@@ -52,25 +65,11 @@ public class CreateTopicActivity extends Activity{
 		controller = new SubmissionController();
 		boolean submission_ok;
 		
-		ExtractTextFields();
+		extractTextFields();
+		constructTopic();
 		
-		/*Maybe create topic and then pass the topic in rather than all this
-		 * Can then check if instanceof topic or comment and handle it from there
-		 */
-		submission_ok = controller.checkTextFields(context, hasTitle, title, username, commentText);
+		submission_ok = controller.checkSubmission(context, topic); //check that the topic is valid
 		if (submission_ok){
-			Topic topic = new Topic();
-			
-			topic.setTitle(title);
-			
-			//maybe put a default setter in the topic class
-			if (username.length() == 0){
-				username = "Anonymous";
-			
-			}
-			
-			topic.setUsername(username);
-			topic.setCommentText(commentText);
 			
 			submit.putExtra("Topic", topic); 
 			setResult(RESULT_OK, submit);

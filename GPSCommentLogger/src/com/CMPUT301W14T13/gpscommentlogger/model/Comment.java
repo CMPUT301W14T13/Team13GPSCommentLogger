@@ -24,7 +24,7 @@ public class Comment implements Viewable, Parcelable
 
 
 	private static final long serialVersionUID = 2L;
-
+	
 	private String ID = "default";
 	private String title = "default title";
 	private String username = "Anonymous";
@@ -32,7 +32,7 @@ public class Comment implements Viewable, Parcelable
 	private boolean hasImage = false;;
 	private List<String> childID = new ArrayList<String>();
 	private Date timestamp = new Date();
-	private String commentText = "default";
+	private String commentText = "";
 
 
 	private ArrayList<Viewable> children = new ArrayList<Viewable>();
@@ -171,7 +171,10 @@ public class Comment implements Viewable, Parcelable
 		return childID.size();
 	}
 
-	
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		this.username = anonymous;
+	}
 
 	@Override
 	public boolean equals(Object other)
@@ -261,4 +264,7 @@ public class Comment implements Viewable, Parcelable
 			
 		}
 	};
+
+
+	
 }

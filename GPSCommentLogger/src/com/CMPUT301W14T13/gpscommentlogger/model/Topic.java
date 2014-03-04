@@ -26,7 +26,7 @@ public class Topic implements Viewable, Parcelable
 
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	private String title = "default title";
 	private String ID = "default";
 	private String username = "Anonymous";
@@ -153,6 +153,12 @@ public class Topic implements Viewable, Parcelable
 	public Location getLocation(){
 		return GPSLocation;
 	}
+	
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		this.username = anonymous;
+	}
+	
 	
 	@Override
 	public boolean equals(Object other)
