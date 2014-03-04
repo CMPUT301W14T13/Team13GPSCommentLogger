@@ -13,5 +13,6 @@
     <string name="saved">Saved Pages</string>
     
     <string name="create_topic_label">New Topic</string>
+    <string name="bullet">•</string>
 
 </resources>
