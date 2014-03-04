@@ -280,13 +280,14 @@ public class Topic implements Viewable, Parcelable
 	}
 	
 	//Must read in the order they were written
+	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every topic has an array list of children
 	private void readFromParcel(Parcel in){
 		GPSLocation = Location.CREATOR.createFromParcel(in);
 		title = in.readString();
 		ID = in.readString();
 		username = in.readString();
 		commentText = in.readString();
-		comments = in.readParcelable(Viewable.class.getClassLoader());
+		comments = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
 		timestamp = new Date(in.readLong());
 		image = in.readParcelable(Bitmap.class.getClassLoader());
 		
