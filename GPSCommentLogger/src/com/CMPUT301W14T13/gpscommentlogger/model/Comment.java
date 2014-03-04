@@ -272,12 +272,14 @@ public class Comment implements Viewable, Parcelable
 		
 	}
 
+	//Must read in the order they were written
+	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of children
 	public void readFromParcel(Parcel in){
 		//GPSLocation = Location.CREATOR.createFromParcel(in);
 		ID = in.readString();
 		username = in.readString();
 		commentText = in.readString();
-		children = in.readParcelable(Viewable.class.getClassLoader());
+		children = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
 		timestamp = new Date(in.readLong());
 		image = in.readParcelable(Bitmap.class.getClassLoader());
 		
