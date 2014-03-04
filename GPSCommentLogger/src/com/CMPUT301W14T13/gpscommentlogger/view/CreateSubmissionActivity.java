@@ -20,30 +20,46 @@ public class CreateSubmissionActivity extends Activity{
 	private String commentText;
 	private SubmissionController controller;
 	private Viewable submission;
-	private int code;
+	private int code; //0: Creating topic, 1: Creating comment, 2: Editing
 	private int rowNumber;
+	private EditText text;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         code = getIntent().getIntExtra("code", -1);
+        switch(code){
         
-        if(code == 0){
+        case(0):
         	setContentView(R.layout.create_topic); //creating a topic
         	getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        else{
+        	break;
+        
+        case(1):
         	setContentView(R.layout.create_comment); //creating a comment
         	rowNumber = getIntent().getIntExtra("row number", -1);
-        }
-       
+        	break;
         
+        case(2):
+        	setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+    		rowNumber = getIntent().getIntExtra("row number", -1);
+    		submission = getIntent().getParcelableExtra("submission");
+    		
+    		text = (EditText) findViewById(R.id.set_comment_text);
+    		text.setText(submission.getCommentText());
+    		
+    		text = (EditText) findViewById(R.id.set_comment_username);
+    		text.setText(submission.getUsername());
+    		extractTextFields();
+    		
+        
+        }
     }
     
 	//extract the information that the user has entered
 	public void extractTextFields(){
-		EditText text;
+		
 		
 		//Making a topic
 		if (code == 0){
@@ -58,7 +74,7 @@ public class CreateSubmissionActivity extends Activity{
 		}
 		
 		//Making a comment
-		if (code == 1){
+		if (code == 1 || code == 2 ){
 			
 			text = (EditText) findViewById(R.id.set_comment_username);
 			username = text.getText().toString().trim();
@@ -112,6 +128,7 @@ public class CreateSubmissionActivity extends Activity{
 				break;
 			
 			case(1):
+			case(2):
 				submit.putExtra("comment", (Comment) submission);
 				submit.putExtra("row number", rowNumber);
 				break;

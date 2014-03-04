@@ -26,7 +26,7 @@ public class TopicViewActivity extends Activity
 
 	private Topic topic = new Topic();
 	private ArrayList<Viewable> comments;
-	
+	private Comment comment = new Comment();
 	private ListView commentListview;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +93,45 @@ public class TopicViewActivity extends Activity
 		
 	}
 	
-	
+public void edit(View v) throws InterruptedException{
+		
+		Intent intent = new Intent(this, CreateSubmissionActivity.class);
+		int rowNumber;
+		
+				
+		 switch (v.getId()) {
+		 
+	        /* case R.id.topic_edit_button:
+	        	 //intent.putExtra("row number", -1);
+	        	 intent.putExtra("code", 2);
+	        	 intent.putExtra("submission", topic);
+	        	 startActivityForResult(intent, 2);  //editing a topic
+	             break;*/
+	             
+	         case R.id.comment_edit_button:
+	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
+	        	 comment = (Comment) topic.getChildren().get(rowNumber);
+	        	 
+	        	 intent.putExtra("code", 2);
+	        	 intent.putExtra("row number", rowNumber);
+	        	 intent.putExtra("submission", comment);
+	        	 startActivityForResult(intent, 3); //editing a comment
+	        	 break;
+	        	 
+	         default:
+	 			throw new InterruptedException("Invalid button press");
+		 }
+		 
+		
+	}
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			
 		int row;
 		
 		Comment comment = (Comment) data.getParcelableExtra("comment");
 		comments = new ArrayList<Viewable>();
-		comment.setChildren(comments); //initialize children
+		
 		
 				
 		if (resultCode == RESULT_OK){
@@ -113,7 +144,14 @@ public class TopicViewActivity extends Activity
 				
 			case(1): //reply to comment
 				row = data.getIntExtra("row number", -1);
+				comment.setChildren(comments); //initialize children
 				topic.getChildren().get(row).getChildren().add(comment);
+				break;
+				
+			case(3): //edit comment
+				row = data.getIntExtra("row number", -1);
+				topic.getChildren().get(row).setUsername(comment.getUsername());
+				topic.getChildren().get(row).setCommentText(comment.getCommentText());
 				break;
 				
 			 default:

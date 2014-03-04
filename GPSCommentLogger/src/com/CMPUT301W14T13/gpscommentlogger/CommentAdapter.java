@@ -64,6 +64,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 		        	
 		        	button = (Button) vi.findViewById(R.id.comment_reply_button);
 		        	button.setTag(position); //gives a unique tag for identifying comments
+		        	
+		        	button = (Button) vi.findViewById(R.id.comment_edit_button);
+		        	button.setTag(position); //gives a unique tag for identifying comments
 		         }
 		        
 		       

@@ -51,4 +51,15 @@
          android:layout_below="@+id/topic_reply_button" >
 	
     </ListView>
+
+     <Button
+         android:id="@+id/topic_edit_button"
+         style="?android:attr/buttonStyleSmall"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignTop="@+id/topic_reply_button"
+         android:layout_toLeftOf="@+id/topic_reply_button"
+          android:onClick="edit"
+         android:text="Edit" />
+
 </RelativeLayout>
