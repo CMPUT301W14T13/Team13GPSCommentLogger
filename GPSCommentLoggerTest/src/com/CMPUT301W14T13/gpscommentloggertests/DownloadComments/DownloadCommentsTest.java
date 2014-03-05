@@ -30,10 +30,10 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath = activity.getFilesDir().getPath().toString() + "/test.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		Log.w("DownloadCommentTest", "Filepath = " + activity.getSavePath());
 		
-		DataManager dm = new DataManager(testPath);
+		DataManager dm = activity.getDataManager();
+		
 		String testID = "This is a test ID";
 		Comment comment = new Comment(testID);
 		dm.saveData(comment);
@@ -41,7 +41,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		activity.finish();
 		setActivityIntent(intent);
 		activity = getActivity();
-		dm = new DataManager(testPath);
+		dm = activity.getDataManager();
 		try {
 			dm.load();
 		} catch (IOException e) {
@@ -68,10 +68,9 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath =  activity.getFilesDir().getPath().toString() + "/test2.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		Log.w("DownloadCommentTest", "Filepath = " + activity.getSavePath());
 
-		DataManager dm = new DataManager(testPath);
+		DataManager dm = activity.getDataManager();
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
@@ -84,7 +83,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		setActivityIntent(intent);
 		activity = getActivity();
 		
-		dm = new DataManager(testPath);
+		dm = activity.getDataManager();
 		try {
 			dm.load();
 		} catch (IOException e) {
@@ -116,10 +115,9 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath =  activity.getFilesDir().getPath().toString() + "/test3.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		Log.w("DownloadCommentTest", "Filepath = " + activity.getSavePath());
 
-		DataManager dm = new DataManager(testPath);
+		DataManager dm = activity.getDataManager();
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
@@ -132,7 +130,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		setActivityIntent(intent);
 		activity = getActivity();
 		
-		dm = new DataManager(testPath);
+		dm = activity.getDataManager();
 		try {
 			dm.load();
 		} catch (IOException e) {
