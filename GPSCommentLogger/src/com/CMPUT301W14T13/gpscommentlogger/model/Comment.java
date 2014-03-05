@@ -8,20 +8,27 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.location.Location;
+
+import java.util.Collection;
 
 import android.graphics.Bitmap.Config;
+import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.Collection;
 
 
 
-public class Comment implements Viewable, Serializable
+public class Comment implements Viewable, Parcelable
 {
 
 
-	private static final long serialVersionUID = 2L;
 
+	private static final long serialVersionUID = 2L;
+	
 	private String ID = "default";
 	private String title = "default title";
 	private String username = "Anonymous";
@@ -29,11 +36,12 @@ public class Comment implements Viewable, Serializable
 	private boolean hasImage = false;;
 	private List<String> childID = new ArrayList<String>();
 	private Date timestamp = new Date();
-	private String commentText = "default";
-
+	private String commentText = "";
+	private Location GPSLocation;
 
 	private ArrayList<Viewable> children = new ArrayList<Viewable>();
 	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
+
 
 
 	public Comment(){
@@ -44,7 +52,6 @@ public class Comment implements Viewable, Serializable
 		timestamp = new Date();
 		children = new ArrayList<Viewable>();
 	}
-
 
 	public Comment(String ID) {
 		this.ID = ID;
@@ -84,10 +91,26 @@ public class Comment implements Viewable, Serializable
 		this.timestamp = timestamp;
 		this.commentText = commentText;
 		children = new ArrayList<Viewable>();
+		this.hasImage = true;
+	}
+
+
+	public Comment(Parcel in){
+		readFromParcel(in);
 	}
 
 
 
+	/* increment the vote count (remember users can only vote once) */
+	public void upVote(String phoneID){
+		
+	}
+	
+	/* decrement the vote count (remember users can only vote once)*/
+	public void downVote(String phoneID){
+		
+	}
+	
 
 	@Override
 	public String getID() {
@@ -101,7 +124,12 @@ public class Comment implements Viewable, Serializable
 		return children;
 	}
 
-
+	
+	public void setChildren(ArrayList<Viewable> comments) {
+		// TODO Auto-generated method stub
+		children = comments;
+	}
+	
 	@Override
 	public String getUsername() {
 		return username;
@@ -151,17 +179,32 @@ public class Comment implements Viewable, Serializable
 		return timestamp;
 	}
 
-
-	public boolean getHasPicture() {
-		return image != null;
+	public Location getGPSLocation() {
+		return GPSLocation;
 	}
 
+
+	public void setGPSLocation(Location location) {
+		GPSLocation = location;
+	}
+
+
+	
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+	}
+	
 
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
 
-	
+
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		this.username = anonymous;
+	}
 
 	@Override
 	public boolean equals(Object other)
@@ -203,5 +246,70 @@ public class Comment implements Viewable, Serializable
 				&& votes.equals(votes);
 	}
 
+
+	/* Interface for
+	 * Parcelable is
+	 * handled in the 
+	 * methods below
+	 */
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		//GPSLocation.writeToParcel(dest, flags);
+		dest.writeString(ID);
+		dest.writeString(username);
+		dest.writeString(commentText);
+		dest.writeValue(children);
+		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
+		dest.writeValue(image);
+		
+	}
+
+	public void readFromParcel(Parcel in){
+		//GPSLocation = Location.CREATOR.createFromParcel(in);
+		ID = in.readString();
+		username = in.readString();
+		commentText = in.readString();
+		children = in.readParcelable(Viewable.class.getClassLoader());
+		timestamp = new Date(in.readLong());
+		image = in.readParcelable(Bitmap.class.getClassLoader());
+		
+	}
 	
+	public static final Parcelable.Creator<Comment> CREATOR =
+			new Parcelable.Creator<Comment>(){
+		public Comment createFromParcel(Parcel in){
+			return new Comment(in);
+		}
+		
+		public Comment[] newArray(int size){
+			return new Comment[size];
+			
+		}
+	};
+
+
+	
+
+
+	@Override
+	public void addChild(Viewable post) {
+		children.add(post);
+		
+	}
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

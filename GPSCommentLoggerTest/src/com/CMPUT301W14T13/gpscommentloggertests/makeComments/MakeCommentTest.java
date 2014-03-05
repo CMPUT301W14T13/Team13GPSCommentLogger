@@ -55,7 +55,7 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		if (comment.getCommentText() == null){
 			assertEquals("If comment text is empty, then it must have a picture", true, 
-							comment.getHasPicture());
+							comment.getHasImage());
 		}
 		
 		

@@ -15,19 +15,23 @@ public class Root implements Viewable {
 	private String title;
 	private final String username = "default";
 	private String ID;
-	private String commentText = "";
-	private Bitmap image = Bitmap.createBitmap(1,1, Config.ARGB_8888);
-	private Date timestamp = new Date();
+	private String commentText;
+	private Bitmap image;
+	private boolean hasImage;
+	private Date timestamp;
+	private Date freshness;
+	private Location GPSLocation;
 	private ArrayList<Viewable> comments;
 	
 	public Root()
 	{
-		//TODO: create sutomatic ID generation system
+		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
 		comments = new ArrayList<Viewable>();
 	}
 	
+
 	public Root(String ID)
 	{
 		this.ID = ID;
@@ -130,6 +134,7 @@ public class Root implements Viewable {
 	public Date getTimestamp() {
 		return timestamp;
 	}
+
 	
 	@Override
 	public boolean equals(Object other)
@@ -146,6 +151,40 @@ public class Root implements Viewable {
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
 				&& comments.equals(o.comments);
+	}
+
+	@Override
+	public void setAnonymous() {
+		// TODO Auto-generated method stub
+		
+	}
+	public Location getGPSLocation() {
+		return GPSLocation;
+	}
+
+	public void setGPSLocation(Location gPSLocation) {
+		GPSLocation = gPSLocation;
+	}
+
+
+	@Override
+	public void addChild(Viewable post) {
+		comments.add(post);
+		
+	}
+
+
+	@Override
+	public Integer getPopularity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public boolean getHasImage() {
+		/* return image != null; */
+		return hasImage;
+
 	}
 
 }

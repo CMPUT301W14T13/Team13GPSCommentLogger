@@ -39,13 +39,13 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<DebugActi
 	    Location testLocation = createLocation(LAT, LNG, ACCURACY);
 	    
 	    // Save old location
-	    Location oldLocation = topic.getLocation();
+	    Location oldLocation = topic.getGPSLocation();
 	    
 	    // Set new location to comment
-	    topic.setLocation(testLocation);
+	    topic.setGPSLocation(testLocation);
 	    
 	    // Test difference
-	    assertNotSame("Old location should be different that test location", oldLocation, topic.getLocation());
+	    assertNotSame("Old location should be different that test location", oldLocation, topic.getGPSLocation());
 		
 		
 			

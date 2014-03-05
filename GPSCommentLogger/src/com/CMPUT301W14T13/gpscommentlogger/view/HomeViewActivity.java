@@ -113,7 +113,7 @@ public class HomeViewActivity extends Activity {
 		if (requestCode == 0){
 			if (resultCode == RESULT_OK){
 
-				Topic topic = (Topic) data.getSerializableExtra("Topic");
+				Topic topic = (Topic) data.getParcelableExtra("Topic");
 				topics.add(topic);
 				//pushTopicToServer(topic);
 			}	
