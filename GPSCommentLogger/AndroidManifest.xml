@@ -23,7 +23,7 @@
 
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+               <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -32,27 +32,31 @@
             android:name="com.CMPUT301W14T13.gpscommentlogger.DebugActivity"
             android:label="@string/app_name" >
             <intent-filter>
+                
             </intent-filter>
         </activity>
+       
         <activity
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateTopicActivity"
             android:label="@string/create_topic_label"
             android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" >
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" />
         </activity>
+        
         <activity
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.TopicViewActivity"
-            android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity"
-            android:uiOptions="splitActionBarWhenNarrow" >
+			android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" >
+            
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" />
-            <meta-data android:name="android.support.UI_OPTIONS"
-                   android:value="splitActionBarWhenNarrow" />
         </activity>
-        <activity android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateCommentActivity" >
+        
+        <activity
+            android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateCommentActivity">
         </activity>
     </application>
 
