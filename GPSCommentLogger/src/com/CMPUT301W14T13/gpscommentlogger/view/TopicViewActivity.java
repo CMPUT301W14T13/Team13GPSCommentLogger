@@ -101,12 +101,12 @@ public class TopicViewActivity extends Activity
 				
 		 switch (v.getId()) {
 		 
-	        /* case R.id.topic_edit_button:
+	         case R.id.topic_edit_button:
 	        	 //intent.putExtra("row number", -1);
-	        	 intent.putExtra("code", 2);
+	        	 intent.putExtra("code", 3);
 	        	 intent.putExtra("submission", topic);
 	        	 startActivityForResult(intent, 2);  //editing a topic
-	             break;*/
+	             break;
 	             
 	         case R.id.comment_edit_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
@@ -139,15 +139,21 @@ public class TopicViewActivity extends Activity
 			switch (requestCode){
 				
 			case(0):  //reply to topic
-				topic.getChildren().add(comment);
+				topic.addChild(comment);
 				break;
 				
 			case(1): //reply to comment
 				row = data.getIntExtra("row number", -1);
-				comment.setChildren(comments); //initialize children
-				topic.getChildren().get(row).getChildren().add(comment);
+				//comment.setChildren(comments); //initialize children
+				topic.getChildren().get(row).addChild(comment);
 				break;
 				
+			case(2)://edit topic
+				Topic editedTopic = (Topic) data.getParcelableExtra("Topic");
+				topic.setUsername(editedTopic.getUsername());
+				topic.setCommentText(editedTopic.getCommentText());
+				break;
+			
 			case(3): //edit comment
 				row = data.getIntExtra("row number", -1);
 				topic.getChildren().get(row).setUsername(comment.getUsername());

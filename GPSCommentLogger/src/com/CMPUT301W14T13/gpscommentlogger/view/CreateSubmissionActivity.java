@@ -41,10 +41,16 @@ public class CreateSubmissionActivity extends Activity{
         	rowNumber = getIntent().getIntExtra("row number", -1);
         	break;
         
+        //These cases are for editing a comment or topic
         case(2):
+        case(3):
         	setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
     		rowNumber = getIntent().getIntExtra("row number", -1);
     		submission = getIntent().getParcelableExtra("submission");
+    		
+    		if (code == 3){ //The submission controller needs to check the title
+    			title = submission.getTitle();
+    		}
     		
     		text = (EditText) findViewById(R.id.set_comment_text);
     		text.setText(submission.getCommentText());
@@ -61,7 +67,7 @@ public class CreateSubmissionActivity extends Activity{
 	public void extractTextFields(){
 		
 		
-		//Making a topic
+		//Making a topic(0)
 		if (code == 0){
 			text = (EditText) findViewById(R.id.setTitle);
 			title = text.getText().toString().trim();
@@ -73,8 +79,8 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 		
-		//Making a comment
-		if (code == 1 || code == 2 ){
+		//Making a comment(1), editing a comment(2), or editing a topic(3)
+		if (code == 1 || code == 2 || code == 3){
 			
 			text = (EditText) findViewById(R.id.set_comment_username);
 			username = text.getText().toString().trim();
@@ -90,7 +96,7 @@ public class CreateSubmissionActivity extends Activity{
 	public void constructSubmission(){
 		
 		//Add a title if a topic is being made
-		if (code == 0){
+		if (code == 0 || code == 3){
 			submission = new Topic();
 			submission.setTitle(title);
 		}
@@ -124,6 +130,7 @@ public class CreateSubmissionActivity extends Activity{
 			switch(code){
 			
 			case(0):
+			case(3):
 				submit.putExtra("Topic", (Topic) submission); 
 				break;
 			

@@ -38,7 +38,8 @@ public class Comment implements Viewable, Parcelable
 	private Date timestamp = new Date();
 	private String commentText = "";
 	private Location GPSLocation;
-
+	
+	
 	private ArrayList<Viewable> children = new ArrayList<Viewable>();
 	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
 
