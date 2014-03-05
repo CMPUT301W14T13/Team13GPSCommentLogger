@@ -5,6 +5,7 @@ public class ServerTask implements Task
 {
 	private ServerTaskCode code;
 	private Viewable obj;
+	private String searchTerm;
 
 	public ServerTaskCode getCode() {
 		return code;
@@ -20,5 +21,13 @@ public class ServerTask implements Task
 
 	public void setObj(Viewable obj) {
 		this.obj = obj;
+	}
+
+	public void setSearchTerm(String searchTerm){
+		this.searchTerm = searchTerm;
+	}
+	
+	public String getSearchTerm() {
+		return searchTerm;
 	}
 }

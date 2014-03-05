@@ -7,6 +7,10 @@ import android.graphics.Bitmap;
 import android.location.Location;
 
 public interface Viewable {
+	
+	/*
+	 * TODO: change this to abstract class
+	 */
 
 	final String anonymous = "Anonymous";
 	void setAnonymous();
