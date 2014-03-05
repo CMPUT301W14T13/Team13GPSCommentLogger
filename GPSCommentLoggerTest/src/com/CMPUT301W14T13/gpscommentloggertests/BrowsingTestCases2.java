@@ -32,7 +32,7 @@ public class BrowsingTestCases2 extends
 		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
 		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getC().size());
 		
-		activity.simulateBrowseClick(0);
+		activity.simulateOnlineBrowseClick(0);
 		
 		Thread.sleep(2000);
 		
@@ -40,7 +40,7 @@ public class BrowsingTestCases2 extends
 		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof Topic);
 		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getC().size());
 		
-		activity.simulateBrowseClick(0);
+		activity.simulateOnlineBrowseClick(0);
 		activity.forceChangeOnline("initial online title");
 		
 		Thread.sleep(2000);
