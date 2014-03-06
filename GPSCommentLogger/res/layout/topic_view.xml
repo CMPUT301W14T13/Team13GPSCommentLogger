@@ -1,53 +1,124 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp" >
 
-    <TextView
-        android:id="@+id/topic_comment"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/topic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:text="Title"
+                android:textColor="#000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/topic_username"
+                android:ellipsize="marquee"
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/votes"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="@string/votes"
+                android:textColor="#243160"
+                android:textSize="20dp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/coordinates"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="coord"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/bullet1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/bullet"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="age"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/bullet2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/bullet"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/number_of_comments"
+                android:gravity="left"
+                android:text="#comments"
+                android:textColor="#666666" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/topic_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Comment" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"/>s    
+    
+    <ListView
+        android:id="@+id/comment_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/topic_username"
-        android:layout_marginTop="30dp"
-        android:text="Comment" />
-
-   
-
-    <TextView
-        android:id="@+id/topic_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="Username" />
-
-    <TextView
-        android:id="@+id/topic_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Title" />
-
-    <Button
-        android:id="@+id/topic_reply_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/topic_comment"
-        android:layout_marginTop="16dp"
-        android:onClick="reply"
-        android:text="Reply" />
-
-     <ListView
-         android:id="@+id/comment_list"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_alignParentLeft="true"
-         android:layout_below="@+id/topic_reply_button" >
-	
+        android:layout_below="@+id/topic_reply_button" >
     </ListView>
-</RelativeLayout>
+
+</LinearLayout>

@@ -14,6 +14,6 @@
     <string name="saved">Saved Pages</string>
     
     <string name="create_topic_label">New Topic</string>
-    <string name="bullet">•</string>
+    <string name="bullet">\u0020•\u0020</string>
 
 </resources>
