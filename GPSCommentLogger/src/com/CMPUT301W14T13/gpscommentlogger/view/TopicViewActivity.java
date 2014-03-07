@@ -35,8 +35,8 @@ public class TopicViewActivity extends Activity
         
         topic = (Topic) getIntent().getParcelableExtra("Topic");
         
-        comments = new ArrayList<Viewable>();
-        topic.setChildren(comments); //initialize children
+        //comments = new ArrayList<Viewable>();
+        //topic.setChildren(comments); //initialize children
         
         commentListview = (ListView) findViewById(R.id.comment_list);
 	}
@@ -127,14 +127,14 @@ public class TopicViewActivity extends Activity
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			
-		int row;
 		
-		Comment comment = (Comment) data.getParcelableExtra("comment");
-		comments = new ArrayList<Viewable>();
-		
-		
-				
 		if (resultCode == RESULT_OK){
+			
+			int row;
+			Comment comment = (Comment) data.getParcelableExtra("comment");
+			comments = new ArrayList<Viewable>();
+		
+		
 				
 			switch (requestCode){
 				
