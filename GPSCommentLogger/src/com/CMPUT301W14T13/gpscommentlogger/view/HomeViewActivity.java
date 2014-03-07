@@ -34,17 +34,19 @@ public class HomeViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
 		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
-		
+
+		// IDEALLY, this should get the topics from the server.
+
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
 		topics.add(top1);
-		
+
 		Topic top2 = new Topic("Second", "User2");
 		topics.add(top2);
-		
+
 		Topic top3 = new Topic("Third", "User3");
 		topics.add(top3);
-		
+
 		Topic top4 = new Topic("Fourth", "User4");
 		topics.add(top4);
 
@@ -52,7 +54,7 @@ public class HomeViewActivity extends Activity {
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 
-		//set up listener for topic clicks
+		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -137,12 +139,4 @@ public class HomeViewActivity extends Activity {
 		//controller.addTask(task);
 
 	}
-
-
-
-
-
-
-
-
 }
