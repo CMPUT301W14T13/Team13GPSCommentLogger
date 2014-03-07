@@ -21,7 +21,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 
-
+/* this is our main activity */
 public class HomeViewActivity extends Activity {
 
 
@@ -77,8 +77,6 @@ public class HomeViewActivity extends Activity {
 	}
 
 
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -101,7 +99,6 @@ public class HomeViewActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
 
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
