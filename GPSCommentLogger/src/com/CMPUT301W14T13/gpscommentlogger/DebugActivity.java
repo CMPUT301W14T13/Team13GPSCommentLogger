@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
+import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
@@ -37,10 +38,15 @@ public class DebugActivity extends Activity
 	ServerController server;
 	ListView root;
 	
+	private final String savePath = getFilesDir().getPath().toString() + "/GCLLocalData_" + this.hashCode() + ".sav";
+	private DataManager dataManager;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_view);
+        
+        dataManager = new DataManager(savePath);
         
         final TextView debugWindow = (TextView)findViewById(R.id.debug_window);
         final DebugActivity activity = this;
@@ -181,6 +187,15 @@ public class DebugActivity extends Activity
 	public void forceChangeOffline(String title)
 	{
 		client.forceChangeOffline(title);
+	}
+	
+	public DataManager getDataManager()
+	{
+		return this.dataManager;
+	}
+	
+	public String getSavePath(){
+		return this.savePath;
 	}
 	
 }

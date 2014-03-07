@@ -3,38 +3,24 @@ package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 import java.io.IOException;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
-=======
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-<<<<<<< HEAD
-=======
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
 @SuppressLint("NewApi")
 public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
 	public DownloadCommentsTest() {
-<<<<<<< HEAD
-		super(DebugActivity.class);
-		
-=======
 		super(DebugActivity.class);	
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
 	}
 	
 	//Use Case 4
@@ -44,16 +30,11 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
-<<<<<<< HEAD
-=======
-		Comment comment = new Comment();
-		dm.SaveInFile(comment);//not implemented in code
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
 		
-		String testPath = activity.getFilesDir().getPath().toString() + "/test.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		Log.w("DownloadCommentTest", "Filepath = " + activity.getSavePath());
 		
-		DataManager dm = new DataManager(testPath);
+		DataManager dm = activity.getDataManager();
+		
 		String testID = "This is a test ID";
 		Comment comment = new Comment(testID);
 		dm.saveData(comment);
@@ -61,7 +42,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		activity.finish();
 		setActivityIntent(intent);
 		activity = getActivity();
-		dm = new DataManager(testPath);
+		dm = activity.getDataManager();
 		try {
 			dm.load();
 		} catch (IOException e) {
@@ -88,37 +69,29 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath =  activity.getFilesDir().getPath().toString() + "/test2.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		Log.w("DownloadCommentTest", "Filepath = " + activity.getSavePath());
 
-<<<<<<< HEAD
-		DataManager dm = new DataManager(testPath);
+
+		DataManager dm = activity.getDataManager();
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
-=======
-		Topic topComment = new Topic();
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
+
 		Comment reply = new Comment();
-		topComment.getC().add(reply);
+		topComment.getChildren().add(reply);
 		
 		dm.saveFavourite(topComment);
 		
-<<<<<<< HEAD
 		activity.finish();
 		setActivityIntent(intent);
 		activity = getActivity();
 		
-		dm = new DataManager(testPath);
+		dm = activity.getDataManager();
 		try {
 			dm.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-=======
-		dm.setFavorite(topComment); // not Implemented
-		ArrayList<Topic> favorites = dm.LoadFavorites();
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
 		
 		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
 		
@@ -131,7 +104,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		assertTrue("top comment we load is the same as the top comment we saved",
 				topComment.equals(favoritedTopic));
 		assertTrue("the reply we loaded is the same as the reply we saved",
-				reply.equals(favoritedTopic.getC().get(0))); //compare the first child
+				reply.equals(favoritedTopic.getChildren().get(0))); //compare the first child
 		
 		activity.finish();
 		
@@ -139,25 +112,21 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	
 	//Use Case 4.1.1
 	public void testUpdateFavorite() {
-<<<<<<< HEAD
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
 		
-		String testPath =  activity.getFilesDir().getPath().toString() + "/test3.sav";
-		Log.w("DownloadCommentTest", "Filepath = " + testPath);
+		Log.w("DownloadCommentTest", "Filepath = " + activity.getSavePath());
 
-		DataManager dm = new DataManager(testPath);
+		DataManager dm = activity.getDataManager();
 		
 		String testID = "This is a test ID";
 		Topic topComment = new Topic(testID);
-=======
-		Topic topComment = new Topic();
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
+
 		Comment reply = new Comment();
-		topComment.getC().add(reply);
+		topComment.getChildren().add(reply);
 		
 		dm.saveFavourite(topComment);
 		
@@ -165,18 +134,14 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		setActivityIntent(intent);
 		activity = getActivity();
 		
-		dm = new DataManager(testPath);
+		dm = activity.getDataManager();
 		try {
 			dm.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-<<<<<<< HEAD
 		Topic favoritedTopic = (Topic)dm.getFavourite(testID);
-=======
-		ArrayList<Topic> favorites = dm.LoadFavorites();
->>>>>>> e2b2849c80796d9e7a2581a302e6ee184c00fbb7
 		
 		/*
 		assertEquals("top comment we load is the same as the top comment we saved",
@@ -187,7 +152,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 		assertTrue("top comment we load is the same as the top comment we saved",
 				topComment.equals(favoritedTopic));
 		assertTrue("the reply we loaded is the same as the reply we saved",
-				reply.equals(favoritedTopic.getC().get(0))); //compare the first child
+				reply.equals(favoritedTopic.getChildren().get(0))); //compare the first child
 		
 		/* TODO: route this through the clientController
 		 * This part needs connection to server or mockup via clientController

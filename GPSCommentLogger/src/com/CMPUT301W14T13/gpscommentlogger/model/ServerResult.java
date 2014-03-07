@@ -4,6 +4,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 public class ServerResult implements Result
 {
 	private String content;
+	private Viewable obj;
 
 	public void setContent(String output) {
 		content = output;
@@ -11,6 +12,14 @@ public class ServerResult implements Result
 	
 	public String getContent(){
 		return content;
+	}
+
+	public Viewable getObj() {
+		return obj;
+	}
+
+	public void setObj(Viewable obj) {
+		this.obj = obj;
 	}
 
 }
