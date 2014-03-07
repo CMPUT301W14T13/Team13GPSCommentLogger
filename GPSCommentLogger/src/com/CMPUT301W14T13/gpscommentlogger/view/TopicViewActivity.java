@@ -81,6 +81,9 @@ public class TopicViewActivity extends Activity
 	             
 	         case R.id.comment_reply_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
+	        	 
+	        	 //int indent = topic.getChildren().get(rowNumber).getIndentLevel();
+	        	 
 	        	 intent.putExtra("code", 1);
 	        	 intent.putExtra("row number", rowNumber);
 	        	 startActivityForResult(intent, 1); //replying to a comment
@@ -133,7 +136,7 @@ public class TopicViewActivity extends Activity
 			int row;
 			Comment comment = (Comment) data.getParcelableExtra("comment");
 			comments = new ArrayList<Viewable>();
-		
+			
 		
 				
 			switch (requestCode){
@@ -145,7 +148,15 @@ public class TopicViewActivity extends Activity
 			case(1): //reply to comment
 				row = data.getIntExtra("row number", -1);
 				//comment.setChildren(comments); //initialize children
-				topic.getChildren().get(row).addChild(comment);
+				Comment prev_comment = (Comment) topic.getChildren().get(row);
+			
+				if (topic.getChildren().size() >= 1){
+					comment.setIndentLevel(prev_comment.getIndentLevel() + 1);
+				}
+				
+				prev_comment.addChild(comment);
+				
+				topic.addChild(comment);
 				break;
 				
 			case(2)://edit topic

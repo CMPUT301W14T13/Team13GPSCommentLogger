@@ -2,6 +2,7 @@ package com.CMPUT301W14T13.gpscommentlogger;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
@@ -40,9 +42,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 		}
 		
 		@Override
-		public Object getItem(int position) {
+		public Comment getItem(int position) {
 		
-		return data.get(position);
+		return (Comment) data.get(position);
 		}
 		
 		@Override
@@ -56,6 +58,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 		
 				View vi = convertView;
 				Button button;
+				Comment comment = this.getItem(position);
 				
 		        if (vi == null){
 		        	
@@ -67,6 +70,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 		        	
 		        	button = (Button) vi.findViewById(R.id.comment_edit_button);
 		        	button.setTag(position); //gives a unique tag for identifying comments
+		        	
+		        	setIndentView(vi, comment, position);
 		         }
 		        
 		       
@@ -83,6 +88,30 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 	        
 	        text = (TextView) vi.findViewById(R.id.commentText);
 	        text.setText(String.valueOf(data.get(position).getCommentText()));
+		}
+		
+		public void setIndentView(View vi, Comment comment, int position){
+			
+			int indent = comment.getIndentLevel();
+			
+			View[] indentViews = new View[] {
+			         vi.findViewById(R.id.left_indent1),
+			         vi.findViewById(R.id.left_indent2),
+			         vi.findViewById(R.id.left_indent3),
+			         vi.findViewById(R.id.left_indent4),
+			         vi.findViewById(R.id.left_indent5),
+			         
+			        };
+			for (int i = 0; i < indent && i < indentViews.length; i++) {
+		         
+		             indentViews[i].setVisibility(View.VISIBLE);
+		             
+		         
+		         }
+		        
+		        for (int i = indent; i < indentViews.length; i++) {
+		         indentViews[i].setVisibility(View.GONE);
+		        }
 		}
 	}
 
