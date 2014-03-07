@@ -107,11 +107,12 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 		             indentViews[i].setVisibility(View.VISIBLE);
 		             
 		         
-		         }
-		        
-		        for (int i = indent; i < indentViews.length; i++) {
+		    }
+		    
+			//remove unnecessary indent lines otherwise they will all show
+		    for (int i = indent; i < indentViews.length; i++) {
 		         indentViews[i].setVisibility(View.GONE);
-		        }
+		    }
 		}
 	}
 

@@ -147,11 +147,11 @@ public class TopicViewActivity extends Activity
 				
 			case(1): //reply to comment
 				row = data.getIntExtra("row number", -1);
-				//comment.setChildren(comments); //initialize children
-				Comment prev_comment = (Comment) topic.getChildren().get(row);
+				
+				Comment prev_comment = (Comment) topic.getChildren().get(row); //get the comment being replied to
 			
 				if (topic.getChildren().size() >= 1){
-					comment.setIndentLevel(prev_comment.getIndentLevel() + 1);
+					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
 				
 				prev_comment.addChild(comment);
