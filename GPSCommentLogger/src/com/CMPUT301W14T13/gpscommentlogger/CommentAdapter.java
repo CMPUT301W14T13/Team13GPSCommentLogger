@@ -59,11 +59,15 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 				View vi = convertView;
 				Button button;
 				Comment comment = this.getItem(position);
+				ViewHolder holder = null;
 				
 		        if (vi == null){
 		        	
 		        	vi = inflater.inflate(R.layout.comment_view, null);
-		        	setTopicView(vi, position);
+		        	holder = new ViewHolder();
+		        	
+		        	holder.username = (TextView) vi.findViewById(R.id.comment_username);
+		        	holder.commentText = (TextView) vi.findViewById(R.id.commentText);
 		        	
 		        	button = (Button) vi.findViewById(R.id.comment_reply_button);
 		        	button.setTag(position); //gives a unique tag for identifying comments
@@ -72,14 +76,25 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 		        	button.setTag(position); //gives a unique tag for identifying comments
 		        	
 		        	setIndentView(vi, comment, position);
-		         }
-		        
+		        	vi.setTag(holder);
+		        	
+		        } else {
+		            holder = (ViewHolder) convertView.getTag();
+		        }
+		         
+		        holder.username.setText("Reply from: " + String.valueOf(data.get(position).getUsername()));
+		        holder.commentText.setText(String.valueOf(data.get(position).getCommentText()));
 		       
 		        return vi;
 		}
 
 
 
+		public static class ViewHolder {
+		    public TextView username;
+		    public TextView commentText;
+		}
+		
 		
 		public void setTopicView(View vi, int position){
 			

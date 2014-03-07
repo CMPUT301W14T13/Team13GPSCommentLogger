@@ -25,7 +25,7 @@ public class TopicViewActivity extends Activity
 
 
 	private Topic topic = new Topic();
-	private ArrayList<Viewable> comments;
+	private ArrayList<Viewable> commentList;
 	private Comment comment = new Comment();
 	private ListView commentListview;
 	
@@ -44,12 +44,43 @@ public class TopicViewActivity extends Activity
 	
 	protected void onResume(){
 		super.onResume();
+		commentList = new ArrayList<Viewable>();
 		
+		
+		//topic.setChildren(comments);
+		for (int i = 0; i < topic.getChildren().size(); i++){
+			
+			fillTopicChildren(topic.getChildren().get(i));
+		}
+			
 		fillTopicLayout();
-		
 	}
 	
 	
+	/*
+	 * This function takes in a topic child and then recursively goes down the child comment
+	 * trees to fill a list containing every comment that can then be displayed
+	 */
+	public void fillTopicChildren(Viewable comment){
+
+		//ArrayList<Viewable> comments = list;
+		ArrayList<Viewable> children = comment.getChildren();
+		Comment child = (Comment) comment;
+		
+		commentList.add(comment);
+		System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
+		if (children.size() != 0){
+			
+		
+			for (int i = 0; i < children.size(); i++){
+				
+				fillTopicChildren(children.get(i));
+				
+			}
+		
+		}
+		
+	}
 	
 	public void fillTopicLayout(){
 		
@@ -62,7 +93,7 @@ public class TopicViewActivity extends Activity
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(topic.getTitle());
 		
-		commentListview.setAdapter(new CommentAdapter(this, topic.getChildren()));
+		commentListview.setAdapter(new CommentAdapter(this, commentList));
 	}
 	
 	public void reply(View v) throws InterruptedException{
@@ -135,28 +166,33 @@ public class TopicViewActivity extends Activity
 			
 			int row;
 			Comment comment = (Comment) data.getParcelableExtra("comment");
-			comments = new ArrayList<Viewable>();
-			
+			//comments = new ArrayList<Viewable>();
+			Comment prev_comment = new Comment();
 		
 				
 			switch (requestCode){
 				
 			case(0):  //reply to topic
 				topic.addChild(comment);
+				//commentList.add(comment);
 				break;
 				
 			case(1): //reply to comment
 				row = data.getIntExtra("row number", -1);
 				
-				Comment prev_comment = (Comment) topic.getChildren().get(row); //get the comment being replied to
+				
 			
 				if (topic.getChildren().size() >= 1){
+					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
 					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
 				
-				prev_comment.addChild(comment);
+				//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
+				if (comment.getIndentLevel() < 5){
+					prev_comment.addChild(comment);
+				}
 				
-				topic.addChild(comment);
+				//topic.insertChild(comment, row + 1); //insert the comment into its correct position
 				break;
 				
 			case(2)://edit topic
@@ -167,8 +203,8 @@ public class TopicViewActivity extends Activity
 			
 			case(3): //edit comment
 				row = data.getIntExtra("row number", -1);
-				topic.getChildren().get(row).setUsername(comment.getUsername());
-				topic.getChildren().get(row).setCommentText(comment.getCommentText());
+				commentList.get(row).setUsername(comment.getUsername());
+				commentList.get(row).setCommentText(comment.getCommentText());
 				break;
 				
 			 default:

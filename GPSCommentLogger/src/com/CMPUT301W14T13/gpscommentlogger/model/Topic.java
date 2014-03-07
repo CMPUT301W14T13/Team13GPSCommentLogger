@@ -313,6 +313,10 @@ public class Topic implements Viewable, Parcelable
 		
 	}
 
+	public void insertChild(Viewable post, int position){
+		comments.add(position, post);
+	}
+	
 	@Override
 	public Integer getPopularity() {
 		// TODO Auto-generated method stub
