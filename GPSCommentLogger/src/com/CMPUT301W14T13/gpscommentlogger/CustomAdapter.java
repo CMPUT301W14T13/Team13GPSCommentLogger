@@ -84,17 +84,17 @@ public class CustomAdapter extends BaseAdapter {
 	    long diffInMillies = current.getTime() - previous.getTime();
 	    
 	    if (diffInMillies >= 0 && diffInMillies < 60000)
-	    	return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago.");
+	    	return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago");
 	    else if (diffInMillies >= 60000 && diffInMillies < 3600000)
-	    	return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago.");
+	    	return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago");
 	    else if (diffInMillies >= 3600000 && diffInMillies < 24*3600000)
-	    	return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago.");
+	    	return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago");
 	    else if (diffInMillies >= 24*3600000 && diffInMillies < 24*30*3600000)
 	    	return String.valueOf(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" days ago");
 	    else if (diffInMillies >= 24*30*3600000 && diffInMillies < 24*30*12*3600000)
-	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago.");
+	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago");
 	    else
-	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago.");
+	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
 	    
 	}
 	
@@ -115,7 +115,7 @@ public class CustomAdapter extends BaseAdapter {
 	
 		/* count the number of comments in the topic*/
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
-		text.setText(String.valueOf("number of comments"));
+		text.setText(String.valueOf(this.data.get(position).getChildren().size()).concat(" comments"));
 		
 	
 	}
