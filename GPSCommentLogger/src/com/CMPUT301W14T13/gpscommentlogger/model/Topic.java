@@ -103,6 +103,11 @@ public class Topic implements Viewable, Parcelable
 	public void setGPSLocation(Location gPSLocation) {
 		GPSLocation = gPSLocation;
 	}
+	
+	/* return GPS coordinates as a string */
+	public String locationString() {
+	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
+	}
 
 	public ArrayList<Viewable> getChildren()
 	

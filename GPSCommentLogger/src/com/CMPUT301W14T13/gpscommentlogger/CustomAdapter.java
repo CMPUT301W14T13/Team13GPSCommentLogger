@@ -105,8 +105,10 @@ public class CustomAdapter extends BaseAdapter {
 		text = (TextView) vi.findViewById(R.id.username);
 		text.setText("by " + String.valueOf(data.get(position).getUsername()));
 
+		/* get the GPS coordinates */
 		text = (TextView) vi.findViewById(R.id.coordinates);
-		text.setText("coordinates");
+		
+		text.setText(this.data.get(position).locationString());
 
 		/* get the comment age */
 		text = (TextView) vi.findViewById(R.id.age);
