@@ -52,7 +52,10 @@ public class TopicViewActivity extends Activity
 			
 			fillTopicChildren(topic.getChildren().get(i));
 		}
-			
+		
+		for (int i = 0; i < commentList.size(); i++){
+			System.out.println(commentList.get(i).getUsername() + ": " + ((Comment) commentList.get(i)).getIndentLevel());
+		}
 		fillTopicLayout();
 	}
 	
@@ -65,10 +68,10 @@ public class TopicViewActivity extends Activity
 
 		//ArrayList<Viewable> comments = list;
 		ArrayList<Viewable> children = comment.getChildren();
-		Comment child = (Comment) comment;
+		//Comment child = (Comment) comment;
 		
 		commentList.add(comment);
-		System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
+		//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
 		if (children.size() != 0){
 			
 		
