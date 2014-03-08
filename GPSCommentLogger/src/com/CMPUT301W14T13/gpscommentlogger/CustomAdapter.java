@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 /*
@@ -22,11 +23,11 @@ public class CustomAdapter extends BaseAdapter {
 
 
 	private Context context;
-	private ArrayList<Topic> data = new ArrayList<Topic>();
+	private ArrayList<Viewable> data = new ArrayList<Viewable>();
 	private static LayoutInflater inflater = null;
 
 
-	public CustomAdapter(Context context, ArrayList<Topic> topics) {
+	public CustomAdapter(Context context, ArrayList<Viewable> topics) {
 
 		this.context = context;
 		this.data = topics;

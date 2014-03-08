@@ -40,6 +40,7 @@ public interface Viewable {
 	void setGPSLocation(Location location);
 	
 	void addChild(Viewable post);
+	String locationString();
 	
 	Integer getPopularity();
 		

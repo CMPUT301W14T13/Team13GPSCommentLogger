@@ -1,17 +1,14 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.Config;
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Root implements Viewable {
+public class Root implements Viewable, Parcelable {
 	private String title;
 	private final String username = "default";
 	private String ID;
@@ -21,14 +18,14 @@ public class Root implements Viewable {
 	private Date timestamp;
 	private Date freshness;
 	private Location GPSLocation;
-	private ArrayList<Viewable> comments;
+	private ArrayList<Viewable> topics;
 	
 	public Root()
 	{
 		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		topics = new ArrayList<Viewable>();
 	}
 	
 
@@ -36,7 +33,7 @@ public class Root implements Viewable {
 	{
 		this.ID = ID;
 		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		topics = new ArrayList<Viewable>();
 	}
 	
 	@Override
@@ -45,12 +42,12 @@ public class Root implements Viewable {
 	
 
 	{
-		return comments;
+		return topics;
 	}
 
 	public void setC(ArrayList<Viewable> c)
 	{
-		comments = c;
+		topics = c;
 	}
 	@Override
 	public String getID() {
@@ -112,7 +109,7 @@ public class Root implements Viewable {
 				&& image.equals(o.image)
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
-				&& comments.equals(o.comments);
+				&& topics.equals(o.topics);
 	}
 
 	@Override
@@ -131,7 +128,7 @@ public class Root implements Viewable {
 
 	@Override
 	public void addChild(Viewable post) {
-		comments.add(post);
+		topics.add(post);
 		
 	}
 
@@ -154,6 +151,27 @@ public class Root implements Viewable {
 	public void setUsername(String newUsername) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String locationString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

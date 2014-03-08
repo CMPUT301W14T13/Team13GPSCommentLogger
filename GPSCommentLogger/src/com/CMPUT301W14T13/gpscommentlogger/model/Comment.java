@@ -314,5 +314,11 @@ public class Comment implements Viewable, Parcelable
 		return null;
 	}
 
+	@Override
+	public String locationString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
