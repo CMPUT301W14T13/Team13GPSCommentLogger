@@ -16,6 +16,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.ServerTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Task;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
@@ -142,6 +143,7 @@ public class ClientController extends Controller
 	{
 		switch(task.getSourceCode())
 		{
+		//TODO: change these cases to use the searchTerm instead of the obj?
 		case LOCAL_DATA_SAVES:
 			offlineDataEntity.getData((String)task.getObj());
 			break;
@@ -152,8 +154,14 @@ public class ClientController extends Controller
 			if(!hasConnection)throw new InterruptedException("Error attempt to browse online while offline.");
 			onlineDataEntityMockup.pageRequest((String)task.getObj());
 			break;
-		//case SERVER_DATA:
-			//break;
+		case SERVER_DATA:
+			//Convert ClientTask into ServerTask
+			ServerTask serverTask = new ServerTask();
+			//TODO: add a switch statement to convert ClientTaskTaskCode to ServerTaskCode
+			serverTask.setCode(ServerTaskCode.INSERT);
+			serverTask.setSearchTerm(task.getSearchTerm());
+			serverTask.setObj((Viewable)task.getObj());
+			this.dispatcher.dispatch(serverTask);
 		default:
 			throw new InterruptedException("Invalid Source Code in ClientController");
 		}

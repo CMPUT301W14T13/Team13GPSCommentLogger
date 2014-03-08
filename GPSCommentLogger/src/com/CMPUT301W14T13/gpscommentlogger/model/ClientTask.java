@@ -10,6 +10,7 @@ public class ClientTask implements Task
 	private boolean isSourceCodeSet = false;
 	
 	private Object obj;
+	private String searchTerm;
 	
 	public ClientTask()
 	{
@@ -52,5 +53,13 @@ public class ClientTask implements Task
 	public Object getObj()
 	{
 		return obj;
+	}
+
+	public String getSearchTerm() {
+		return searchTerm;
+	}
+
+	public void setSearchTerm(String searchTerm) {
+		this.searchTerm = searchTerm;
 	}
 }
