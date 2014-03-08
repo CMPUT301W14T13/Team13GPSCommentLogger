@@ -57,7 +57,8 @@ public class CommentAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View vi = convertView;
-		Button button;
+		Button replyButton;
+		Button editButton;
 		Comment comment = this.getItem(position);
 		ViewHolder holder = null;
 
@@ -69,18 +70,21 @@ public class CommentAdapter extends BaseAdapter {
 			holder.username = (TextView) vi.findViewById(R.id.comment_username);
 			holder.commentText = (TextView) vi.findViewById(R.id.commentText);
 
-			button = (Button) vi.findViewById(R.id.comment_reply_button);
-			button.setTag(position); //gives a unique tag for identifying comments
-
-			button = (Button) vi.findViewById(R.id.comment_edit_button);
-					button.setTag(position); //gives a unique tag for identifying comments
+			
 
 					
-					vi.setTag(holder);
+			vi.setTag(holder);
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		
+		replyButton = (Button) vi.findViewById(R.id.comment_reply_button);
+		replyButton.setTag(position); //gives a unique tag for identifying comments
+
+		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
+		editButton.setTag(position); //gives a unique tag for identifying comments
+		
 		holder.indentLevel = comment.getIndentLevel();
 		setIndentView(vi, holder.indentLevel, position);
 		holder.username.setText("Reply from: " + String.valueOf(data.get(position).getUsername()));

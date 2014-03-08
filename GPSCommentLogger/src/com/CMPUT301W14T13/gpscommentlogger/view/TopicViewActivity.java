@@ -187,6 +187,7 @@ public class TopicViewActivity extends Activity
 			
 				if (topic.getChildren().size() >= 1){
 					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+					System.out.println(prev_comment.getCommentText());
 					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
 				
