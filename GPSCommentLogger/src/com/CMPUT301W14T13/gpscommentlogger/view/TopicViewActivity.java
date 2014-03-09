@@ -53,9 +53,9 @@ public class TopicViewActivity extends Activity
 			fillTopicChildren(topic.getChildren().get(i));
 		}
 		
-		for (int i = 0; i < commentList.size(); i++){
+		/*for (int i = 0; i < commentList.size(); i++){
 			System.out.println(commentList.get(i).getUsername() + ": " + ((Comment) commentList.get(i)).getIndentLevel());
-		}
+		}*/
 		fillTopicLayout();
 	}
 	
@@ -147,7 +147,7 @@ public class TopicViewActivity extends Activity
 	             
 	         case R.id.comment_edit_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 comment = (Comment) topic.getChildren().get(rowNumber);
+	        	 comment = (Comment) commentList.get(rowNumber);
 	        	 
 	        	 intent.putExtra("code", 2);
 	        	 intent.putExtra("row number", rowNumber);
@@ -187,12 +187,12 @@ public class TopicViewActivity extends Activity
 			
 				if (topic.getChildren().size() >= 1){
 					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-					System.out.println(prev_comment.getCommentText());
+					//System.out.println(prev_comment.getCommentText());
 					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
 				
 				//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-				if (comment.getIndentLevel() < 5){
+				if (comment.getIndentLevel() <= 5){
 					prev_comment.addChild(comment);
 				}
 				
