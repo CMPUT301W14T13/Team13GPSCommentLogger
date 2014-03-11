@@ -1,10 +1,13 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,15 +15,18 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class CreateTopicActivity extends Activity{
 
 	private String username;
 	private String title;
 	private String commentText;
+	private Location location;
 	private SubmissionController controller;
 	private Topic topic;
-	
+	static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +81,24 @@ public class CreateTopicActivity extends Activity{
 			setResult(RESULT_OK, submit);
 			finish();
 		}
+	}
+	
+	//checks if google play services are available to us for use
+	private boolean checkGooglePlayServices() {
+		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (status != ConnectionResult.SUCCESS) {
+			if ( GooglePlayServicesUtil.isUserRecoverableError(status)){
+				GooglePlayServicesUtil.getErrorDialog(status, this, CONNECTION_FAILURE_RESOLUTION_REQUEST).show();
+			}else {
+				Toast.makeText(this, "This device is not supported", Toast.LENGTH_LONG).show();
+			}
+			return false;
+		}
+		return true;
+	}
+	@Override
+	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+		
 	}
 	
 }
