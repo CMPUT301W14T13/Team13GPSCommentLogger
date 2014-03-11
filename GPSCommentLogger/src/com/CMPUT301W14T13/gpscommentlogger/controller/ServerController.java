@@ -37,7 +37,7 @@ import com.google.gson.reflect.TypeToken;
 public class ServerController extends Controller
 {
 	//store references to auxiliary classes
-	private ClientDispatcher dispatcher;
+	private ClientDispatcher dispatcher; //TODO: dispatcher is bypassed at the moment
 	private ClientListener listener;
 	
 	//store reference to client
@@ -111,6 +111,7 @@ public class ServerController extends Controller
 	
 	protected Result doTask()
 	{
+		//TODO: Bitmap serialization?
 		ServerTask currentTask = (ServerTask)tasks.remove(0);
 		Result out = new ServerResult();
 		
@@ -119,15 +120,15 @@ public class ServerController extends Controller
 			case DELETE:
 				throw new UnsupportedOperationException("Delete from server has not been implemented.");
 			case INSERT:
-				out = processInsertRequest(currentTask);
+				processInsertRequest(currentTask,(ServerResult)out);
 				break;
 			case SEARCH:
-				out = processSearchRequest(currentTask);
+				processSearchRequest(currentTask,out);
 				break;
 			case UPDATE:
 				try
 				{
-					out = processUpdateRequest(currentTask);
+					processUpdateRequest(currentTask,out);
 				}
 				catch(Exception e)
 				{
@@ -142,10 +143,147 @@ public class ServerController extends Controller
 	}
 	
 	//Modified from https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-	// This method adds a given Viewable
-	private ServerResult processInsertRequest(ServerTask currentTask) {
-		ServerResult result = new ServerResult();
+	// This method adds a given Viewable to server
+	private void processInsertRequest(ServerTask currentTask, ServerResult result) {
 
+		//searchTerm should have the parent's ID
+		//we need to get the ESID to process an update request
+		String esID = findESIDByID(currentTask);
+		
+		//next, we add the new object
+		postNewViewable(currentTask, result);
+		
+		//finally, we update the parent object
+		addToList(esID, "comments", currentTask, result);
+		
+	}
+	
+	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
+	//This method searches for a Viewable based on its ID field
+	private void processSearchRequest(ServerTask currentTask, ServerResult result) {
+		
+		retrieveViewable(currentTask, result);
+		
+	}
+	
+	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
+	//This method searches for the ID and updates
+	//the version in the elasticSearch versioning system 
+	//to the new state provided by the client
+	private void processUpdateRequest(ServerTask currentTask, ServerResult result) {
+		
+		//searchTerm should have the viewable's ID
+		//we need to get the ESID to process an update request
+		String esID = findESIDByID(currentTask);
+		
+		//next, we update the viewable
+		updateField(esID,currentTask, result);
+	}
+	
+	private void updateField(String id, ServerTask currentTask, ServerResult result){
+		//hierarchyAdapter changes serializer rules for first arg
+		//to custom serialization class rules
+		//specified by the user in the second arg
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		
+		//Add _search tag to search the elasticSearch data storage system
+		HttpClient client = new DefaultHttpClient();
+		HttpPost request = new HttpPost(WEB_URL + id + "/_update");
+
+		try
+		{
+			//the object of the current serverTask is the viewable to be serialized
+			String jsonString = getFieldJson(gson,currentTask);
+			
+			//search for the current serverTask's searchTerm 
+			//in the ID field of the Viewable class
+			String query = "{\"script\" : \"ctx._source." + getFieldString(currentTask) + " = field\", " +
+					"\"params\" : {" +
+				        "\"field\" : \""+ jsonString +"\"" +
+				    "}";
+			StringEntity stringentity = new StringEntity(query);
+
+			request.setHeader("Accept","application/json");
+			request.setEntity(stringentity);
+			HttpResponse response = client.execute(request);
+			Log.w("ElasticSearch", response.getStatusLine().toString());
+			
+			//Entering response into the ServerResult to be returned to client
+			HttpEntity entity = response.getEntity();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+			String output = result.getContent();
+			output += "\n" + reader.readLine();
+			while(output != null)
+			{
+				Log.w("ElasticSearch", output);
+				output = reader.readLine();
+			}
+			result.setContent(output);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+	
+	private String getFieldJson(ServerTask currentTask){
+		
+	}
+	
+	private String getFieldString(ServerTask currentTask){
+		
+	}
+	
+	private void addToList(String id, String listName, ServerTask currentTask, ServerResult result){
+		//hierarchyAdapter changes serializer rules for first arg
+		//to custom serialization class rules
+		//specified by the user in the second arg
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		
+		//Add _search tag to search the elasticSearch data storage system
+		HttpClient client = new DefaultHttpClient();
+		HttpPost request = new HttpPost(WEB_URL + id + "/_update");
+
+		try
+		{
+			//the object of the current serverTask is the viewable to be serialized
+			String jsonString = gson.toJson(currentTask.getObj());
+			
+			//search for the current serverTask's searchTerm 
+			//in the ID field of the Viewable class
+			String query = "{\"script\" : \"ctx._source." + listName + "+= viewable\", " +
+					"\"params\" : {" +
+				        "\"viewable\" : \""+ jsonString +"\"" +
+				    "}";
+			StringEntity stringentity = new StringEntity(query);
+
+			request.setHeader("Accept","application/json");
+			request.setEntity(stringentity);
+			HttpResponse response = client.execute(request);
+			Log.w("ElasticSearch", response.getStatusLine().toString());
+			
+			//Entering response into the ServerResult to be returned to client
+			HttpEntity entity = response.getEntity();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+			String output = result.getContent();
+			output += "\n" + reader.readLine();
+			while(output != null)
+			{
+				Log.w("ElasticSearch", output);
+				output = reader.readLine();
+			}
+			result.setContent(output);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+	
+	private void postNewViewable(ServerTask currentTask, ServerResult result)
+	{
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
@@ -170,7 +308,8 @@ public class ServerController extends Controller
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-			String output = reader.readLine();
+			String output = result.getContent();
+			output += "\n" + reader.readLine();
 			while(output != null)
 			{
 				Log.w("ElasticSearch", output);
@@ -182,15 +321,59 @@ public class ServerController extends Controller
 		{
 			e.printStackTrace();
 		}
-
-		return result;
 	}
 	
-	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-	//This method searches for a Viewable based on its ID field
-	private ServerResult processSearchRequest(ServerTask currentTask) {
-		ServerResult result = new ServerResult();
+	private String findESIDByID(ServerTask currentTask)
+	{
+		String id = "";
 		
+		//hierarchyAdapter changes serializer rules for first arg
+		//to custom serialization class rules
+		//specified by the user in the second arg
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		
+		//Add _search tag to search the elasticSearch data storage system
+		HttpClient client = new DefaultHttpClient();
+		HttpPost request = new HttpPost(WEB_URL + "_search");
+
+		try
+		{
+			//search for the current serverTask's searchTerm 
+			//in the ID field of the Viewable class
+			String query = 	"{\"query\" : {\"query_string\" : {\"default_field\" : \"ID\",\"query\" : \"" + currentTask.getSearchTerm() + "\"}}}";
+			StringEntity stringentity = new StringEntity(query);
+
+
+			request.setHeader("Accept","application/json");
+			request.setEntity(stringentity);
+
+			//Execute search
+			HttpResponse response = client.execute(request);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearch",status);
+
+			//Get ID of Viewable as it exists in the elastic search system
+			String json = getEntityContent(response);
+			
+			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<Viewable>>(){}.getType();
+			ElasticSearchSearchResponse<Viewable> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
+			System.err.println(esResponse);
+			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
+			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
+				id = r.getESID();
+				Log.w("ElasticSearch",id);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+	
+	private void retrieveViewable(ServerTask currentTask, ServerResult result)
+	{
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
@@ -234,8 +417,6 @@ public class ServerController extends Controller
 		{
 			e.printStackTrace();
 		}
-
-		return result;
 	}
 	
 	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
@@ -284,7 +465,7 @@ public class ServerController extends Controller
 			}
 
 			//overwrite current version with the id and _create tag
-			HttpPost updateRequest = new HttpPost(WEB_URL + "/" + id + "/_create");
+			HttpPost updateRequest = new HttpPost(WEB_URL + id + "/_create");
 			updateRequest.setHeader("Accept","application/json");
 			String jsonString = gson.toJson(currentTask.getObj());
 			updateRequest.setEntity(new StringEntity(jsonString));
