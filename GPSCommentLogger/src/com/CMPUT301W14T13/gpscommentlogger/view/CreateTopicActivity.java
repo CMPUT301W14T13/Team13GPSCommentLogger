@@ -26,7 +26,7 @@ public class CreateTopicActivity extends Activity{
 	private Location location;
 	private SubmissionController controller;
 	private Topic topic;
-	static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,22 +83,6 @@ public class CreateTopicActivity extends Activity{
 		}
 	}
 	
-	//checks if google play services are available to us for use
-	private boolean checkGooglePlayServices() {
-		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		if (status != ConnectionResult.SUCCESS) {
-			if ( GooglePlayServicesUtil.isUserRecoverableError(status)){
-				GooglePlayServicesUtil.getErrorDialog(status, this, CONNECTION_FAILURE_RESOLUTION_REQUEST).show();
-			}else {
-				Toast.makeText(this, "This device is not supported", Toast.LENGTH_LONG).show();
-			}
-			return false;
-		}
-		return true;
-	}
-	@Override
-	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-		
-	}
+	
 	
 }
