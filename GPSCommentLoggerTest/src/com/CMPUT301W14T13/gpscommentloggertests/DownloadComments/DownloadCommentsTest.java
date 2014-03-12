@@ -27,6 +27,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	public void testDownloadComments(){
 
 		Intent intent = new Intent();
+		intent.putExtra("filePath", "test01");
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
@@ -65,6 +66,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	public void testSetAsFavorite() {
 		
 		Intent intent = new Intent();
+		intent.putExtra("filePath", "test02");
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);
@@ -114,6 +116,7 @@ public class DownloadCommentsTest extends ActivityInstrumentationTestCase2<Debug
 	public void testUpdateFavorite() {
 		
 		Intent intent = new Intent();
+		intent.putExtra("filePath", "test03");
 		setActivityIntent(intent);
 		DebugActivity activity = getActivity();
 		assertNotNull(activity);

@@ -156,7 +156,7 @@ public class ServerController extends Controller
 		//first we delete everything that already exists
 		deleteAll(out);
 		
-		//next, we add the new object
+		//next, we add the new root
 		postNewViewable(currentTask, out);		
 	}
 
@@ -204,7 +204,6 @@ public class ServerController extends Controller
 		//specified by the user in the second arg
 		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
-		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(WEB_URL + "_all");
 		
@@ -364,7 +363,7 @@ public class ServerController extends Controller
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		HttpClient client = new DefaultHttpClient();
-		//HttpPost autogenerates keys
+		//HttpPut autogenerates keys
 		HttpPut request = new HttpPut(WEB_URL);
 
 		try
@@ -591,7 +590,7 @@ public class ServerController extends Controller
 
 	protected void processResult(Result result)
 	{
-		dispatcher.dispatch(task);
+		dispatcher.dispatch((ServerResult)result);
 	}
 
 	public void setClient(ClientController client)

@@ -1,6 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.ServerResult;
 
 
 public class ClientDispatcher
@@ -13,9 +13,9 @@ public class ClientDispatcher
 		this.client = client;
 	}
 	
-	public void dispatch(ClientTask task)
+	public void dispatch(ServerResult result)
 	{
-		client.addTask(task);
+		client.addResult(result);
 	}
 
 }

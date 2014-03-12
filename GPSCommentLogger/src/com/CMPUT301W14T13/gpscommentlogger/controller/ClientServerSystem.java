@@ -1,6 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivityWithServer;
 
 import android.os.Handler;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class ClientServerSystem
 		server.setClient(client);
 		client.init();
 		server.init();
+		client.setPipes();
+		server.setPipes();
 		client.start();
 		server.start();
 		isInit = true;
@@ -51,6 +54,25 @@ public class ClientServerSystem
 		server.setClient(client);
 		client.init();
 		server.init();
+		client.setPipes();
+		server.setPipes();
+		client.start();
+		server.start();
+		isInit = true;
+	}
+	
+	public void init(DebugActivityWithServer activity, String saveLocation, Handler textHandler, Handler listHandler, TextView debuggingWindow)
+	{
+		if(isInit)return;
+		
+		client = new ClientController(activity, saveLocation, listHandler, debuggingWindow);
+		server = new ServerController(textHandler, debuggingWindow);
+		client.setServer(server);
+		server.setClient(client);
+		client.init();
+		server.init();
+		client.setPipes();
+		server.setPipes();
 		client.start();
 		server.start();
 		isInit = true;

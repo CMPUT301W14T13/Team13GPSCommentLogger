@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class DebugActivity extends Activity implements DebugActivityInterface
+public class DebugActivityWithServer extends Activity implements DebugActivityInterface
 {
 	Handler textHandler;
 	Handler listHandler;
@@ -47,7 +47,7 @@ public class DebugActivity extends Activity implements DebugActivityInterface
         setContentView(R.layout.debug_view);
         
         final TextView debugWindow = (TextView)findViewById(R.id.debug_window);
-        final DebugActivity activity = this;
+        final DebugActivityWithServer activity = this;
         debugWindow.setText("Hello World!");
         
         textHandler = new Handler(Looper.getMainLooper()) {
@@ -95,9 +95,8 @@ public class DebugActivity extends Activity implements DebugActivityInterface
         server = ClientServerSystem.getInstance().getServer();
         
     	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj("root");
+    	task.setTaskCode(ClientTaskTaskCode.INITIALIZE);
+    	task.setSourceCode(ClientTaskSourceCode.SERVER_DATA);
     	client.addTask(task);
   	
         
