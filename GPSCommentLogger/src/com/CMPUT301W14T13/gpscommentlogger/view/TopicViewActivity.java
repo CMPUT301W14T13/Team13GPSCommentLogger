@@ -128,7 +128,7 @@ public class TopicViewActivity extends Activity
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(topic.getTitle());
 		
-		commentListview.setAdapter(new CommentAdapter(this, commentList));
+		commentListview.setAdapter(new CommentAdapter(this, commentList, currentUsername));
 	}
 	
 	public void reply(View v) throws InterruptedException{

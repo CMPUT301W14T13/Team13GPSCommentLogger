@@ -24,12 +24,13 @@ public class CommentAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Viewable> data = new ArrayList<Viewable>();
 	private static LayoutInflater inflater = null;
-	private static String currentUsername = "Test";
+	private String currentUsername = "";
 
-	public CommentAdapter(Context context, ArrayList<Viewable> comments) {
+	public CommentAdapter(Context context, ArrayList<Viewable> comments, String username) {
 
 		this.context = context;
 		this.data = comments;
+		this.currentUsername = username;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -71,9 +72,7 @@ public class CommentAdapter extends BaseAdapter {
 			holder.commentText = (TextView) vi.findViewById(R.id.commentText);
 		
 			//Hide the edit button if it's not the user's comment
-			/*if (!currentUsername.equals(comment.getUsername())){
-				button.setVisibility(View.INVISIBLE);
-			}	*/
+			
 			
 			vi.setTag(holder);
 
@@ -86,6 +85,10 @@ public class CommentAdapter extends BaseAdapter {
 
 		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
 		editButton.setTag(position); //gives a unique tag for identifying comments
+		
+		if (!currentUsername.equals(comment.getUsername())){
+			editButton.setVisibility(View.INVISIBLE);
+		}	
 		
 		holder.indentLevel = comment.getIndentLevel();
 		setIndentView(vi, holder.indentLevel, position);
