@@ -27,6 +27,7 @@ public class ClientController extends Controller
 	//store references to auxiliary classes
 	private ServerDispatcher dispatcher;
 	private ServerListener listener;
+	private Thread resultThread;
 	
 	//store reference to mock server
 	private ServerController server;
@@ -78,11 +79,14 @@ public class ClientController extends Controller
 	public void init()
 	{
 		if (isInit) return;
-		
-		dispatcher = new ServerDispatcher(server);
 		listener = new ServerListener(this);
 		listener.start();
 		isInit = true;
+	}
+	
+	public void setPipes()
+	{
+		dispatcher = new ServerDispatcher(server.getListener());
 	}
 
 	@Override
@@ -263,5 +267,9 @@ public class ClientController extends Controller
 	public void forceChangeOffline(String title)
 	{
 		//offlineDataEntity.forceTestChange(title);
+	}
+	
+	public ServerListener getListener(){
+		return listener;
 	}
 }

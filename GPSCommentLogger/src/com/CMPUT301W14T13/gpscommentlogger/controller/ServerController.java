@@ -11,7 +11,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -37,7 +39,7 @@ import com.google.gson.reflect.TypeToken;
 public class ServerController extends Controller
 {
 	//store references to auxiliary classes
-	private ClientDispatcher dispatcher; //TODO: dispatcher is bypassed at the moment
+	private ClientDispatcher dispatcher; 
 	private ClientListener listener;
 	
 	//store reference to client
@@ -65,12 +67,15 @@ public class ServerController extends Controller
 	public void init()
 	{
 		if (isInit) return;
-		
-		dispatcher = new ClientDispatcher(client);
 		listener = new ClientListener(this);
 		listener.start();
 		isInit = true;
 
+	}
+	
+	public void setPipes()
+	{
+		dispatcher = new ClientDispatcher(client.getListener());
 	}
 
 	@Override
@@ -117,18 +122,21 @@ public class ServerController extends Controller
 		
 		switch(currentTask.getCode())
 		{
+			case INITIALIZE:
+				processInitializationRequest(currentTask, (ServerResult)out);
+				break;
 			case DELETE:
 				throw new UnsupportedOperationException("Delete from server has not been implemented.");
 			case INSERT:
 				processInsertRequest(currentTask,(ServerResult)out);
 				break;
 			case SEARCH:
-				processSearchRequest(currentTask,out);
+				processSearchRequest(currentTask,(ServerResult)out);
 				break;
 			case UPDATE:
 				try
 				{
-					processUpdateRequest(currentTask,out);
+					processUpdateRequest(currentTask,(ServerResult)out);
 				}
 				catch(Exception e)
 				{
@@ -142,6 +150,16 @@ public class ServerController extends Controller
 		return out;
 	}
 	
+	private void processInitializationRequest(ServerTask currentTask,
+			ServerResult out)
+	{
+		//first we delete everything that already exists
+		deleteAll(out);
+		
+		//next, we add the new object
+		postNewViewable(currentTask, out);		
+	}
+
 	//Modified from https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
 	// This method adds a given Viewable to server
 	private void processInsertRequest(ServerTask currentTask, ServerResult result) {
@@ -178,6 +196,41 @@ public class ServerController extends Controller
 		
 		//next, we update the viewable
 		updateField(esID,currentTask, result);
+	}
+	
+	private void deleteAll(ServerResult result){
+		//hierarchyAdapter changes serializer rules for first arg
+		//to custom serialization class rules
+		//specified by the user in the second arg
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		
+		//Add _search tag to search the elasticSearch data storage system
+		HttpClient client = new DefaultHttpClient();
+		HttpDelete request = new HttpDelete(WEB_URL + "_all");
+		
+		try
+		{
+			request.setHeader("Accept","application/json");
+			HttpResponse response = client.execute(request);
+			Log.w("ElasticSearch", response.getStatusLine().toString());
+			
+			//Entering response into the ServerResult to be returned to client
+			HttpEntity entity = response.getEntity();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+			String output = result.getContent();
+			output += "\n" + reader.readLine();
+			while(output != null)
+			{
+				Log.w("ElasticSearch", output);
+				output = reader.readLine();
+			}
+			result.setContent(output);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 	
 	private void updateField(String id, ServerTask currentTask, ServerResult result){
@@ -227,12 +280,33 @@ public class ServerController extends Controller
 
 	}
 	
-	private String getFieldJson(ServerTask currentTask){
-		
+	private String getFieldJson(Gson gson, ServerTask currentTask){
+		switch(currentTask.getUpdateCode())
+		{
+			case TEXT:
+				return gson.toJson(currentTask.getObj().getCommentText());
+			case LOCATION:
+				return gson.toJson(currentTask.getObj().getGPSLocation());
+			case IMAGE:
+				return gson.toJson(currentTask.getObj().getImage());
+			default:
+				throw new IllegalArgumentException("Server Error: Illegal UpdateCode.");
+				
+		}
 	}
 	
 	private String getFieldString(ServerTask currentTask){
-		
+		switch(currentTask.getUpdateCode())
+		{
+			case TEXT:
+				return "commentText";
+			case LOCATION:
+				return "GPSLocation";
+			case IMAGE:
+				return "image";
+			default:
+				throw new IllegalArgumentException("Server Error: Illegal UpdateCode.");
+		}
 	}
 	
 	private void addToList(String id, String listName, ServerTask currentTask, ServerResult result){
@@ -291,7 +365,7 @@ public class ServerController extends Controller
 		
 		HttpClient client = new DefaultHttpClient();
 		//HttpPost autogenerates keys
-		HttpPost request = new HttpPost(WEB_URL);
+		HttpPut request = new HttpPut(WEB_URL);
 
 		try
 		{
@@ -517,7 +591,7 @@ public class ServerController extends Controller
 
 	protected void processResult(Result result)
 	{
-		client.registerResult(result);
+		dispatcher.dispatch(task);
 	}
 
 	public void setClient(ClientController client)
@@ -536,5 +610,8 @@ public class ServerController extends Controller
 		handler.dispatchMessage(msg);
 	}
 	
+	public ClientListener getListener(){
+		return listener;
+	}
 
 }

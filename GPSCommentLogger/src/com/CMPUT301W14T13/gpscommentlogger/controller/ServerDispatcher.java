@@ -5,9 +5,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
 
 public class ServerDispatcher
 {
-	private ServerController server;
+	private ClientListener server;
 
-	public ServerDispatcher(ServerController server)
+	public ServerDispatcher(ClientListener server)
 	{
 		this.server = server;
 	}
