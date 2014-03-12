@@ -15,8 +15,7 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+
 
 public class CreateTopicActivity extends Activity{
 
@@ -63,6 +62,10 @@ public class CreateTopicActivity extends Activity{
 		}
 		
 	}
+	public void openMap(View view) {
+		Intent topic = new Intent(this, MapViewActivity.class);
+		startActivityForResult(topic, 1);
+	}
 	
 	public void submitTopic(View v){
 		
@@ -81,6 +84,8 @@ public class CreateTopicActivity extends Activity{
 			setResult(RESULT_OK, submit);
 			finish();
 		}
+		
+		
 	}
 	
 	
