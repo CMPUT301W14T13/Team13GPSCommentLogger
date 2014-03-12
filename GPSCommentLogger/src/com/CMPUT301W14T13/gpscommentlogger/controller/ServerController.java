@@ -53,7 +53,7 @@ public class ServerController extends Controller
 	protected Handler handler;
 	
 	//store web communication information
-	private static String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/";
+	private static String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
 
 	public ServerController(Handler handler, TextView debuggingWindow)
 	{
@@ -205,7 +205,7 @@ public class ServerController extends Controller
 		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		HttpClient client = new DefaultHttpClient();
-		HttpDelete request = new HttpDelete(WEB_URL + "_all");
+		HttpDelete request = new HttpDelete(WEB_URL);
 		
 		try
 		{
@@ -363,8 +363,8 @@ public class ServerController extends Controller
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		HttpClient client = new DefaultHttpClient();
-		//HttpPut autogenerates keys
-		HttpPut request = new HttpPut(WEB_URL);
+		//HttpPost autogenerates keys
+		HttpPost request = new HttpPost(WEB_URL);
 
 		try
 		{
