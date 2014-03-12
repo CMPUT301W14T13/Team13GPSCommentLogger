@@ -58,6 +58,10 @@
         <activity
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateCommentActivity">
         </activity>
+        
+        <activity
+            android:name="com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity">
+        </activity>
     </application>
 
 </manifest>

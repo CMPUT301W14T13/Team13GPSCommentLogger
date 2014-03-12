@@ -33,7 +33,7 @@ public class Comment implements Viewable, Parcelable
 	private String title = "default title";
 	private String username = "Anonymous";
 	private Bitmap image = null;
-	private boolean hasImage = false;;
+	private boolean hasImage = false;
 	private List<String> childID = new ArrayList<String>();
 	private Date timestamp = new Date();
 	private String commentText = "";

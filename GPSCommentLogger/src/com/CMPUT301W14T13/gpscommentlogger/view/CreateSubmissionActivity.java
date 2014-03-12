@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
@@ -23,6 +23,7 @@ public class CreateSubmissionActivity extends Activity{
 	private int code; //0: Creating topic, 1: Creating comment, 2: Editing
 	private int rowNumber;
 	private EditText text;
+	private String currentUsername = "";
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,10 @@ public class CreateSubmissionActivity extends Activity{
         case(1):
         	setContentView(R.layout.create_comment); //creating a comment
         	rowNumber = getIntent().getIntExtra("row number", -1);
+        	currentUsername = getIntent().getExtras().getString("current username");
+        	
+        	text = (EditText) findViewById(R.id.set_comment_username);
+    		text.setText(currentUsername);
         	break;
         
         //These cases are for editing a comment or topic

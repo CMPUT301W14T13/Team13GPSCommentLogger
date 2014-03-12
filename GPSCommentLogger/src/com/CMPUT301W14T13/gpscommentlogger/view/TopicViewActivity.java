@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
@@ -28,6 +32,7 @@ public class TopicViewActivity extends Activity
 	private ArrayList<Viewable> commentList;
 	private Comment comment = new Comment();
 	private ListView commentListview;
+	private static String currentUsername = "";
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,33 @@ public class TopicViewActivity extends Activity
 		fillTopicLayout();
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.topic_action_bar, menu);
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.action_select_username:
+			selectUsername();
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void selectUsername(){
+		Intent intent = new Intent(this, SelectUsernameActivity.class);
+		startActivityForResult(intent, 4);
+	}
 	
 	/*
 	 * This function takes in a topic child and then recursively goes down the child comment
@@ -103,8 +135,8 @@ public class TopicViewActivity extends Activity
 		
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
-		
-				
+		intent.putExtra("current username", currentUsername);
+		System.out.println(currentUsername);		
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
@@ -120,6 +152,7 @@ public class TopicViewActivity extends Activity
 	        	 
 	        	 intent.putExtra("code", 1);
 	        	 intent.putExtra("row number", rowNumber);
+	        	 
 	        	 startActivityForResult(intent, 1); //replying to a comment
 	        	 break;
 	        	 
@@ -209,6 +242,9 @@ public class TopicViewActivity extends Activity
 				commentList.get(row).setUsername(comment.getUsername());
 				commentList.get(row).setCommentText(comment.getCommentText());
 				break;
+				
+			case(4):
+				currentUsername = data.getExtras().getString("current username");
 				
 			 default:
 				Log.d("onActivityResult", "Error adding comment reply");

@@ -28,7 +28,6 @@ public class HomeViewActivity extends Activity {
 	private ArrayList<Topic> topics = new ArrayList<Topic>();
 	private ListView topicListview;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
