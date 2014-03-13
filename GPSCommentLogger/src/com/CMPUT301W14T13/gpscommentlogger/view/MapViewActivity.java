@@ -22,6 +22,8 @@ public class MapViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_view);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
@@ -31,12 +33,6 @@ public class MapViewActivity extends Activity {
         mapController.setCenter(point2);
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
 	
 	protected boolean isRouteDisplayed() {
