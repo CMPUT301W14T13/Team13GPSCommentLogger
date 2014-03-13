@@ -194,7 +194,7 @@ public class CreateSubmissionActivity extends Activity{
 				
 				
 			}
-			
+			CommentModelList.flipChanged();
 			setResult(RESULT_OK, submit);
 			finish();
 		}

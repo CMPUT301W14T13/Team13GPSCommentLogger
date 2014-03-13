@@ -16,7 +16,7 @@ public class CommentModelList
 {
 	private static Topic currentTopic;
 	private static ArrayList<Viewable> commentList;
-	private boolean changed = false;
+	private static boolean changed = false;
 	
 	public CommentModelList(Topic topic) {
 		commentList = new ArrayList<Viewable>();
@@ -46,16 +46,16 @@ public class CommentModelList
 		return commentList.get(row);
 	}
 	
-	public boolean isChanged(){
+	public static boolean isChanged(){
 		return changed;
 	}
 	
-	public void flipChanged(){
-		this.changed = !changed;
+	public static void flipChanged(){
+		changed = !changed;
 	}
 	
 	//creates a list to display in the comments section of the topic
-	public void update(){
+	public static void update(){
 		commentList.clear();
 		
 		for (int i = 0; i < currentTopic.getChildren().size(); i++){
@@ -70,7 +70,7 @@ public class CommentModelList
 	 * This function takes in a topic child and then recursively goes down the child comment
 	 * trees to fill a list containing every comment that can then be displayed
 	 */
-	public void fillTopicChildren(Viewable comment){
+	public static void fillTopicChildren(Viewable comment){
 
 		//ArrayList<Viewable> comments = list;
 		ArrayList<Viewable> children = comment.getChildren();

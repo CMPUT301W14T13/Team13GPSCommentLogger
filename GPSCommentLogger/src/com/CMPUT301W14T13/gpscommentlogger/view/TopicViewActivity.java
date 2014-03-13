@@ -92,10 +92,10 @@ public class TopicViewActivity extends Activity
 		text.setText(topic.getTitle());
 		
 		//update the model if it was changed
-		if (commentList.isChanged()){
+		if (CommentModelList.isChanged()){
 			
-			commentList.update();
-			commentList.flipChanged(); //set model back to being flagged as unchanged
+			CommentModelList.update();
+			CommentModelList.flipChanged(); //set model back to being flagged as unchanged
 		}
 		
 		commentListview.setAdapter(new CommentAdapter(this, CommentModelList.getList(), currentUsername));
