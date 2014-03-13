@@ -17,6 +17,7 @@ import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentModelList;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
@@ -29,7 +30,8 @@ public class TopicViewActivity extends Activity
 
 
 	private Topic topic = new Topic();
-	private ArrayList<Viewable> commentList;
+	private CommentModelList commentList;
+	//private ArrayList<Viewable> commentList;
 	private Comment comment = new Comment();
 	private ListView commentListview;
 	private static String currentUsername = "";
@@ -39,7 +41,7 @@ public class TopicViewActivity extends Activity
         setContentView(R.layout.topic_view);
         
         topic = (Topic) getIntent().getParcelableExtra("Topic");
-        
+        commentList = new CommentModelList(topic);
         //comments = new ArrayList<Viewable>();
         //topic.setChildren(comments); //initialize children
         
@@ -49,14 +51,13 @@ public class TopicViewActivity extends Activity
 	
 	protected void onResume(){
 		super.onResume();
-		commentList = new ArrayList<Viewable>();
 		
 		
 		//topic.setChildren(comments);
-		for (int i = 0; i < topic.getChildren().size(); i++){
+	/*	for (int i = 0; i < topic.getChildren().size(); i++){
 			
 			fillTopicChildren(topic.getChildren().get(i));
-		}
+		}*/
 		
 		/*for (int i = 0; i < commentList.size(); i++){
 			System.out.println(commentList.get(i).getUsername() + ": " + ((Comment) commentList.get(i)).getIndentLevel());
@@ -96,7 +97,7 @@ public class TopicViewActivity extends Activity
 	 * This function takes in a topic child and then recursively goes down the child comment
 	 * trees to fill a list containing every comment that can then be displayed
 	 */
-	public void fillTopicChildren(Viewable comment){
+	/*public void fillTopicChildren(Viewable comment){
 
 		//ArrayList<Viewable> comments = list;
 		ArrayList<Viewable> children = comment.getChildren();
@@ -115,7 +116,7 @@ public class TopicViewActivity extends Activity
 		
 		}
 		
-	}
+	}*/
 	
 	public void fillTopicLayout(){
 		
@@ -128,7 +129,10 @@ public class TopicViewActivity extends Activity
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(topic.getTitle());
 		
-		commentListview.setAdapter(new CommentAdapter(this, commentList, currentUsername));
+		
+		commentList.update();
+		
+		commentListview.setAdapter(new CommentAdapter(this, commentList.getList(), currentUsername));
 	}
 	
 	public void reply(View v) throws InterruptedException{
@@ -136,7 +140,7 @@ public class TopicViewActivity extends Activity
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
 		intent.putExtra("current username", currentUsername);
-		System.out.println(currentUsername);		
+				
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
@@ -180,7 +184,7 @@ public class TopicViewActivity extends Activity
 	             
 	         case R.id.comment_edit_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 comment = (Comment) commentList.get(rowNumber);
+	        	 comment = (Comment) commentList.getComment(rowNumber);
 	        	 
 	        	 intent.putExtra("code", 2);
 	        	 intent.putExtra("row number", rowNumber);
@@ -219,7 +223,7 @@ public class TopicViewActivity extends Activity
 				
 			
 				if (topic.getChildren().size() >= 1){
-					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+					prev_comment = (Comment) commentList.getComment(row); //get the comment being replied to
 					//System.out.println(prev_comment.getCommentText());
 					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
@@ -240,8 +244,8 @@ public class TopicViewActivity extends Activity
 			
 			case(3): //edit comment
 				row = data.getIntExtra("row number", -1);
-				commentList.get(row).setUsername(comment.getUsername());
-				commentList.get(row).setCommentText(comment.getCommentText());
+				commentList.getComment(row).setUsername(comment.getUsername());
+				commentList.getComment(row).setCommentText(comment.getCommentText());
 				break;
 				
 			case(4):

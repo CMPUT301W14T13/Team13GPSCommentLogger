@@ -86,6 +86,7 @@ public class CommentAdapter extends BaseAdapter {
 		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
 		editButton.setTag(position); //gives a unique tag for identifying comments
 		
+		System.out.println(currentUsername);
 		if (!currentUsername.equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	
