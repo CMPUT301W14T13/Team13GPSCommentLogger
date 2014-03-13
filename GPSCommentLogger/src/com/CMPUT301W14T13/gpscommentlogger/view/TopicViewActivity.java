@@ -31,7 +31,6 @@ public class TopicViewActivity extends Activity
 
 	private Topic topic = new Topic();
 	private CommentModelList commentList;
-	//private ArrayList<Viewable> commentList;
 	private Comment comment = new Comment();
 	private ListView commentListview;
 	private static String currentUsername = "";
@@ -42,9 +41,6 @@ public class TopicViewActivity extends Activity
         
         topic = (Topic) getIntent().getParcelableExtra("Topic");
         commentList = new CommentModelList(topic);
-        //comments = new ArrayList<Viewable>();
-        //topic.setChildren(comments); //initialize children
-        
         commentListview = (ListView) findViewById(R.id.comment_list);
 	}
 	
@@ -52,16 +48,6 @@ public class TopicViewActivity extends Activity
 	protected void onResume(){
 		super.onResume();
 		
-		
-		//topic.setChildren(comments);
-	/*	for (int i = 0; i < topic.getChildren().size(); i++){
-			
-			fillTopicChildren(topic.getChildren().get(i));
-		}*/
-		
-		/*for (int i = 0; i < commentList.size(); i++){
-			System.out.println(commentList.get(i).getUsername() + ": " + ((Comment) commentList.get(i)).getIndentLevel());
-		}*/
 		fillTopicLayout();
 	}
 	
@@ -93,30 +79,6 @@ public class TopicViewActivity extends Activity
 		startActivityForResult(intent, 4);
 	}
 	
-	/*
-	 * This function takes in a topic child and then recursively goes down the child comment
-	 * trees to fill a list containing every comment that can then be displayed
-	 */
-	/*public void fillTopicChildren(Viewable comment){
-
-		//ArrayList<Viewable> comments = list;
-		ArrayList<Viewable> children = comment.getChildren();
-		//Comment child = (Comment) comment;
-		
-		commentList.add(comment);
-		//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
-		if (children.size() != 0){
-			
-		
-			for (int i = 0; i < children.size(); i++){
-				
-				fillTopicChildren(children.get(i));
-				
-			}
-		
-		}
-		
-	}*/
 	
 	public void fillTopicLayout(){
 		
@@ -129,10 +91,14 @@ public class TopicViewActivity extends Activity
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(topic.getTitle());
 		
+		//update the model if it was changed
+		if (commentList.isChanged()){
+			
+			commentList.update();
+			commentList.flipChanged(); //set model back to being flagged as unchanged
+		}
 		
-		commentList.update();
-		
-		commentListview.setAdapter(new CommentAdapter(this, commentList.getList(), currentUsername));
+		commentListview.setAdapter(new CommentAdapter(this, CommentModelList.getList(), currentUsername));
 	}
 	
 	public void reply(View v) throws InterruptedException{
@@ -140,7 +106,8 @@ public class TopicViewActivity extends Activity
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
 		intent.putExtra("current username", currentUsername);
-				
+		//intent.putExtra("comment list", commentList);
+		
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
@@ -202,7 +169,7 @@ public class TopicViewActivity extends Activity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			
 		
-		if (resultCode == RESULT_OK){
+		/*if (resultCode == RESULT_OK){
 			
 			int row;
 			Comment comment = (Comment) data.getParcelableExtra("comment");
@@ -224,7 +191,6 @@ public class TopicViewActivity extends Activity
 			
 				if (topic.getChildren().size() >= 1){
 					prev_comment = (Comment) commentList.getComment(row); //get the comment being replied to
-					//System.out.println(prev_comment.getCommentText());
 					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
 				
@@ -233,7 +199,6 @@ public class TopicViewActivity extends Activity
 					prev_comment.addChild(comment);
 				}
 				
-				//topic.insertChild(comment, row + 1); //insert the comment into its correct position
 				break;
 				
 			case(2)://edit topic
@@ -258,7 +223,7 @@ public class TopicViewActivity extends Activity
 		}
 			
 		//update the listview after the reply has been added
-		((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();
+		((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();*/
 		
 
 	}

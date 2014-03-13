@@ -14,20 +14,20 @@ import android.widget.ArrayAdapter;
  */
 public class CommentModelList
 {
-	private Topic topic;
-	private ArrayList<Viewable> commentList;
-	
+	private static Topic currentTopic;
+	private static ArrayList<Viewable> commentList;
+	private boolean changed = false;
 	
 	public CommentModelList(Topic topic) {
-		this.commentList = new ArrayList<Viewable>();
-		this.topic = topic;
+		commentList = new ArrayList<Viewable>();
+		currentTopic = topic;
 	}
 	
 	
-	public void addPicPost(Comment comment) {
-		//PicPostModel picPost = new PicPostModel(pic, text, timestamp);
+	public static void addTopicChild(Comment comment) {
 		
-		this.commentList.add(comment);
+		
+		currentTopic.getChildren().add(comment);
 		//this.adapter.notifyDataSetChanged();
 		
 		//ElasticSearchOperations.pushPicPostModel(picPost);
@@ -35,10 +35,10 @@ public class CommentModelList
 	
 	
 	public void clearComments(){
-		this.commentList.clear();
+		commentList.clear();
 	}
 	
-	public ArrayList<Viewable> getList() {
+	public static ArrayList<Viewable> getList() {
 		return commentList;
 	}
 	
@@ -46,13 +46,21 @@ public class CommentModelList
 		return commentList.get(row);
 	}
 	
+	public boolean isChanged(){
+		return changed;
+	}
+	
+	public void flipChanged(){
+		this.changed = !changed;
+	}
+	
 	//creates a list to display in the comments section of the topic
 	public void update(){
-		this.commentList.clear();
+		commentList.clear();
 		
-		for (int i = 0; i < topic.getChildren().size(); i++){
+		for (int i = 0; i < currentTopic.getChildren().size(); i++){
 
-			fillTopicChildren(topic.getChildren().get(i));
+			fillTopicChildren(currentTopic.getChildren().get(i));
 		}
 			
 	}

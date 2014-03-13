@@ -1,15 +1,19 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentModelList;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
@@ -24,12 +28,15 @@ public class CreateSubmissionActivity extends Activity{
 	private int rowNumber;
 	private EditText text;
 	private String currentUsername = "";
+	private int code2;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         code = getIntent().getIntExtra("code", -1);
+        code2 = getIntent().getIntExtra("code 2", -1);
+        		
         switch(code){
         
         case(0):
@@ -125,6 +132,7 @@ public class CreateSubmissionActivity extends Activity{
 		Context context = getApplicationContext();
 		controller = new SubmissionController();
 		boolean submission_ok;
+		ArrayList<Viewable> commentList;
 		
 		extractTextFields();
 		constructSubmission();
@@ -132,17 +140,57 @@ public class CreateSubmissionActivity extends Activity{
 		submission_ok = controller.checkSubmission(context, submission); //check that the submission is valid
 		if (submission_ok){
 			
-			switch(code){
+			int row;
+			Comment comment = (Comment) submission;
+			//comments = new ArrayList<Viewable>();
+			Comment prev_comment = new Comment();
+			commentList = CommentModelList.getList();
 			
-			case(0):
-			case(3):
-				submit.putExtra("Topic", (Topic) submission); 
-				break;
+			switch(code2){
 			
-			case(1):
-			case(2):
-				submit.putExtra("comment", (Comment) submission);
-				submit.putExtra("row number", rowNumber);
+				
+					
+				case(0):  //reply to topic
+					CommentModelList.addTopicChild(comment);
+					//commentList.add(comment);
+					break;
+					
+				case(1): //reply to comment
+					row = rowNumber;
+				    
+					
+				
+					if (commentList.size() >= 1){
+						prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+						comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
+					}
+					
+					//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
+					if (comment.getIndentLevel() <= 5){
+						prev_comment.addChild(comment);
+					}
+					
+					break;
+					
+				case(2)://edit topic
+					//Topic editedTopic = (Topic) data.getParcelableExtra("Topic");
+					//topic.setUsername(editedTopic.getUsername());
+					//topic.setCommentText(editedTopic.getCommentText());
+					break;
+				
+				case(3): //edit comment
+					//row = data.getIntExtra("row number", -1);
+					row = rowNumber;
+					commentList.get(row).setUsername(comment.getUsername());
+					commentList.get(row).setCommentText(comment.getCommentText());
+					break;
+					
+				/*case(4):
+					currentUsername = data.getExtras().getString("current username");*/
+					
+				 default:
+					Log.d("onActivityResult", "Error adding comment reply");
+				}
 				
 				
 			}
@@ -152,4 +200,4 @@ public class CreateSubmissionActivity extends Activity{
 		}
 	}
 	
-}
+
