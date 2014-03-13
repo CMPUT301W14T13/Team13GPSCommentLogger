@@ -29,7 +29,7 @@
     <TableRow>
 
         <EditText
-            android:id="@+id/setUsername"
+            android:id="@+id/setTopicUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -47,7 +47,7 @@
     <TableRow>
 
         <EditText
-            android:id="@+id/setCommentText"
+            android:id="@+id/setTopicText"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:ems="10"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:onClick="submitTopic"
+            android:onClick="submit"
             android:text="@string/submit_button" />
     </RelativeLayout>
 

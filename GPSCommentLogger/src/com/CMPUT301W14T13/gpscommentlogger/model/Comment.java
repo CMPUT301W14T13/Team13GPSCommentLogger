@@ -33,12 +33,13 @@ public class Comment implements Viewable, Parcelable
 	private String title = "default title";
 	private String username = "Anonymous";
 	private Bitmap image = null;
-	private boolean hasImage = false;;
+	private boolean hasImage = false;
 	private List<String> childID = new ArrayList<String>();
 	private Date timestamp = new Date();
 	private String commentText = "";
 	private Location GPSLocation;
-
+	private int indentLevel = 0;
+	
 	private ArrayList<Viewable> children = new ArrayList<Viewable>();
 	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
 
@@ -269,6 +270,7 @@ public class Comment implements Viewable, Parcelable
 		dest.writeValue(children);
 		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
 		dest.writeValue(image);
+		dest.writeInt(indentLevel);
 		
 	}
 
@@ -282,7 +284,7 @@ public class Comment implements Viewable, Parcelable
 		children = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
 		timestamp = new Date(in.readLong());
 		image = in.readParcelable(Bitmap.class.getClassLoader());
-		
+		indentLevel = in.readInt();
 	}
 	
 	public static final Parcelable.Creator<Comment> CREATOR =
@@ -313,5 +315,16 @@ public class Comment implements Viewable, Parcelable
 		return null;
 	}
 
+	
+	public int getIndentLevel(){
+		
+		return indentLevel;
+	}
 
+	
+	public void setIndentLevel(int indent){
+		this.indentLevel = indent;
+	}
+	
+	
 }

@@ -8,10 +8,13 @@
     <string name="coordinates">Select GPS Location</string>
     <string name="title">Title</string>
     <string name="username">Username</string>
+    <string name="votes">votes</string>
     <string name="text">Text</string>
     <string name="action_post">New Thread</string>
     <string name="saved">Saved Pages</string>
     
     <string name="create_topic_label">New Topic</string>
+    <string name="bullet">•</string>
+    <string name="select_username">Select Username</string>
 
 </resources>

@@ -5,12 +5,17 @@ import java.util.Date;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.Parcelable;
+
+
+
 
 public interface Viewable {
 	
 	/*
 	 * TODO: change this to abstract class
 	 */
+
 
 	final String anonymous = "Anonymous";
 	void setAnonymous();
@@ -22,7 +27,7 @@ public interface Viewable {
 	String getTitle();
 
 	void setTitle(String newTitle);
-	
+	void setUsername(String newUsername);
 	void setCommentText(String commentText);
 	String getCommentText();
 	
