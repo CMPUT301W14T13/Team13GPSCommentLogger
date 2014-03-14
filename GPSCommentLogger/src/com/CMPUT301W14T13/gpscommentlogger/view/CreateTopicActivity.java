@@ -24,7 +24,7 @@ public class CreateTopicActivity extends Activity{
 	private String username;
 	private String title;
 	private String commentText;
-	private Location location;
+	private Location location = null;
 	
 	private SubmissionController controller;
 	private Topic topic;
@@ -35,37 +35,11 @@ public class CreateTopicActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_topic);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        LocationManager lm;
-        lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        String provider = lm.getProvider(LocationManager.GPS_PROVIDER).toString();
-        LocationListener listener = new LocationListener() {
-			
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onLocationChanged(Location location) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		lm.requestLocationUpdates(provider, 0, 0, listener);
-        location = lm.getLastKnownLocation(provider);
+        
+        
+      
+        
+        
     }
     
 	//extract the information that the user has entered
@@ -94,6 +68,7 @@ public class CreateTopicActivity extends Activity{
 			topic.setAnonymous();
 		
 		}
+
 		
 	}
 	public void openMap(View view) {
