@@ -32,10 +32,12 @@ public class MapViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_view);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        
         Intent intent = getIntent();
         double lat = intent.getDoubleExtra("lat", 53.5333);
         double lon = intent.getDoubleExtra("lon",113.5000);
         GeoPoint center = new GeoPoint(lat, lon);
+       
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
@@ -43,11 +45,9 @@ public class MapViewActivity extends Activity {
         mapView.setClickable(false);
         mapController = (MapController) mapView.getController();
         mapController.setZoom(15);
-        //this point in future will be taken from previous activity
-        
         mapController.setCenter(center);
         
-        final int markerIndex =setMarker(center);
+        final int markerIndex = setMarker(center);
         
         MapEventsReceiver receiver = new MapEventsReceiver() {
 			int mIndex = markerIndex;
@@ -92,7 +92,8 @@ public class MapViewActivity extends Activity {
 		Intent result = new Intent();
 		result.putExtra("lat", returnPoint.getLatitude());
 		result.putExtra("lon", returnPoint.getLongitude());
-		setResult(RESULT_OK, result);		
+		setResult(RESULT_OK, result);	
+		finish();
 	}
 	
 }

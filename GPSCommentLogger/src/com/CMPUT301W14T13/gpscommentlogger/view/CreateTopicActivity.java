@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,33 @@ public class CreateTopicActivity extends Activity{
         LocationManager lm;
         lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         String provider = lm.getProvider(LocationManager.GPS_PROVIDER).toString();
+        LocationListener listener = new LocationListener() {
+			
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onLocationChanged(Location location) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		lm.requestLocationUpdates(provider, 0, 0, listener);
         location = lm.getLastKnownLocation(provider);
     }
     
@@ -61,7 +89,7 @@ public class CreateTopicActivity extends Activity{
 		topic.setTitle(title);
 		topic.setUsername(username);
 		topic.setCommentText(commentText);
-		
+		topic.setLocation(location);
 		if (username.length() == 0){
 			topic.setAnonymous();
 		
@@ -70,8 +98,8 @@ public class CreateTopicActivity extends Activity{
 	}
 	public void openMap(View view) {
 		Intent map = new Intent(this, MapViewActivity.class);
-		map.putExtra("lat", 48.13);
-		map.putExtra("lon", -1.63);
+		map.putExtra("lat", location.getLatitude());
+		map.putExtra("lon", location.getLongitude());
 		startActivityForResult(map, REQUEST_CODE);
 	}
 	
