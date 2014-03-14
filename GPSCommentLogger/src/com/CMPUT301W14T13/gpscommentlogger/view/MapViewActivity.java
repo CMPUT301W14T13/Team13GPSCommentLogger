@@ -31,6 +31,7 @@ public class MapViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_view);
+        // problem with this action bar is Mapview has multiple parents
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
         Intent intent = getIntent();
@@ -53,10 +54,10 @@ public class MapViewActivity extends Activity {
 			int mIndex = markerIndex;
 			@Override
 			public boolean singleTapUpHelper(IGeoPoint arg0) {
-				GeoPoint point = (GeoPoint) arg0;
-				returnPoint = point;
+				returnPoint = (GeoPoint) arg0;
+			
 				mapView.getOverlays().remove(mIndex);
-				mIndex = setMarker(point);
+				mIndex = setMarker(returnPoint);
 				return true;
 			}
 			
