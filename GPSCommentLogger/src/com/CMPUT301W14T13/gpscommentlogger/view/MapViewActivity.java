@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
@@ -8,9 +9,12 @@ import org.osmdroid.views.MapView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+
 import com.CMPUT301W14T13.gpscommentlogger.R;
 
-
+  
 
 
 public class MapViewActivity extends Activity {
@@ -27,10 +31,30 @@ public class MapViewActivity extends Activity {
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
+        mapView.setMultiTouchControls(true);
         mapController = (MapController) mapView.getController();
         mapController.setZoom(15);
-        GeoPoint point2 = new GeoPoint(51496994, -134733);
-        mapController.setCenter(point2);
+        
+        //this point in future will be taken from previous activity
+        GeoPoint center = new GeoPoint(48.13, -1.63);
+        mapController.setCenter(center);
+
+        
+        mapView.setOnTouchListener( new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				GeoPoint point = (GeoPoint) mapView.getProjection().fromPixels(event.getX(), event.getY());
+		        Marker startMarker = new Marker(mapView);
+		        startMarker.setPosition(point);
+		        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+		        mapView.getOverlays().add(startMarker);
+		        mapView.invalidate();
+				return true;
+			}
+		});
+        
+        
 	}
 	
 
