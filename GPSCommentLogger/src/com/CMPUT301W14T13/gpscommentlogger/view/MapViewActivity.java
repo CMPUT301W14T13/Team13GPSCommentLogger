@@ -14,7 +14,7 @@ import android.view.View;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 
-  
+ 
 
 
 public class MapViewActivity extends Activity {
@@ -32,6 +32,7 @@ public class MapViewActivity extends Activity {
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
+        mapView.setClickable(true);
         mapController = (MapController) mapView.getController();
         mapController.setZoom(15);
         
@@ -39,16 +40,17 @@ public class MapViewActivity extends Activity {
         GeoPoint center = new GeoPoint(48.13, -1.63);
         mapController.setCenter(center);
 
-        
+      
         mapView.setOnTouchListener( new View.OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				GeoPoint point = (GeoPoint) mapView.getProjection().fromPixels(event.getX(), event.getY());
-		        Marker startMarker = new Marker(mapView);
-		        startMarker.setPosition(point);
-		        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-		        mapView.getOverlays().add(startMarker);
+		        mapView.getOverlays().clear();
+				Marker marker = new Marker(mapView);
+		        marker.setPosition(point);
+		        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+		        mapView.getOverlays().add(marker);
 		        mapView.invalidate();
 				return true;
 			}

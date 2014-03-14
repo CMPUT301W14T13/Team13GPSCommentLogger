@@ -10,7 +10,6 @@
         android:layout_above="@+id/btnBanner"
         tilesource="Mapnik"
         android:layout_alignParentTop="true"
-        android:clickable="true"
         />
 
         <Button android:id="@id/btnBanner" 
