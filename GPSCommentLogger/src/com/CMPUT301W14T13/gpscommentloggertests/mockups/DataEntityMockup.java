@@ -97,8 +97,8 @@ public class DataEntityMockup {
 		comments.get("comment1_1").setTitle(newString);
 	}
 
-	public void postRequest(Viewable currentComment, Comment obj) {
-		comments.get(currentComment.getID()).getChildren().add(obj);
+	public void postRequest(String currentComment, Comment obj) {
+		comments.get(currentComment).getChildren().add(obj);
 		comments.put(obj.getID(), obj);
 		
 		MockResult result = new MockResult(true, MockResultType.POST);

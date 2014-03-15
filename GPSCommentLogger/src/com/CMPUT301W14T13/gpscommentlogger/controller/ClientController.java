@@ -118,59 +118,6 @@ public class ClientController extends Controller
 		return null; //TODO: can this be eliminated?
 	}
 	
-	private void processBrowseRequest(ClientTask task) throws InterruptedException
-	{
-		switch(task.getSourceCode())
-		{
-		//TODO: change these cases to use the searchTerm instead of the obj?
-		case LOCAL_DATA_SAVES:
-			offlineDataEntity.getData((String)task.getObj());
-			break;
-		case LOCAL_DATA_FAVOURITES:
-			offlineDataEntity.getFavourite((String)task.getObj());
-			break;
-		case MOCK_DATA_ENTITY:
-			if(!hasConnection)throw new InterruptedException("Error attempt to browse online while offline.");
-			onlineDataEntityMockup.pageRequest((String)task.getObj());
-			break;
-		case SERVER_DATA:
-			//Convert ClientTask into ServerTask
-			ServerTask serverTask = new ServerTask();
-			serverTask.setCode(ServerTaskCode.SEARCH);
-			serverTask.setSearchTerm(task.getSearchTerm());
-			this.dispatcher.dispatch(serverTask);
-		default:
-			throw new InterruptedException("Invalid Source Code in ClientController");
-		}
-	}
-	
-	private void processPostRequest(ClientTask task) throws InterruptedException
-	{
-		switch(task.getSourceCode())
-		{
-		case LOCAL_DATA_SAVES:
-			throw new InterruptedException("Cannot post saves while offline");
-		case LOCAL_DATA_FAVOURITES:
-			//TODO: enable save from saves->favourites?
-			throw new InterruptedException("Cannot post favourites while offline");
-		case MOCK_DATA_ENTITY:
-			if(!hasConnection)throw new InterruptedException("Error attempt to post online while offline.");
-			onlineDataEntityMockup.postRequest(debugActivity.getCurrentComment(),(Comment)task.getObj());
-			break;
-		case SERVER_DATA:
-			//Convert ClientTask into ServerTask
-			ServerTask serverTask = new ServerTask();
-			serverTask.setCode(ServerTaskCode.INSERT);
-			serverTask.setSearchTerm(task.getSearchTerm()); //Search Term should be parent ID
-			serverTask.setObj((Viewable)task.getObj());
-			this.dispatcher.dispatch(serverTask);
-			break;
-		default:
-			throw new InterruptedException("Invalid Source Code in ClientController");
-		}
-	}
-	
-
 	public void setServer(ServerController server)
 	{
 		this.server = server;
@@ -224,6 +171,15 @@ public class ClientController extends Controller
 	
 	public DataManager getDataManager(){
 		return offlineDataEntity;
+	}
+	
+	public ServerDispatcher getDispatcher(){
+		return dispatcher;
+	}
+	
+	public DataEntityMockup getMockup()
+	{
+		return onlineDataEntityMockup;
 	}
 
 	@Override

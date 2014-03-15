@@ -13,7 +13,9 @@ public abstract class MockTask extends Task {
 
 	@Override
 	protected void doTask() {
-		mock.pageRequest(this.searchTerm);
+		doMockTask();
 	}
+	
+	protected abstract void doMockTask();
 
 }
