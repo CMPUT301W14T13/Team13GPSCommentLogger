@@ -320,11 +320,20 @@ public class Comment implements Viewable, Parcelable
 		return null;
 	}
 
+
 	
 	public int getIndentLevel(){
 		
 		return indentLevel;
 	}
+
+	@Override
+	public String locationString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 	
 	public void setIndentLevel(int indent){

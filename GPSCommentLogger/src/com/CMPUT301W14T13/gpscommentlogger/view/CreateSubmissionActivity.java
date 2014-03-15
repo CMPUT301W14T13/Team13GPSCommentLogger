@@ -29,6 +29,8 @@ public class CreateSubmissionActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        /* create the location stuff up here */
+        
         code = getIntent().getIntExtra("code", -1);
         switch(code){
         
@@ -68,7 +70,7 @@ public class CreateSubmissionActivity extends Activity{
         }
     }
     
-	//extract the information that the user has entered
+	//extract the information that the user hasGooglePlayServices entered
 	public void extractTextFields(){
 		
 		
@@ -97,7 +99,7 @@ public class CreateSubmissionActivity extends Activity{
 	}
 	
 	
-	
+	/* creates the comment/topic to be submitted */
 	public void constructSubmission(){
 		
 		//Add a title if a topic is being made
@@ -111,6 +113,9 @@ public class CreateSubmissionActivity extends Activity{
 		
 		submission.setUsername(username);
 		submission.setCommentText(commentText);
+		
+		/* handle getting the GPS location now */
+		//submission.setGPSLocation();
 		
 		if (username.length() == 0){
 			submission.setAnonymous();

@@ -24,12 +24,9 @@ import java.util.Collection;
 public class Topic implements Viewable, Parcelable
 
 {
-
-
 	
 	private static final long serialVersionUID = 1L;
 
-	
 	private String title = "default title";
 	private String ID = "default";
 	private String username = "Anonymous";
@@ -43,16 +40,12 @@ public class Topic implements Viewable, Parcelable
 	private boolean hasImage;
 
 	
-
-
 	public Topic()
 	{
 		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
-
 		username = "Anonymous";
-
 		timestamp = new Date();
 		comments = new ArrayList<Viewable>();
 
@@ -109,6 +102,11 @@ public class Topic implements Viewable, Parcelable
 
 	public void setGPSLocation(Location gPSLocation) {
 		GPSLocation = gPSLocation;
+	}
+	
+	/* return GPS coordinates as a string */
+	public String locationString() {
+	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
 	}
 
 	public ArrayList<Viewable> getChildren()

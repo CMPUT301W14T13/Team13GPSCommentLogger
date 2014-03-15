@@ -1,17 +1,14 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.Config;
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Root implements Viewable {
+public class Root implements Viewable, Parcelable {
 	private String title;
 	private final String username = "default";
 	private String ID;
@@ -21,14 +18,14 @@ public class Root implements Viewable {
 	private Date timestamp;
 	private Date freshness;
 	private Location GPSLocation;
-	private ArrayList<Viewable> comments;
+	private ArrayList<Viewable> topics;
 	
 	public Root()
 	{
 		//TODO: create automatic ID generation system
 		ID = "default";
 		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		topics = new ArrayList<Viewable>();
 	}
 	
 
@@ -36,59 +33,21 @@ public class Root implements Viewable {
 	{
 		this.ID = ID;
 		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		topics = new ArrayList<Viewable>();
 	}
 	
-	
-	/** 
-	 * @uml.property name="v"
-	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Vote"
-	 */
-	private Collection<Vote> v;
-	/** 
-	 * Getter of the property <tt>v</tt>
-	 * @return  Returns the v.
-	 * @uml.property  name="v"
-	 */
-	public Collection<Vote> getV()
-	{
-		return v;
-	}
-	/** 
-	 * @uml.property name="c"
-	 * @uml.associationEnd multiplicity="(0 -1)" aggregation="composite" inverse="t:com.CMPUT301W14T13.gpscommentlogger.model.Comment"
-	 */
-	private Collection<Comment> c;
-	/** 
-	 * Getter of the property <tt>c</tt>
-	 * @return  Returns the c.
-	 * @uml.property  name="c"
-	 */
 	@Override
 
 	public ArrayList<Viewable> getChildren()
 	
 
 	{
-		return comments;
+		return topics;
 	}
-	/** 
-	 * Setter of the property <tt>v</tt>
-	 * @param v  The v to set.
-	 * @uml.property  name="v"
-	 */
-	public void setV(Collection<Vote> v)
-	{
-		this.v = v;
-	}
-	/** 
-	 * Setter of the property <tt>c</tt>
-	 * @param c  The c to set.
-	 * @uml.property  name="c"
-	 */
+
 	public void setC(ArrayList<Viewable> c)
 	{
-		comments = c;
+		topics = c;
 	}
 	@Override
 	public String getID() {
@@ -150,7 +109,7 @@ public class Root implements Viewable {
 				&& image.equals(o.image)
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
-				&& comments.equals(o.comments);
+				&& topics.equals(o.topics);
 	}
 
 	@Override
@@ -169,7 +128,7 @@ public class Root implements Viewable {
 
 	@Override
 	public void addChild(Viewable post) {
-		comments.add(post);
+		topics.add(post);
 		
 	}
 
@@ -192,6 +151,27 @@ public class Root implements Viewable {
 	public void setUsername(String newUsername) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String locationString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
