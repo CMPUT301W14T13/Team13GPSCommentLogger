@@ -11,9 +11,10 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.MyFavouritesLocalTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.MySavesLocalTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,6 +41,8 @@ public class DebugActivityWithServer extends Activity implements DebugActivityIn
 	
 	private DataManager dataManager;
 	private String savePath;
+	
+	private TaskFactory taskFactory;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +97,9 @@ public class DebugActivityWithServer extends Activity implements DebugActivityIn
         client = ClientServerSystem.getInstance().getClient();
         server = ClientServerSystem.getInstance().getServer();
         
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.INITIALIZE);
-    	task.setSourceCode(ClientTaskSourceCode.SERVER_DATA);
+        taskFactory = new TaskFactory(client.getDispatcher(), client.getMockup(), client.getDataManager());
+        
+        InitializationServerTask task = taskFactory.getNewInitializer();
     	client.addTask(task);
   	
         
@@ -107,53 +110,18 @@ public class DebugActivityWithServer extends Activity implements DebugActivityIn
     	return textHandler;
     }
     
-
-    public void simulateOnlineBrowseClick(int index)
-    {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(contentList.get(index).getID());
-    	
-    	client.addTask(task);
-    }
-    
     public void simulateOfflineSaveBrowseClick(int index)
     {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_SAVES);
-    	task.setObj(contentList.get(index).getID());
+    	MySavesLocalTask task = taskFactory.getNewSavesBrowser();
+    	task.setSearchTerm(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
     
     public void simulateOfflineFavouriteBrowseClick(int index)
     {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_FAVOURITES);
-    	task.setObj(contentList.get(index).getID());
-    	
-    	client.addTask(task);
-    }
-    
-    public void simulatePostTopic(Topic topic){
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.POST);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(topic);
-    	
-    	client.addTask(task);
-    	
-    }
-    
-    public void simulatePostComment(Comment comment)
-    {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.POST);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(comment);
+    	MyFavouritesLocalTask task = taskFactory.getNewFavouriteBrowser();
+    	task.setSearchTerm(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
