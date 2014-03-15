@@ -21,7 +21,14 @@ import android.util.Log;
 import java.util.Collection;
 
 
-
+/**
+ * 
+ * @author arweber
+ *
+ * This is the model for the comments that are not top level. It 
+ * implements the viewable interface and the parcelable interface so
+ * that comments can be passed between activities properly.
+ */
 public class Comment implements Viewable, Parcelable
 {
 
@@ -212,6 +219,10 @@ public class Comment implements Viewable, Parcelable
 		this.username = anonymous;
 	}
 
+	/**
+	 * Checks if two comments are equal by checking
+	 * that all of their fields are equal
+	 */
 	@Override
 	public boolean equals(Object other)
 	{    
@@ -264,7 +275,11 @@ public class Comment implements Viewable, Parcelable
 		return 0;
 	}
 
-
+	/**
+	 * Specifies what contents are being put into the parcel
+	 * Note that the timestamp is a Date object and is converted to
+	 * long so it can be retrieved later when reading from the parcel
+	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
@@ -280,6 +295,13 @@ public class Comment implements Viewable, Parcelable
 	}
 
 	//Must read in the order they were written
+	/**
+	 * Specifies how to read the parcel that was written and must be
+	 * read in the order it was written
+	 * 
+	 * 
+	 * @param in the parcel being read
+	 */
 	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of comments
 	public void readFromParcel(Parcel in){
 		//GPSLocation = Location.CREATOR.createFromParcel(in);

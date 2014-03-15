@@ -1,6 +1,14 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
-
+/**
+ * 
+ * @author Kyomaru
+ * 
+ * This is a client task intended for the server
+ * and what the task is depends on its task code and
+ * its source code which differentiates different tasks
+ * like posting to the server and retrieving from the server
+ */
 public class ClientTask implements Task
 {	
 	private ClientTaskTaskCode taskCode;

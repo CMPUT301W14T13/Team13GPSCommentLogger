@@ -100,6 +100,9 @@ public class CreateSubmissionActivity extends Activity{
 	
 	
 	/* creates the comment/topic to be submitted */
+	/**
+	 * creates the topic/topic to be submitted
+	 */
 	public void constructSubmission(){
 		
 		//Add a title if a topic is being made
@@ -124,6 +127,12 @@ public class CreateSubmissionActivity extends Activity{
 		
 	}
 	
+	/**
+	 * 
+	 * @param v is the submit button view
+	 * Constructs the submission from the text fields
+	 * in the view.
+	 */
 	public void submit(View v){
 		
 		Intent submit = getIntent();
