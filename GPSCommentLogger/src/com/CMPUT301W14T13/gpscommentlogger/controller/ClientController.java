@@ -14,12 +14,11 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.model.results.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.MySavesLocalTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PageMockTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTaskBuilder;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
+
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.Task;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
@@ -131,10 +130,8 @@ public class ClientController extends Controller
 	{
 		hasConnection = true;
 		
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(debugActivity.getCurrentComment().getID());
+    	PageMockTask task = new TaskFactory(dispatcher, onlineDataEntityMockup, offlineDataEntity).getNewMockBrowser();
+    	task.setSearchTerm(debugActivity.getCurrentComment().getID());
 		
 		this.addTask(task);
 	}
@@ -143,10 +140,8 @@ public class ClientController extends Controller
 	{
 		hasConnection = false;
 		
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_SAVES);
-    	task.setObj(debugActivity.getCurrentComment().getID());
+    	MySavesLocalTask task = new TaskFactory(dispatcher, onlineDataEntityMockup, offlineDataEntity).getNewSavesBrowser();
+    	task.setSearchTerm(debugActivity.getCurrentComment().getID());
 		
 		this.addTask(task);
 	}
