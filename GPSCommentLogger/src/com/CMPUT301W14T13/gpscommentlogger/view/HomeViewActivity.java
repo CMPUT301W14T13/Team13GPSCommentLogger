@@ -150,7 +150,7 @@ public class HomeViewActivity extends Activity {
 			if (resultCode == RESULT_OK){
 
 				Topic topic = (Topic) data.getParcelableExtra("Topic");
-				topics.add(topic);
+				home_view.addChild(topic);
 				//pushTopicToServer(topic);
 			}	
 		}
