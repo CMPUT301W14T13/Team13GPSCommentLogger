@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivityInterface;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
@@ -16,6 +17,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
 import com.CMPUT301W14T13.gpscommentlogger.model.Result;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.ServerTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.Task;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
@@ -48,7 +50,7 @@ public class ClientController extends Controller
 	
 	//mockups for debugging
 	DataEntityMockup onlineDataEntityMockup;
-	DebugActivity debugActivity;
+	DebugActivityInterface debugActivity;
 	Handler handler;
 	boolean hasConnection = true;
 
@@ -60,42 +62,41 @@ public class ClientController extends Controller
 		offlineDataEntity = new DataManager(DATA_STORAGE_LOCATION);
 	}
 	
-	public ClientController(DebugActivity activity, String storageLocation, Handler handler, TextView debuggingWindow)
+	public ClientController(DebugActivityInterface activity, String storageLocation, Handler handler, TextView debuggingWindow)
 	{
 		isInit = false;
 		this.debuggingWindow = debuggingWindow;
 		tasks = new ArrayList<Task>();
-		onlineDataEntityMockup = new DataEntityMockup(this);
 		offlineDataEntity = new DataManager(storageLocation);
 		debugActivity = activity;
 		this.handler = handler;
 	}
 	
 	
-	
 	@Override
 	public void init()
 	{
 		if (isInit) return;
-		
-		dispatcher = new ServerDispatcher(server);
 		listener = new ServerListener(this);
 		listener.start();
+		onlineDataEntityMockup = new DataEntityMockup(listener);
 		isInit = true;
+	}
+	
+	public void setPipes()
+	{
+		dispatcher = new ServerDispatcher(server.getListener());
 	}
 
 	@Override
 	public void run()
-	{
+	{		
 		while(true){
 			try{
 				//First check if there is something to do	
 				checkTasks();
 				//Do the oldest task in queue
-				Result result = doTask();
-				this.result = null; //reset serverResult
-				//Handle edge cases and debugging info here
-				processResult(result);
+				doTask();
 			}
 			catch(InterruptedException ex)
 			{
@@ -127,21 +128,45 @@ public class ClientController extends Controller
 		case POST:
 			processPostRequest(currentTask);
 			break;
+		case INITIALIZE:
+			processInitializationRequest(currentTask);
+			break;
 		default:
 			throw new InterruptedException("Invalid Task Code in ClientController");
 		}
-		//TODO: code in tasks for server here
-		//ServerTask sTask= new ServerTask();
-		//dispatcher.dispatch(sTask);
-		//wait();
-		
-		return result;
+
+		//TODO: come up with more elegant method here?
+		return null;
 	}
 	
+	private void processInitializationRequest(ClientTask task) throws InterruptedException
+	{
+		switch(task.getSourceCode())
+		{
+		case LOCAL_DATA_SAVES:
+			throw new InterruptedException("Cannot initialize root while offline");
+		case LOCAL_DATA_FAVOURITES:
+			throw new InterruptedException("Cannot initialize root while offline");
+		case MOCK_DATA_ENTITY:
+			throw new InterruptedException("Cannot initialize root in mock data entity");
+		case SERVER_DATA:
+			//Convert ClientTask into ServerTask
+			ServerTask serverTask = new ServerTask();
+			serverTask.setCode(ServerTaskCode.INITIALIZE);
+			Root newRoot = new Root();
+			serverTask.setObj(newRoot);
+			this.dispatcher.dispatch(serverTask);
+			break;
+		default:
+			throw new InterruptedException("Invalid Source Code in ClientController");
+		}
+	}
+
 	private void processBrowseRequest(ClientTask task) throws InterruptedException
 	{
 		switch(task.getSourceCode())
 		{
+		//TODO: change these cases to use the searchTerm instead of the obj?
 		case LOCAL_DATA_SAVES:
 			offlineDataEntity.getData((String)task.getObj());
 			break;
@@ -152,8 +177,12 @@ public class ClientController extends Controller
 			if(!hasConnection)throw new InterruptedException("Error attempt to browse online while offline.");
 			onlineDataEntityMockup.pageRequest((String)task.getObj());
 			break;
-		//case SERVER_DATA:
-			//break;
+		case SERVER_DATA:
+			//Convert ClientTask into ServerTask
+			ServerTask serverTask = new ServerTask();
+			serverTask.setCode(ServerTaskCode.SEARCH);
+			serverTask.setSearchTerm(task.getSearchTerm());
+			this.dispatcher.dispatch(serverTask);
 		default:
 			throw new InterruptedException("Invalid Source Code in ClientController");
 		}
@@ -172,47 +201,19 @@ public class ClientController extends Controller
 			if(!hasConnection)throw new InterruptedException("Error attempt to post online while offline.");
 			onlineDataEntityMockup.postRequest(debugActivity.getCurrentComment(),(Comment)task.getObj());
 			break;
-		//case SERVER_DATA:
-			//break;
+		case SERVER_DATA:
+			//Convert ClientTask into ServerTask
+			ServerTask serverTask = new ServerTask();
+			serverTask.setCode(ServerTaskCode.INSERT);
+			serverTask.setSearchTerm(task.getSearchTerm()); //Search Term should be parent ID
+			serverTask.setObj((Viewable)task.getObj());
+			this.dispatcher.dispatch(serverTask);
+			break;
 		default:
 			throw new InterruptedException("Invalid Source Code in ClientController");
 		}
 	}
 	
-	public synchronized void registerResult(Result result)
-	{
-		this.result = result;
-		//TODO: separate out the response and task threads so that the notifys do not conflict
-		notify();
-	}
-	
-	protected void processResult(Result result)
-	{
-		Log.w("ClientController", "Result received");
-		if(result instanceof MockResult)
-		{
-			switch(((MockResult) result).getType())
-			{
-				case BROWSE:
-					Log.w("ClientController", "Mock Result received");
-					MockResult mock = (MockResult)result;
-					Viewable data = (Viewable)mock.getData();
-					Message msg = new Message();
-					msg.obj = data;
-					Log.w("DebugMessage", "Message Sent");	
-					handler.dispatchMessage(msg);
-					break;
-				case POST:
-					Log.w("ClientController", "Mock Result received");
-					mock = (MockResult)result;
-					boolean success = Boolean.parseBoolean(mock.getData().toString());
-					Log.w("ClientController", "Post result: " + success);
-					break;
-				default:
-					throw new IllegalArgumentException("Illegal MockResult Type");
-			}
-		}
-	}
 
 	public void setServer(ServerController server)
 	{
@@ -255,5 +256,25 @@ public class ClientController extends Controller
 	public void forceChangeOffline(String title)
 	{
 		//offlineDataEntity.forceTestChange(title);
+	}
+	
+	public ServerListener getListener(){
+		return listener;
+	}
+	
+	public Handler getHandler(){
+		return handler;
+	}
+	
+	public DataManager getDataManager(){
+		return offlineDataEntity;
+	}
+
+	@Override
+	protected void processResult(Result result)
+	{
+
+		// TODO Auto-generated method stub
+		
 	}
 }

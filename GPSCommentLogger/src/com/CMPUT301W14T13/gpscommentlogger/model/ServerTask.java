@@ -6,6 +6,8 @@ public class ServerTask implements Task
 	private ServerTaskCode code;
 	private Viewable obj;
 	private String searchTerm;
+	
+	private ServerTaskUpdateCode updateCode;
 
 	public ServerTaskCode getCode() {
 		return code;
@@ -29,5 +31,13 @@ public class ServerTask implements Task
 	
 	public String getSearchTerm() {
 		return searchTerm;
+	}
+
+	public ServerTaskUpdateCode getUpdateCode() {
+		return updateCode;
+	}
+
+	public void setUpdateCode(ServerTaskUpdateCode updateCode) {
+		this.updateCode = updateCode;
 	}
 }

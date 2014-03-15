@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.util.Log;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ServerListener;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
@@ -20,11 +21,11 @@ public class DataEntityMockup {
 	// which will forward a request to the ServerController, which will send the relevant
 	// data back down the chain to display in the activity.
 	
-	private ClientController clientController;
+	private ServerListener serverListener;
 	private HashMap<String, Viewable> comments;
 	
-	public DataEntityMockup(ClientController clientController) {
-		this.clientController = clientController;
+	public DataEntityMockup(ServerListener serverListener) {
+		this.serverListener = serverListener;
 		
 		comments = new HashMap<String, Viewable>();
 		
@@ -88,7 +89,7 @@ public class DataEntityMockup {
 		MockResult result = new MockResult(comments.get(obj), MockResultType.BROWSE);
 		Log.w("DEMockup", "Page Request Sent");
 		Log.w("DEMockup", "Page: " + obj);
-		clientController.registerResult(result);
+		serverListener.addResult(result);
 	}
 	
 	public void forceTestChange(String newString)
@@ -102,7 +103,7 @@ public class DataEntityMockup {
 		
 		MockResult result = new MockResult(true, MockResultType.POST);
 		Log.w("DEMockup", "Post Request Sent");
-		clientController.registerResult(result);
+		serverListener.addResult(result);
 	}
 	
 	

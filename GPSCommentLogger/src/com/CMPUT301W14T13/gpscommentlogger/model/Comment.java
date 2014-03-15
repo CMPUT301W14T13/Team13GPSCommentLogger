@@ -38,9 +38,14 @@ public class Comment implements Viewable, Parcelable
 	private Date timestamp = new Date();
 	private String commentText = "";
 	private Location GPSLocation;
+
 	private int indentLevel = 0;
 	
-	private ArrayList<Viewable> children = new ArrayList<Viewable>();
+	
+
+
+	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
+
 	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
 
 
@@ -51,7 +56,7 @@ public class Comment implements Viewable, Parcelable
 		username = "Anonymous";
 		title = "initial title";
 		timestamp = new Date();
-		children = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 	}
 
 	public Comment(String ID) {
@@ -59,7 +64,7 @@ public class Comment implements Viewable, Parcelable
 		username = "Anonymous";
 		title = "initial title";
 		timestamp = new Date();
-		children = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 	}
 
 
@@ -70,7 +75,7 @@ public class Comment implements Viewable, Parcelable
 		this.username = username;
 		title = "initial title";
 		timestamp = new Date();
-		children = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 	}
 
 
@@ -80,7 +85,7 @@ public class Comment implements Viewable, Parcelable
 		this.username = username;
 		title = "initial title";
 		timestamp = new Date();
-		children = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 	}
 
 
@@ -91,7 +96,7 @@ public class Comment implements Viewable, Parcelable
 		this.image = picture;
 		this.timestamp = timestamp;
 		this.commentText = commentText;
-		children = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 		this.hasImage = true;
 	}
 
@@ -122,13 +127,13 @@ public class Comment implements Viewable, Parcelable
 
 	@Override
 	public ArrayList<Viewable> getChildren() {
-		return children;
+		return comments;
 	}
 
 	
 	public void setChildren(ArrayList<Viewable> comments) {
 		// TODO Auto-generated method stub
-		children = comments;
+		comments = comments;
 	}
 	
 	@Override
@@ -222,7 +227,7 @@ public class Comment implements Viewable, Parcelable
 		Log.w("Comment Equals", "childID: " + childID.equals(o.childID));
 		Log.w("Comment Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
 		Log.w("Comment Equals", "commentText: " + commentText.equals(o.commentText));
-		Log.w("Comment Equals", "children: " + children.equals(o.children));
+		Log.w("Comment Equals", "comments: " + comments.equals(o.comments));
 		Log.w("Comment Equals", "votes: " + votes.equals(o.votes));
 		
 		boolean imageEquals = true;
@@ -243,7 +248,7 @@ public class Comment implements Viewable, Parcelable
 				&& childID.equals(o.childID)
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
-				&& children.equals(o.children)
+				&& comments.equals(o.comments)
 				&& votes.equals(votes);
 	}
 
@@ -267,7 +272,7 @@ public class Comment implements Viewable, Parcelable
 		dest.writeString(ID);
 		dest.writeString(username);
 		dest.writeString(commentText);
-		dest.writeValue(children);
+		dest.writeValue(comments);
 		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
 		dest.writeValue(image);
 		dest.writeInt(indentLevel);
@@ -275,13 +280,13 @@ public class Comment implements Viewable, Parcelable
 	}
 
 	//Must read in the order they were written
-	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of children
+	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of comments
 	public void readFromParcel(Parcel in){
 		//GPSLocation = Location.CREATOR.createFromParcel(in);
 		ID = in.readString();
 		username = in.readString();
 		commentText = in.readString();
-		children = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
+		comments = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
 		timestamp = new Date(in.readLong());
 		image = in.readParcelable(Bitmap.class.getClassLoader());
 		indentLevel = in.readInt();
@@ -305,7 +310,7 @@ public class Comment implements Viewable, Parcelable
 
 	@Override
 	public void addChild(Viewable post) {
-		children.add(post);
+		comments.add(post);
 		
 	}
 

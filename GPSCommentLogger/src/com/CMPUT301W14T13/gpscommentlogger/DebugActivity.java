@@ -14,9 +14,9 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
-import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class DebugActivity extends Activity
+public class DebugActivity extends Activity implements DebugActivityInterface
 {
 	Handler textHandler;
 	Handler listHandler;
@@ -38,15 +38,13 @@ public class DebugActivity extends Activity
 	ServerController server;
 	ListView root;
 	
-	private final String savePath = getFilesDir().getPath().toString() + "/GCLLocalData_" + this.hashCode() + ".sav";
 	private DataManager dataManager;
+	private String savePath;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_view);
-        
-        dataManager = new DataManager(savePath);
         
         final TextView debugWindow = (TextView)findViewById(R.id.debug_window);
         final DebugActivity activity = this;
@@ -90,9 +88,9 @@ public class DebugActivity extends Activity
             }
         };
         
-        //TODO: Add parceable to DebugActivity with String of file name;
-        //pass this string to next call as "saveLocation"
-        //ClientServerSystem.getInstance().init(activity, saveLocation, textHandler, listHandler, debugWindow);
+        Intent intent = getIntent();      
+        savePath = getFilesDir().getPath().toString() + "/GCLLocalData_" + intent.getExtras().getString("filePath") + ".sav";
+        ClientServerSystem.getInstance().init(activity, savePath, textHandler, listHandler, debugWindow);
         client = ClientServerSystem.getInstance().getClient();
         server = ClientServerSystem.getInstance().getServer();
         
@@ -184,18 +182,19 @@ public class DebugActivity extends Activity
 		client.forceChangeOnline(title);
 	}
 	
+	public DataManager getDataManager(){
+		return client.getDataManager();
+	}
+	
+	public String getSavePath()
+	{
+		return savePath;
+	}
+	
 	public void forceChangeOffline(String title)
 	{
 		client.forceChangeOffline(title);
 	}
 	
-	public DataManager getDataManager()
-	{
-		return this.dataManager;
-	}
-	
-	public String getSavePath(){
-		return this.savePath;
-	}
 	
 }
