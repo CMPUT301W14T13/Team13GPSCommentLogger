@@ -3,9 +3,14 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,61 +24,94 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
-
+/* this is our main activity */
 public class HomeViewActivity extends Activity {
 
 
-	private ArrayList<Topic> topics = new ArrayList<Topic>();
+	private ArrayList<Viewable> topics = new ArrayList<Viewable>();
 	private ListView topicListview;
+
+
+	private Root home_view = new Root();
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
 		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
-		
+
+		// IDEALLY, this should get the topics from the server.
+
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
-		topics.add(top1);
-		
+		home_view.addChild(top1);
+
 		Topic top2 = new Topic("Second", "User2");
-		topics.add(top2);
-		
+		home_view.addChild(top2);
+
 		Topic top3 = new Topic("Third", "User3");
-		topics.add(top3);
-		
+		home_view.addChild(top3);
+
 		Topic top4 = new Topic("Fourth", "User4");
-		topics.add(top4);
+		home_view.addChild(top4);
 
 
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 
-		//set up listener for topic clicks
+		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
-				viewTopic.putExtra("Topic", topics.get(position));
+				viewTopic.putExtra("Topic", (Topic) home_view.getChildren().get(position));
+				//viewTopic.putExtra("Topic", topics.get(position));
 				startActivity(viewTopic);
 
 
 			}
 		});
+		/* setup the location managers now so that you can get GPS coords */
+		// Acquire a reference to the system Location Manager
+
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+
+		
+		// Define a listener that responds to location updates
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				// Called when a new location is found by the network location provider.
+				Log.w("loc_change","changed location");
+			}
+
+			public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+			public void onProviderEnabled(String provider) {}
+
+			public void onProviderDisabled(String provider) {}
+		};
+
+		// Register the listener with the Location Manager to receive location updates
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+
 	}
 
 
 	protected void onResume(){
 		super.onResume();
 
-		topicListview.setAdapter(new CustomAdapter(this, topics));
+		topicListview.setAdapter(new CustomAdapter(this, home_view.getChildren()));
 	}
-
-
 
 
 	@Override
@@ -99,7 +137,6 @@ public class HomeViewActivity extends Activity {
 		}
 	}
 
-
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
 		topic.putExtra("code", 0);
@@ -113,7 +150,7 @@ public class HomeViewActivity extends Activity {
 			if (resultCode == RESULT_OK){
 
 				Topic topic = (Topic) data.getParcelableExtra("Topic");
-				topics.add(topic);
+				home_view.addChild(topic);
 				//pushTopicToServer(topic);
 			}	
 		}
@@ -136,12 +173,4 @@ public class HomeViewActivity extends Activity {
 		//controller.addTask(task);
 
 	}
-
-
-
-
-
-
-
-
 }
