@@ -17,8 +17,9 @@ public class SearchServerTask extends ServerTask {
 	}
 
 	@Override
-	public Result executeOnServer(ServerContext context) {
+	public Result executeOnServer(ServerContext context) throws InterruptedException {
 		ServerResult out = new ServerResult();
+		out.setId(this.id);
 			
 		ServerOperations.retrieveViewable(this, out, context.getURL());
 

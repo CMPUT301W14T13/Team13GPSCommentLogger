@@ -1,6 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.os.Message;
 import android.util.Log;
@@ -14,6 +15,7 @@ public class ServerListener extends Thread
 {
 	private ClientController client;
 	private ArrayList<Result> results;
+	private HashMap<String, String> debuggingOutput; 
 
 	public ServerListener(ClientController clientController)
 	{
@@ -77,6 +79,12 @@ public class ServerListener extends Thread
 		
 		//TODO: perform appropriate action based on result
 
+	}
+	
+	public String getResultByTaskID(String id)
+	{
+		String output = debuggingOutput.get(id);
+		return (output == null)?"null":output;
 	}
 
 }

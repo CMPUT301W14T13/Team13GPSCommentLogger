@@ -18,7 +18,7 @@ public abstract class ServerTask extends Task {
 		this.dispatcher.dispatch(this);
 	}
 	
-	public abstract Result executeOnServer(ServerContext context);
+	public abstract Result executeOnServer(ServerContext context) throws InterruptedException;
 
 }
 

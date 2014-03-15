@@ -18,8 +18,10 @@ public class InitializationServerTask extends ServerTask {
 	}
 
 	@Override
-	public Result executeOnServer(ServerContext context) {
+	public Result executeOnServer(ServerContext context) throws InterruptedException {
 		ServerResult out = new ServerResult();
+		out.setId(this.id);
+		
 		//first we delete everything that already exists
 		ServerOperations.deleteAll(out, context.getURL());
 		

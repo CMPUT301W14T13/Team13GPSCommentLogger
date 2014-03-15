@@ -17,8 +17,9 @@ public class PostNewServerTask extends ServerTask {
 	}
 
 	@Override
-	public Result executeOnServer(ServerContext context) {
+	public Result executeOnServer(ServerContext context) throws InterruptedException {
 		ServerResult out = new ServerResult();
+		out.setId(this.id);
 
 		//searchTerm should have the parent's ID
 		//we need to get the ESID to process an update request

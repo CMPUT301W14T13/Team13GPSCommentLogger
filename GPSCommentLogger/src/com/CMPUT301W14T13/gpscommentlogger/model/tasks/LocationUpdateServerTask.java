@@ -22,8 +22,9 @@ public class LocationUpdateServerTask extends UpdateServerTask {
 	}
 
 	@Override
-	public Result executeUpdateOnServer(ServerContext context) {
+	public Result executeUpdateOnServer(ServerContext context) throws InterruptedException {
 		ServerResult out = new ServerResult();
+		out.setId(this.id);
 		
 		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		

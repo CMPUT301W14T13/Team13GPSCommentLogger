@@ -14,10 +14,10 @@ public abstract class UpdateServerTask extends ServerTask {
 	}
 
 	@Override
-	public Result executeOnServer(ServerContext context) {
+	public Result executeOnServer(ServerContext context) throws InterruptedException {
 		return executeUpdateOnServer(context);
 	}
 	
-	public abstract Result executeUpdateOnServer(ServerContext context);
+	public abstract Result executeUpdateOnServer(ServerContext context) throws InterruptedException;
 
 }

@@ -116,7 +116,7 @@ public class ServerController extends Controller
 		notify();
 	}
 	
-	protected Result doTask()
+	protected Result doTask() throws InterruptedException
 	{
 		//TODO: Bitmap serialization?
 		ServerTask currentTask = (ServerTask)tasks.remove(0);

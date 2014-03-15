@@ -11,12 +11,14 @@ public abstract class Task implements TransferBundle
 	protected String searchTerm;
 	private boolean active;
 	
+	protected String id;
+	private boolean isIDSet = false;
+	
 	public Task()
 	{
 
 	}
 	
-
 	public Viewable getObj() {
 		return obj;
 	}
@@ -40,4 +42,13 @@ public abstract class Task implements TransferBundle
 	}
 	
 	protected abstract void doTask() throws InterruptedException;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) throws InterruptedException {
+		if (isIDSet)throw new InterruptedException("Error: attempt to alter Task id");
+		this.id = id;
+	}
 }
