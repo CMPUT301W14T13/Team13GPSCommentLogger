@@ -18,5 +18,5 @@
         android:layout_alignParentBottom="true"
         android:text ="@string/submit_location"
         android:onClick="submitLocation" />
-  
+   
 </RelativeLayout>

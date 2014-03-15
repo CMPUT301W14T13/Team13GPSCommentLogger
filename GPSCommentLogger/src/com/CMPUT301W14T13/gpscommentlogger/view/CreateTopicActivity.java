@@ -1,18 +1,14 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.SubmissionController;
@@ -24,8 +20,10 @@ public class CreateTopicActivity extends Activity{
 	private String username;
 	private String title;
 	private String commentText;
-	private Location location = null;
-	
+	private Location gpsLocation;
+	private Location mapLocation;
+	private LocationManager lm; 
+	private LocationListener ll;
 	private SubmissionController controller;
 	private Topic topic;
 	private static final int REQUEST_CODE = 1;
@@ -36,12 +34,48 @@ public class CreateTopicActivity extends Activity{
         setContentView(R.layout.create_topic);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
+        //mapLocation does not have listener attached so it only changes when mapActivity returns a result
+        gpsLocation = new Location(LocationManager.GPS_PROVIDER);
+        mapLocation = gpsLocation;
         
-      
-        
-        
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ll = new topicLocationListener();
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
     }
+	@Override
+	protected void onResume(){
+		super.onResume();
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+	}
     
+	private class topicLocationListener implements LocationListener {
+
+		@Override
+		public void onLocationChanged(Location location) {
+			gpsLocation = location;
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	
 	//extract the information that the user has entered
 	public void extractTextFields(){
 		
@@ -63,7 +97,8 @@ public class CreateTopicActivity extends Activity{
 		topic.setTitle(title);
 		topic.setUsername(username);
 		topic.setCommentText(commentText);
-		topic.setLocation(location);
+		//if map location isnt set then it will be identical to gpsLocation
+		topic.setLocation(mapLocation);
 		if (username.length() == 0){
 			topic.setAnonymous();
 		
@@ -73,18 +108,18 @@ public class CreateTopicActivity extends Activity{
 	}
 	public void openMap(View view) {
 		Intent map = new Intent(this, MapViewActivity.class);
-		map.putExtra("lat", location.getLatitude());
-		map.putExtra("lon", location.getLongitude());
+		map.putExtra("lat", gpsLocation.getLatitude());
+		map.putExtra("lon", gpsLocation.getLongitude());
 		startActivityForResult(map, REQUEST_CODE);
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
-				double latitude = data.getDoubleExtra("lat", location.getLatitude());
-				double longitude = data.getDoubleExtra("lon", location.getLongitude());
-				location.setLongitude(longitude);
-				location.setLatitude(latitude);
+				double latitude = data.getDoubleExtra("la t", gpsLocation.getLatitude());
+				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
+				mapLocation.setLongitude(longitude);
+				mapLocation.setLatitude(latitude);
 			}	
 		}
 	}

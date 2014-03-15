@@ -37,7 +37,7 @@ public class MapViewActivity extends Activity {
         Intent intent = getIntent();
         double lat = intent.getDoubleExtra("lat", 53.5333);
         double lon = intent.getDoubleExtra("lon",113.5000);
-        GeoPoint center = new GeoPoint(lat, lon);
+        returnPoint = new GeoPoint(lat, lon);
        
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
@@ -45,10 +45,10 @@ public class MapViewActivity extends Activity {
         mapView.setMultiTouchControls(true);
         mapView.setClickable(false);
         mapController = (MapController) mapView.getController();
-        mapController.setZoom(15);
-        mapController.setCenter(center);
+        mapController.setZoom(10);
+        mapController.setCenter(returnPoint);
         
-        final int markerIndex = setMarker(center);
+        final int markerIndex = setMarker(returnPoint);
         
         MapEventsReceiver receiver = new MapEventsReceiver() {
 			int mIndex = markerIndex;
@@ -89,7 +89,7 @@ public class MapViewActivity extends Activity {
 	    return false;
 	}
 	
-	public void submitLocation(){
+	public void submitLocation(View v){
 		Intent result = new Intent();
 		result.putExtra("lat", returnPoint.getLatitude());
 		result.putExtra("lon", returnPoint.getLongitude());
