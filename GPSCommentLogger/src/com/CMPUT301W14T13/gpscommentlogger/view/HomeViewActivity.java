@@ -21,12 +21,12 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskSourceCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskTaskCode;
 
 /* this is our main activity */
 public class HomeViewActivity extends Activity {

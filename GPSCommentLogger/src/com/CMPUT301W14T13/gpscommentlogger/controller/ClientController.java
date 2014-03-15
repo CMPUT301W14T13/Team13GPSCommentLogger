@@ -9,17 +9,18 @@ import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivityInterface;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
-import com.CMPUT301W14T13.gpscommentlogger.model.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerTaskCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.Task;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.MockResult;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskSourceCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTaskBuilder;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.Task;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
 
@@ -35,14 +36,8 @@ public class ClientController extends Controller
 	//store list of tasks
 	private ArrayList<Task> tasks;
 	
-	//store server result
-	protected Result result = null;
-	
 	//store reference to output window for debugging
 	protected TextView debuggingWindow;
-	
-	//stores reference to current page
-	String pageReference;
 	
 	//data manager for local data storage
 	DataManager offlineDataEntity;
@@ -87,7 +82,7 @@ public class ClientController extends Controller
 	{
 		dispatcher = new ServerDispatcher(server.getListener());
 	}
-
+	
 	@Override
 	public void run()
 	{		
@@ -118,50 +113,11 @@ public class ClientController extends Controller
 	
 	protected synchronized Result doTask() throws InterruptedException
 	{
-		ClientTask currentTask = (ClientTask)tasks.remove(0);
-		
-		switch(currentTask.getTaskCode())
-		{
-		case BROWSE:
-			processBrowseRequest(currentTask);
-			break;
-		case POST:
-			processPostRequest(currentTask);
-			break;
-		case INITIALIZE:
-			processInitializationRequest(currentTask);
-			break;
-		default:
-			throw new InterruptedException("Invalid Task Code in ClientController");
-		}
-
-		//TODO: come up with more elegant method here?
-		return null;
+		Task currentTask = tasks.remove(0);	
+		currentTask.execute();
+		return null; //TODO: can this be eliminated?
 	}
 	
-	private void processInitializationRequest(ClientTask task) throws InterruptedException
-	{
-		switch(task.getSourceCode())
-		{
-		case LOCAL_DATA_SAVES:
-			throw new InterruptedException("Cannot initialize root while offline");
-		case LOCAL_DATA_FAVOURITES:
-			throw new InterruptedException("Cannot initialize root while offline");
-		case MOCK_DATA_ENTITY:
-			throw new InterruptedException("Cannot initialize root in mock data entity");
-		case SERVER_DATA:
-			//Convert ClientTask into ServerTask
-			ServerTask serverTask = new ServerTask();
-			serverTask.setCode(ServerTaskCode.INITIALIZE);
-			Root newRoot = new Root();
-			serverTask.setObj(newRoot);
-			this.dispatcher.dispatch(serverTask);
-			break;
-		default:
-			throw new InterruptedException("Invalid Source Code in ClientController");
-		}
-	}
-
 	private void processBrowseRequest(ClientTask task) throws InterruptedException
 	{
 		switch(task.getSourceCode())

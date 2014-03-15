@@ -1,4 +1,6 @@
-package com.CMPUT301W14T13.gpscommentlogger.model;
+package com.CMPUT301W14T13.gpscommentlogger.model.results;
+
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 public class ServerResult implements Result

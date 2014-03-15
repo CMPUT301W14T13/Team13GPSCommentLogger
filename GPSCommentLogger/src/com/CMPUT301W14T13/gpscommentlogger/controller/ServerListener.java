@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import android.os.Message;
 import android.util.Log;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
-import com.CMPUT301W14T13.gpscommentlogger.model.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerResult;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.MockResult;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 
 public class ServerListener extends Thread
 {

@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.model;
+package com.CMPUT301W14T13.gpscommentlogger.model.content;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ public class Vote
 	 * @uml.property name="t"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="v:com.CMPUT301W14T13.gpscommentlogger.model.Thread"
 	 */
-	private Topic t = new com.CMPUT301W14T13.gpscommentlogger.model.Topic();
+	private Topic t = new com.CMPUT301W14T13.gpscommentlogger.model.content.Topic();
 	/** 
 	 * Getter of the property <tt>t</tt>
 	 * @return  Returns the t.
@@ -44,7 +44,7 @@ public class Vote
 	 * @uml.property name="c"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="v:com.CMPUT301W14T13.gpscommentlogger.model.Comment"
 	 */
-	private Comment c = new com.CMPUT301W14T13.gpscommentlogger.model.Comment();
+	private Comment c = new com.CMPUT301W14T13.gpscommentlogger.model.content.Comment();
 	/** 
 	 * Getter of the property <tt>c</tt>
 	 * @return  Returns the c.
