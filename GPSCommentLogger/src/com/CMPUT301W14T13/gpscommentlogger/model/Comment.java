@@ -56,7 +56,9 @@ public class Comment implements Viewable, Parcelable
 	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
 
 
-
+	/**
+	 * Comment constructors
+	 */
 	public Comment(){
 		//TODO: automatic ID gen
 		this.ID = "default";
@@ -297,7 +299,9 @@ public class Comment implements Viewable, Parcelable
 	//Must read in the order they were written
 	/**
 	 * Specifies how to read the parcel that was written and must be
-	 * read in the order it was written
+	 * read in the order it was written. The variable timestamp is converted back
+	 * to a Date object here. The unchecked warning can be ignored since an
+	 * array list of viewables will always be passed in.
 	 * 
 	 * 
 	 * @param in the parcel being read
@@ -357,7 +361,14 @@ public class Comment implements Viewable, Parcelable
 
 
 
-	
+	/**
+	 * This sets the indent variable. This value is used in CommentAdapter
+	 * when displaying a topic's comments and is used to determine how many indent lines
+	 * will be displayed beside the comment, indicating a reply.
+	 * 
+	 * 
+	 * @param indent is how far the comment is to be indented when displayed
+	 */
 	public void setIndentLevel(int indent){
 		this.indentLevel = indent;
 	}
