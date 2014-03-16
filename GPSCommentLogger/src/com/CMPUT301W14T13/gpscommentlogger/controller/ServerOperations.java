@@ -90,7 +90,7 @@ public class ServerOperations {
 			String query = "{\"script\" : \"ctx._source." + fieldName + " = field\", " +
 					"\"params\" : {" +
 				        "\"field\" : \""+ newJson +"\"" +
-				    "}";
+				    "}}";
 			StringEntity stringentity = new StringEntity(query);
 
 			request.setHeader("Accept","application/json");
@@ -133,13 +133,14 @@ public class ServerOperations {
 		{
 			//the object of the current serverTask is the viewable to be serialized
 			String jsonString = gson.toJson(currentTask.getObj());
+			Log.w("JsonTest",jsonString);
 			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
 			String query = "{\"script\" : \"ctx._source." + listName + "+= viewable\", " +
 					"\"params\" : {" +
 				        "\"viewable\" : \""+ jsonString +"\"" +
-				    "}";
+				    "}}";
 			StringEntity stringentity = new StringEntity(query);
 
 			request.setHeader("Accept","application/json");

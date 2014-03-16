@@ -1,5 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
+import android.util.Log;
+
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerDispatcher;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerContext;
 import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;

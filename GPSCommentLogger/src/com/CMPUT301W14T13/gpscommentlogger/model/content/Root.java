@@ -18,14 +18,14 @@ public class Root implements Viewable, Parcelable {
 	private Date timestamp;
 	private Date freshness;
 	private Location GPSLocation;
-	private ArrayList<Viewable> topics;
+	private ArrayList<Viewable> comments;
 	
 	public Root()
 	{
 		//TODO: create automatic ID generation system
-		ID = "default";
+		ID = "ROOT";
 		title = "initial title";
-		topics = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 	}
 	
 
@@ -33,7 +33,7 @@ public class Root implements Viewable, Parcelable {
 	{
 		this.ID = ID;
 		title = "initial title";
-		topics = new ArrayList<Viewable>();
+		comments = new ArrayList<Viewable>();
 	}
 	
 	@Override
@@ -42,12 +42,12 @@ public class Root implements Viewable, Parcelable {
 	
 
 	{
-		return topics;
+		return comments;
 	}
 
 	public void setC(ArrayList<Viewable> c)
 	{
-		topics = c;
+		comments = c;
 	}
 	@Override
 	public String getID() {
@@ -109,7 +109,7 @@ public class Root implements Viewable, Parcelable {
 				&& image.equals(o.image)
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
-				&& topics.equals(o.topics);
+				&& comments.equals(o.comments);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class Root implements Viewable, Parcelable {
 
 	@Override
 	public void addChild(Viewable post) {
-		topics.add(post);
+		comments.add(post);
 		
 	}
 

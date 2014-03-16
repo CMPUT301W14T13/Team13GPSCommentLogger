@@ -9,7 +9,7 @@ public abstract class Task implements TransferBundle
 {
 	protected Viewable obj;
 	protected String searchTerm;
-	private boolean active;
+	private boolean active = true;
 	
 	protected String id;
 	private boolean isIDSet = false;

@@ -29,6 +29,7 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -132,19 +133,32 @@ public class HomeViewActivity extends Activity {
 
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
-		home_view.addChild(top1);
+		PostNewServerTask addChild1 = taskFactory.getNewPoster();
+		addChild1.setSearchTerm("ROOT");
+		addChild1.setObj(top1);
+		client.addTask(addChild1);
 
 		Topic top2 = new Topic("Second", "User2");
-		home_view.addChild(top2);
+		top2.addChild(new Comment());
+		PostNewServerTask addChild2 = taskFactory.getNewPoster();
+		addChild2.setSearchTerm("ROOT");
+		addChild2.setObj(top2);
+		client.addTask(addChild2);
 
 		Topic top3 = new Topic("Third", "User3");
-		home_view.addChild(top3);
+		PostNewServerTask addChild3 = taskFactory.getNewPoster();
+		addChild3.setSearchTerm("ROOT");
+		addChild3.setObj(top3);
+		client.addTask(addChild3);
 
 		Topic top4 = new Topic("Fourth", "User4");
-		home_view.addChild(top4);
+		PostNewServerTask addChild4 = taskFactory.getNewPoster();
+		addChild4.setSearchTerm("ROOT");
+		addChild4.setObj(top4);
+		client.addTask(addChild4);
 
 		// try getting a pushed topic from the server
-		this.getTopicFromServer(home_view.getID());
+		this.getViewableFromServer("ROOT");
 
 		//set up adapter and listview
 		//topicListView = (ListView) findViewById(R.id.topic_listview);
@@ -242,7 +256,7 @@ public class HomeViewActivity extends Activity {
 
 	}
 	
-	private void getTopicFromServer(String ID){
+	private void getViewableFromServer(String ID){
 		
 		SearchServerTask task = taskFactory.getNewBrowser();
 		task.setSearchTerm(ID);
