@@ -156,14 +156,19 @@ public class CreateSubmissionActivity extends Activity{
 		submission_ok = controller.checkSubmission(context, submission); //check that the submission is valid
 		if (submission_ok){
 
+			
+			
+			
+			
 			int row = rowNumber;
 			Comment prev_comment = new Comment();
 			CommentModelList controller = new CommentModelList(CommentLoggerApplication.getCommentLogger());
 			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 			commentList = cl.getCommentList();
-
+			
+			
 			switch (code2){
-
+			
 				case(0):  //reply to topic
 
 					cl.addComment((Comment) submission);
@@ -205,11 +210,14 @@ public class CreateSubmissionActivity extends Activity{
 
 				default:
 					Log.d("onActivityResult", "Error adding comment reply");
+					
+				
 			}
 			
-			cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
-			controller.updateCommentList();
-
+			
+				cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
+				controller.updateCommentList();
+			
 
 
 
@@ -217,6 +225,28 @@ public class CreateSubmissionActivity extends Activity{
 		}
 	}
 
+	
+	public void submitTopic(View v){
+		Intent submit = getIntent();
+		Context context = getApplicationContext();
+		controller = new SubmissionController();
+		boolean submission_ok;
+		ArrayList<Viewable> commentList;
+
+		extractTextFields();
+		constructSubmission();
+
+		submission_ok = controller.checkSubmission(context, submission); //check that the submission is valid
+		if (submission_ok){
+			
+			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			CommentModelList controller = new CommentModelList(cl);
+			controller.addTopic((Topic) submission);
+			
+		}
+		
+		finish();
+	}
 }
 
 

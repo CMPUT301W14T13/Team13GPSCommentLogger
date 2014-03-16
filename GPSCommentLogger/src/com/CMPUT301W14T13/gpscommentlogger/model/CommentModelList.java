@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 import java.util.ArrayList;
 
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 
 
 /*
@@ -36,7 +37,7 @@ public class CommentModelList
 		
 		
 		cl.getRoot().addChild(topic);
-		
+		cl.notifyCustomAdapter();
 		//ElasticSearchOperations.pushPicPostModel(picPost);
 	}
 
@@ -52,8 +53,12 @@ public class CommentModelList
 	
 	
 	
-	public void setAdapter(CommentAdapter adapter) {
-		cl.setAdapter(adapter);
+	public void setCommentAdapter(CommentAdapter adapter) {
+		cl.setCommentAdapter(adapter);
+	}
+	
+	public void setCustomAdapter(CustomAdapter adapter) {
+		cl.setCustomAdapter(adapter);
 	}
 	
 	/*public void updateCurrentTopic(){

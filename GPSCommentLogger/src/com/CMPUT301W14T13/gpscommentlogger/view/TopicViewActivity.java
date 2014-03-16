@@ -47,7 +47,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         
         
         adapter = new CommentAdapter(this, commentList, currentUsername);
-        cl.setAdapter(adapter);
+        cl.setCommentAdapter(adapter);
         
         commentList = cl.getCommentList();
         

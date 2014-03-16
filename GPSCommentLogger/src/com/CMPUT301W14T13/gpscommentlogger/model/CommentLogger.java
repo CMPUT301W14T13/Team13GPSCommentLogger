@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
 import java.util.ArrayList;
 
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 
 /**
  * The model for the entire app to modify
@@ -16,14 +17,15 @@ public class CommentLogger extends FModel<FView>
 	//private ArrayList<Viewable> topicList = new ArrayList<Viewable>(); //the list of topics to display
 	private ArrayList<Viewable> commentList = new ArrayList<Viewable>(); //the comment list to be displayed in a topic
 	private int currentTopic;
-	private CommentAdapter adapter;
-	
-	
+	private CommentAdapter commentAdapter;
+	private CustomAdapter customAdapter;
+	private boolean changed = false;
 	
 	
 	
 	
 	public ArrayList<Viewable> getCommentList(){
+		
 		update();
 		return commentList;
 	}
@@ -57,7 +59,7 @@ public class CommentLogger extends FModel<FView>
 	
 	public void addComment(Comment comment){
 		root.getChildren().get(currentTopic).addChild(comment);
-		this.adapter.notifyDataSetChanged();
+		this.commentAdapter.notifyDataSetChanged();
 	}
 	
 	
@@ -74,7 +76,8 @@ public class CommentLogger extends FModel<FView>
 
 			fillTopicChildren(root.getChildren().get(currentTopic).getChildren().get(i));
 		}
-		this.adapter.notifyDataSetChanged();
+		
+		this.commentAdapter.notifyDataSetChanged();
 	}
 	
 	
@@ -104,8 +107,24 @@ public class CommentLogger extends FModel<FView>
 	}
 	
 	
-	public void setAdapter(CommentAdapter adapter) {
-		this.adapter = adapter;
+	public void setCommentAdapter(CommentAdapter adapter) {
+		commentAdapter = adapter;
+	}
+	
+	public void setCustomAdapter(CustomAdapter adapter) {
+		customAdapter = adapter;
+	}
+	
+	public void notifyCustomAdapter(){
+		customAdapter.notifyDataSetChanged();
+	}
+	
+	public void flipChanged(){
+		changed = !changed;
+	}
+	
+	public boolean isChanged(){
+		return changed;
 	}
 	
 }

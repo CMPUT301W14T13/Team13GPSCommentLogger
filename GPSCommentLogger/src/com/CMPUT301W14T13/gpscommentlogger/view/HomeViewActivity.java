@@ -42,7 +42,8 @@ public class HomeViewActivity extends Activity {
 	private Root home_view = new Root();
 	private CommentModelList controller;
 	private CommentLogger cl;
-
+	private CustomAdapter adapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +55,9 @@ public class HomeViewActivity extends Activity {
 		controller = new CommentModelList(cl);
 		
 		home_view = cl.getRoot();
+		
+		adapter = new CustomAdapter(this, home_view.getChildren());
+		controller.setCustomAdapter(adapter);
 		
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
@@ -68,10 +72,15 @@ public class HomeViewActivity extends Activity {
 		Topic top4 = new Topic("Fourth", "User4");
 		controller.addTopic(top4);
 
-
+		
+		
+		
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 
+		topicListview.setAdapter(adapter);
+		
+		
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -120,8 +129,8 @@ public class HomeViewActivity extends Activity {
 
 	protected void onResume(){
 		super.onResume();
-
 		topicListview.setAdapter(new CustomAdapter(this, home_view.getChildren()));
+		
 	}
 
 
@@ -156,7 +165,7 @@ public class HomeViewActivity extends Activity {
 
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+/*
 		if (requestCode == 0){
 			if (resultCode == RESULT_OK){
 
@@ -164,7 +173,7 @@ public class HomeViewActivity extends Activity {
 				controller.addTopic(topic);
 				//pushTopicToServer(topic);
 			}	
-		}
+		}*/
 
 	}
 
