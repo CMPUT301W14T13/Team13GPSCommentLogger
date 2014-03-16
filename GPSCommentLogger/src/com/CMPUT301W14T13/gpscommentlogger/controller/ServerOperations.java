@@ -123,7 +123,7 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -172,7 +172,8 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		//HttpPost autogenerates keys
