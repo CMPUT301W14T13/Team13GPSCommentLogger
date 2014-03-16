@@ -21,7 +21,15 @@ public class CommentLogger extends FModel<FView>
 	private CustomAdapter customAdapter;
 	private boolean changed = false;
 	
+	private String currentUsername = "Anonymous";
 	
+	public void setCurrentUsername(String username){
+		currentUsername = username;
+	}
+	
+	public String getCurrentUsername(){
+		return currentUsername;
+	}
 	
 	
 	public ArrayList<Viewable> getCommentList(){

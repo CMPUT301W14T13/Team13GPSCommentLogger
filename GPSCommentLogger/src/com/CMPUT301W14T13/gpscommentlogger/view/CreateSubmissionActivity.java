@@ -69,8 +69,8 @@ public class CreateSubmissionActivity extends Activity{
 
 			case(1):
 				setContentView(R.layout.create_comment); //creating a comment
-			
-				currentUsername = getIntent().getExtras().getString("current username");
+				CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+				currentUsername = cl.getCurrentUsername();
 	
 				text = (EditText) findViewById(R.id.set_comment_username);
 				text.setText(currentUsername);
