@@ -6,7 +6,9 @@ import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 
 /**
- * The model for the entire app to modify
+ * The model for the entire app to modify. It holds the root which contains the list
+ * of topics, a comment list which displays every comment made in a topic, the user's
+ * global username, a number which is used to grab topics from root, and adapters for updating the lists.
  * 
  * @author arweber
  *
@@ -14,7 +16,6 @@ import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 public class CommentLogger extends FModel<FView>
 {
 	private Root root = new Root();
-	//private ArrayList<Viewable> topicList = new ArrayList<Viewable>(); //the list of topics to display
 	private ArrayList<Viewable> commentList = new ArrayList<Viewable>(); //the comment list to be displayed in a topic
 	private int currentTopic;
 	private CommentAdapter commentAdapter;
@@ -73,10 +74,12 @@ public class CommentLogger extends FModel<FView>
 	
 	public void updateTopicChildren(ArrayList<Viewable> comments){
 		commentList = comments;
-		//((Topic) root.getChildren().get(currentTopic)).setChildren(comments);
 	}
 	
-	
+	/**
+	 * updates the commentList to be displayed in a topic. For each topic child,
+	 * it gets the children all the way down and adds them to the comment list.
+	 */
 	public void update(){
 		commentList.clear();
 		
@@ -89,18 +92,21 @@ public class CommentLogger extends FModel<FView>
 	}
 	
 	
-	/*
+	/**
+	 *
 	 * This function takes in a topic child and then recursively goes down the child comment
-	 * trees to fill a list containing every comment that can then be displayed
+	 * trees to fill a list containing every comment that can then be displayed. It first 
+	 * gets the children of this comment and adds the comment that was last passed into the function.
+	 * If the comment has children then it recursively calls itself to add them. If a comment
+	 * has no children then it doesn't do anything more and moves on to the next comment.
+	 * 
+	 * @param comment  the comment whose children are being added
 	 */
 	public void fillTopicChildren(Viewable comment){
 
-		//ArrayList<Viewable> comments = list;
 		ArrayList<Viewable> children = comment.getChildren();
-		//Comment child = (Comment) comment;
-		
 		commentList.add(comment);
-		//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
+	
 		if (children.size() != 0){
 			
 		

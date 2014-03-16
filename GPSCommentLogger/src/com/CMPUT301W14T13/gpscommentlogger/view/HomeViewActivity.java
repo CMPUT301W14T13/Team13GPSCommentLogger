@@ -26,23 +26,27 @@ import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentModelList;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 /* this is our main activity */
+/**
+ * HomeViewActivity is where the user will see a list of topics and various options
+ * like adding a topic, viewing saved comments, and sorting topics. From here the user can
+ * click on a topic to enter it and view its comments and/or reply to comments
+ * 
+ * @author Austin
+ *
+ */
 public class HomeViewActivity extends Activity {
 
-
-	private ArrayList<Viewable> topics = new ArrayList<Viewable>();
 	private ListView topicListview;
-
-
-	private Root home_view = new Root();
-	private CommentModelList controller;
-	private CommentLogger cl;
-	private CustomAdapter adapter;
+	private Root home_view = new Root(); 
+	private CommentLoggerController controller; //controller for the model
+	private CommentLogger cl; // our model
+	private CustomAdapter adapter; //adapter to display the topics
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +56,9 @@ public class HomeViewActivity extends Activity {
 
 		// IDEALLY, this should get the topics from the server.
 		cl = CommentLoggerApplication.getCommentLogger();
-		controller = new CommentModelList(cl);
+		controller = new CommentLoggerController(cl);
 		
-		home_view = cl.getRoot();
+		home_view = cl.getRoot(); // get the root which holds the list of topics
 		
 		adapter = new CustomAdapter(this, home_view.getChildren());
 		controller.setCustomAdapter(adapter);
@@ -77,7 +81,6 @@ public class HomeViewActivity extends Activity {
 		
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
-
 		topicListview.setAdapter(adapter);
 		
 		
@@ -88,10 +91,6 @@ public class HomeViewActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
-				viewTopic.putExtra("Topic", (Topic) home_view.getChildren().get(position));
-				//viewTopic.putExtra("Topic", topics.get(position));
-				
-				
 				controller.updateCurrentTopic(position); //set the current topic the user is opening
 				
 				startActivity(viewTopic);
@@ -159,7 +158,7 @@ public class HomeViewActivity extends Activity {
 
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
-		topic.putExtra("code", 0);
+		topic.putExtra("construct code", 0);
 		startActivity(topic);
 	}
 

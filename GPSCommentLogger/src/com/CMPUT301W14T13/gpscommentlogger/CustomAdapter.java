@@ -17,21 +17,22 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
-/*
- * This is the custom adapter for the various listviews throughout the app
+/**
+ * This is the custom adapter for displaying the topics in HomeViewActivity
  *
+ * @author Austin
  */
+
 public class CustomAdapter extends BaseAdapter {
 
 
-	private Context context;
+	
 	private ArrayList<Viewable> data = new ArrayList<Viewable>();
 	private static LayoutInflater inflater = null;
 
 
 	public CustomAdapter(Context context, ArrayList<Viewable> topics) {
 
-		this.context = context;
 		this.data = topics;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -68,17 +69,6 @@ public class CustomAdapter extends BaseAdapter {
 
 		}
 
-		/*
-		 * Sets the colour of the background for the listview rows, alternating every time.
-		 * Change as needed
-		 */
-		 //if (position % 2 == 0){
-		//	vi.setBackgroundColor(Color.argb(255,0,0,0)); //black
-		//}
-		//else{
-		//	vi.setBackgroundColor(Color.argb(255, 128, 128, 128)); //grey
-		//}
-
 		return vi;
 	}
 
@@ -111,7 +101,6 @@ public class CustomAdapter extends BaseAdapter {
 
 		/* get the GPS coordinates */
 		text = (TextView) vi.findViewById(R.id.coordinates);
-		
 		text.setText(this.data.get(position).locationString());
 
 		/* get the comment age */
@@ -121,14 +110,6 @@ public class CustomAdapter extends BaseAdapter {
 	
 		/* count the number of comments in the topic*/
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-		
-		/*int count = 0;
-		for (int i = 0; i < data.size(); i++){
-
-			count += topic.countComments(data.get(i), count);
-		}*/
-		
 		text.setText(topic.getCommentCount() + " comments");
 		
 	

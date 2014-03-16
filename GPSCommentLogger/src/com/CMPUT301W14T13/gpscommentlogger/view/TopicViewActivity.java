@@ -18,49 +18,46 @@ import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentModelList;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.FView;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 
-
+/**
+ * TopicViewActivity is where the user can view the topic that they selected
+ * from HomeViewActivity. Here they can comment, edit their comments, and
+ * select a global username.
+ * 
+ * @author Austin
+ *
+ */
 public class TopicViewActivity extends Activity implements FView<CommentLogger> 
 
 {
 
-
-	private Topic topic = new Topic();
-	private ArrayList<Viewable> commentList = new ArrayList<Viewable>();
+	private ArrayList<Viewable> commentList = new ArrayList<Viewable>(); //the list of comments to display
 	private Comment comment = new Comment();
 	private ListView commentListview;
-	private static String currentUsername = "";
-	private CommentAdapter adapter;
-	private CommentLogger cl;
-	
+	private CommentAdapter adapter; //adapter to display the comments
+	private CommentLogger cl; // our model
+	private CommentLoggerController controller;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_view);
+        
         cl = CommentLoggerApplication.getCommentLogger();
+        controller = new CommentLoggerController(cl);
         
-        //topic = (Topic) getIntent().getParcelableExtra("Topic");
-        
-        
-        adapter = new CommentAdapter(this, commentList, currentUsername);
-        cl.setCommentAdapter(adapter);
-        
-        commentList = cl.getCommentList();
-        currentUsername = cl.getCurrentUsername();
+        adapter = new CommentAdapter(this, commentList);
+        controller.setCommentAdapter(adapter);
+        commentList = cl.getCommentList(); //get the comment list to be displayed
         
         commentListview = (ListView) findViewById(R.id.comment_list);
+        adapter = new CommentAdapter(this, commentList);
         
-        adapter = new CommentAdapter(this, commentList, currentUsername);
-        
-        
-		
-		
 		cl = CommentLoggerApplication.getCommentLogger();
 		cl.addView(this);
 	}
@@ -83,6 +80,11 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 
 	}
 
+	/**
+	 * There will be a select username option on the action bar
+	 * which takes the user to an activity to manage their
+	 * usernames.
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
@@ -101,7 +103,9 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		startActivity(intent);
 	}
 	
-	
+	/**
+	 * Sets the various text fields in the topic 
+	 */
 	public void fillTopicLayout(){
 		
 		TextView text = (TextView) findViewById(R.id.topic_username);
@@ -116,26 +120,41 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 	}
 	
+	/**
+	 * When the user hits a reply button, it can either be a reply to the topic
+	 * or a reply to a comment. Since there is a separate button for each comment,
+	 * they have tags which were set in CommentAdapter. This row number is then passed
+	 * along into CreateSubmissonActivity so it can get the proper parent comment
+	 * and add a child comment to it. It also passes a construct code which tells
+	 * the activity how to construct the submission. In this case, it will be 
+	 * constructing a comment. A submit code is passed as well which tells the
+	 * activity what is being submitted and how to add it to the proper parent comment
+	 * or topic.
+	 * 
+	 * 
+	 * @param v	 the view for the reply button
+	 * @throws InterruptedException when an incorrect id is found
+	 */
 	public void reply(View v) throws InterruptedException{
 		
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
-		intent.putExtra("code", 1);
+		intent.putExtra("construct code", 1); //construct a comment
 		
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
 	        	 
-	        	 intent.putExtra("code 2", 0);
-	        	 startActivityForResult(intent, 0);  //replying to a topic
+	        	 intent.putExtra("submit code", 0); //replying to a topic
+	        	 startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_reply_button:
 	        	 
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
-	        	 intent.putExtra("code 2", 1);
+	        	 intent.putExtra("submit code", 1); //replying to a comment
 	        	 intent.putExtra("row number", rowNumber);
-	        	 startActivityForResult(intent, 1); //replying to a comment
+	        	 startActivity(intent); //replying to a comment
 	        	 break;
 	        	 
 	         default:
@@ -145,6 +164,20 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 	}
 	
+	/**
+	 * When the user hits an edit button, they can either be editing the topic
+	 * or editing a comment. Since there is a separate button for each comment,
+	 * they have tags which were set in CommentAdapter. This row number is then passed
+	 * along into CreateSubmissonActivity so it can get the proper comment
+	 * and edit it. It also passes a construct code which tells
+	 * the activity how to construct the edited submission. In this case, it will be 
+	 * editing a topic or comment. A submit code is passed as well which tells the
+	 * activity what is being submitted and how to edit it properly.
+	 * 
+	 * 
+	 * @param v	 the view for the edit button
+	 * @throws InterruptedException when an incorrect id is found
+	 */
 	public void edit(View v) throws InterruptedException{
 		
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
@@ -154,21 +187,22 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_edit_button:
-	        	 //intent.putExtra("row number", -1);
-	        	 intent.putExtra("code", 3);
-	        	 intent.putExtra("code 2", 2);
-	        	 intent.putExtra("submission", topic);
-	        	 startActivityForResult(intent, 2);  //editing a topic
+	        	 Topic topic = new Topic();
+	        	 intent.putExtra("construct code", 3); // constructing an edited topic
+	        	 intent.putExtra("submit code", 2);  //editing a topic
+	        	 intent.putExtra("submission", topic); //pass the topic to be edited
+	        	 startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_edit_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
 	        	 comment = (Comment) commentList.get(rowNumber);
-	        	 intent.putExtra("code 2", 3);
-	        	 intent.putExtra("code", 2);
+	        	 
+	        	 intent.putExtra("construct code", 2); //constructing an edited comment
+	        	 intent.putExtra("submit code", 3); //editing a comment
 	        	 intent.putExtra("row number", rowNumber);
-	        	 intent.putExtra("submission", comment);
-	        	 startActivityForResult(intent, 3); //editing a comment
+	        	 intent.putExtra("submission", comment); //pass the comment to be edited
+	        	 startActivity(intent); 
 	        	 break;
 	        	 
 	         default:

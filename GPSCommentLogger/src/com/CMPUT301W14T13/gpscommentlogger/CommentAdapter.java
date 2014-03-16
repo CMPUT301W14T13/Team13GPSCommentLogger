@@ -16,23 +16,22 @@ import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
-/*
- * This is the custom adapter for the comment listview when viewing a topic
+/**
+ * This is a custom adapter to display the list of comments in TopicViewActivity
+ * 
+ * @author Austin
  *
  */
 public class CommentAdapter extends BaseAdapter {
 
 
-	private Context context;
+	
 	private ArrayList<Viewable> data = new ArrayList<Viewable>();
 	private static LayoutInflater inflater = null;
-	private String currentUsername = "";
 
-	public CommentAdapter(Context context, ArrayList<Viewable> comments, String username) {
+	public CommentAdapter(Context context, ArrayList<Viewable> comments) {
 
-		this.context = context;
 		this.data = comments;
-		this.currentUsername = username;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -74,9 +73,6 @@ public class CommentAdapter extends BaseAdapter {
 			holder.username = (TextView) vi.findViewById(R.id.comment_username);
 			holder.commentText = (TextView) vi.findViewById(R.id.commentText);
 		
-			
-			
-			
 			vi.setTag(holder);
 
 		} else {
@@ -90,6 +86,7 @@ public class CommentAdapter extends BaseAdapter {
 		editButton.setTag(position); //gives a unique tag for identifying comments
 		
 		//Hide the edit button if it's not the user's comment
+		
 		if (!cl.getCurrentUsername().equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	
@@ -110,7 +107,12 @@ public class CommentAdapter extends BaseAdapter {
 		public int indentLevel;
 	}
 
-
+	/**
+	 * Sets text fields in the comments
+	 * 
+	 * @param vi  the current view
+	 * @param position  the position of the comment
+	 */
 	public void setTopicView(View vi, int position){
 
 		TextView text = (TextView) vi.findViewById(R.id.comment_username);
@@ -120,13 +122,25 @@ public class CommentAdapter extends BaseAdapter {
 		text.setText(String.valueOf(data.get(position).getCommentText()));
 	}
 
+	
+	/**
+	 * Modified from the redditisfun app: 
+	 * https://github.com/talklittle/reddit-is-fun/blob/master/src/com/andrewshu/android/reddit/comments/CommentsListActivity.java
+	 * 
+	 * This is the function that handles the display of indent lines
+	 * for comment replies. It uses the indent level saved in the 
+	 * comment and displays the appropriate views to show the indent
+	 * lines. It then removes the indent lines past the indent or else
+	 * all lines would display.
+	 * 
+	 * 
+	 * @param vi  the current view
+	 * @param indentLevel  the indent level of the comment
+	 * @param position  the position of the comment in the array
+	 */
 	public void setIndentView(View vi, int indentLevel, int position){
 
 		int indent = indentLevel; 
-
-
-
-		//indent = comment.getIndentLevel();
 
 		View[] indentViews = new View[] {
 				vi.findViewById(R.id.left_indent1),
@@ -136,10 +150,11 @@ public class CommentAdapter extends BaseAdapter {
 				vi.findViewById(R.id.left_indent5),
 
 		};
+		
+		//display lines up until the indent point
 		for (int i = 0; i < indent && i < indentViews.length; i++) {
 
 			indentViews[i].setVisibility(View.VISIBLE);
-
 
 		}
 
