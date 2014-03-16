@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
@@ -58,7 +59,7 @@ public class CommentAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View vi = convertView;
-		Button replyButton;
+		ImageButton replyButton;
 		Button editButton;
 		Comment comment = this.getItem(position);
 		ViewHolder holder = null;
@@ -71,7 +72,7 @@ public class CommentAdapter extends BaseAdapter {
 			holder.username = (TextView) vi.findViewById(R.id.comment_username);
 			holder.commentText = (TextView) vi.findViewById(R.id.commentText);
 		
-			//Hide the edit button if it's not the user's comment
+			
 			
 			
 			vi.setTag(holder);
@@ -80,13 +81,13 @@ public class CommentAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		replyButton = (Button) vi.findViewById(R.id.comment_reply_button);
+		replyButton = (ImageButton) vi.findViewById(R.id.comment_reply_button);
 		replyButton.setTag(position); //gives a unique tag for identifying comments
 
 		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
 		editButton.setTag(position); //gives a unique tag for identifying comments
 		
-		System.out.println(currentUsername);
+		//Hide the edit button if it's not the user's comment
 		if (!currentUsername.equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	

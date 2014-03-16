@@ -56,7 +56,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         
         adapter = new CommentAdapter(this, commentList, currentUsername);
         
-        commentListview.setAdapter(adapter);
+        
 		
 		
 		cl = CommentLoggerApplication.getCommentLogger();
@@ -68,7 +68,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		super.onResume();
 		
 		fillTopicLayout();
-		
+		commentListview.setAdapter(adapter);
 	}
 	
 	@Override
