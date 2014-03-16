@@ -32,7 +32,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 
 
 	private Topic topic = new Topic();
-	private ArrayList<Viewable> commentList;
+	private ArrayList<Viewable> commentList = new ArrayList<Viewable>();
 	private Comment comment = new Comment();
 	private ListView commentListview;
 	private static String currentUsername = "";
@@ -43,9 +43,11 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         setContentView(R.layout.topic_view);
         CommentLogger cl = CommentLoggerApplication.getCommentLogger();
         
-        topic = (Topic) getIntent().getParcelableExtra("Topic");
+        //topic = (Topic) getIntent().getParcelableExtra("Topic");
         
         
+        adapter = new CommentAdapter(this, commentList, currentUsername);
+        cl.setAdapter(adapter);
         
         commentList = cl.getCommentList();
         
@@ -55,7 +57,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         adapter = new CommentAdapter(this, commentList, currentUsername);
         
         commentListview.setAdapter(adapter);
-		cl.setAdapter(adapter);
+		
 		
 		cl = CommentLoggerApplication.getCommentLogger();
 		cl.addView(this);

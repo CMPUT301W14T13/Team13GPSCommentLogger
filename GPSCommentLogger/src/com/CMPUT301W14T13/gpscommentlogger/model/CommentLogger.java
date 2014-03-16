@@ -24,16 +24,26 @@ public class CommentLogger extends FModel<FView>
 	
 	
 	public ArrayList<Viewable> getCommentList(){
+		update();
 		return commentList;
 	}
+	
+	
+	public ArrayList<Viewable> getTopicChildren(){
+		return getCurrentTopic().getChildren();
+		
+	}
+	
 	
 	public Root getRoot(){
 		return root;
 	}
 	
+	
 	public void setCurrentTopic(int num){
 		currentTopic = num;
 	}
+	
 	
 	public ArrayList<Viewable> getTopics(){
 		return root.getChildren();
@@ -44,14 +54,18 @@ public class CommentLogger extends FModel<FView>
 		return (Topic) root.getChildren().get(currentTopic);
 	}
 	
+	
 	public void addComment(Comment comment){
 		root.getChildren().get(currentTopic).addChild(comment);
 		this.adapter.notifyDataSetChanged();
 	}
 	
+	
 	public void updateTopicChildren(ArrayList<Viewable> comments){
 		commentList = comments;
+		//((Topic) root.getChildren().get(currentTopic)).setChildren(comments);
 	}
+	
 	
 	public void update(){
 		commentList.clear();
@@ -88,6 +102,7 @@ public class CommentLogger extends FModel<FView>
 		}
 		
 	}
+	
 	
 	public void setAdapter(CommentAdapter adapter) {
 		this.adapter = adapter;
