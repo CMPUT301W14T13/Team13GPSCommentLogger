@@ -37,11 +37,13 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	private ListView commentListview;
 	private static String currentUsername = "";
 	private CommentAdapter adapter;
+	private CommentLogger cl;
+	
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_view);
-        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        cl = CommentLoggerApplication.getCommentLogger();
         
         //topic = (Topic) getIntent().getParcelableExtra("Topic");
         
@@ -103,13 +105,13 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	public void fillTopicLayout(){
 		
 		TextView text = (TextView) findViewById(R.id.topic_username);
-		text.setText(topic.getUsername());
+		text.setText(cl.getCurrentTopic().getUsername());
 		
 		text = (TextView) findViewById(R.id.topic_comment);
-		text.setText(topic.getCommentText());
+		text.setText(cl.getCurrentTopic().getCommentText());
 		
 		text = (TextView) findViewById(R.id.topic_title);
-		text.setText(topic.getTitle());
+		text.setText(cl.getCurrentTopic().getTitle());
 		
 		
 	}
