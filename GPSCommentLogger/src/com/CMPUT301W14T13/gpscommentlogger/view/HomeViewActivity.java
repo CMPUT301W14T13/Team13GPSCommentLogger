@@ -32,7 +32,6 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
@@ -72,7 +71,7 @@ public class HomeViewActivity extends Activity {
 
 		setContentView(R.layout.home_view);
 		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
-		
+
 		//temp debug window
 		final TextView debugWindow = (TextView)findViewById(R.id.debug_window);
 		debugWindow.setText("Hello World!");
@@ -127,22 +126,26 @@ public class HomeViewActivity extends Activity {
 
 		taskFactory = new TaskFactory(client.getDispatcher(), client.getMockup(), client.getDataManager());
 
-		InitializationServerTask task = taskFactory.getNewInitializer();
-		client.addTask(task);
+		//InitializationServerTask task = taskFactory.getNewInitializer();
+		//client.addTask(task);
 
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
 		home_view.addChild(top1);
+		pushTopicToServer(top1);
 
 		Topic top2 = new Topic("Second", "User2");
 		home_view.addChild(top2);
-
+		pushTopicToServer(top2);
+		
 		Topic top3 = new Topic("Third", "User3");
 		home_view.addChild(top3);
-
+		pushTopicToServer(top3);
+		
 		Topic top4 = new Topic("Fourth", "User4");
 		home_view.addChild(top4);
-
+		pushTopicToServer(top4);
+		
 		// try getting a pushed topic from the server
 		this.getTopicFromServer(home_view.getID());
 
@@ -235,42 +238,39 @@ public class HomeViewActivity extends Activity {
 				Topic topic = (Topic) data.getParcelableExtra("Topic");
 				home_view.addChild(topic);
 				this.pushTopicToServer(topic);
+				Log.w("topic_created","Created a topic");
 				/* do a local cache of this as well in the save file */
 
 			}	
 		}
 
 	}
-	
+
 	private void getTopicFromServer(String ID){
-		
+
 		SearchServerTask task = taskFactory.getNewBrowser();
-		task.setSearchTerm(ID);
-		client.addTask(task);
-		
+		try{
+			task.setId(ID);		
+			task.setSearchTerm(ID);
+			client.addTask(task);
+		}
+		catch (InterruptedException e){
+			return;
+		}
 	}
 
 	private void pushTopicToServer(Topic topic){
 
-				
 		PostNewServerTask task = taskFactory.getNewPoster();
-		task.setSearchTerm(home_view.getID());
-		task.setObj(topic);
-		client.addTask(task);
 
-		/*
-		//Build task object
-		ClientTask task = new ClientTask();
-
-		task.setTaskCode(ClientTaskTaskCode.POST);
-		task.setSourceCode(ClientTaskSourceCode.SERVER_DATA);
-		task.setObj(topic);
-
-		//Add task object
-		//ClientController controller = new ClientController();
-
-		//controller.addTask(task);
-		 */
+		try{
+			task.setId(home_view.getID());
+			task.setSearchTerm(home_view.getID());
+			task.setObj(topic);
+			client.addTask(task);
+		}
+		catch (InterruptedException e){
+			return;
+		}
 	}
-
 }
