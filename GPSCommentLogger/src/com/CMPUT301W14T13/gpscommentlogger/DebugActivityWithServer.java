@@ -35,6 +35,7 @@ public class DebugActivityWithServer extends Activity implements DebugActivityIn
 	Viewable currentComment;
 	ArrayList<Viewable> contentList;
 	ArrayAdapter<Viewable> commentAdapter;
+
 	ClientController client;
 	ServerController server;
 	ListView root;

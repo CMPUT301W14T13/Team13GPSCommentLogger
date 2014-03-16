@@ -9,6 +9,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -18,35 +21,113 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
+import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ClientTaskTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 /* this is our main activity */
 public class HomeViewActivity extends Activity {
 
 
-	private ArrayList<Viewable> topics = new ArrayList<Viewable>();
-	private ListView topicListview;
-
-
+	// private ArrayList<Viewable> topics = new ArrayList<Viewable>();
+	private ListView topicListView;
 	private Root home_view = new Root();
+	ArrayList<Viewable> contentList;
+	/* variables used for passing things back and forth between client and server */
+	private ClientController client;
+	private ServerController server;
 
+	private DataManager dataManager;
+	private TaskFactory taskFactory;
 
+	Handler textHandler;
+	Handler listHandler;
+
+	CustomAdapter commentAdapter;
+	/*
+	private ServerController serverController = new ServerController(handler, debuggingWindow);
+	private ClientListener clientListener = new ClientListener(serverController);
+	private ServerDispatcher serverDispatch = new ServerDispatcher(clientListener);
+	private TaskFactory factory = new TaskFactory(serverDispatch, mockData, localData);
+	 */
+
+	/* where the cached data gets saved */
+	private String savePath = "local_data.sav";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.home_view);
 		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+		
+		//temp debug window
+		final TextView debugWindow = (TextView)findViewById(R.id.debug_window);
+		debugWindow.setText("Hello World!");
+		final HomeViewActivity activity = this;
 
+		textHandler = new Handler(Looper.getMainLooper()) {
+
+			@Override
+			public void handleMessage(Message inputMessage) {
+				final String msg = inputMessage.obj.toString();
+				activity.runOnUiThread(new Runnable(){
+					@Override
+					public void run() {
+						Log.w("DebugMessage", "Message Received: " + msg);
+						((TextView)activity.findViewById(R.id.debug_window)).setText(msg);
+						Log.w("Debug Message", "Current Text: " + debugWindow.getText().toString());
+					}});			
+			}
+		};
+
+		/////////////////////////
+
+		contentList = home_view.getChildren();
+		topicListView = (ListView) findViewById(R.id.topic_listview);
+
+		commentAdapter = new CustomAdapter(this, home_view.getChildren());
+		topicListView.setAdapter(new CustomAdapter(this, home_view.getChildren()));
+		/*
+		listHandler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(Message inputMessage) {
+            	final Viewable msg = (Viewable)inputMessage.obj;
+            	activity.runOnUiThread(new Runnable(){
+					@Override
+					public void run() {
+						Log.w("DebugMessage", "Message Received: " + msg);
+				    	home_view = (Root)msg;
+				    	contentList = msg.getChildren();
+				    	commentAdapter.notifyDataSetChanged();
+		            	Log.w("Debug Message", "Current Comment: " + home_view.getID());
+		            	}});			
+            }
+        };
+		 */
 		// IDEALLY, this should get the topics from the server.
+
+		/* Initialize all the server variables in here */
+		ClientServerSystem.getInstance().init(textHandler, debugWindow);
+		client = ClientServerSystem.getInstance().getClient();
+		server = ClientServerSystem.getInstance().getServer();
+
+		taskFactory = new TaskFactory(client.getDispatcher(), client.getMockup(), client.getDataManager());
+
+		InitializationServerTask task = taskFactory.getNewInitializer();
+		client.addTask(task);
 
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
@@ -63,10 +144,10 @@ public class HomeViewActivity extends Activity {
 
 
 		//set up adapter and listview
-		topicListview = (ListView) findViewById(R.id.topic_listview);
+		//topicListView = (ListView) findViewById(R.id.topic_listview);
 
 		//set up listener for topic clicks, clicking makes you enter the topic
-		topicListview.setOnItemClickListener(new OnItemClickListener() {
+		topicListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,7 +156,7 @@ public class HomeViewActivity extends Activity {
 				viewTopic.putExtra("Topic", (Topic) home_view.getChildren().get(position));
 				//viewTopic.putExtra("Topic", topics.get(position));
 				startActivity(viewTopic);
-
+				debugWindow.setText(home_view.getID());
 
 			}
 		});
@@ -85,7 +166,7 @@ public class HomeViewActivity extends Activity {
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 
-		
+
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
@@ -106,11 +187,10 @@ public class HomeViewActivity extends Activity {
 
 	}
 
-
 	protected void onResume(){
 		super.onResume();
 
-		topicListview.setAdapter(new CustomAdapter(this, home_view.getChildren()));
+		topicListView.setAdapter(new CustomAdapter(this, home_view.getChildren()));
 	}
 
 
@@ -151,7 +231,9 @@ public class HomeViewActivity extends Activity {
 
 				Topic topic = (Topic) data.getParcelableExtra("Topic");
 				home_view.addChild(topic);
-				//pushTopicToServer(topic);
+				this.pushTopicToServer(topic);
+				/* do a local cache of this as well in the save file */
+
 			}	
 		}
 
@@ -160,6 +242,13 @@ public class HomeViewActivity extends Activity {
 
 	private void pushTopicToServer(Topic topic){
 
+				
+		PostNewServerTask task = taskFactory.getNewPoster();
+		task.setSearchTerm(home_view.getID());
+		task.setObj(topic);
+		client.addTask(task);
+
+		/*
 		//Build task object
 		ClientTask task = new ClientTask();
 
@@ -171,6 +260,7 @@ public class HomeViewActivity extends Activity {
 		//ClientController controller = new ClientController();
 
 		//controller.addTask(task);
-
+		 */
 	}
+
 }

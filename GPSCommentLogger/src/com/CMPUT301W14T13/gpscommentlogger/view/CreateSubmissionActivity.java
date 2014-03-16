@@ -34,13 +34,15 @@ public class CreateSubmissionActivity extends Activity{
         code = getIntent().getIntExtra("code", -1);
         switch(code){
         
+        // creating a topic
         case(0):
-        	setContentView(R.layout.create_topic); //creating a topic
+        	setContentView(R.layout.create_topic);
         	getActionBar().setDisplayHomeAsUpEnabled(true);
         	break;
         
+        // creating a comment
         case(1):
-        	setContentView(R.layout.create_comment); //creating a comment
+        	setContentView(R.layout.create_comment);
         	rowNumber = getIntent().getIntExtra("row number", -1);
         	currentUsername = getIntent().getExtras().getString("current username");
         	

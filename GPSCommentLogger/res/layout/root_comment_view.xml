@@ -6,13 +6,19 @@
     android:padding="5dp"
     android:shrinkColumns="*"
     android:stretchColumns="*" >
+    
 
     <!-- Row 1: title and username -->
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
-
+  	<!--  
+        <TextView
+        	android:id="@+id/debug_window"
+        	android:layout_width="match_parent"
+        	android:layout_height="132dp" />
+        -->
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
