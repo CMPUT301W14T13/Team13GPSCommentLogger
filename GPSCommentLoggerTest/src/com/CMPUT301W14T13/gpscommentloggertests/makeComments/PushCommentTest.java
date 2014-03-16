@@ -39,7 +39,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		assertEquals("default comment is a root", true, activity.getCurrentComment() instanceof Root);
 		assertEquals("default comment has length 3", 3, activity.getCurrentComment().getChildren().size());
 		
-		activity.simulateBrowseClick(0);
+		activity.simulateOnlineBrowseClick(0);
 		
 		Thread.sleep(2000);
 		
@@ -47,7 +47,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		assertEquals("first layer is a thread", true, activity.getCurrentComment() instanceof Topic);
 		assertEquals("first layer comment has length 3", 3, activity.getCurrentComment().getChildren().size());
 		
-		activity.simulateBrowseClick(0);
+		activity.simulateOnlineBrowseClick(0);
 		
 		Thread.sleep(2000);
 		
@@ -69,7 +69,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		assertEquals("comment should now have 1 reply", 1, activity.getCurrentComment().getChildren().size());
 		
-		activity.simulateBrowseClick(0);
+		activity.simulateOnlineBrowseClick(0);
 		
 		Thread.sleep(2000);
 		
