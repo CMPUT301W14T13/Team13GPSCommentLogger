@@ -123,13 +123,13 @@ public class CustomAdapter extends BaseAdapter {
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
 		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 		
-		int count = 0;
-		for (int i = 0; i < topic.getChildren().size(); i++){
+		/*int count = 0;
+		for (int i = 0; i < data.size(); i++){
 
-			count += topic.countComments(topic.getChildren().get(i), count);
-		}
+			count += topic.countComments(data.get(i), count);
+		}*/
 		
-		text.setText(count + " comments");
+		text.setText(topic.getCommentCount() + " comments");
 		
 	
 	}

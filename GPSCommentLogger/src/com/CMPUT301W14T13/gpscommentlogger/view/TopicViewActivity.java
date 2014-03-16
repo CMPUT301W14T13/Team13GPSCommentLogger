@@ -196,6 +196,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 			case(0):  //reply to topic
 				cl.addComment(comment);
 				//commentList.add(comment);
+				cl.getCurrentTopic().incrementCommentCount();
 				break;
 				
 			case(1): //reply to comment
@@ -211,6 +212,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 				//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
 				if (comment.getIndentLevel() <= 5){
 					prev_comment.addChild(comment);
+					cl.getCurrentTopic().incrementCommentCount();
 				}
 				
 				break;

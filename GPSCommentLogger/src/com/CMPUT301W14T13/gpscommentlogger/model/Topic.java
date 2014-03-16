@@ -38,7 +38,7 @@ public class Topic implements Viewable, Parcelable
 	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
 	private Location GPSLocation = new Location("default");
 	private boolean hasImage;
-
+	private int commentCount = 0;
 	
 	public Topic()
 	{
@@ -336,7 +336,7 @@ public class Topic implements Viewable, Parcelable
 			//ArrayList<Viewable> comments = list;
 			ArrayList<Viewable> children = comment.getChildren();
 			//Comment child = (Comment) comment;
-			
+			System.out.println(count);
 			num++;
 			//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
 			if (children.size() != 0){
@@ -352,5 +352,11 @@ public class Topic implements Viewable, Parcelable
 			
 		return count;
 	}
+	public void incrementCommentCount(){
+		commentCount++;
+	}
 	
+	public int getCommentCount(){
+		return commentCount;
+	}
 }
