@@ -52,7 +52,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         cl.setCommentAdapter(adapter);
         
         commentList = cl.getCommentList();
-        
+        currentUsername = cl.getCurrentUsername();
         
         commentListview = (ListView) findViewById(R.id.comment_list);
         

@@ -2,7 +2,6 @@ package com.CMPUT301W14T13.gpscommentlogger;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
@@ -63,6 +64,7 @@ public class CommentAdapter extends BaseAdapter {
 		Button editButton;
 		Comment comment = this.getItem(position);
 		ViewHolder holder = null;
+		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
 		if (vi == null){
 
@@ -88,7 +90,7 @@ public class CommentAdapter extends BaseAdapter {
 		editButton.setTag(position); //gives a unique tag for identifying comments
 		
 		//Hide the edit button if it's not the user's comment
-		if (!currentUsername.equals(comment.getUsername())){
+		if (!cl.getCurrentUsername().equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	
 		
