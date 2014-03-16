@@ -38,8 +38,8 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/set_comment_text"
             android:layout_marginTop="28dp"
-            android:text="Button" 
-        	android:onClick="cancel" />
+            android:text="Change Location" 
+        	android:onClick="openMap" />
 
         <Button
             android:id="@+id/submit"
