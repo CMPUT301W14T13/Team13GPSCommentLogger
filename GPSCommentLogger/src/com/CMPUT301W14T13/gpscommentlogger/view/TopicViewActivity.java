@@ -111,8 +111,6 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(topic.getTitle());
 		
-		//update the model if it was changed
-		
 		
 	}
 	
@@ -128,12 +126,13 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	         case R.id.topic_reply_button:
 	        	 //intent.putExtra("row number", -1);
 	        	 intent.putExtra("code", 1);
+	        	 intent.putExtra("code 2", 0);
 	        	 startActivityForResult(intent, 0);  //replying to a topic
 	             break;
 	             
 	         case R.id.comment_reply_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
-	        	 
+	        	 intent.putExtra("code 2", 1);
 	        	 //int indent = topic.getChildren().get(rowNumber).getIndentLevel();
 	        	 
 	        	 intent.putExtra("code", 1);
@@ -160,6 +159,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	         case R.id.topic_edit_button:
 	        	 //intent.putExtra("row number", -1);
 	        	 intent.putExtra("code", 3);
+	        	 intent.putExtra("code 2", 2);
 	        	 intent.putExtra("submission", topic);
 	        	 startActivityForResult(intent, 2);  //editing a topic
 	             break;
@@ -167,7 +167,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	         case R.id.comment_edit_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
 	        	 comment = (Comment) commentList.get(rowNumber);
-	        	 
+	        	 intent.putExtra("code 2", 3);
 	        	 intent.putExtra("code", 2);
 	        	 intent.putExtra("row number", rowNumber);
 	        	 intent.putExtra("submission", comment);
@@ -184,71 +184,8 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			
 		
-		if (resultCode == RESULT_OK){
-			
-			int row;
-			Comment comment = (Comment) data.getParcelableExtra("comment");
-			//comments = new ArrayList<Viewable>();
-			Comment prev_comment = new Comment();
-			CommentModelList controller = new CommentModelList(CommentLoggerApplication.getCommentLogger());
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-			commentList = cl.getCommentList();
-			switch (requestCode){
-				
-			case(0):  //reply to topic
-				cl.addComment(comment);
-				//commentList.add(comment);
-				cl.getCurrentTopic().incrementCommentCount();
-				break;
-				
-			case(1): //reply to comment
-				row = data.getIntExtra("row number", -1);
-				
-				
-			
-				if (cl.getCurrentTopic().getChildren().size() >= 1){
-					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
-				}
-				
-				//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-				if (comment.getIndentLevel() <= 5){
-					prev_comment.addChild(comment);
-					cl.getCurrentTopic().incrementCommentCount();
-				}
-				
-				break;
-				
-			case(2)://edit topic
-				Topic editedTopic = (Topic) data.getParcelableExtra("Topic");
-			cl.getCurrentTopic().setUsername(editedTopic.getUsername());
-			cl.getCurrentTopic().setCommentText(editedTopic.getCommentText());
-				break;
-			
-			case(3): //edit comment
-				row = data.getIntExtra("row number", -1);
-				commentList.get(row).setUsername(comment.getUsername());
-				commentList.get(row).setCommentText(comment.getCommentText());
-				break;
-				
-			case(4):
-				currentUsername = data.getExtras().getString("current username");
-				
-			 default:
-				Log.d("onActivityResult", "Error adding comment reply");
-			}
-			cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
-			controller.updateCommentList();
-			//commentList.flipChanged();
-		}
 		
-		/*if (commentList.isChanged()){
-			
-			commentList.update();
-			commentList.flipChanged(); //set model back to being flagged as unchanged
-		}*/
-		//update the listview after the reply has been added
-		//((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();*/
+		
 		
 
 	}
@@ -257,8 +194,8 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	@Override
 	public void update(CommentLogger model)
 	{
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-		commentList = cl.getCommentList();
+		//CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		//commentList = cl.getCommentList();
 		
 		
 	}
