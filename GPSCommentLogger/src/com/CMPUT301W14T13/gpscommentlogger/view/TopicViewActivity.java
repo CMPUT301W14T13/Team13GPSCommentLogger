@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,31 +16,49 @@ import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentModelList;
+import com.CMPUT301W14T13.gpscommentlogger.model.FView;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
 
 
-public class TopicViewActivity extends Activity
+public class TopicViewActivity extends Activity implements FView<CommentLogger> 
 
 {
 
 
 	private Topic topic = new Topic();
-	private CommentModelList commentList;
+	private ArrayList<Viewable> commentList;
 	private Comment comment = new Comment();
 	private ListView commentListview;
 	private static String currentUsername = "";
+	private CommentAdapter adapter;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_view);
+        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
         
         topic = (Topic) getIntent().getParcelableExtra("Topic");
-        commentList = new CommentModelList(topic);
+        
+        
+        
+        commentList = cl.getCommentList();
+        
+        
         commentListview = (ListView) findViewById(R.id.comment_list);
+        
+        adapter = new CommentAdapter(this, commentList, currentUsername);
+        
+        commentListview.setAdapter(adapter);
+		cl.setAdapter(adapter);
+		
+		cl = CommentLoggerApplication.getCommentLogger();
+		cl.addView(this);
 	}
 	
 	
@@ -49,6 +66,7 @@ public class TopicViewActivity extends Activity
 		super.onResume();
 		
 		fillTopicLayout();
+		
 	}
 	
 	@Override
@@ -92,13 +110,8 @@ public class TopicViewActivity extends Activity
 		text.setText(topic.getTitle());
 		
 		//update the model if it was changed
-		if (CommentModelList.isChanged()){
-			
-			CommentModelList.update();
-			CommentModelList.flipChanged(); //set model back to being flagged as unchanged
-		}
 		
-		commentListview.setAdapter(new CommentAdapter(this, CommentModelList.getList(), currentUsername));
+		
 	}
 	
 	public void reply(View v) throws InterruptedException{
@@ -151,7 +164,7 @@ public class TopicViewActivity extends Activity
 	             
 	         case R.id.comment_edit_button:
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 comment = (Comment) commentList.getComment(rowNumber);
+	        	 comment = (Comment) commentList.get(rowNumber);
 	        	 
 	        	 intent.putExtra("code", 2);
 	        	 intent.putExtra("row number", rowNumber);
@@ -169,18 +182,19 @@ public class TopicViewActivity extends Activity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			
 		
-		/*if (resultCode == RESULT_OK){
+		if (resultCode == RESULT_OK){
 			
 			int row;
 			Comment comment = (Comment) data.getParcelableExtra("comment");
 			//comments = new ArrayList<Viewable>();
 			Comment prev_comment = new Comment();
-		
-				
+			CommentModelList controller = new CommentModelList(CommentLoggerApplication.getCommentLogger());
+			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			commentList = cl.getCommentList();
 			switch (requestCode){
 				
 			case(0):  //reply to topic
-				topic.addChild(comment);
+				cl.addComment(comment);
 				//commentList.add(comment);
 				break;
 				
@@ -189,8 +203,8 @@ public class TopicViewActivity extends Activity
 				
 				
 			
-				if (topic.getChildren().size() >= 1){
-					prev_comment = (Comment) commentList.getComment(row); //get the comment being replied to
+				if (cl.getCurrentTopic().getChildren().size() >= 1){
+					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
 					comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
 				}
 				
@@ -203,14 +217,14 @@ public class TopicViewActivity extends Activity
 				
 			case(2)://edit topic
 				Topic editedTopic = (Topic) data.getParcelableExtra("Topic");
-				topic.setUsername(editedTopic.getUsername());
-				topic.setCommentText(editedTopic.getCommentText());
+			cl.getCurrentTopic().setUsername(editedTopic.getUsername());
+			cl.getCurrentTopic().setCommentText(editedTopic.getCommentText());
 				break;
 			
 			case(3): //edit comment
 				row = data.getIntExtra("row number", -1);
-				commentList.getComment(row).setUsername(comment.getUsername());
-				commentList.getComment(row).setCommentText(comment.getCommentText());
+				commentList.get(row).setUsername(comment.getUsername());
+				commentList.get(row).setCommentText(comment.getCommentText());
 				break;
 				
 			case(4):
@@ -219,13 +233,30 @@ public class TopicViewActivity extends Activity
 			 default:
 				Log.d("onActivityResult", "Error adding comment reply");
 			}
-			
+			cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
+			controller.updateCommentList();
+			//commentList.flipChanged();
 		}
+		
+		/*if (commentList.isChanged()){
 			
+			commentList.update();
+			commentList.flipChanged(); //set model back to being flagged as unchanged
+		}*/
 		//update the listview after the reply has been added
-		((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();*/
+		//((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();*/
 		
 
+	}
+
+
+	@Override
+	public void update(CommentLogger model)
+	{
+		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		commentList = cl.getCommentList();
+		
+		
 	}
 
 }

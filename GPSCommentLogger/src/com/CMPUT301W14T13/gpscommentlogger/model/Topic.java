@@ -330,5 +330,27 @@ public class Topic implements Viewable, Parcelable
 		return hasImage;
 	}
 
-
+	public int countComments(Viewable comment, int num){
+		
+			int count = num;
+			//ArrayList<Viewable> comments = list;
+			ArrayList<Viewable> children = comment.getChildren();
+			//Comment child = (Comment) comment;
+			
+			num++;
+			//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
+			if (children.size() != 0){
+				
+			
+				for (int i = 0; i < children.size(); i++){
+					
+					countComments(children.get(i), count);
+					
+				}
+			
+			}
+			
+		return count;
+	}
+	
 }

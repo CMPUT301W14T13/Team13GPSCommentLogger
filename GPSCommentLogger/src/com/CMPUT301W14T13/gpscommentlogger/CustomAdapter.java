@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
+import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
 
 
@@ -57,10 +60,11 @@ public class CustomAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View vi = convertView;
+		Topic topic = (Topic) getItem(position);
 		if (vi == null){
 
 			vi = inflater.inflate(R.layout.root_comment_view, null);
-			setHomeView(vi, position);
+			setHomeView(vi, position, topic);
 
 		}
 
@@ -98,7 +102,7 @@ public class CustomAdapter extends BaseAdapter {
 	    
 	}
 	
-	public void setHomeView(View vi, int position){
+	public void setHomeView(View vi, int position, Topic topic){
 		TextView text = (TextView) vi.findViewById(R.id.title);
 		text.setText(String.valueOf(data.get(position).getTitle()));
 
@@ -117,7 +121,15 @@ public class CustomAdapter extends BaseAdapter {
 	
 		/* count the number of comments in the topic*/
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
-		text.setText(String.valueOf(this.data.get(position).getChildren().size()).concat(" comments"));
+		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		
+		int count = 0;
+		for (int i = 0; i < topic.getChildren().size(); i++){
+
+			count += topic.countComments(topic.getChildren().get(i), count);
+		}
+		
+		text.setText(count + " comments");
 		
 	
 	}

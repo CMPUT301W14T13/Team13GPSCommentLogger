@@ -24,6 +24,9 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentModelList;
 import com.CMPUT301W14T13.gpscommentlogger.model.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
@@ -37,8 +40,8 @@ public class HomeViewActivity extends Activity {
 
 
 	private Root home_view = new Root();
-
-
+	private CommentModelList controller;
+	private CommentLogger cl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +50,23 @@ public class HomeViewActivity extends Activity {
 		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
 
 		// IDEALLY, this should get the topics from the server.
-
+		cl = CommentLoggerApplication.getCommentLogger();
+		controller = new CommentModelList(cl);
+		
+		home_view = cl.getRoot();
+		
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
-		home_view.addChild(top1);
+		controller.addTopic(top1);
 
 		Topic top2 = new Topic("Second", "User2");
-		home_view.addChild(top2);
+		controller.addTopic(top2);
 
 		Topic top3 = new Topic("Third", "User3");
-		home_view.addChild(top3);
+		controller.addTopic(top3);
 
 		Topic top4 = new Topic("Fourth", "User4");
-		home_view.addChild(top4);
+		controller.addTopic(top4);
 
 
 		//set up adapter and listview
@@ -74,6 +81,10 @@ public class HomeViewActivity extends Activity {
 				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
 				viewTopic.putExtra("Topic", (Topic) home_view.getChildren().get(position));
 				//viewTopic.putExtra("Topic", topics.get(position));
+				
+				
+				cl.setCurrentTopic(position); //set the current topic the user is opening
+				
 				startActivity(viewTopic);
 
 
@@ -150,7 +161,7 @@ public class HomeViewActivity extends Activity {
 			if (resultCode == RESULT_OK){
 
 				Topic topic = (Topic) data.getParcelableExtra("Topic");
-				home_view.addChild(topic);
+				controller.addTopic(topic);
 				//pushTopicToServer(topic);
 			}	
 		}

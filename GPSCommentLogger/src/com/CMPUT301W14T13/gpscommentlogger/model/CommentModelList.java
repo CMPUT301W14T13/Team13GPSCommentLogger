@@ -1,104 +1,68 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
-import android.graphics.Bitmap;
-import android.widget.ArrayAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 
 
 /*
- * Model for the list of comments being displayed in a topic
+ * controller that changes the list of comments being displayed for a topic
  */
 public class CommentModelList
 {
-	private static Topic currentTopic;
-	private static ArrayList<Viewable> commentList;
-	private static boolean changed = false;
+	//private Topic currentTopic;
+	private ArrayList<Viewable> commentList;
+	private boolean changed = false;
+	private CommentAdapter adapter;
+	private CommentLogger cl = null;
 	
-	public CommentModelList(Topic topic) {
+	
+	public CommentModelList(CommentLogger cl) {
 		commentList = new ArrayList<Viewable>();
-		currentTopic = topic;
+		this.cl = cl;
+		
 	}
 	
 	
-	public static void addTopicChild(Comment comment) {
+	public void addTopicChild(Comment comment) {
 		
 		
-		currentTopic.getChildren().add(comment);
-		//this.adapter.notifyDataSetChanged();
+		cl.getCurrentTopic().addChild(comment);
 		
 		//ElasticSearchOperations.pushPicPostModel(picPost);
 	}
 	
-	
-	public void clearComments(){
-		commentList.clear();
+	public void addTopic(Topic topic) {
+		
+		
+		cl.getRoot().addChild(topic);
+		
+		//ElasticSearchOperations.pushPicPostModel(picPost);
 	}
-	
-	public static ArrayList<Viewable> getList() {
-		return commentList;
-	}
-	
-	public Viewable getComment(int row){
-		return commentList.get(row);
-	}
-	
-	public static boolean isChanged(){
+
+	public boolean isChanged(){
 		return changed;
 	}
 	
-	public static void flipChanged(){
+	public void flipChanged(){
 		changed = !changed;
 	}
 	
 	//creates a list to display in the comments section of the topic
-	public static void update(){
-		commentList.clear();
-		
-		for (int i = 0; i < currentTopic.getChildren().size(); i++){
-
-			fillTopicChildren(currentTopic.getChildren().get(i));
-		}
-			
+	
+	
+	
+	public void setAdapter(CommentAdapter adapter) {
+		cl.setAdapter(adapter);
 	}
 	
-	
-	/*
-	 * This function takes in a topic child and then recursively goes down the child comment
-	 * trees to fill a list containing every comment that can then be displayed
-	 */
-	public static void fillTopicChildren(Viewable comment){
-
-		//ArrayList<Viewable> comments = list;
-		ArrayList<Viewable> children = comment.getChildren();
-		//Comment child = (Comment) comment;
-		
-		commentList.add(comment);
-		//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
-		if (children.size() != 0){
-			
-		
-			for (int i = 0; i < children.size(); i++){
-				
-				fillTopicChildren(children.get(i));
-				
-			}
-		
-		}
-		
-	}
-	
-	
-	/*public void setAdapter(ArrayAdapter<PicPostModel> adapter) {
-		this.adapter = adapter;
+	/*public void updateCurrentTopic(){
+		cl.setCurrentTopic(topic);
 	}*/
 	
-	
-	
-	
+	public void updateCommentList(){
+		cl.update();
+	}
 	
 	
 }

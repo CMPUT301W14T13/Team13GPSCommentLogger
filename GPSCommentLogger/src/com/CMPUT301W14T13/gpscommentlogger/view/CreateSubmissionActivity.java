@@ -153,65 +153,27 @@ public class CreateSubmissionActivity extends Activity{
 		
 		submission_ok = controller.checkSubmission(context, submission); //check that the submission is valid
 		if (submission_ok){
-			
-			int row;
-			Comment comment = (Comment) submission;
-			//comments = new ArrayList<Viewable>();
-			Comment prev_comment = new Comment();
-			commentList = CommentModelList.getList();
-			
-			switch(code2){
-			
-				
-					
-				case(0):  //reply to topic
-					CommentModelList.addTopicChild(comment);
-					//commentList.add(comment);
-					break;
-					
-				case(1): //reply to comment
-					row = rowNumber;
-				    
-					
-				
-					if (commentList.size() >= 1){
-						prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-						comment.setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
-					}
-					
-					//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-					if (comment.getIndentLevel() <= 5){
-						prev_comment.addChild(comment);
-					}
-					
-					break;
-					
-				case(2)://edit topic
-					//Topic editedTopic = (Topic) data.getParcelableExtra("Topic");
-					//topic.setUsername(editedTopic.getUsername());
-					//topic.setCommentText(editedTopic.getCommentText());
-					break;
-				
-				case(3): //edit comment
-					//row = data.getIntExtra("row number", -1);
-					row = rowNumber;
-					commentList.get(row).setUsername(comment.getUsername());
-					commentList.get(row).setCommentText(comment.getCommentText());
-					break;
-					
-				/*case(4):
-					currentUsername = data.getExtras().getString("current username");*/
-					
-				 default:
-					Log.d("onActivityResult", "Error adding comment reply");
-				}
-				
-				
+
+			switch(code){
+
+			case(0):
+			case(3):
+			submit.putExtra("Topic", (Topic) submission);
+			break;
+
+			case(1):
+			case(2):
+			submit.putExtra("comment", (Comment) submission);
+			submit.putExtra("row number", rowNumber);
+
+
 			}
-			CommentModelList.flipChanged();
+
 			setResult(RESULT_OK, submit);
 			finish();
-		}
-	}
+			}
+			}
+
+}
 	
 
