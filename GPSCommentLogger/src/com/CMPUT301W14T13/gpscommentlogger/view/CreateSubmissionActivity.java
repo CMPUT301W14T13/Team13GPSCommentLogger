@@ -206,6 +206,7 @@ public class CreateSubmissionActivity extends Activity{
 				default:
 					Log.d("onActivityResult", "Error adding comment reply");
 			}
+			
 			cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
 			controller.updateCommentList();
 

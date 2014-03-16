@@ -64,5 +64,8 @@ public class CommentModelList
 		cl.update();
 	}
 	
+	public void updateCurrentTopic(int position){
+		cl.setCurrentTopic(position);
+	}
 	
 }

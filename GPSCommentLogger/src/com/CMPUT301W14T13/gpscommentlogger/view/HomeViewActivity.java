@@ -83,7 +83,7 @@ public class HomeViewActivity extends Activity {
 				//viewTopic.putExtra("Topic", topics.get(position));
 				
 				
-				cl.setCurrentTopic(position); //set the current topic the user is opening
+				controller.updateCurrentTopic(position); //set the current topic the user is opening
 				
 				startActivity(viewTopic);
 
