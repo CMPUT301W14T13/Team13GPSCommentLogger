@@ -34,6 +34,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 /* this is our main activity */
@@ -142,6 +143,8 @@ public class HomeViewActivity extends Activity {
 		Topic top4 = new Topic("Fourth", "User4");
 		home_view.addChild(top4);
 
+		// try getting a pushed topic from the server
+		this.getTopicFromServer(home_view.getID());
 
 		//set up adapter and listview
 		//topicListView = (ListView) findViewById(R.id.topic_listview);
@@ -238,7 +241,14 @@ public class HomeViewActivity extends Activity {
 		}
 
 	}
-
+	
+	private void getTopicFromServer(String ID){
+		
+		SearchServerTask task = taskFactory.getNewBrowser();
+		task.setSearchTerm(ID);
+		client.addTask(task);
+		
+	}
 
 	private void pushTopicToServer(Topic topic){
 
