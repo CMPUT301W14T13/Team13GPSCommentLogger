@@ -14,7 +14,11 @@
     <string name="saved">Saved Pages</string>
     
     <string name="create_topic_label">New Topic</string>
+
     <string name="bullet">•</string>
     <string name="select_username">Select Username</string>
+
+    <string name="submit_location">Submit Location</string>
+
 
 </resources>
