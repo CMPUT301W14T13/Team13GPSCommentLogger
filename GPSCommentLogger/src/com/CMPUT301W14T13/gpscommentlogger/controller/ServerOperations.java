@@ -123,7 +123,7 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -137,16 +137,16 @@ public class ServerOperations {
 			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
-			String query = "{\"script\" : \"ctx._source." + listName + "+= viewable\", " +
+			String query = "{\"script\" : \"ctx._source.CLASS_DATA." + listName + "+= viewable\", " +
 					"\"params\" : {" +
-				        "\"viewable\" : \""+ jsonString +"\"" +
+				        "\"viewable\" : "+ jsonString +"" +
 				    "}}";
 			StringEntity stringentity = new StringEntity(query);
 
 			request.setHeader("Accept","application/json");
 			request.setEntity(stringentity);
 			HttpResponse response = client.execute(request);
-			Log.w("ElasticSearch", response.getStatusLine().toString());
+			Log.w("ElasticSearchADDLIST", response.getStatusLine().toString());
 			
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
@@ -155,7 +155,7 @@ public class ServerOperations {
 			output += "\n" + reader.readLine();
 			while(output != null)
 			{
-				Log.w("ElasticSearch", output);
+				Log.w("ElasticSearchADDLIST", output);
 				output = reader.readLine();
 			}
 			result.setContent(output);
@@ -188,7 +188,7 @@ public class ServerOperations {
 			//proceeding with elasticSearch request
 			request.setEntity(new StringEntity(jsonString));
 			HttpResponse response = client.execute(request);
-			Log.w("ElasticSearch", response.getStatusLine().toString());
+			Log.w("ElasticSearchPOSTNEW", response.getStatusLine().toString());
 
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
@@ -197,7 +197,7 @@ public class ServerOperations {
 			output += "\n" + reader.readLine();
 			while(output != null)
 			{
-				Log.w("ElasticSearch", output);
+				Log.w("ElasticSearchPOSTNEW", output);
 				output = reader.readLine();
 			}
 			result.setContent(output);
@@ -235,7 +235,7 @@ public class ServerOperations {
 			//Execute search
 			HttpResponse response = client.execute(request);
 			String status = response.getStatusLine().toString();
-			Log.w("ElasticSearch",status);
+			Log.w("ElasticSearchFINDES",status);
 
 			//Get ID of Viewable as it exists in the elastic search system
 			String json = getEntityContent(response);
@@ -246,7 +246,7 @@ public class ServerOperations {
 			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
 			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
 				id = r.getESID();
-				Log.w("ElasticSearch",id);
+				Log.w("ElasticSearchFINDES",id);
 			}
 		}
 		catch (Exception e)

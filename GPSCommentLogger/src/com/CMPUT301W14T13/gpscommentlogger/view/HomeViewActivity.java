@@ -146,6 +146,7 @@ public class HomeViewActivity extends Activity {
 		client.addTask(addChild2);
 
 		Topic top3 = new Topic("Third", "User3");
+		top3.addChild(new Comment());
 		PostNewServerTask addChild3 = taskFactory.getNewPoster();
 		addChild3.setSearchTerm("ROOT");
 		addChild3.setObj(top3);
