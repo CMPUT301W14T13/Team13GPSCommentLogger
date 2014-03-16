@@ -96,7 +96,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	
 	private void selectUsername(){
 		Intent intent = new Intent(this, SelectUsernameActivity.class);
-		startActivityForResult(intent, 4);
+		startActivity(intent);
 	}
 	
 	
@@ -118,26 +118,21 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
-		intent.putExtra("current username", currentUsername);
-		//intent.putExtra("comment list", commentList);
+		intent.putExtra("code", 1);
 		
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
-	        	 //intent.putExtra("row number", -1);
-	        	 intent.putExtra("code", 1);
+	        	 
 	        	 intent.putExtra("code 2", 0);
 	        	 startActivityForResult(intent, 0);  //replying to a topic
 	             break;
 	             
 	         case R.id.comment_reply_button:
+	        	 
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
 	        	 intent.putExtra("code 2", 1);
-	        	 //int indent = topic.getChildren().get(rowNumber).getIndentLevel();
-	        	 
-	        	 intent.putExtra("code", 1);
 	        	 intent.putExtra("row number", rowNumber);
-	        	 
 	        	 startActivityForResult(intent, 1); //replying to a comment
 	        	 break;
 	        	 
@@ -181,22 +176,13 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 	}
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-			
-		
-		
-		
-		
-
-	}
-
+	
 
 	@Override
 	public void update(CommentLogger model)
 	{
 		//CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 		//commentList = cl.getCommentList();
-		
 		
 	}
 

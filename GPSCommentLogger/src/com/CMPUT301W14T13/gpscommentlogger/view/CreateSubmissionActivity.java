@@ -10,8 +10,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
@@ -56,39 +58,41 @@ public class CreateSubmissionActivity extends Activity{
         ll = new topicLocationListener();
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
         
+        rowNumber = getIntent().getIntExtra("row number", -1);
+        
 		switch(code){
 
 			case(0):
 				setContentView(R.layout.create_topic); //creating a topic
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			break;
+				getActionBar().setDisplayHomeAsUpEnabled(true);
+				break;
 
 			case(1):
 				setContentView(R.layout.create_comment); //creating a comment
-			rowNumber = getIntent().getIntExtra("row number", -1);
-			currentUsername = getIntent().getExtras().getString("current username");
-
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(currentUsername);
-			break;
+			
+				currentUsername = getIntent().getExtras().getString("current username");
+	
+				text = (EditText) findViewById(R.id.set_comment_username);
+				text.setText(currentUsername);
+				break;
 
 			//These cases are for editing a comment or topic
 			case(2):
 			case(3):
 				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
-			rowNumber = getIntent().getIntExtra("row number", -1);
-			submission = getIntent().getParcelableExtra("submission");
-
-			if (code == 3){ //The submission controller needs to check the title
-				title = submission.getTitle();
-			}
-
-			text = (EditText) findViewById(R.id.set_comment_text);
-			text.setText(submission.getCommentText());
-
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(submission.getUsername());
-			extractTextFields();
+			
+				submission = getIntent().getParcelableExtra("submission");
+	
+				if (code == 3){ //The submission controller needs to check the title
+					title = submission.getTitle();
+				}
+	
+				text = (EditText) findViewById(R.id.set_comment_text);
+				text.setText(submission.getCommentText());
+	
+				text = (EditText) findViewById(R.id.set_comment_username);
+				text.setText(submission.getUsername());
+				extractTextFields();
 
 
 		}
@@ -145,7 +149,7 @@ public class CreateSubmissionActivity extends Activity{
 		}
 
 		//Making a comment(1), editing a comment(2), or editing a topic(3)
-		if (code == 1 || code == 2 || code == 3){
+		else{
 
 			text = (EditText) findViewById(R.id.set_comment_username);
 			username = text.getText().toString().trim();
@@ -157,9 +161,9 @@ public class CreateSubmissionActivity extends Activity{
 	}
 
 
-	/* creates the comment/topic to be submitted */
+	
 	/**
-	 * creates the topic/topic to be submitted
+	 * creates the comment/topic to be submitted
 	 */
 	public void constructSubmission(){
 
@@ -213,8 +217,6 @@ public class CreateSubmissionActivity extends Activity{
 	 */
 	public void submit(View v){
 
-		Intent submit = getIntent();
-		Context context = getApplicationContext();
 		controller = new SubmissionController();
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
@@ -222,12 +224,9 @@ public class CreateSubmissionActivity extends Activity{
 		extractTextFields();
 		constructSubmission();
 
-		submission_ok = controller.checkSubmission(context, submission); //check that the submission is valid
+		submission_ok = checkSubmission(submission); //check that the submission is valid
 		if (submission_ok){
 
-			
-			
-			
 			
 			int row = rowNumber;
 			Comment prev_comment = new Comment();
@@ -241,13 +240,10 @@ public class CreateSubmissionActivity extends Activity{
 				case(0):  //reply to topic
 
 					cl.addComment((Comment) submission);
-					//commentList.add(comment);
 					cl.getCurrentTopic().incrementCommentCount();
 					break;
 
 				case(1): //reply to comment
-
-
 
 
 					if (cl.getCurrentTopic().getChildren().size() >= 1){
@@ -275,8 +271,6 @@ public class CreateSubmissionActivity extends Activity{
 					commentList.get(row).setCommentText(submission.getCommentText());
 					break;
 
-
-
 				default:
 					Log.d("onActivityResult", "Error adding comment reply");
 					
@@ -284,28 +278,22 @@ public class CreateSubmissionActivity extends Activity{
 			}
 			
 			
-				cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
-				controller.updateCommentList();
-			
-
-
-
+			cl.updateTopicChildren(commentList); //this will update the topic's children to save any changes
+			controller.updateCommentList();
 			finish();
 		}
 	}
 
 	
 	public void submitTopic(View v){
-		Intent submit = getIntent();
-		Context context = getApplicationContext();
+		
 		controller = new SubmissionController();
 		boolean submission_ok;
-		ArrayList<Viewable> commentList;
 
 		extractTextFields();
 		constructSubmission();
 
-		submission_ok = controller.checkSubmission(context, submission); //check that the submission is valid
+		submission_ok = checkSubmission(submission); //check that the submission is valid
 		if (submission_ok){
 			
 			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
@@ -315,6 +303,39 @@ public class CreateSubmissionActivity extends Activity{
 		}
 		
 		finish();
+	}
+	
+	
+	
+public boolean checkSubmission(Viewable submission){
+		
+		boolean submission_ok = true;
+		Toast toast = null;
+		Context context = getApplicationContext();
+		String text = "";
+		int duration = Toast.LENGTH_LONG;
+		
+		
+		if (submission instanceof Topic && submission.getTitle().length() == 0){
+			text += "Title cannot be blank";
+			submission_ok = false;
+		}
+		
+		if (submission.getCommentText().length() == 0){
+			text += "\nComment cannot be blank";
+			submission_ok = false;
+		}
+		
+		if (!submission_ok){
+			toast = Toast.makeText(context, text, duration);
+			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+			toast.show();
+			
+			
+		}
+		
+		return submission_ok;
+	
 	}
 }
 

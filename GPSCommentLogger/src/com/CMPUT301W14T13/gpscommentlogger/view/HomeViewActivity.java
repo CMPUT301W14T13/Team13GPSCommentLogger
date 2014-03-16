@@ -160,37 +160,9 @@ public class HomeViewActivity extends Activity {
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
 		topic.putExtra("code", 0);
-		startActivityForResult(topic, 0);
+		startActivity(topic);
 	}
 
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-/*
-		if (requestCode == 0){
-			if (resultCode == RESULT_OK){
 
-				Topic topic = (Topic) data.getParcelableExtra("Topic");
-				controller.addTopic(topic);
-				//pushTopicToServer(topic);
-			}	
-		}*/
-
-	}
-
-
-	private void pushTopicToServer(Topic topic){
-
-		//Build task object
-		ClientTask task = new ClientTask();
-
-		task.setTaskCode(ClientTaskTaskCode.POST);
-		task.setSourceCode(ClientTaskSourceCode.SERVER_DATA);
-		task.setObj(topic);
-
-		//Add task object
-		//ClientController controller = new ClientController();
-
-		//controller.addTask(task);
-
-	}
 }
