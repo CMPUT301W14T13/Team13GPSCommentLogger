@@ -63,22 +63,7 @@ public class HomeViewActivity extends Activity {
 		adapter = new CustomAdapter(this, home_view.getChildren());
 		controller.setCustomAdapter(adapter);
 		
-		//Testing: Populate ArrayList with topic objects
-		Topic top1 = new Topic("First", "User1");
-		controller.addTopic(top1);
 
-		Topic top2 = new Topic("Second", "User2");
-		controller.addTopic(top2);
-
-		Topic top3 = new Topic("Third", "User3");
-		controller.addTopic(top3);
-
-		Topic top4 = new Topic("Fourth", "User4");
-		controller.addTopic(top4);
-
-		
-		
-		
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);

@@ -32,7 +32,7 @@ public class MapViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_view);
         // problem with this action bar is Mapview has multiple parents
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         
         Intent intent = getIntent();
         double lat = intent.getDoubleExtra("lat", 53.5333);

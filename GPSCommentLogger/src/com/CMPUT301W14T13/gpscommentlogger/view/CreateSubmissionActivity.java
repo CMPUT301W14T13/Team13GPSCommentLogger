@@ -65,11 +65,25 @@ public class CreateSubmissionActivity extends Activity{
 
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-		mapLocation = gpsLocation;
-
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		ll = new topicLocationListener();
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+        mapLocation = gpsLocation;
+        
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ll = new LocationListener() {
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {		
+			}			
+			@Override
+			public void onProviderEnabled(String provider) {			
+			}			
+			@Override
+			public void onProviderDisabled(String provider) {			
+			}			
+			@Override
+			public void onLocationChanged(Location location) {
+				gpsLocation = location;				
+			}
+		};
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 
 		rowNumber = getIntent().getIntExtra("row number", -1);
 
@@ -118,32 +132,6 @@ public class CreateSubmissionActivity extends Activity{
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
 
-	private class topicLocationListener implements LocationListener {
-
-		@Override
-		public void onLocationChanged(Location location) {
-			gpsLocation = location;
-		}
-
-		@Override
-		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
 
 
 	//extract the information that the user has entered
@@ -188,8 +176,8 @@ public class CreateSubmissionActivity extends Activity{
 		if (constructCode == 0 || constructCode == 3){
 			submission = new Topic();
 			submission.setTitle(title);
-			//if map location isnt set then it will be identical to gpsLocation
-			((Topic) submission).setLocation(mapLocation);
+			
+			
 		}
 		else{
 			submission = new Comment();
@@ -197,9 +185,8 @@ public class CreateSubmissionActivity extends Activity{
 
 		submission.setUsername(username);
 		submission.setCommentText(commentText);
+		submission.setGPSLocation(mapLocation);
 
-		/* handle getting the GPS location now */
-		//submission.setGPSLocation();
 
 		//username defaults to Anonymous if left blank
 		if (username.length() == 0){
@@ -219,7 +206,7 @@ public class CreateSubmissionActivity extends Activity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
-				double latitude = data.getDoubleExtra("la t", gpsLocation.getLatitude());
+				double latitude = data.getDoubleExtra("lat", gpsLocation.getLatitude());
 				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
 				mapLocation.setLongitude(longitude);
 				mapLocation.setLatitude(latitude);

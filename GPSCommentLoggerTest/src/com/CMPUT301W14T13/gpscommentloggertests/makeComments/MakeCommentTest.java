@@ -3,19 +3,22 @@ import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.test.ActivityInstrumentationTestCase2;
+
+import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
+import com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity;
 
 @SuppressLint("NewApi")
-public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActivity> {
+public class MakeCommentTest extends ActivityInstrumentationTestCase2<CreateSubmissionActivity> {
 
 	
 	public MakeCommentTest() {
-		super(DebugActivity.class);
+		super(CreateSubmissionActivity.class);
 	}
 	
 	
@@ -28,7 +31,7 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
-		DebugActivity activity = getActivity();
+		CreateSubmissionActivity activity = getActivity();
 
 		assertNotNull(activity);
 		
@@ -69,13 +72,16 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 	 * by comparing the values used to create the comment with
 	 * what is actually in the comment
 	 */
-	public void testCommentFields(){
+	public void testMakeTopic(){
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
-		DebugActivity activity = getActivity();
+		CreateSubmissionActivity activity = getActivity();
 
 		assertNotNull(activity);
+		
+		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		CommentLoggerController controller = new CommentLoggerController(cl);
 		
 		
 		/*
@@ -90,6 +96,10 @@ public class MakeCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		String commentText = "Test comment";
 		//
 		Comment comment = new Comment(ID, username, picture, timestamp, commentText);
+		
+		
+		
+		
 		
 		assertEquals("Comment IDs should be the same", ID, comment.getID());
 		assertEquals("Usernames should be the same", username, comment.getUsername());
