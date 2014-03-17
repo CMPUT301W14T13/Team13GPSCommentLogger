@@ -8,6 +8,10 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * This is the root view that will display
+ * all top level comments.
+ */
 public class Root implements Viewable, Parcelable {
 	private String title;
 	private final String username = "default";
@@ -94,7 +98,10 @@ public class Root implements Viewable, Parcelable {
 		return timestamp;
 	}
 
-	
+	/**
+	 * Function to compare top level
+	 * comment to other.
+	 */
 	@Override
 	public boolean equals(Object other)
 	{

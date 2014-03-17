@@ -4,6 +4,10 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerDispatcher;
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
+
+/**
+ * Class creates Task objects
+ */
 public class TaskFactory {
 
 	private ServerDispatcher dispatcher;

@@ -19,7 +19,11 @@ import android.util.Log;
 import java.util.Collection;
 
 
-
+/**
+ * This class is for top level comments. It implements Viewable and
+ * Parcelable to pass/process attributes properly.
+ *
+ */
 
 public class Topic implements Viewable, Parcelable
 
