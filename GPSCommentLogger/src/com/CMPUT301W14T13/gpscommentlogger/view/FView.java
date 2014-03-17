@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.model;
+package com.CMPUT301W14T13.gpscommentlogger.view;
 
 /**
  * Taken from FillerCreepForAndroid: https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FView.java

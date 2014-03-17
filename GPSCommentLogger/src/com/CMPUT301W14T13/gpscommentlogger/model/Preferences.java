@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
+ * Credit to Ben Butzow. Taken from http://butzow.me/blog/saving-arrays-in-sharedpreferences/
+ * 
  * Class responsible for handling 
  * ArrayLists and converting them from and
  * to JSON objects

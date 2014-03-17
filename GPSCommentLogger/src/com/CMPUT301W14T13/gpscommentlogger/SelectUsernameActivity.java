@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
-import com.CMPUT301W14T13.gpscommentlogger.model.FView;
 import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
+import com.CMPUT301W14T13.gpscommentlogger.view.FView;
 
 /**
  * In this activity, the user can manage their usernames and

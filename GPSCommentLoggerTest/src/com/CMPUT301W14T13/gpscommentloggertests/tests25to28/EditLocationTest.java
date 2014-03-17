@@ -16,7 +16,7 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<DebugActi
     private static final double LNG = -122.086966;
     private static final float ACCURACY = 3.0f;
     
-    public EditLocationTest(String name) {
+    public EditLocationTest() {
 		super(DebugActivity.class);
 	}
     

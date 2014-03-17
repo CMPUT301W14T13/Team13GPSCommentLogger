@@ -9,6 +9,8 @@ package com.CMPUT301W14T13.gpscommentlogger.model;
  */
 import java.util.ArrayList;
 
+import com.CMPUT301W14T13.gpscommentlogger.view.FView;
+
 public class FModel<V extends FView> {
     private ArrayList<V> views;
 

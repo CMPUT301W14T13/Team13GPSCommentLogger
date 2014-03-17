@@ -40,7 +40,7 @@ public class DebugActivity extends Activity implements DebugActivityInterface
 	ServerController server;
 	ListView root;
 	
-	private String savePath;
+	private String savePath = "test.sav";
 	
 	private TaskFactory taskFactory;
 	
@@ -92,7 +92,7 @@ public class DebugActivity extends Activity implements DebugActivityInterface
         };
         
         Intent intent = getIntent();      
-        savePath = getFilesDir().getPath().toString() + "/GCLLocalData_" + intent.getExtras().getString("filePath") + ".sav";
+        //savePath = getFilesDir().getPath().toString() + "/GCLLocalData_" + intent.getExtras().getString("filePath") + ".sav";
         ClientServerSystem.getInstance().init(activity, savePath, textHandler, listHandler, debugWindow);
         client = ClientServerSystem.getInstance().getClient();
         server = ClientServerSystem.getInstance().getServer();
@@ -112,6 +112,16 @@ public class DebugActivity extends Activity implements DebugActivityInterface
     }
     
 
+    /**
+     * Add a comment to the root
+     * @param comment
+     */
+    /*
+    public void simulateAddComment(Viewable comment){
+    	currentComment.addChild(comment);
+    	
+    }
+    */
     public void simulateOnlineBrowseClick(int index)
     {
     	PageMockTask task = taskFactory.getNewMockBrowser();

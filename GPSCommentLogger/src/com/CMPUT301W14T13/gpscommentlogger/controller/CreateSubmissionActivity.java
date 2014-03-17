@@ -50,7 +50,6 @@ public class CreateSubmissionActivity extends Activity{
 	private String commentText;
 	private Bitmap image;
 	private ImageAttacher imageAttacher;
-	private SubmissionController controller;
 	private Viewable submission;
 	private int constructCode; //0: Creating topic, 1: Creating comment, 2,3: Editing
 	private int rowNumber;
@@ -154,7 +153,7 @@ public class CreateSubmissionActivity extends Activity{
 
 
 	//extract the information that the user has entered
-	public void extractTextFields(){
+	private void extractTextFields(){
 
 
 		//Constructing a topic(0)
@@ -215,7 +214,7 @@ public class CreateSubmissionActivity extends Activity{
 	 * Constructs the comment/topic to be submitted by checking the
 	 * construct code
 	 */
-	public void constructSubmission(){
+	private void constructSubmission(){
 
 		//Add a title if a topic is being made
 		if (constructCode == 0 || constructCode == 3){
@@ -346,7 +345,7 @@ public class CreateSubmissionActivity extends Activity{
 	 */
 	public void submit(View v){
 
-		controller = new SubmissionController();
+		
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
 
@@ -427,7 +426,7 @@ public class CreateSubmissionActivity extends Activity{
 	 */
 	public void submitTopic(View v){
 
-		controller = new SubmissionController();
+		
 		boolean submission_ok;
 
 		extractTextFields();
@@ -457,7 +456,7 @@ public class CreateSubmissionActivity extends Activity{
 	 * @param submission  the topic or comment being checked
 	 * @return  a boolean, true if it's a valid submission, false otherwise
 	 */
-	public boolean checkSubmission(Viewable submission){
+	private boolean checkSubmission(Viewable submission){
 
 		boolean submission_ok = true;
 		Toast toast = null;
@@ -494,6 +493,11 @@ public class CreateSubmissionActivity extends Activity{
 		return submission_ok;
 
 	}
+	
+	public Viewable getSubmission(){
+		return this.submission;
+	}
+	
 }
 
 
