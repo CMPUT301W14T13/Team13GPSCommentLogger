@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
@@ -64,10 +65,10 @@ public class CustomAdapter extends BaseAdapter {
 		if (vi == null){
 
 			vi = inflater.inflate(R.layout.root_comment_view, null);
-			setHomeView(vi, position, topic);
+			
 
 		}
-
+		setHomeView(vi, position, topic);
 		return vi;
 	}
 
@@ -110,6 +111,11 @@ public class CustomAdapter extends BaseAdapter {
 		/* count the number of comments in the topic*/
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
 		text.setText(topic.getCommentCount() + " comments");
+		
+		if (this.data.get(position).getHasImage()) {
+			ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+			imageView.setImageBitmap(this.data.get(position).getImage());
+		}
 		
 	
 	}

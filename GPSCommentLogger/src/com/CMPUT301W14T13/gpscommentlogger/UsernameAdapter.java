@@ -59,11 +59,12 @@ public class UsernameAdapter extends BaseAdapter {
 		if (vi == null){
 
 			vi = inflater.inflate(R.layout.username_row, null);
-			TextView text = (TextView) vi.findViewById(R.id.usernameTextView);
-			text.setText(data.get(position));
+			
 
 		}
-
+		
+		TextView text = (TextView) vi.findViewById(R.id.usernameTextView);
+		text.setText(data.get(position));
 		deleteButton = (Button) vi.findViewById(R.id.deleteButton);
 		deleteButton.setTag(position); //gives a unique tag for identifying comments
 		

@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ImageAttacher;
@@ -78,7 +79,6 @@ public class CreateSubmissionActivity extends Activity{
 		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
 		mapLocation = gpsLocation;
 
-
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		ll = new LocationListener() {
 			@Override
@@ -101,40 +101,44 @@ public class CreateSubmissionActivity extends Activity{
 
 		switch(constructCode){
 
-		case(0): // constructing a new topic
-			setContentView(R.layout.create_topic); //creating a topic
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		break;
+			case(0): // constructing a new topic
+				setContentView(R.layout.create_topic); //creating a topic
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+			break;
 
-		case(1): //constructing a new comment
-			setContentView(R.layout.create_comment); //creating a comment
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			case(1): //constructing a new comment
+				setContentView(R.layout.create_comment); //creating a comment
+			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
-		//get the user's global username so they don't have to always enter it
-		currentUsername = cl.getCurrentUsername();
-		text = (EditText) findViewById(R.id.set_comment_username);
-		text.setText(currentUsername);
-		break;
+			//get the user's global username so they don't have to always enter it
+			currentUsername = cl.getCurrentUsername();
+			text = (EditText) findViewById(R.id.set_comment_username);
+			text.setText(currentUsername);
+			break;
 
-		//These cases are for editing a comment or topic
-		case(2):
-		case(3):
-			setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+			//These cases are for editing a comment or topic
+			case(2):
+			case(3):
+				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
 
-		submission = getIntent().getParcelableExtra("submission");
+			submission = getIntent().getParcelableExtra("submission");
 
-		if (constructCode == 3){ //CheckSubmission needs to check the title
-			title = submission.getTitle();
-		}
+			if (constructCode == 3){ //CheckSubmission needs to check the title
+				title = submission.getTitle();
+			}
 
-		text = (EditText) findViewById(R.id.set_comment_text);
-		text.setText(submission.getCommentText());
+			/*
+			 * Set various text fields below from the topic so that they are displayed when editing it
+			 */
+			text = (EditText) findViewById(R.id.set_comment_text);
+			text.setText(submission.getCommentText());
 
-		text = (EditText) findViewById(R.id.set_comment_username);
-		text.setText(submission.getUsername());
-		extractTextFields();
+			text = (EditText) findViewById(R.id.set_comment_username);
+			text.setText(submission.getUsername());
+			extractTextFields();
 
-
+			//text = (EditText) findViewById(R.id.coordinates);
+			//text.setText(submission.locationString());
 		}
 	}
 
@@ -349,42 +353,42 @@ public class CreateSubmissionActivity extends Activity{
 
 			switch (submitCode){
 
-			case(0):  //reply to topic
+				case(0):  //reply to topic
 
-				cl.addComment((Comment) submission);
-			cl.getCurrentTopic().incrementCommentCount();
-			break;
+					cl.addComment((Comment) submission);
+					cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
+					break;
 
-			case(1): //reply to comment
+				case(1): //reply to comment
 
 
-				if (cl.getCurrentTopic().getChildren().size() >= 1){
-					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-					((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
-				}
+					if (cl.getCurrentTopic().getChildren().size() >= 1){
+						prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+						((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
+					}
 
-			//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-			if (((Comment) submission).getIndentLevel() <= 5){
-				prev_comment.addChild(submission);
-				cl.getCurrentTopic().incrementCommentCount();
-			}
+					//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
+					if (((Comment) submission).getIndentLevel() <= 5){
+						prev_comment.addChild(submission);
+						cl.getCurrentTopic().incrementCommentCount();
+					}
+	
+					break;
 
-			break;
+				case(2)://edit topic
 
-			case(2)://edit topic
+					cl.getCurrentTopic().setUsername(submission.getUsername());
+					cl.getCurrentTopic().setCommentText(submission.getCommentText());
+					break;
 
-				cl.getCurrentTopic().setUsername(submission.getUsername());
-			cl.getCurrentTopic().setCommentText(submission.getCommentText());
-			break;
+				case(3): //edit comment
 
-			case(3): //edit comment
+					commentList.get(row).setUsername(submission.getUsername());
+					commentList.get(row).setCommentText(submission.getCommentText());
+					break;
 
-				commentList.get(row).setUsername(submission.getUsername());
-			commentList.get(row).setCommentText(submission.getCommentText());
-			break;
-
-			default:
-				Log.d("onActivityResult", "Error adding comment reply");
+				default:
+					Log.d("onActivityResult", "Error adding comment reply");
 
 
 			}
@@ -461,7 +465,7 @@ public class CreateSubmissionActivity extends Activity{
 			submission_ok = false;
 		}
 
-		//display toast is invalid
+		//display toast if submission invalid
 		if (!submission_ok){
 			toast = Toast.makeText(context, text, duration);
 			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);

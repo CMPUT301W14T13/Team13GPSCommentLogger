@@ -37,7 +37,7 @@ public class CommentLoggerController
 
 
 		cl.getCurrentTopic().addChild(comment);
-
+		cl.notifyViews();
 	}
 
 	/**
@@ -50,25 +50,27 @@ public class CommentLoggerController
 
 
 		cl.getRoot().addChild(topic);
-		cl.notifyCustomAdapter();
+		cl.notifyViews();
 
 	}
 
-
-	public void setCommentAdapter(CommentAdapter adapter) {
-		cl.setCommentAdapter(adapter);
-	}
-
-	public void setCustomAdapter(CustomAdapter adapter) {
-		cl.setCustomAdapter(adapter);
-	}
 
 	public void updateCommentList(){
 		cl.update();
+		cl.notifyViews();
 	}
 
 	public void updateCurrentTopic(int position){
 		cl.setCurrentTopic(position);
 	}
 
+	public void updateCurrentUsername(String username){
+		cl.setCurrentUsername(username);
+	}
+	
+	public void update(){
+		cl.notifyViews();
+	}
+	
+	
 }

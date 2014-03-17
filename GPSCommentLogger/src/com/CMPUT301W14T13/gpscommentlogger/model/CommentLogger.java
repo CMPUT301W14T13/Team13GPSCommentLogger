@@ -22,11 +22,9 @@ public class CommentLogger extends FModel<FView>
 	private Root root = new Root();
 	private ArrayList<Viewable> commentList = new ArrayList<Viewable>(); //the comment list to be displayed in a topic
 	private int currentTopic;
-	private CommentAdapter commentAdapter;
-	private CustomAdapter customAdapter;
 	private boolean changed = false;
-	
 	private String currentUsername = "Anonymous";
+	
 	
 	public void setCurrentUsername(String username){
 		currentUsername = username;
@@ -40,6 +38,7 @@ public class CommentLogger extends FModel<FView>
 	public ArrayList<Viewable> getCommentList(){
 		
 		update();
+		
 		return commentList;
 	}
 	
@@ -72,12 +71,13 @@ public class CommentLogger extends FModel<FView>
 	
 	public void addComment(Comment comment){
 		root.getChildren().get(currentTopic).addChild(comment);
-		this.commentAdapter.notifyDataSetChanged();
+		notifyViews();
 	}
 	
 	
 	public void updateTopicChildren(ArrayList<Viewable> comments){
 		commentList = comments;
+		
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class CommentLogger extends FModel<FView>
 			fillTopicChildren(root.getChildren().get(currentTopic).getChildren().get(i));
 		}
 		
-		this.commentAdapter.notifyDataSetChanged();
+		
 	}
 	
 	
@@ -122,19 +122,6 @@ public class CommentLogger extends FModel<FView>
 		
 		}
 		
-	}
-	
-	
-	public void setCommentAdapter(CommentAdapter adapter) {
-		commentAdapter = adapter;
-	}
-	
-	public void setCustomAdapter(CustomAdapter adapter) {
-		customAdapter = adapter;
-	}
-	
-	public void notifyCustomAdapter(){
-		customAdapter.notifyDataSetChanged();
 	}
 	
 	public void flipChanged(){

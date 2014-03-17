@@ -17,6 +17,7 @@ import android.util.Log;
 
 
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -362,5 +363,23 @@ public class Topic implements Viewable, Parcelable
 	
 	public int getCommentCount(){
 		return commentCount;
+	}
+	
+	public String getDateDiff(Date previous, Date current) {
+	    long diffInMillies = current.getTime() - previous.getTime();
+	    
+	    if (diffInMillies >= 0 && diffInMillies < 60000)
+	    	return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago");
+	    else if (diffInMillies >= 60000 && diffInMillies < 3600000)
+	    	return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago");
+	    else if (diffInMillies >= 3600000 && diffInMillies < 24*3600000)
+	    	return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago");
+	    else if (diffInMillies >= 24*3600000 && diffInMillies < 24*30*3600000)
+	    	return String.valueOf(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" days ago");
+	    else if (diffInMillies >= 24*30*3600000 && diffInMillies < 24*30*12*3600000)
+	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago");
+	    else
+	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
+	    
 	}
 }

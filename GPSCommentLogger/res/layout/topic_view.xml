@@ -51,11 +51,11 @@
                 android:layout_weight="1"
                 android:ellipsize="marquee"
                 android:gravity="left"
-                android:singleLine="true"
+                
                 android:text="coord"
                 android:textColor="#666666" />
 
-            <TextView
+           <!--   <TextView
                 android:id="@+id/bullet1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="@string/bullet"
-                android:textColor="#666666" />
+                android:textColor="#666666" /> -->
 
             <TextView
                 android:id="@+id/age"
@@ -76,22 +76,19 @@
                 android:textColor="#666666" />
 
             <TextView
-                android:id="@+id/bullet2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:ellipsize="marquee"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/bullet"
-                android:textColor="#666666" />
-
-            <TextView
                 android:id="@+id/number_of_comments"
                 android:gravity="left"
                 android:text="#comments"
                 android:textColor="#666666" />
         </TableRow>
-
+		
+        <TableRow >
+            <ImageView
+                android:id="@+id/commentImage" 
+                android:layout_marginTop="10dp"                
+                />
+        </TableRow>
+        
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
@@ -102,30 +99,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                
                 android:text="Comment" />
             
-            <Button
-         android:id="@+id/topic_edit_button"
-         style="?android:attr/buttonStyleSmall"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignTop="@+id/topic_reply_button"
-         android:layout_toLeftOf="@+id/topic_reply_button"
-          android:onClick="edit"
-         android:text="Edit"/>
-         
-         <Button
-        android:id="@+id/topic_reply_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/topic_comment"
-        android:layout_marginTop="16dp"
-        android:onClick="reply"
-        android:text="Reply" />
+            
         </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/topic_edit_button"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="edit"
+                android:text="Edit" />
+
+            <Button
+                android:id="@+id/topic_reply_button"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="reply"
+                android:text="Reply" />
+        </TableRow>
+
     </TableLayout>
 
     <View

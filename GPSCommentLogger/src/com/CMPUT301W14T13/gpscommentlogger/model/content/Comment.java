@@ -353,10 +353,9 @@ public class Comment implements Viewable, Parcelable
 		return indentLevel;
 	}
 
-	@Override
+	/* return GPS coordinates as a string */
 	public String locationString() {
-		// TODO Auto-generated method stub
-		return null;
+	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
 	}
 
 
