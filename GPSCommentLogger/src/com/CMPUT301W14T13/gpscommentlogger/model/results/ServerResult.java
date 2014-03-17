@@ -3,7 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model.results;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 /**
- * Mock full result 
+ * Mock full server result 
  *
  */
 public class ServerResult implements Result

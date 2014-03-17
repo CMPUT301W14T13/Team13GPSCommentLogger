@@ -2,6 +2,10 @@ package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 
+/**
+ * Specialized Task class for
+ * local tasks.
+ */
 public abstract class LocalTask extends Task {
 
 	protected DataManager manager;
