@@ -206,9 +206,6 @@ public class CreateSubmissionActivity extends Activity{
 
 	}
 
-	//extract image if user has selected one
-
-
 
 	/**
 	 * Constructs the comment/topic to be submitted by checking the
@@ -240,6 +237,7 @@ public class CreateSubmissionActivity extends Activity{
 		
 		if (image != null) {
 			submission.setImage(image);
+			Log.d("Image Attach", "Image Attached! " + image.toString());
 		}
 
 	}
@@ -250,12 +248,10 @@ public class CreateSubmissionActivity extends Activity{
 	 * if conditions are satisfied
 	 */
 	public void attachImage(View view) {
-		Log.d("Image Attach", "Starting Intent");
+		Log.d("Image Attach", "Starting Image Attachment Intent");
 		Intent intent = new Intent();
 		intent.setType("image/*");
-		Log.d("Image Attach", "Set Type");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		Log.d("Image Attach", "Start Activity for Result");
 		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
 	}
 
@@ -278,13 +274,10 @@ public class CreateSubmissionActivity extends Activity{
 		}
 		
 		if (requestCode == PICK_FROM_FILE) {
-			Log.d("Image Attach", "Returned From Activity");
 			Uri selectedImageUri = data.getData();
-			Log.d("Image Attach", "Got Uri" + selectedImageUri.toString());
 			
 			
 			try {
-				Log.d("Image Attach", "Attempting Bitmap Get");
 				image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

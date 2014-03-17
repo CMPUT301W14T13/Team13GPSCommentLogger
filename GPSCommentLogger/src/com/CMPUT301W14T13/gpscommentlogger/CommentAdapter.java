@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
@@ -80,6 +81,12 @@ public class CommentAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
+		/* show bitmap */
+		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		if (comment.getHasImage()) {
+			imageView.setImageBitmap(comment.getImage());
+		}
+		
 		replyButton = (ImageButton) vi.findViewById(R.id.comment_reply_button);
 		replyButton.setTag(position); //gives a unique tag for identifying comments
 
@@ -121,6 +128,8 @@ public class CommentAdapter extends BaseAdapter {
 
 		text = (TextView) vi.findViewById(R.id.commentText);
 		text.setText(String.valueOf(data.get(position).getCommentText()));
+		
+		
 	}
 
 	

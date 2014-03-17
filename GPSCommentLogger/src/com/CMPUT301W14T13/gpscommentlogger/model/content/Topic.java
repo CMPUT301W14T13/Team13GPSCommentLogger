@@ -169,6 +169,7 @@ public class Topic implements Viewable, Parcelable
 	@Override
 	public void setImage(Bitmap picture) {
 		this.image = picture;
+		this.hasImage = true;
 		
 	}
 
@@ -326,9 +327,6 @@ public class Topic implements Viewable, Parcelable
 		return null;
 	}
 
-	public boolean isHasImage() {
-		return hasImage;
-	}
 
 	public boolean getHasImage() {
 		/* return image != null; */

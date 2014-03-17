@@ -112,9 +112,10 @@ public class CustomAdapter extends BaseAdapter {
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
 		text.setText(topic.getCommentCount() + " comments");
 		
-		if (this.data.get(position).getHasImage()) {
-			ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
-			imageView.setImageBitmap(this.data.get(position).getImage());
+		/* show bitmap */
+		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		if (topic.getHasImage()) {			
+			imageView.setImageBitmap(topic.getImage());
 		}
 		
 	

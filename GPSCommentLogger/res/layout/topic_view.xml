@@ -81,13 +81,6 @@
                 android:text="#comments"
                 android:textColor="#666666" />
         </TableRow>
-		
-        <TableRow >
-            <ImageView
-                android:id="@+id/commentImage" 
-                android:layout_marginTop="10dp"                
-                />
-        </TableRow>
         
         <TableRow
             android:id="@+id/tableRow1"
@@ -103,6 +96,15 @@
                 android:text="Comment" />
             
             
+        </TableRow>
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/commentImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
         </TableRow>
 
         <TableRow

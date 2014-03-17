@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -133,6 +134,12 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 		text = (TextView) findViewById(R.id.number_of_comments);
 		text.setText(String.valueOf(currentTopic.getCommentCount()) + " comments");
+		
+		/* show bitmap */
+		ImageView imageView = (ImageView) findViewById(R.id.commentImage);
+		if (cl.getCurrentTopic().getHasImage()) {
+			imageView.setImageBitmap(cl.getCurrentTopic().getImage());
+		}
 		
 	}
 	

@@ -170,6 +170,7 @@ public class Comment implements Viewable, Parcelable
 	@Override
 	public void setImage(Bitmap image) {
 		this.image = image;
+		this.hasImage = true;
 		
 	}
 
