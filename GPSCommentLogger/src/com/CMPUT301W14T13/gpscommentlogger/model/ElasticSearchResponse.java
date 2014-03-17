@@ -1,5 +1,12 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
+
+/**
+ * Object to hold and organize
+ * one elastic search result
+ *
+ * @param <T>
+ */
 public class ElasticSearchResponse<T> {
     String _index;
     String _type;

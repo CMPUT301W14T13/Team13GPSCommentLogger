@@ -10,10 +10,12 @@ import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-//This method searches for the ID and updates
-//the version in the elasticSearch versioning system 
-//to the new state provided by the client
+/**
+* Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
+* This class's method searches for the ID and updates
+* the version in the elasticSearch versioning system 
+* to the new state provided by the client
+*/
 
 public class LocationUpdateServerTask extends UpdateServerTask {
 

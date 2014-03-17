@@ -7,6 +7,10 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
 import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 
+/**
+ * Mock task for updating server, 
+ * made for testing purposes
+ */
 public abstract class UpdateServerTask extends ServerTask {
 
 	public UpdateServerTask(ServerDispatcher dispatcher) {

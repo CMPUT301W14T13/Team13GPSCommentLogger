@@ -9,12 +9,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
@@ -52,13 +54,10 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         cl = CommentLoggerApplication.getCommentLogger();
         controller = new CommentLoggerController(cl);
         
-        
         adapter = new CommentAdapter(this, cl.getCommentList());
         commentListview = (ListView) findViewById(R.id.comment_list);
         commentListview.setAdapter(adapter);
        
-        
-        
 		cl.addView(this);
 	}
 	
@@ -133,6 +132,12 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 		text = (TextView) findViewById(R.id.number_of_comments);
 		text.setText(String.valueOf(currentTopic.getCommentCount()) + " comments");
+		
+		/* show bitmap */
+		ImageView imageView = (ImageView) findViewById(R.id.commentImage);
+		if (cl.getCurrentTopic().getHasImage()) {
+			imageView.setImageBitmap(cl.getCurrentTopic().getImage());
+		}
 		
 	}
 	
@@ -212,8 +217,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	         case R.id.comment_edit_button:
 	        	 
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 comment = (Comment) commentList.get(rowNumber);
-	        	 
+	        	
 	        	 intent.putExtra("construct code", 2); //constructing an edited comment
 	        	 intent.putExtra("submit code", 3); //editing a comment
 	        	 intent.putExtra("row number", rowNumber);

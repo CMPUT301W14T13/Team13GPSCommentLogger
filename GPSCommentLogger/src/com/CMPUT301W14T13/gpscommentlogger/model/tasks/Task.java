@@ -4,6 +4,11 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.model.TransferBundle;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
+/**
+ * Tasks contain server execution commands
+ * (eg. server object request)
+ * that are passed to controllers.
+ */
 
 public abstract class Task implements TransferBundle
 {

@@ -19,6 +19,10 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 //import com.google.inject.TypeLiteral;
 
+/**
+ * Specialized serializer for our
+ * Viewable object
+ */
 public class MapOfInterfacesSerializer implements
 	JsonSerializer<HashMap<String,Viewable>>, JsonDeserializer<HashMap<String,Viewable>>{
 

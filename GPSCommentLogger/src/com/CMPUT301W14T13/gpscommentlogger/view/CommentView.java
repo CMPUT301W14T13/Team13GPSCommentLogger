@@ -4,6 +4,12 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
+/**
+ * View deals with sorting, replying to,
+ * adding to read-later, adding to favorites,
+ * and editing of Comment objects.
+ *
+ */
 public class CommentView
 {
 

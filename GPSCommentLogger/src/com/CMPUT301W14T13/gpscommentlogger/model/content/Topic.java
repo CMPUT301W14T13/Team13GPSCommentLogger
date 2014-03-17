@@ -20,7 +20,11 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 
-
+/**
+ * This class is for top level comments. It implements Viewable and
+ * Parcelable to pass/process attributes properly.
+ *
+ */
 
 public class Topic implements Viewable
 
@@ -165,6 +169,7 @@ public class Topic implements Viewable
 	@Override
 	public void setImage(Bitmap picture) {
 		this.image = picture;
+		this.hasImage = true;
 		
 	}
 
@@ -326,7 +331,6 @@ public class Topic implements Viewable
 		return null;
 	}
 
-	
 	public boolean getHasImage() {
 		/* return image != null; */
 		return hasImage;

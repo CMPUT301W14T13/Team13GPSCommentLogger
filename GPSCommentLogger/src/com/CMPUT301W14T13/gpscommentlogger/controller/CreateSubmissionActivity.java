@@ -1,29 +1,34 @@
-package com.CMPUT301W14T13.gpscommentlogger.view;
+package com.CMPUT301W14T13.gpscommentlogger.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity;
 
 
 /**
@@ -43,6 +48,8 @@ public class CreateSubmissionActivity extends Activity{
 	private String username;
 	private String title;
 	private String commentText;
+	private Bitmap image;
+	private ImageAttacher imageAttacher;
 	private SubmissionController controller;
 	private Viewable submission;
 	private int constructCode; //0: Creating topic, 1: Creating comment, 2,3: Editing
@@ -55,6 +62,7 @@ public class CreateSubmissionActivity extends Activity{
 	private LocationManager lm; 
 	private LocationListener ll;
 	private static final int REQUEST_CODE = 1;
+	private static final int PICK_FROM_FILE = 2;
 
 	@Override
 
@@ -69,7 +77,6 @@ public class CreateSubmissionActivity extends Activity{
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
 		mapLocation = gpsLocation;
-
 
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		ll = new LocationListener() {
@@ -113,10 +120,10 @@ public class CreateSubmissionActivity extends Activity{
 			case(3):
 				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
 			cl = CommentLoggerApplication.getCommentLogger();
-			
+
 
 			if (constructCode == 3){ //CheckSubmission needs to check the title
-				
+
 				submission = cl.getCurrentTopic();
 				title = submission.getTitle();
 			}
@@ -144,7 +151,6 @@ public class CreateSubmissionActivity extends Activity{
 		super.onResume();
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
-
 
 
 	//extract the information that the user has entered
@@ -175,8 +181,34 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
-	}
 
+		//Constructing a topic(0)
+		if (constructCode == 0){
+
+			//only get the title if it's a topic
+			text = (EditText) findViewById(R.id.setTitle);
+			title = text.getText().toString().trim();
+
+			text = (EditText) findViewById(R.id.setTopicUsername);
+			username = text.getText().toString().trim();
+
+			text = (EditText) findViewById(R.id.setTopicText);
+			commentText = text.getText().toString().trim();
+		}
+
+		//Constructing a comment(1), editing a comment(2), or editing a topic(3)
+		else{
+
+			text = (EditText) findViewById(R.id.set_comment_username);
+			username = text.getText().toString().trim();
+
+			text = (EditText) findViewById(R.id.set_comment_text);
+			commentText = text.getText().toString().trim();
+		}
+
+
+
+	}
 
 
 	/**
@@ -207,6 +239,24 @@ public class CreateSubmissionActivity extends Activity{
 
 		}
 
+		if (image != null) {
+			submission.setImage(image);
+			Log.d("Image Attach", "Image Attached! " + image.toString());
+		}
+
+	}
+
+	/**
+	 * Start intent for user to select
+	 * image from gallery and return bitmap
+	 * if conditions are satisfied
+	 */
+	public void attachImage(View view) {
+		Log.d("Image Attach", "Starting Image Attachment Intent");
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
 	}
 
 	public void openMap(View view) {
@@ -216,6 +266,7 @@ public class CreateSubmissionActivity extends Activity{
 		startActivityForResult(map, REQUEST_CODE);
 	}
 
+	@SuppressLint("NewApi")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
@@ -223,8 +274,47 @@ public class CreateSubmissionActivity extends Activity{
 				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
 				mapLocation.setLongitude(longitude);
 				mapLocation.setLatitude(latitude);
-			}	
+			}
 		}
+
+		if (requestCode == PICK_FROM_FILE) {
+			if (resultCode == RESULT_OK){
+
+				Uri selectedImageUri = data.getData();
+
+
+				try {
+					image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+
+				Log.d("Image Attach", "Image received: " + image.toString());
+				ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
+
+				// Check if image satisfies size conditions
+				int imageSize = image.getByteCount();
+				Log.d("Image Attach", "Image size is: " + imageSize);
+
+				if (imageSize < 102401) {
+					attachButton.setImageBitmap(image);
+					Log.d("Image Attach", "Image size safe");
+				}
+				else {
+					image = null;
+					Log.d("Image Attach", "Image size unsafe");
+					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
+							Toast.LENGTH_LONG).show();
+				}
+
+			}
+		}
+
 	}
 
 	/**
@@ -267,8 +357,8 @@ public class CreateSubmissionActivity extends Activity{
 				case(0):  //reply to topic
 
 					cl.addComment((Comment) submission);
-					cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
-					break;
+				cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
+				break;
 
 				case(1): //reply to comment
 
@@ -283,14 +373,15 @@ public class CreateSubmissionActivity extends Activity{
 						prev_comment.addChild(submission);
 						cl.getCurrentTopic().incrementCommentCount();
 					}
-	
-					break;
+
+				break;
 
 				case(2)://edit topic
 
 					cl.getCurrentTopic().setUsername(submission.getUsername());
 					cl.getCurrentTopic().setCommentText(submission.getCommentText());
 					cl.getCurrentTopic().setLocation(submission.getGPSLocation());
+					cl.getCurrentTopic().setImage(submission.getImage());
 					break;
 
 				case(3): //edit comment
@@ -298,6 +389,7 @@ public class CreateSubmissionActivity extends Activity{
 					commentList.get(row).setUsername(submission.getUsername());
 					commentList.get(row).setCommentText(submission.getCommentText());
 					commentList.get(row).setGPSLocation(submission.getGPSLocation());
+					commentList.get(row).setImage(submission.getImage());
 					break;
 
 				default:

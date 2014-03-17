@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
@@ -99,6 +100,12 @@ public class CustomAdapter extends BaseAdapter {
 		/* count the number of comments in the topic*/
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
 		text.setText(topic.getCommentCount() + " comments");
+		
+		/* show bitmap */
+		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		if (topic.getHasImage()) {			
+			imageView.setImageBitmap(topic.getImage());
+		}
 		
 	
 	}

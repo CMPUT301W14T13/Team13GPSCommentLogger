@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity;
 
 
 @SuppressLint("NewApi")

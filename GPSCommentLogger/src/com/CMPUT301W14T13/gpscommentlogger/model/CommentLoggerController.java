@@ -17,13 +17,22 @@ public class CommentLoggerController
 
 	private CommentLogger cl = null;
 
-
+	/**
+	 * Initializes CommentLoggerController
+	 * with default c1
+	 * 
+	 * @param cl
+	 */
 	public CommentLoggerController(CommentLogger cl) {
 		this.cl = cl;
 
 	}
 
-
+	/**
+	 * Function adds a comment to a topic
+	 * 
+	 * @param comment
+	 */
 	public void addTopicChild(Comment comment) {
 
 
@@ -31,6 +40,12 @@ public class CommentLoggerController
 		cl.notifyViews();
 	}
 
+	/**
+	 * Function adds topic to
+	 * list of topics in root
+	 * 
+	 * @param topic
+	 */
 	public void addTopic(Topic topic) {
 
 

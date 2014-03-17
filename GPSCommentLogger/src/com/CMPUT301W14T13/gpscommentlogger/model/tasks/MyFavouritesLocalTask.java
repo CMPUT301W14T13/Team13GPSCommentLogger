@@ -2,6 +2,11 @@ package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 
+/**
+ * Task for testing local favorites
+ * topic listings.
+ *
+ */
 public class MyFavouritesLocalTask extends LocalTask {
 
 	public MyFavouritesLocalTask(DataManager manager) {

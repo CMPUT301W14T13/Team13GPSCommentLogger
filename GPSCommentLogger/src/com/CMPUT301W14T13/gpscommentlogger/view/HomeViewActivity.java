@@ -20,6 +20,7 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
