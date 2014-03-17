@@ -2,13 +2,18 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -18,17 +23,24 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerResult;
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.Task;
+import com.CMPUT301W14T13.gpscommentlogger.model.ElasticSearchResponse;
+import com.CMPUT301W14T13.gpscommentlogger.model.ElasticSearchSearchResponse;
+import com.CMPUT301W14T13.gpscommentlogger.model.InterfaceSerializer;
+import com.CMPUT301W14T13.gpscommentlogger.model.ServerContext;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.Task;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 
 public class ServerController extends Controller
 {
 	//store references to auxiliary classes
-	private ClientDispatcher dispatcher;
+	private ClientDispatcher dispatcher; 
 	private ClientListener listener;
 	
 	//store reference to client
@@ -42,8 +54,9 @@ public class ServerController extends Controller
 	protected Handler handler;
 	
 	//store web communication information
-	private static String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/";
-
+	private static String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
+	private static ServerContext context = new ServerContext(WEB_URL);
+	
 	public ServerController(Handler handler, TextView debuggingWindow)
 	{
 		isInit = false;
@@ -56,12 +69,15 @@ public class ServerController extends Controller
 	public void init()
 	{
 		if (isInit) return;
-		
-		dispatcher = new ClientDispatcher(client);
 		listener = new ClientListener(this);
 		listener.start();
 		isInit = true;
 
+	}
+	
+	public void setPipes()
+	{
+		dispatcher = new ClientDispatcher(client.getListener());
 	}
 
 	@Override
@@ -100,67 +116,17 @@ public class ServerController extends Controller
 		notify();
 	}
 	
-	protected Result doTask()
+	protected Result doTask() throws InterruptedException
 	{
+		//TODO: Bitmap serialization?
 		ServerTask currentTask = (ServerTask)tasks.remove(0);
-		Result out = new ServerResult();
 		
-		switch(currentTask.getCode())
-		{
-			case DELETE:
-				throw new UnsupportedOperationException("Delete from server has not been implemented.");
-			case INSERT:
-				out = processInsertRequest(currentTask);
-				break;
-			case SEARCH:
-				throw new UnsupportedOperationException("Search the server has not been implemented.");
-			case UPDATE:
-				throw new UnsupportedOperationException("Update the server has not been implemented.");
-			default:
-				throw new IllegalArgumentException("This should never happen. ServerTaskCode error!!!");
-		}
-		
-		return out;
-	}
-	
-	private ServerResult processInsertRequest(ServerTask currentTask) {
-		ServerResult result = new ServerResult();
-
-		Gson gson = new Gson();
-		HttpClient client = new DefaultHttpClient();
-		HttpPost request = new HttpPost(WEB_URL);
-
-		try
-		{
-			String jsonString = gson.toJson(currentTask.getObj());
-			request.setEntity(new StringEntity(jsonString));
-
-			HttpResponse response = client.execute(request);
-			Log.w("ElasticSearch", response.getStatusLine().toString());
-
-			HttpEntity entity = response.getEntity();
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-			String output = reader.readLine();
-			while(output != null)
-			{
-				Log.w("ElasticSearch", output);
-				output = reader.readLine();
-			}
-			
-			result.setContent(output);
-		} 
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return result;
+		return currentTask.executeOnServer(context);
 	}
 
 	protected void processResult(Result result)
 	{
-		client.registerResult(result);
+		dispatcher.dispatch((ServerResult)result);
 	}
 
 	public void setClient(ClientController client)
@@ -179,5 +145,8 @@ public class ServerController extends Controller
 		handler.dispatchMessage(msg);
 	}
 	
+	public ClientListener getListener(){
+		return listener;
+	}
 
 }

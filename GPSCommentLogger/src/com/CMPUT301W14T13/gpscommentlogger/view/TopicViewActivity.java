@@ -4,41 +4,62 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
+import com.CMPUT301W14T13.gpscommentlogger.model.FView;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 
 
-public class TopicViewActivity extends Activity
+/**
+ * TopicViewActivity is where the user can view the topic that they selected
+ * from HomeViewActivity. Here they can comment, edit their comments, and
+ * select a global username.
+ * 
+ * @author Austin
+ *
+ */
+public class TopicViewActivity extends Activity implements FView<CommentLogger> 
 
 {
 
-
-	private Topic topic = new Topic();
-	private ArrayList<Viewable> comments;
-	
+	private ArrayList<Viewable> commentList = new ArrayList<Viewable>(); //the list of comments to display
+	private Comment comment = new Comment();
 	private ListView commentListview;
+	private CommentAdapter adapter; //adapter to display the comments
+	private CommentLogger cl; // our model
+	private CommentLoggerController controller;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_view);
         
-        topic = (Topic) getIntent().getParcelableExtra("Topic");
+        cl = CommentLoggerApplication.getCommentLogger();
+        controller = new CommentLoggerController(cl);
         
-        comments = new ArrayList<Viewable>();
-        topic.setChildren(comments); //initialize children
+        adapter = new CommentAdapter(this, commentList);
+        controller.setCommentAdapter(adapter);
+        commentList = cl.getCommentList(); //get the comment list to be displayed
         
         commentListview = (ListView) findViewById(R.id.comment_list);
+        adapter = new CommentAdapter(this, commentList);
+        
+		cl = CommentLoggerApplication.getCommentLogger();
+		cl.addView(this);
 	}
 	
 	
@@ -46,42 +67,94 @@ public class TopicViewActivity extends Activity
 		super.onResume();
 		
 		fillTopicLayout();
-		
+		commentListview.setAdapter(adapter);
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.topic_action_bar, menu);
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	/**
+	 * There will be a select username option on the action bar
+	 * which takes the user to an activity to manage their
+	 * usernames.
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.action_select_username:
+			selectUsername();
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	
+	private void selectUsername(){
+		Intent intent = new Intent(this, SelectUsernameActivity.class);
+		startActivity(intent);
+	}
 	
+	/**
+	 * Sets the various text fields in the topic 
+	 */
 	public void fillTopicLayout(){
 		
 		TextView text = (TextView) findViewById(R.id.topic_username);
-		text.setText(topic.getUsername());
+		text.setText(cl.getCurrentTopic().getUsername());
 		
 		text = (TextView) findViewById(R.id.topic_comment);
-		text.setText(topic.getCommentText());
+		text.setText(cl.getCurrentTopic().getCommentText());
 		
 		text = (TextView) findViewById(R.id.topic_title);
-		text.setText(topic.getTitle());
+		text.setText(cl.getCurrentTopic().getTitle());
 		
-		commentListview.setAdapter(new CommentAdapter(this, topic.getChildren()));
+		
 	}
 	
+	/**
+	 * When the user hits a reply button, it can either be a reply to the topic
+	 * or a reply to a comment. Since there is a separate button for each comment,
+	 * they have tags which were set in CommentAdapter. This row number is then passed
+	 * along into CreateSubmissonActivity so it can get the proper parent comment
+	 * and add a child comment to it. It also passes a construct code which tells
+	 * the activity how to construct the submission. In this case, it will be 
+	 * constructing a comment. A submit code is passed as well which tells the
+	 * activity what is being submitted and how to add it to the proper parent comment
+	 * or topic.
+	 * 
+	 * 
+	 * @param v	 the view for the reply button
+	 * @throws InterruptedException when an incorrect id is found
+	 */
 	public void reply(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(this, CreateCommentActivity.class);
+		Intent intent = new Intent(this, CreateSubmissionActivity.class);
 		int rowNumber;
+		intent.putExtra("construct code", 1); //construct a comment
 		
-				
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
-	        	 //intent.putExtra("row number", -1);
-	        	 startActivityForResult(intent, 0);  //replying to a topic
+	        	 
+	        	 intent.putExtra("submit code", 0); //replying to a topic
+	        	 startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_reply_button:
+	        	 
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
+	        	 intent.putExtra("submit code", 1); //replying to a comment
 	        	 intent.putExtra("row number", rowNumber);
-	        	 startActivityForResult(intent, 1); //replying to a comment
+	        	 startActivity(intent); //replying to a comment
 	        	 break;
 	        	 
 	         default:
@@ -91,39 +164,62 @@ public class TopicViewActivity extends Activity
 		
 	}
 	
-	
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-			
-		int row;
+	/**
+	 * When the user hits an edit button, they can either be editing the topic
+	 * or editing a comment. Since there is a separate button for each comment,
+	 * they have tags which were set in CommentAdapter. This row number is then passed
+	 * along into CreateSubmissonActivity so it can get the proper comment
+	 * and edit it. It also passes a construct code which tells
+	 * the activity how to construct the edited submission. In this case, it will be 
+	 * editing a topic or comment. A submit code is passed as well which tells the
+	 * activity what is being submitted and how to edit it properly.
+	 * 
+	 * 
+	 * @param v	 the view for the edit button
+	 * @throws InterruptedException when an incorrect id is found
+	 */
+	public void edit(View v) throws InterruptedException{
 		
-		Comment comment = (Comment) data.getParcelableExtra("comment");
-		comments = new ArrayList<Viewable>();
-		comment.setChildren(comments); //initialize children
+		Intent intent = new Intent(this, CreateSubmissionActivity.class);
+		int rowNumber;
 		
 				
-		if (resultCode == RESULT_OK){
-				
-			switch (requestCode){
-				
-			case(0):  //reply to topic
-				topic.getChildren().add(comment);
-				break;
-				
-			case(1): //reply to comment
-				row = data.getIntExtra("row number", -1);
-				topic.getChildren().get(row).getChildren().add(comment);
-				break;
-				
-			 default:
-				Log.d("onActivityResult", "Error adding comment reply");
-			}
-			
-		}
-			
-		//update the listview after the reply has been added
-		((BaseAdapter) commentListview.getAdapter()).notifyDataSetChanged();
+		 switch (v.getId()) {
+		 
+	         case R.id.topic_edit_button:
+	        	 Topic topic = new Topic();
+	        	 intent.putExtra("construct code", 3); // constructing an edited topic
+	        	 intent.putExtra("submit code", 2);  //editing a topic
+	        	 intent.putExtra("submission", topic); //pass the topic to be edited
+	        	 startActivity(intent); 
+	             break;
+	             
+	         case R.id.comment_edit_button:
+	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
+	        	 comment = (Comment) commentList.get(rowNumber);
+	        	 
+	        	 intent.putExtra("construct code", 2); //constructing an edited comment
+	        	 intent.putExtra("submit code", 3); //editing a comment
+	        	 intent.putExtra("row number", rowNumber);
+	        	 intent.putExtra("submission", comment); //pass the comment to be edited
+	        	 startActivity(intent); 
+	        	 break;
+	        	 
+	         default:
+	 			throw new InterruptedException("Invalid button press");
+		 }
+		 
 		
+	}
 
+	
+
+	@Override
+	public void update(CommentLogger model)
+	{
+		//CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		//commentList = cl.getCommentList();
+		
 	}
 
 }

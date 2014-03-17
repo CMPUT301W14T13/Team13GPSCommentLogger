@@ -5,17 +5,20 @@ import java.util.ArrayList;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
+import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerController;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
-import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.MyFavouritesLocalTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.MySavesLocalTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PageMockTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostMockTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class DebugActivity extends Activity
+public class DebugActivity extends Activity implements DebugActivityInterface
 {
 	Handler textHandler;
 	Handler listHandler;
@@ -36,6 +39,10 @@ public class DebugActivity extends Activity
 	ClientController client;
 	ServerController server;
 	ListView root;
+	
+	private String savePath;
+	
+	private TaskFactory taskFactory;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +91,16 @@ public class DebugActivity extends Activity
             }
         };
         
-        //TODO: Add parceable to DebugActivity with String of file name;
-        //pass this string to next call as "saveLocation"
-        //ClientServerSystem.getInstance().init(activity, saveLocation, textHandler, listHandler, debugWindow);
+        Intent intent = getIntent();      
+        savePath = getFilesDir().getPath().toString() + "/GCLLocalData_" + intent.getExtras().getString("filePath") + ".sav";
+        ClientServerSystem.getInstance().init(activity, savePath, textHandler, listHandler, debugWindow);
         client = ClientServerSystem.getInstance().getClient();
         server = ClientServerSystem.getInstance().getServer();
         
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj("root");
+        taskFactory = new TaskFactory(client.getDispatcher(), client.getMockup(), client.getDataManager());
+        
+    	PageMockTask task = taskFactory.getNewMockBrowser();
+    	task.setSearchTerm("root");
     	client.addTask(task);
   	
         
@@ -107,50 +114,24 @@ public class DebugActivity extends Activity
 
     public void simulateOnlineBrowseClick(int index)
     {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(contentList.get(index).getID());
+    	PageMockTask task = taskFactory.getNewMockBrowser();
+    	task.setSearchTerm(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
     
     public void simulateOfflineSaveBrowseClick(int index)
     {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_SAVES);
-    	task.setObj(contentList.get(index).getID());
+    	MySavesLocalTask task = taskFactory.getNewSavesBrowser();
+    	task.setSearchTerm(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
     
     public void simulateOfflineFavouriteBrowseClick(int index)
     {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.BROWSE);
-    	task.setSourceCode(ClientTaskSourceCode.LOCAL_DATA_FAVOURITES);
-    	task.setObj(contentList.get(index).getID());
-    	
-    	client.addTask(task);
-    }
-    
-    public void simulatePostTopic(Topic topic){
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.POST);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(topic);
-    	
-    	client.addTask(task);
-    	
-    }
-    
-    public void simulatePostComment(Comment comment)
-    {
-    	ClientTask task = new ClientTask();
-    	task.setTaskCode(ClientTaskTaskCode.POST);
-    	task.setSourceCode(ClientTaskSourceCode.MOCK_DATA_ENTITY);
-    	task.setObj(comment);
+    	MyFavouritesLocalTask task = taskFactory.getNewFavouriteBrowser();
+    	task.setSearchTerm(contentList.get(index).getID());
     	
     	client.addTask(task);
     }
@@ -178,9 +159,19 @@ public class DebugActivity extends Activity
 		client.forceChangeOnline(title);
 	}
 	
+	public DataManager getDataManager(){
+		return client.getDataManager();
+	}
+	
+	public String getSavePath()
+	{
+		return savePath;
+	}
+	
 	public void forceChangeOffline(String title)
 	{
 		client.forceChangeOffline(title);
 	}
+	
 	
 }

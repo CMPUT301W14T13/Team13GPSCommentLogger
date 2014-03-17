@@ -1,18 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp" >
 
-    <TextView
-        android:id="@+id/comment_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Username" />
 
-    <ImageButton
+    <View
+        android:id="@+id/left_indent1"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="4dp" 
+        android:background="@android:color/black"/>
+	
+    <View
+        android:id="@+id/left_indent2"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="4dp" 
+        android:background="@android:color/black"/>
+
+    <View
+        android:id="@+id/left_indent3"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="4dp" 
+        android:background="@android:color/black"/>
+
+    <View
+        android:id="@+id/left_indent4"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="4dp" 
+        android:background="@android:color/black"/>
+
+    <View
+        android:id="@+id/left_indent5"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="4dp" 
+        android:background="@android:color/black"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="107dp" >
+
+        <TextView
+            android:id="@+id/comment_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Username" />
+
+        <ImageButton
         android:id="@+id/comment_reply_button"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -24,7 +69,7 @@
         android:src="@drawable/reply"
         android:text="Reply" />
 
-    <TextView
+        <TextView
         android:id="@+id/commentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,4 +77,25 @@
         android:layout_alignParentLeft="true"
         android:text="Comment" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/comment_edit_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/comment_reply_button"
+            android:layout_alignBottom="@+id/comment_reply_button"
+            android:layout_toLeftOf="@+id/comment_reply_button"
+            android:onClick="edit"
+            android:text="Edit" />
+    </RelativeLayout>
+
+</LinearLayout>
+
+    
+
+    
+
+    
+
+
+

@@ -1,9 +1,9 @@
 package com.CMPUT301W14T13.gpscommentloggertests;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugAct
 		
 		Log.w("DebugBrowsing", "Current is: " + activity.getCurrentComment().getID());
 		
-		activity.simulateBrowseClick(0);
+		activity.simulateOnlineBrowseClick(0);
 		
 		Thread.sleep(2000);
 		

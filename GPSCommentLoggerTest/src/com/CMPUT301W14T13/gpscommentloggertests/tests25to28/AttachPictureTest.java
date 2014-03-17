@@ -6,7 +6,7 @@ import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 
 @SuppressLint("NewApi")
 public class AttachPictureTest extends ActivityInstrumentationTestCase2<DebugActivity> {

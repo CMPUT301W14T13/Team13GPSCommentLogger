@@ -28,7 +28,7 @@
     <TableRow>
 
         <EditText
-            android:id="@+id/setUsername"
+            android:id="@+id/setTopicUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -46,7 +46,7 @@
     <TableRow>
 
         <EditText
-            android:id="@+id/setCommentText"
+            android:id="@+id/setTopicText"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:ems="10"
@@ -72,12 +72,13 @@
             android:src="@drawable/attach" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/mapButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:src="@drawable/location" />
+            android:src="@drawable/location" 
+            android:onClick="openMap" />
     </LinearLayout>
 
     <RelativeLayout

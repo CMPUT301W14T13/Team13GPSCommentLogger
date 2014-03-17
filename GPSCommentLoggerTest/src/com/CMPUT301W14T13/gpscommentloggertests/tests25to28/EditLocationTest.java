@@ -5,7 +5,7 @@ import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
 @SuppressLint("NewApi")
 public class EditLocationTest extends ActivityInstrumentationTestCase2<DebugActivity> {
