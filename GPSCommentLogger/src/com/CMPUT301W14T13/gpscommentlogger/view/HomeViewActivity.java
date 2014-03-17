@@ -33,6 +33,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
@@ -127,8 +128,8 @@ public class HomeViewActivity extends Activity {
 
 		taskFactory = new TaskFactory(client.getDispatcher(), client.getMockup(), client.getDataManager());
 
-		//InitializationServerTask task = taskFactory.getNewInitializer();
-		//client.addTask(task);
+		InitializationServerTask task = taskFactory.getNewInitializer();
+		client.addTask(task);
 
 		//Testing: Populate ArrayList with topic objects
 		Topic top1 = new Topic("First", "User1");
