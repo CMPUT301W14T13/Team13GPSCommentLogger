@@ -63,7 +63,7 @@ public class PushCommentTest extends ActivityInstrumentationTestCase2<DebugActiv
 		String commentText = "Test comment";
 		Comment comment = new Comment(ID, username, picture, timestamp, commentText);
 		
-		activity.simulateAddComment(comment);
+		//activity.simulateAddComment(comment);
 		
 		Thread.sleep(2000);
 		
