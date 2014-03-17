@@ -37,6 +37,7 @@ public class ImageAttacher extends Activity
 
 	private static final int PICK_FROM_FILE = 1;
 	private String selectedImagePath;
+	private Bitmap selectedImageBitmap;
 
 	/**
 	 * Start intent for user to select
@@ -55,6 +56,7 @@ public class ImageAttacher extends Activity
 			if (requestCode == PICK_FROM_FILE) {
 				Uri selectedImageUri = data.getData();
 				selectedImagePath = getPath(selectedImageUri);
+				selectedImageBitmap = getBitmap(selectedImageUri);
 			}
 		}
 	}
