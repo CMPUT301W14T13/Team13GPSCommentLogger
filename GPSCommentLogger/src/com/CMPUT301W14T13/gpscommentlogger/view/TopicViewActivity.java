@@ -206,7 +206,6 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	        
 	        	 intent.putExtra("construct code", 3); // constructing an edited topic
 	        	 intent.putExtra("submit code", 2);  //editing a topic
-	        	 intent.putExtra("submission", cl.getCurrentTopic()); //pass the topic to be edited
 	        	 startActivity(intent); 
 	             break;
 	             
@@ -218,7 +217,6 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	        	 intent.putExtra("construct code", 2); //constructing an edited comment
 	        	 intent.putExtra("submit code", 3); //editing a comment
 	        	 intent.putExtra("row number", rowNumber);
-	        	 intent.putExtra("submission", comment); //pass the comment to be edited
 	        	 startActivity(intent); 
 	        	 break;
 	        	 

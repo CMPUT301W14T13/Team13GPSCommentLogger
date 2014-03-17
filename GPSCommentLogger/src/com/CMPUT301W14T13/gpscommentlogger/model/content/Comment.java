@@ -29,7 +29,7 @@ import java.util.Collection;
  * implements the viewable interface and the parcelable interface so
  * that comments can be passed between activities properly.
  */
-public class Comment implements Viewable, Parcelable
+public class Comment implements Viewable
 {
 
 
@@ -110,9 +110,9 @@ public class Comment implements Viewable, Parcelable
 	}
 
 
-	public Comment(Parcel in){
+	/*public Comment(Parcel in){
 		readFromParcel(in);
-	}
+	}*/
 
 
 
@@ -265,24 +265,28 @@ public class Comment implements Viewable, Parcelable
 				&& votes.equals(votes);
 	}
 
-
+	/**
+	 * Parcelable isn't needed anymore in the app, but this will be left here in case
+	 * it's needed
+	 */
+	
 	/* Interface for
 	 * Parcelable is
 	 * handled in the 
 	 * methods below
 	 */
-	@Override
+	/*@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
+	}*/
 
 	/**
 	 * Specifies what contents are being put into the parcel
 	 * Note that the timestamp is a Date object and is converted to
 	 * long so it can be retrieved later when reading from the parcel
 	 */
-	@Override
+	/*@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
 		//GPSLocation.writeToParcel(dest, flags);
@@ -294,7 +298,7 @@ public class Comment implements Viewable, Parcelable
 		dest.writeValue(image);
 		dest.writeInt(indentLevel);
 		
-	}
+	}/*
 
 	//Must read in the order they were written
 	/**
@@ -306,7 +310,7 @@ public class Comment implements Viewable, Parcelable
 	 * 
 	 * @param in the parcel being read
 	 */
-	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of comments
+	/*@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of comments
 	public void readFromParcel(Parcel in){
 		//GPSLocation = Location.CREATOR.createFromParcel(in);
 		ID = in.readString();
@@ -328,7 +332,7 @@ public class Comment implements Viewable, Parcelable
 			return new Comment[size];
 			
 		}
-	};
+	};*/
 
 
 	

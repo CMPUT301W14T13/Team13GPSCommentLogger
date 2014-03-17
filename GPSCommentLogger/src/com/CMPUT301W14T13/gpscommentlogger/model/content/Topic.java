@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
-public class Topic implements Viewable, Parcelable
+public class Topic implements Viewable
 
 {
 	
@@ -80,9 +80,9 @@ public class Topic implements Viewable, Parcelable
 	}
 	
 
-	public Topic(Parcel in){
+	/*public Topic(Parcel in){
 		readFromParcel(in);
-	}
+	}*/
 
 
 	public Topic(String ID, String username, Bitmap picture, Date timestamp,
@@ -252,13 +252,17 @@ public class Topic implements Viewable, Parcelable
 	}
 
 
+	/**
+	 * Parcelable isn't needed anymore in the app, but this will be left here in case
+	 * it's needed
+	 */
 	
 	/* Interface for
 	 * Parcelable is
 	 * handled in the 
 	 * methods below
 	 */
-	@Override
+	/*@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -304,7 +308,7 @@ public class Topic implements Viewable, Parcelable
 			return new Topic[size];
 			
 		}
-	};
+	};*/
 
 
 	public void addChild(Viewable post) {
