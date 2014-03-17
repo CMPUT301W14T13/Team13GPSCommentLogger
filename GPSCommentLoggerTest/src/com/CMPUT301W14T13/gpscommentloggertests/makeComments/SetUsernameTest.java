@@ -1,21 +1,37 @@
 package com.CMPUT301W14T13.gpscommentloggertests.makeComments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity;
+
+/**
+ * JUnit test to ensure that the user name gets properly set.
+ * 
+ * @author mjnichol, arweber
+ *
+ */
 
 @SuppressLint("NewApi")
-public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActivity> {
+public class SetUsernameTest extends ActivityInstrumentationTestCase2<CreateSubmissionActivity> {
 
 	public SetUsernameTest() {
-		super(DebugActivity.class);
+		super(CreateSubmissionActivity.class);
 	}
 
+	Activity activity;
 	
-	/*
+	public void setUp() throws Exception {
+		super.setUp();
+		activity = getActivity();
+	}
+	
+	/**
+	 * 
 	 *  Test to check if the default username is
 	 *  used for the comment if the user does not
 	 *  provide one.
@@ -25,7 +41,7 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
-		DebugActivity activity = getActivity();
+		CreateSubmissionActivity activity = getActivity();
 
 		assertNotNull(activity);
 		
@@ -45,7 +61,7 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<DebugActiv
 		
 		Intent intent = new Intent();
 		setActivityIntent(intent);
-		DebugActivity activity = getActivity();
+		CreateSubmissionActivity activity = getActivity();
 
 		assertNotNull(activity);
 		

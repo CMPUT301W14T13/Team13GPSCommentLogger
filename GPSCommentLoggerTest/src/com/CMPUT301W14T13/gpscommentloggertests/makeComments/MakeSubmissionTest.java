@@ -18,7 +18,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 @SuppressLint("NewApi")
 public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateSubmissionActivity> {
 
-	Activity activity;
+	CreateSubmissionActivity activity;
 	
 	public MakeSubmissionTest() {
 		super(CreateSubmissionActivity.class);
@@ -34,8 +34,9 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 	
 	public void testNullFields(){
 		
-		Intent intent = new Intent();
+	/*	Intent intent = new Intent();
 		setActivityIntent(intent);
+		*/
 		CreateSubmissionActivity activity = getActivity();
 
 		assertNotNull(activity);
@@ -87,19 +88,22 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 				setActivityIntent(intent);
 				intent.putExtra("construction code", 0);
 				
-				
 				assertNotNull(activity);
 				
 				CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 				
-			//	View commentLayout = (View) activity.findViewById(R.id.create_topic);
-				
+				//	View commentLayout = (View) activity.findViewById(R.id.create_topic);
+				/*
+				EditText title = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTitle);
+				EditText username = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicUsername);
+				EditText commentText = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicText);		
+				Button submitButton = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.submit);
+				 */
 				EditText title = (EditText) activity.findViewById(R.id.setTitle);
 				EditText username = (EditText) activity.findViewById(R.id.setTopicUsername);
 				EditText commentText = (EditText) activity.findViewById(R.id.setTopicText);		
 				Button submitButton = (Button) activity.findViewById(R.id.submit);
-
-
+				
 				assertNotNull(title);
 				assertNotNull(username);
 				assertNotNull(commentText);
