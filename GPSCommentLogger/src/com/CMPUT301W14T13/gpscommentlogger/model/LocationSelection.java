@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.model.content;
+package com.CMPUT301W14T13.gpscommentlogger.model;
 
 import android.location.Location;
 import android.location.LocationListener;
