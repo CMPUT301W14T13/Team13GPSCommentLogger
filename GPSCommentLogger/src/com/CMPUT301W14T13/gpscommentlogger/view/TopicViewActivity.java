@@ -220,7 +220,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	         case R.id.comment_edit_button:
 	        	 
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 comment = (Comment) commentList.get(rowNumber);
+	        	 //comment = (Comment) commentList.get(rowNumber);
 	        	 
 	        	 intent.putExtra("construct code", 2); //constructing an edited comment
 	        	 intent.putExtra("submit code", 3); //editing a comment

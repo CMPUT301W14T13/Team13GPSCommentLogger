@@ -101,49 +101,49 @@ public class CreateSubmissionActivity extends Activity{
 
 		switch(constructCode){
 
-			case(0): // constructing a new topic
-				setContentView(R.layout.create_topic); //creating a topic
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			break;
+		case(0): // constructing a new topic
+			setContentView(R.layout.create_topic); //creating a topic
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		break;
 
-			case(1): //constructing a new comment
-				setContentView(R.layout.create_comment); //creating a comment
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		case(1): //constructing a new comment
+			setContentView(R.layout.create_comment); //creating a comment
+		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
-			//get the user's global username so they don't have to always enter it
-			currentUsername = cl.getCurrentUsername();
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(currentUsername);
-			break;
+		//get the user's global username so they don't have to always enter it
+		currentUsername = cl.getCurrentUsername();
+		text = (EditText) findViewById(R.id.set_comment_username);
+		text.setText(currentUsername);
+		break;
 
-			//These cases are for editing a comment or topic
-			case(2):
-			case(3):
-				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
-			cl = CommentLoggerApplication.getCommentLogger();
-			
+		//These cases are for editing a comment or topic
+		case(2):
+		case(3):
+			setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+		cl = CommentLoggerApplication.getCommentLogger();
 
-			if (constructCode == 3){ //CheckSubmission needs to check the title
-				
-				submission = cl.getCurrentTopic();
-				title = submission.getTitle();
-			}
-			else{
-				submission = cl.getCommentList().get(rowNumber);
-			}
 
-			/*
-			 * Set various text fields below from the topic so that they are displayed when editing it
-			 */
-			text = (EditText) findViewById(R.id.set_comment_text);
-			text.setText(submission.getCommentText());
+		if (constructCode == 3){ //CheckSubmission needs to check the title
 
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(submission.getUsername());
-			extractTextFields();
+			submission = cl.getCurrentTopic();
+			title = submission.getTitle();
+		}
+		else{
+			submission = cl.getCommentList().get(rowNumber);
+		}
 
-			//text = (EditText) findViewById(R.id.coordinates);
-			//text.setText(submission.locationString());
+		/*
+		 * Set various text fields below from the topic so that they are displayed when editing it
+		 */
+		text = (EditText) findViewById(R.id.set_comment_text);
+		text.setText(submission.getCommentText());
+
+		text = (EditText) findViewById(R.id.set_comment_username);
+		text.setText(submission.getUsername());
+		extractTextFields();
+
+		//text = (EditText) findViewById(R.id.coordinates);
+		//text.setText(submission.locationString());
 		}
 	}
 
@@ -239,7 +239,7 @@ public class CreateSubmissionActivity extends Activity{
 			submission.setAnonymous();
 
 		}
-		
+
 		if (image != null) {
 			submission.setImage(image);
 			Log.d("Image Attach", "Image Attached! " + image.toString());
@@ -277,39 +277,42 @@ public class CreateSubmissionActivity extends Activity{
 				mapLocation.setLatitude(latitude);
 			}
 		}
-		
-		if (requestCode == PICK_FROM_FILE) {
-			Uri selectedImageUri = data.getData();
-			
-			
-			try {
-				image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			Log.d("Image Attach", "Image received: " + image.toString());
-			ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
-			
-			// Check if image satisfies size conditions
-			int imageSize = image.getByteCount();
-			Log.d("Image Attach", "Image size is: " + imageSize);
-			
-			if (imageSize < 102401) {
-				attachButton.setImageBitmap(image);
-				Log.d("Image Attach", "Image size safe");
-			}
-			else {
-				Log.d("Image Attach", "Image size unsafe");
-				Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
-						   Toast.LENGTH_LONG).show();
-			}
 
+		if (requestCode == PICK_FROM_FILE) {
+			if (resultCode == RESULT_OK){
+
+				Uri selectedImageUri = data.getData();
+
+
+				try {
+					image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+
+				Log.d("Image Attach", "Image received: " + image.toString());
+				ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
+
+				// Check if image satisfies size conditions
+				int imageSize = image.getByteCount();
+				Log.d("Image Attach", "Image size is: " + imageSize);
+
+				if (imageSize < 102401) {
+					attachButton.setImageBitmap(image);
+					Log.d("Image Attach", "Image size safe");
+				}
+				else {
+					Log.d("Image Attach", "Image size unsafe");
+					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
+							Toast.LENGTH_LONG).show();
+				}
+
+			}
 		}
 
 	}
@@ -351,44 +354,46 @@ public class CreateSubmissionActivity extends Activity{
 
 			switch (submitCode){
 
-				case(0):  //reply to topic
+			case(0):  //reply to topic
 
-					cl.addComment((Comment) submission);
-					cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
-					break;
+				cl.addComment((Comment) submission);
+			cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
+			break;
 
-				case(1): //reply to comment
+			case(1): //reply to comment
 
 
-					if (cl.getCurrentTopic().getChildren().size() >= 1){
-						prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-						((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
-					}
+				if (cl.getCurrentTopic().getChildren().size() >= 1){
+					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+					((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
+				}
 
-					//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-					if (((Comment) submission).getIndentLevel() <= 5){
-						prev_comment.addChild(submission);
-						cl.getCurrentTopic().incrementCommentCount();
-					}
-	
-					break;
+			//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
+			if (((Comment) submission).getIndentLevel() <= 5){
+				prev_comment.addChild(submission);
+				cl.getCurrentTopic().incrementCommentCount();
+			}
 
-				case(2)://edit topic
+			break;
 
-					cl.getCurrentTopic().setUsername(submission.getUsername());
-					cl.getCurrentTopic().setCommentText(submission.getCommentText());
-					cl.getCurrentTopic().setLocation(submission.getGPSLocation());
-					break;
+			case(2)://edit topic
 
-				case(3): //edit comment
+				cl.getCurrentTopic().setUsername(submission.getUsername());
+			cl.getCurrentTopic().setCommentText(submission.getCommentText());
+			cl.getCurrentTopic().setLocation(submission.getGPSLocation());
+			cl.getCurrentTopic().setImage(submission.getImage());
+			break;
 
-					commentList.get(row).setUsername(submission.getUsername());
-					commentList.get(row).setCommentText(submission.getCommentText());
-					commentList.get(row).setGPSLocation(submission.getGPSLocation());
-					break;
+			case(3): //edit comment
 
-				default:
-					Log.d("onActivityResult", "Error adding comment reply");
+				commentList.get(row).setUsername(submission.getUsername());
+			commentList.get(row).setCommentText(submission.getCommentText());
+			commentList.get(row).setGPSLocation(submission.getGPSLocation());
+			commentList.get(row).setImage(submission.getImage());
+			break;
+
+			default:
+				Log.d("onActivityResult", "Error adding comment reply");
 
 
 			}
