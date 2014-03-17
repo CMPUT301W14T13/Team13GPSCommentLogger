@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.view;
+package com.CMPUT301W14T13.gpscommentlogger.model.content;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -8,7 +8,7 @@ import android.location.LocationManager;
 /**
  * This is where users can pick a location
  */
-public class LocationSelectionView
+public class LocationSelection
 {
 	
 	private static Location currentLocation;
