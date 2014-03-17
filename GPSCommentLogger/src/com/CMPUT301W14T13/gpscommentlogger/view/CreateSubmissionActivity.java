@@ -1,7 +1,9 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +13,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ImageAttacher;
 import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
@@ -73,11 +76,11 @@ public class CreateSubmissionActivity extends Activity{
 
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-        mapLocation = gpsLocation;
+		mapLocation = gpsLocation;
 
-        
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ll = new LocationListener() {
+
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		ll = new LocationListener() {
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {		
 			}			
@@ -92,7 +95,7 @@ public class CreateSubmissionActivity extends Activity{
 				gpsLocation = location;				
 			}
 		};
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 
 		rowNumber = getIntent().getIntExtra("row number", -1);
 
@@ -140,7 +143,6 @@ public class CreateSubmissionActivity extends Activity{
 		super.onResume();
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
-
 
 
 	//extract the information that the user has entered
@@ -196,10 +198,10 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
-	
+
 
 	}
-	
+
 	//extract image if user has selected one
 
 
@@ -214,8 +216,8 @@ public class CreateSubmissionActivity extends Activity{
 		if (constructCode == 0 || constructCode == 3){
 			submission = new Topic();
 			submission.setTitle(title);
-			
-			
+
+
 		}
 		else{
 			submission = new Comment();
@@ -231,19 +233,26 @@ public class CreateSubmissionActivity extends Activity{
 			submission.setAnonymous();
 
 		}
+		
+		if (image != null) {
+			submission.setImage(image);
+		}
 
 	}
-	
+
 	/**
 	 * Start intent for user to select
 	 * image from gallery and return bitmap
 	 * if conditions are satisfied
 	 */
 	public void attachImage(View view) {
+		Log.d("Image Attach", "Starting Intent");
 		Intent intent = new Intent();
 		intent.setType("image/*");
+		Log.d("Image Attach", "Set Type");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_FILE);
+		Log.d("Image Attach", "Start Activity for Result");
+		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
 	}
 
 	public void openMap(View view) {
@@ -253,6 +262,7 @@ public class CreateSubmissionActivity extends Activity{
 		startActivityForResult(map, REQUEST_CODE);
 	}
 
+	@SuppressLint("NewApi")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
@@ -261,12 +271,45 @@ public class CreateSubmissionActivity extends Activity{
 				mapLocation.setLongitude(longitude);
 				mapLocation.setLatitude(latitude);
 			}
-			
-			if (requestCode == PICK_FROM_FILE) {
-				Uri selectedImageUri = data.getData();
-				image = imageAttacher.getBitmap(selectedImageUri);
-			}
 		}
+		
+		if (requestCode == PICK_FROM_FILE) {
+			Log.d("Image Attach", "Returned From Activity");
+			Uri selectedImageUri = data.getData();
+			Log.d("Image Attach", "Got Uri" + selectedImageUri.toString());
+			
+			
+			try {
+				Log.d("Image Attach", "Attempting Bitmap Get");
+				image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			Log.d("Image Attach", "Image received: " + image.toString());
+			ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
+			
+			// Check if image satisfies size conditions
+			int imageSize = image.getByteCount();
+			Log.d("Image Attach", "Image size is: " + imageSize);
+			
+			if (imageSize < 102401) {
+				attachButton.setImageBitmap(image);
+				Log.d("Image Attach", "Image size safe");
+			}
+			else {
+				Log.d("Image Attach", "Image size unsafe");
+				Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
+						   Toast.LENGTH_LONG).show();
+			}
+
+		}
+
 	}
 
 	/**
@@ -379,7 +422,7 @@ public class CreateSubmissionActivity extends Activity{
 			finish();
 		}
 
-		
+
 	}
 
 
@@ -406,15 +449,15 @@ public class CreateSubmissionActivity extends Activity{
 			text += "Title cannot be blank";
 			submission_ok = false;
 		}
-		
+
 		//check comment text
 		if (submission.getCommentText().length() == 0){
 			if (!submission_ok){
 				text += "\n";
 			} 
-			
+
 			text += "Comment cannot be blank";
-			
+
 			submission_ok = false;
 		}
 

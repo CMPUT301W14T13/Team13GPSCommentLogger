@@ -2,7 +2,9 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import com.CMPUT301W14T13.gpscommentlogger.R;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +15,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -106,8 +109,9 @@ public class ImageAttacher extends Activity
 			e.printStackTrace();
 		}
 		
-		Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB, Cannot Attach",
+		Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
 				   Toast.LENGTH_LONG).show();
+		Log.w("IMAGE ATTACH", "Image too large");
 		return null;
 	}
 
