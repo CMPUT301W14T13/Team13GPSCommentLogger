@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ImageAttacher;
 import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
@@ -42,6 +45,8 @@ public class CreateSubmissionActivity extends Activity{
 	private String username;
 	private String title;
 	private String commentText;
+	private Bitmap image;
+	private ImageAttacher imageAttacher;
 	private SubmissionController controller;
 	private Viewable submission;
 	private int constructCode; //0: Creating topic, 1: Creating comment, 2,3: Editing
@@ -54,6 +59,7 @@ public class CreateSubmissionActivity extends Activity{
 	private LocationManager lm; 
 	private LocationListener ll;
 	private static final int REQUEST_CODE = 1;
+	private static final int PICK_FROM_FILE = 2;
 
 	@Override
 
@@ -165,7 +171,36 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
+
+		//Constructing a topic(0)
+		if (constructCode == 0){
+
+			//only get the title if it's a topic
+			text = (EditText) findViewById(R.id.setTitle);
+			title = text.getText().toString().trim();
+
+			text = (EditText) findViewById(R.id.setTopicUsername);
+			username = text.getText().toString().trim();
+
+			text = (EditText) findViewById(R.id.setTopicText);
+			commentText = text.getText().toString().trim();
+		}
+
+		//Constructing a comment(1), editing a comment(2), or editing a topic(3)
+		else{
+
+			text = (EditText) findViewById(R.id.set_comment_username);
+			username = text.getText().toString().trim();
+
+			text = (EditText) findViewById(R.id.set_comment_text);
+			commentText = text.getText().toString().trim();
+		}
+
+	
+
 	}
+	
+	//extract image if user has selected one
 
 
 
@@ -198,6 +233,18 @@ public class CreateSubmissionActivity extends Activity{
 		}
 
 	}
+	
+	/**
+	 * Start intent for user to select
+	 * image from gallery and return bitmap
+	 * if conditions are satisfied
+	 */
+	public void attachImage(View view) {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_FILE);
+	}
 
 	public void openMap(View view) {
 		Intent map = new Intent(this, MapViewActivity.class);
@@ -213,7 +260,12 @@ public class CreateSubmissionActivity extends Activity{
 				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
 				mapLocation.setLongitude(longitude);
 				mapLocation.setLatitude(latitude);
-			}	
+			}
+			
+			if (requestCode == PICK_FROM_FILE) {
+				Uri selectedImageUri = data.getData();
+				image = imageAttacher.getBitmap(selectedImageUri);
+			}
 		}
 	}
 

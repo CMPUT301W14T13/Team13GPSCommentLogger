@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -104,7 +105,9 @@ public class ImageAttacher extends Activity
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB, Cannot Attach",
+				   Toast.LENGTH_LONG).show();
 		return null;
 	}
 
