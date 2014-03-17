@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
@@ -118,6 +119,9 @@ public class CreateSubmissionActivity extends Activity{
 				title = submission.getTitle();
 			}
 
+			/*
+			 * Set various text fields below from the topic so that they are displayed when editing it
+			 */
 			text = (EditText) findViewById(R.id.set_comment_text);
 			text.setText(submission.getCommentText());
 
@@ -125,7 +129,8 @@ public class CreateSubmissionActivity extends Activity{
 			text.setText(submission.getUsername());
 			extractTextFields();
 
-
+			//text = (EditText) findViewById(R.id.coordinates);
+			//text.setText(submission.locationString());
 		}
 	}
 
@@ -366,7 +371,7 @@ public class CreateSubmissionActivity extends Activity{
 			submission_ok = false;
 		}
 
-		//display toast is invalid
+		//display toast if submission invalid
 		if (!submission_ok){
 			toast = Toast.makeText(context, text, duration);
 			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);

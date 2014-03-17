@@ -203,14 +203,15 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_edit_button:
-	        	 Topic topic = new Topic();
+	        
 	        	 intent.putExtra("construct code", 3); // constructing an edited topic
 	        	 intent.putExtra("submit code", 2);  //editing a topic
-	        	 intent.putExtra("submission", topic); //pass the topic to be edited
+	        	 intent.putExtra("submission", cl.getCurrentTopic()); //pass the topic to be edited
 	        	 startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_edit_button:
+	        	 
 	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
 	        	 comment = (Comment) commentList.get(rowNumber);
 	        	 
