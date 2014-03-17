@@ -1,6 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.ServerTask;
 
 
 public class ServerDispatcher

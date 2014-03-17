@@ -1,19 +1,21 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.os.Message;
 import android.util.Log;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.MockResult;
-import com.CMPUT301W14T13.gpscommentlogger.model.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.ServerResult;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.MockResult;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 
 public class ServerListener extends Thread
 {
 	private ClientController client;
 	private ArrayList<Result> results;
+	private HashMap<String, String> debuggingOutput; 
 
 	public ServerListener(ClientController clientController)
 	{
@@ -77,6 +79,12 @@ public class ServerListener extends Thread
 		
 		//TODO: perform appropriate action based on result
 
+	}
+	
+	public String getResultByTaskID(String id)
+	{
+		String output = debuggingOutput.get(id);
+		return (output == null)?"null":output;
 	}
 
 }

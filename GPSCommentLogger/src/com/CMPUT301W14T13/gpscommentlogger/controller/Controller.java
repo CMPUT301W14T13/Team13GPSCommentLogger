@@ -2,9 +2,8 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.util.ArrayList;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.Task;
+import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.Task;
 
 
 public abstract class Controller extends Thread

@@ -8,13 +8,13 @@ import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.view.RootView;
 import com.CMPUT301W14T13.gpscommentlogger.view.SortParameter;
-import com.CMPUT301W14T13.gpscommentlogger.view.TopicView;
+import com.CMPUT301W14T13.gpscommentlogger.view.TopicViewActivity;
 
 @SuppressLint("NewApi")
 public class SortCommentsByPictureTests extends ActivityInstrumentationTestCase2<DebugActivity> {

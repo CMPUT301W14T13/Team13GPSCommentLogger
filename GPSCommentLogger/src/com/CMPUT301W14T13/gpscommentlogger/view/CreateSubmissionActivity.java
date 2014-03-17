@@ -17,12 +17,13 @@ import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.SubmissionController;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+
 
 /**
  * This is where the user can construct a new submission or
@@ -55,6 +56,7 @@ public class CreateSubmissionActivity extends Activity{
 	private static final int REQUEST_CODE = 1;
 
 	@Override
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -66,6 +68,7 @@ public class CreateSubmissionActivity extends Activity{
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
         mapLocation = gpsLocation;
+
         
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         ll = new LocationListener() {

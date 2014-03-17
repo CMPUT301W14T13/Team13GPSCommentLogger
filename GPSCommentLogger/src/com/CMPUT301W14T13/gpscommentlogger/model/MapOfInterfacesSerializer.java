@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import android.util.Log;
 
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;

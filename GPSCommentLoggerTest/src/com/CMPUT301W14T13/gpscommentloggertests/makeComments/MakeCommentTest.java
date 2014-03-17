@@ -7,11 +7,19 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
+<<<<<<< HEAD
 import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity;
+=======
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+>>>>>>> eb5e102a38c2df097a22781d16df567129c5f629
 
 @SuppressLint("NewApi")
 public class MakeCommentTest extends ActivityInstrumentationTestCase2<CreateSubmissionActivity> {

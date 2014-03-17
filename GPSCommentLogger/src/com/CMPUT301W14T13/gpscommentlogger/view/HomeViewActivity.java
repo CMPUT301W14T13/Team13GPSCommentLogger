@@ -1,7 +1,5 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,33 +19,28 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskSourceCode;
-import com.CMPUT301W14T13.gpscommentlogger.model.ClientTaskTaskCode;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
-import com.CMPUT301W14T13.gpscommentlogger.model.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 
 /* this is our main activity */
 /**
  * HomeViewActivity is where the user will see a list of topics and various options
  * like adding a topic, viewing saved comments, and sorting topics. From here the user can
  * click on a topic to enter it and view its comments and/or reply to comments
- * 
+ *
  * @author Austin
  *
  */
 public class HomeViewActivity extends Activity {
 
 	private ListView topicListview;
-	private Root home_view = new Root(); 
+	private Root home_view = new Root();
 	private CommentLoggerController controller; //controller for the model
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,18 +50,18 @@ public class HomeViewActivity extends Activity {
 		// IDEALLY, this should get the topics from the server.
 		cl = CommentLoggerApplication.getCommentLogger();
 		controller = new CommentLoggerController(cl);
-		
+
 		home_view = cl.getRoot(); // get the root which holds the list of topics
-		
+
 		adapter = new CustomAdapter(this, home_view.getChildren());
 		controller.setCustomAdapter(adapter);
-		
+
 
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
-		
-		
+
+
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -77,7 +70,7 @@ public class HomeViewActivity extends Activity {
 
 				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
 				controller.updateCurrentTopic(position); //set the current topic the user is opening
-				
+
 				startActivity(viewTopic);
 
 
@@ -89,7 +82,7 @@ public class HomeViewActivity extends Activity {
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 
-		
+
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
@@ -114,7 +107,7 @@ public class HomeViewActivity extends Activity {
 	protected void onResume(){
 		super.onResume();
 		topicListview.setAdapter(new CustomAdapter(this, home_view.getChildren()));
-		
+
 	}
 
 
@@ -132,12 +125,12 @@ public class HomeViewActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.action_post_thread:
-			createTopic();
-			return true;
+			case R.id.action_post_thread:
+				createTopic();
+				return true;
 
-		default:
-			return super.onOptionsItemSelected(item);
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 

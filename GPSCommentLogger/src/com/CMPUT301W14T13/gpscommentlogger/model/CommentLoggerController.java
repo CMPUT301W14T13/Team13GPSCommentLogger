@@ -1,9 +1,9 @@
 package com.CMPUT301W14T13.gpscommentlogger.model;
 
-import java.util.ArrayList;
-
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
 
 /**

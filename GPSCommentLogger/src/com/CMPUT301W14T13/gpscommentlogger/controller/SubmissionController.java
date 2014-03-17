@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
-import com.CMPUT301W14T13.gpscommentlogger.model.Topic;
-import com.CMPUT301W14T13.gpscommentlogger.model.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 import android.content.Context;
 import android.view.Gravity;

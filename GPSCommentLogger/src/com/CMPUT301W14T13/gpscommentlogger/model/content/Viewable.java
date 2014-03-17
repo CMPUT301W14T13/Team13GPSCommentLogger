@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.model;
+package com.CMPUT301W14T13.gpscommentlogger.model.content;
 
 import java.util.ArrayList;
 import java.util.Date;

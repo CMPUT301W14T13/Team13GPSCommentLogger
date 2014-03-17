@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentloggertests.tests25to28;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 
 import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
