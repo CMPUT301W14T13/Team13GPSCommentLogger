@@ -87,6 +87,16 @@
             android:layout_toLeftOf="@+id/comment_reply_button"
             android:onClick="edit"
             android:text="Edit" />
+
+        <TextView
+            android:id="@+id/comment_coordinates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="coord"
+            android:textColor="#666666" />
+
     </RelativeLayout>
 
 </LinearLayout>

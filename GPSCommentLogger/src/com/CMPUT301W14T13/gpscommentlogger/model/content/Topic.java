@@ -322,10 +322,7 @@ public class Topic implements Viewable, Parcelable
 		return null;
 	}
 
-	public boolean isHasImage() {
-		return hasImage;
-	}
-
+	
 	public boolean getHasImage() {
 		/* return image != null; */
 		return hasImage;
@@ -361,6 +358,8 @@ public class Topic implements Viewable, Parcelable
 		return commentCount;
 	}
 	
+	
+	/* gets the difference between two dates and corrects for time resolution */
 	public String getDateDiff(Date previous, Date current) {
 	    long diffInMillies = current.getTime() - previous.getTime();
 	    
