@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentlogger.view;
+package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import android.widget.Button;
  * @author Monir Imamverdi
  */
 
-public class PictureAttachmentView extends Activity
+public class PictureAttacher extends Activity
 {
 
 	// Reference: http://stackoverflow.com/questions/2169649/get-pick-an-image-from-androids-built-in-gallery-app-programmatically
@@ -84,7 +84,7 @@ public class PictureAttachmentView extends Activity
 	 * to get Bitmap object. Function will return Bitmap
 	 * only if satisfies size requirement of 100 KB
 	 */
-	@SuppressLint("NewApi") // supression can be removed if API target is grater than 12
+	@SuppressLint("NewApi") // Suppression can be removed if API target is greater than 12
 	public Bitmap getBitmap (Uri uri) {
 		try {
 			Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
@@ -103,8 +103,8 @@ public class PictureAttachmentView extends Activity
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
 		
+		return null;
 	}
 	
 	
