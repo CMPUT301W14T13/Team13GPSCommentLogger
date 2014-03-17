@@ -198,14 +198,23 @@ public class CreateSubmissionActivity extends Activity{
 		}
 
 	}
-
+	/**
+	 * Opens the MapViewActivity once the location button is clicked
+	 * passes it a latitude and longitude from the current gps location
+	 * to be used to set the map screen.
+	 * @param view
+	 */
 	public void openMap(View view) {
 		Intent map = new Intent(this, MapViewActivity.class);
 		map.putExtra("lat", gpsLocation.getLatitude());
 		map.putExtra("lon", gpsLocation.getLongitude());
 		startActivityForResult(map, REQUEST_CODE);
 	}
-
+	/**
+	 * extracts a longitude and latitude from MapViewActivity to be used
+	 * in construction the topic. if from some reason a lat and lon cannot
+	 * be retrieved it gets the current gps location.
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
