@@ -106,7 +106,12 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		cl.addView(this);
 	}
 
-
+	@Override
+	public void onResume(){
+		super.onResume();
+		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
+	}
+	
 	@Override
     public void onDestroy() {
         super.onDestroy();

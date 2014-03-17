@@ -51,17 +51,22 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         
         cl = CommentLoggerApplication.getCommentLogger();
         controller = new CommentLoggerController(cl);
-        controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
+        
         
         adapter = new CommentAdapter(this, cl.getCommentList());
         commentListview = (ListView) findViewById(R.id.comment_list);
         commentListview.setAdapter(adapter);
        
-        fillTopicLayout();
+        
         
 		cl.addView(this);
 	}
 	
+	@Override
+	public void onResume(){
+		super.onResume();
+		fillTopicLayout();
+	}
 	
 	@Override
     public void onDestroy() {
@@ -127,7 +132,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		text.setText(currentTopic.getDateDiff(post_time, new Date()));
 		
 		text = (TextView) findViewById(R.id.number_of_comments);
-		//text.setText(currentTopic.getCommentCount());
+		text.setText(String.valueOf(currentTopic.getCommentCount()) + " comments");
 		
 	}
 	

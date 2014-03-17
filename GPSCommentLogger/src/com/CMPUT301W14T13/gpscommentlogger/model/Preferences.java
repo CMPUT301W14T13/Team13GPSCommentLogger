@@ -61,9 +61,4 @@ public class Preferences {
         return array;
     }
     
-    public void update(){
-    	CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-    	
-    	cl.notifyViews();
-    }
 }

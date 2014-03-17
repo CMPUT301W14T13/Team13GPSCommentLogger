@@ -49,7 +49,13 @@ public class CommentLoggerController
 		cl.setCurrentTopic(position);
 	}
 
+	public void updateCurrentUsername(String username){
+		cl.setCurrentUsername(username);
+	}
+	
 	public void update(){
 		cl.notifyViews();
 	}
+	
+	
 }
