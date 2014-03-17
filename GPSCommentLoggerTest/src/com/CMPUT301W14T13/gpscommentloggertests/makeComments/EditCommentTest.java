@@ -7,10 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity;
 
 /**
  * Check to ensure that the comments and topics can be edited

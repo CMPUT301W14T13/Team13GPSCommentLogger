@@ -5,9 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity;
 
 /**
  * JUnit test to ensure that the user name gets properly set.
