@@ -11,7 +11,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 @SuppressLint("NewApi")
 public class AttachPictureTest extends ActivityInstrumentationTestCase2<DebugActivity> {
 
-	public AttachPictureTest(String name) {
+	public AttachPictureTest() {
 		super(DebugActivity.class);
 	}
 	
