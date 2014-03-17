@@ -7,7 +7,10 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
-/* I think this whole implementation needs to change */
+/**
+ * First screen of app, displays
+ * sorted topics
+ */
 public class RootView {
 
 	public RootView(Root root){

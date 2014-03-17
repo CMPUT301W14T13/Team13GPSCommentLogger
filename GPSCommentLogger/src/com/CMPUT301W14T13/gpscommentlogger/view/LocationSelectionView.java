@@ -5,7 +5,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 
 
-
+/**
+ * This is where users can pick a location
+ */
 public class LocationSelectionView
 {
 	

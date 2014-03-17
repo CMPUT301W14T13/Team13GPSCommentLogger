@@ -19,7 +19,11 @@ import android.view.View;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 
  
-
+/**
+ * This view works with Google's API
+ * to display a map, allowing the user
+ * to pinpoint and location for selection.
+ */
 
 public class MapViewActivity extends Activity {
 

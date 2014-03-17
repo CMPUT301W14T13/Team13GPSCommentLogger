@@ -16,11 +16,12 @@ import com.CMPUT301W14T13.gpscommentlogger.model.results.MockResultType;
 
 public class DataEntityMockup {
 
-	//This class sends data to the debugger for preliminary testing
-	// In reality, the activity will send a request to the ClientController,
-	// which will forward a request to the ServerController, which will send the relevant
-	// data back down the chain to display in the activity.
-	
+	/**
+	* This class sends data to the debugger for preliminary testing
+	* In reality, the activity will send a request to the ClientController,
+	* which will forward a request to the ServerController, which will send the relevant
+	* data back down the chain to display in the activity.
+	*/
 	private ServerListener serverListener;
 	private HashMap<String, Viewable> comments;
 	
