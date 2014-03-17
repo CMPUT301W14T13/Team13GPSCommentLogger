@@ -15,12 +15,21 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+/**
+ * Class responsible for serializing and deserializing
+ * objects we need to save and load into JSON objects
+ *
+ * @param <T>
+ */
 public class InterfaceSerializer<T> implements
         JsonSerializer<T>, JsonDeserializer<T> {
 
     private static final String CLASS_META_KEY = "CLASS_META_KEY";
     private static final String CLASS_DATA = "CLASS_DATA";
 
+    /**
+     * Function converts from JSON to given Type
+     */
     @Override
     public T deserialize(JsonElement jsonElement, Type type,
             JsonDeserializationContext jsonDeserializationContext)
@@ -38,6 +47,9 @@ public class InterfaceSerializer<T> implements
         }
     }
 
+    /**
+     * Function converts object of given Type to JSON
+     */
     @Override
     public JsonElement serialize(T object, Type type,
             JsonSerializationContext jsonSerializationContext) {

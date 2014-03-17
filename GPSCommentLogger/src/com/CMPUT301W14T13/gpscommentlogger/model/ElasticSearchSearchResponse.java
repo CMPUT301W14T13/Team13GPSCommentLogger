@@ -5,6 +5,12 @@ import java.util.Collection;
 
 //Taken From https://github.com/rayzhangcl/ESDemo/tree/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei
 
+/**
+ * Holder or internet response
+ * objects of elastic search
+ *
+ * @param <T>
+ */
 public class ElasticSearchSearchResponse<T> {
     int took;
     boolean timed_out;
