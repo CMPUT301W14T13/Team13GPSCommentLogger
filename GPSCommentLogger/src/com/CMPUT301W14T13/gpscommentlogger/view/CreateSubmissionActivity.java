@@ -120,11 +120,16 @@ public class CreateSubmissionActivity extends Activity{
 			case(2):
 			case(3):
 				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
-
-			submission = getIntent().getParcelableExtra("submission");
+			cl = CommentLoggerApplication.getCommentLogger();
+			
 
 			if (constructCode == 3){ //CheckSubmission needs to check the title
+				
+				submission = cl.getCurrentTopic();
 				title = submission.getTitle();
+			}
+			else{
+				submission = cl.getCommentList().get(rowNumber);
 			}
 
 			/*
