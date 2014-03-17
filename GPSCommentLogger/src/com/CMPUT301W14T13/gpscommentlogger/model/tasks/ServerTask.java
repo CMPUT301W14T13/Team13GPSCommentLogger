@@ -6,6 +6,10 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.ServerDispatcher;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerContext;
 import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
 
+/**
+ * Specialized Task object for server
+ * side tasks
+ */
 public abstract class ServerTask extends Task {
 
 	protected ServerDispatcher dispatcher;

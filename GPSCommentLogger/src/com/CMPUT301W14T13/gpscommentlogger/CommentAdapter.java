@@ -2,12 +2,14 @@ package com.CMPUT301W14T13.gpscommentlogger;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
@@ -29,7 +31,7 @@ public class CommentAdapter extends BaseAdapter {
 	
 	private ArrayList<Viewable> data = new ArrayList<Viewable>();
 	private static LayoutInflater inflater = null;
-
+	
 	public CommentAdapter(Context context, ArrayList<Viewable> comments) {
 
 		this.data = comments;
@@ -73,11 +75,17 @@ public class CommentAdapter extends BaseAdapter {
 
 			holder.username = (TextView) vi.findViewById(R.id.comment_username);
 			holder.commentText = (TextView) vi.findViewById(R.id.commentText);
-		
+			holder.coordinates = (TextView) vi.findViewById(R.id.comment_coordinates);
 			vi.setTag(holder);
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
+		}
+		
+		/* show bitmap */
+		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		if (comment.getHasImage()) {
+			imageView.setImageBitmap(comment.getImage());
 		}
 		
 		replyButton = (ImageButton) vi.findViewById(R.id.comment_reply_button);
@@ -86,7 +94,10 @@ public class CommentAdapter extends BaseAdapter {
 		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
 		editButton.setTag(position); //gives a unique tag for identifying comments
 		
-		//Hide the edit button if it's not the user's comment
+		/*
+		 * Hide the edit button if it's not the user's comment.
+		 * Currently, only checks if the usernames are equal
+		 */
 		
 		if (!cl.getCurrentUsername().equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
@@ -94,9 +105,10 @@ public class CommentAdapter extends BaseAdapter {
 		
 		holder.indentLevel = comment.getIndentLevel();
 		setIndentView(vi, holder.indentLevel, position);
-		holder.username.setText("Reply from: " + String.valueOf(data.get(position).getUsername()));
-		holder.commentText.setText(String.valueOf(data.get(position).getCommentText()));
-
+		holder.username.setText("Reply from: " + String.valueOf(comment.getUsername()));
+		holder.commentText.setText(String.valueOf(comment.getCommentText()));
+		holder.coordinates.setText("Posted from: " + comment.locationString());
+		
 		return vi;
 	}
 
@@ -106,21 +118,8 @@ public class CommentAdapter extends BaseAdapter {
 		public TextView username;
 		public TextView commentText;
 		public int indentLevel;
-	}
+		public TextView coordinates;
 
-	/**
-	 * Sets text fields in the comments
-	 * 
-	 * @param vi  the current view
-	 * @param position  the position of the comment
-	 */
-	public void setTopicView(View vi, int position){
-
-		TextView text = (TextView) vi.findViewById(R.id.comment_username);
-		text.setText("Reply from: " + String.valueOf(data.get(position).getUsername()));
-
-		text = (TextView) vi.findViewById(R.id.commentText);
-		text.setText(String.valueOf(data.get(position).getCommentText()));
 	}
 
 	

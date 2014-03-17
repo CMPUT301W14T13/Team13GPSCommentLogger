@@ -2,6 +2,10 @@ package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
 import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
 
+/**
+ * Mock Task object for testing
+ * purposes
+ */
 public abstract class MockTask extends Task {
 
 	protected DataEntityMockup mock;

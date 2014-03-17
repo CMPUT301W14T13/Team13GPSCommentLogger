@@ -9,6 +9,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+/**
+ * Class responsible for handling 
+ * ArrayLists and converting them from and
+ * to JSON objects
+ */
 public class Preferences {
     Context context;
     SharedPreferences prefs;
@@ -60,4 +65,5 @@ public class Preferences {
  
         return array;
     }
+    
 }

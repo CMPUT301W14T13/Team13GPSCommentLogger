@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity"
+            android:name="com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity"
             android:label="@string/create_topic_label"
             android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" >
 

@@ -17,11 +17,16 @@ import android.util.Log;
 
 
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 
+/**
+ * This class is for top level comments. It implements Viewable and
+ * Parcelable to pass/process attributes properly.
+ *
+ */
 
-
-public class Topic implements Viewable, Parcelable
+public class Topic implements Viewable
 
 {
 	
@@ -79,9 +84,9 @@ public class Topic implements Viewable, Parcelable
 	}
 	
 
-	public Topic(Parcel in){
+	/*public Topic(Parcel in){
 		readFromParcel(in);
-	}
+	}*/
 
 
 	public Topic(String ID, String username, Bitmap picture, Date timestamp,
@@ -164,6 +169,7 @@ public class Topic implements Viewable, Parcelable
 	@Override
 	public void setImage(Bitmap picture) {
 		this.image = picture;
+		this.hasImage = true;
 		
 	}
 
@@ -251,13 +257,17 @@ public class Topic implements Viewable, Parcelable
 	}
 
 
+	/**
+	 * Parcelable isn't needed anymore in the app, but this will be left here in case
+	 * it's needed
+	 */
 	
 	/* Interface for
 	 * Parcelable is
 	 * handled in the 
 	 * methods below
 	 */
-	@Override
+	/*@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -303,7 +313,7 @@ public class Topic implements Viewable, Parcelable
 			return new Topic[size];
 			
 		}
-	};
+	};*/
 
 
 	public void addChild(Viewable post) {
@@ -319,10 +329,6 @@ public class Topic implements Viewable, Parcelable
 	public Integer getPopularity() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public boolean isHasImage() {
-		return hasImage;
 	}
 
 	public boolean getHasImage() {
@@ -358,5 +364,25 @@ public class Topic implements Viewable, Parcelable
 	
 	public int getCommentCount(){
 		return commentCount;
+	}
+	
+	
+	/* gets the difference between two dates and corrects for time resolution */
+	public String getDateDiff(Date previous, Date current) {
+	    long diffInMillies = current.getTime() - previous.getTime();
+	    
+	    if (diffInMillies >= 0 && diffInMillies < 60000)
+	    	return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago");
+	    else if (diffInMillies >= 60000 && diffInMillies < 3600000)
+	    	return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago");
+	    else if (diffInMillies >= 3600000 && diffInMillies < 24*3600000)
+	    	return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago");
+	    else if (diffInMillies >= 24*3600000 && diffInMillies < 24*30*3600000)
+	    	return String.valueOf(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" days ago");
+	    else if (diffInMillies >= 24*30*3600000 && diffInMillies < 24*30*12*3600000)
+	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago");
+	    else
+	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
+	    
 	}
 }

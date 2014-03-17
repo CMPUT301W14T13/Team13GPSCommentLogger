@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>HomeView</name>
+=======
+	<name>GPSCommentLogger</name>
+>>>>>>> 5e547d4c612026c10265409d03049ec30e2abdfd
 	<comment></comment>
 	<projects>
 	</projects>

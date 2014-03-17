@@ -69,14 +69,6 @@
         android:src="@drawable/reply"
         android:text="Reply" />
 
-        <TextView
-        android:id="@+id/commentText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/comment_reply_button"
-        android:layout_alignParentLeft="true"
-        android:text="Comment" />
-
         <Button
             android:id="@+id/comment_edit_button"
             style="?android:attr/buttonStyleSmall"
@@ -87,6 +79,31 @@
             android:layout_toLeftOf="@+id/comment_reply_button"
             android:onClick="edit"
             android:text="Edit" />
+
+        <TextView
+            android:id="@+id/comment_coordinates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="coord"
+            android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/commentImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/comment_username" />
+
+        <TextView
+            android:id="@+id/commentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/comment_edit_button"
+            android:layout_alignParentLeft="true"
+            android:text="Comment" />
+
     </RelativeLayout>
 
 </LinearLayout>

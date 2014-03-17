@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,12 +9,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
@@ -51,25 +54,26 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         cl = CommentLoggerApplication.getCommentLogger();
         controller = new CommentLoggerController(cl);
         
-        adapter = new CommentAdapter(this, commentList);
-        controller.setCommentAdapter(adapter);
-        commentList = cl.getCommentList(); //get the comment list to be displayed
-        
+        adapter = new CommentAdapter(this, cl.getCommentList());
         commentListview = (ListView) findViewById(R.id.comment_list);
-        adapter = new CommentAdapter(this, commentList);
-        
-		cl = CommentLoggerApplication.getCommentLogger();
+        commentListview.setAdapter(adapter);
+       
 		cl.addView(this);
 	}
 	
-	
-	protected void onResume(){
+	@Override
+	public void onResume(){
 		super.onResume();
-		
 		fillTopicLayout();
-		commentListview.setAdapter(adapter);
 	}
 	
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        cl.deleteView(this);
+	}
+        
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -108,15 +112,32 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	 */
 	public void fillTopicLayout(){
 		
+		Topic currentTopic = cl.getCurrentTopic();
+		
 		TextView text = (TextView) findViewById(R.id.topic_username);
-		text.setText(cl.getCurrentTopic().getUsername());
+		text.setText(currentTopic.getUsername());
 		
 		text = (TextView) findViewById(R.id.topic_comment);
-		text.setText(cl.getCurrentTopic().getCommentText());
+		text.setText(currentTopic.getCommentText());
 		
 		text = (TextView) findViewById(R.id.topic_title);
-		text.setText(cl.getCurrentTopic().getTitle());
+		text.setText(currentTopic.getTitle());
 		
+		text = (TextView) findViewById(R.id.coordinates);
+		text.setText(currentTopic.locationString());
+		
+		Date post_time = currentTopic.getTimestamp();
+		text = (TextView) findViewById(R.id.age);
+		text.setText(currentTopic.getDateDiff(post_time, new Date()));
+		
+		text = (TextView) findViewById(R.id.number_of_comments);
+		text.setText(String.valueOf(currentTopic.getCommentCount()) + " comments");
+		
+		/* show bitmap */
+		ImageView imageView = (ImageView) findViewById(R.id.commentImage);
+		if (cl.getCurrentTopic().getHasImage()) {
+			imageView.setImageBitmap(cl.getCurrentTopic().getImage());
+		}
 		
 	}
 	
@@ -187,21 +208,19 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_edit_button:
-	        	 Topic topic = new Topic();
+	        
 	        	 intent.putExtra("construct code", 3); // constructing an edited topic
 	        	 intent.putExtra("submit code", 2);  //editing a topic
-	        	 intent.putExtra("submission", topic); //pass the topic to be edited
 	        	 startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_edit_button:
-	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 comment = (Comment) commentList.get(rowNumber);
 	        	 
+	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
+	        	
 	        	 intent.putExtra("construct code", 2); //constructing an edited comment
 	        	 intent.putExtra("submit code", 3); //editing a comment
 	        	 intent.putExtra("row number", rowNumber);
-	        	 intent.putExtra("submission", comment); //pass the comment to be edited
 	        	 startActivity(intent); 
 	        	 break;
 	        	 
@@ -217,9 +236,10 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	@Override
 	public void update(CommentLogger model)
 	{
-		//CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-		//commentList = cl.getCommentList();
-		
+		fillTopicLayout();
+		commentList.clear();
+		commentList.addAll(cl.getCommentList());
+		adapter.notifyDataSetChanged();
 	}
 
 }

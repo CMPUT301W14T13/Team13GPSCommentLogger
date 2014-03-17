@@ -20,6 +20,7 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
 
  
 
+
 /**
  * This method displays a map to let the user select the location 
  * they wish to attach to their comment or topic. it takes a current gps
@@ -33,6 +34,7 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
  * @author navjeetdhaliwal
  *
  */
+
 public class MapViewActivity extends Activity {
 
 	private MapController mapController;
