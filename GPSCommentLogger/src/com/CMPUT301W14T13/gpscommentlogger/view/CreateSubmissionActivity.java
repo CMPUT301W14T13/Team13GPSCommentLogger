@@ -372,12 +372,14 @@ public class CreateSubmissionActivity extends Activity{
 
 					cl.getCurrentTopic().setUsername(submission.getUsername());
 					cl.getCurrentTopic().setCommentText(submission.getCommentText());
+					cl.getCurrentTopic().setLocation(submission.getGPSLocation());
 					break;
 
 				case(3): //edit comment
 
 					commentList.get(row).setUsername(submission.getUsername());
 					commentList.get(row).setCommentText(submission.getCommentText());
+					commentList.get(row).setGPSLocation(submission.getGPSLocation());
 					break;
 
 				default:
