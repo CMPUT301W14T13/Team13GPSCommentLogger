@@ -51,11 +51,11 @@
                 android:layout_weight="1"
                 android:ellipsize="marquee"
                 android:gravity="left"
-                android:singleLine="true"
+                
                 android:text="coord"
                 android:textColor="#666666" />
 
-            <TextView
+           <!--   <TextView
                 android:id="@+id/bullet1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="@string/bullet"
-                android:textColor="#666666" />
+                android:textColor="#666666" /> -->
 
             <TextView
                 android:id="@+id/age"
@@ -73,16 +73,6 @@
                 android:gravity="left"
                 android:singleLine="true"
                 android:text="age"
-                android:textColor="#666666" />
-
-            <TextView
-                android:id="@+id/bullet2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:ellipsize="marquee"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/bullet"
                 android:textColor="#666666" />
 
             <TextView

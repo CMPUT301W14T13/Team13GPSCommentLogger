@@ -23,7 +23,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="3"
+         
 			android:ellipsize="marquee"
             android:text="Title"
             android:textColor="#000"
@@ -33,8 +33,8 @@
         <TextView
             android:id="@+id/username"
             android:layout_weight="1"
+            android:ellipsize="marquee"
             android:gravity="left"
-			android:ellipsize="marquee"
             android:text="Username"
             android:textColor="#000000" />
         
@@ -74,28 +74,11 @@
             android:textColor="#666666" />
 
         <TextView
-            android:id="@+id/bullet1"
-            android:layout_weight="1"
-            android:gravity="left"
-
-            android:text="@string/bullet"
-            android:textColor="#666666" />
-
-        <TextView
             android:id="@+id/age"
             android:layout_weight="1"
             android:gravity="left"
 
             android:text="age"
-            android:textColor="#666666" />
-
-        <TextView
-            android:id="@+id/bullet2"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-
-            android:text="@string/bullet"
             android:textColor="#666666" />
 
         <TextView

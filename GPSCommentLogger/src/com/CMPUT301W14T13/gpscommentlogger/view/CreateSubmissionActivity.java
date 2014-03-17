@@ -67,11 +67,11 @@ public class CreateSubmissionActivity extends Activity{
 
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-        mapLocation = gpsLocation;
+		mapLocation = gpsLocation;
 
-        
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ll = new LocationListener() {
+
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		ll = new LocationListener() {
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {		
 			}			
@@ -86,44 +86,44 @@ public class CreateSubmissionActivity extends Activity{
 				gpsLocation = location;				
 			}
 		};
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 
 		rowNumber = getIntent().getIntExtra("row number", -1);
 
 		switch(constructCode){
 
-		case(0): // constructing a new topic
-			setContentView(R.layout.create_topic); //creating a topic
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		break;
+			case(0): // constructing a new topic
+				setContentView(R.layout.create_topic); //creating a topic
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+			break;
 
-		case(1): //constructing a new comment
-			setContentView(R.layout.create_comment); //creating a comment
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			case(1): //constructing a new comment
+				setContentView(R.layout.create_comment); //creating a comment
+			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
-		//get the user's global username so they don't have to always enter it
-		currentUsername = cl.getCurrentUsername();
-		text = (EditText) findViewById(R.id.set_comment_username);
-		text.setText(currentUsername);
-		break;
+			//get the user's global username so they don't have to always enter it
+			currentUsername = cl.getCurrentUsername();
+			text = (EditText) findViewById(R.id.set_comment_username);
+			text.setText(currentUsername);
+			break;
 
-		//These cases are for editing a comment or topic
-		case(2):
-		case(3):
-			setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+			//These cases are for editing a comment or topic
+			case(2):
+			case(3):
+				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
 
-		submission = getIntent().getParcelableExtra("submission");
+			submission = getIntent().getParcelableExtra("submission");
 
-		if (constructCode == 3){ //CheckSubmission needs to check the title
-			title = submission.getTitle();
-		}
+			if (constructCode == 3){ //CheckSubmission needs to check the title
+				title = submission.getTitle();
+			}
 
-		text = (EditText) findViewById(R.id.set_comment_text);
-		text.setText(submission.getCommentText());
+			text = (EditText) findViewById(R.id.set_comment_text);
+			text.setText(submission.getCommentText());
 
-		text = (EditText) findViewById(R.id.set_comment_username);
-		text.setText(submission.getUsername());
-		extractTextFields();
+			text = (EditText) findViewById(R.id.set_comment_username);
+			text.setText(submission.getUsername());
+			extractTextFields();
 
 
 		}
@@ -179,8 +179,8 @@ public class CreateSubmissionActivity extends Activity{
 		if (constructCode == 0 || constructCode == 3){
 			submission = new Topic();
 			submission.setTitle(title);
-			
-			
+
+
 		}
 		else{
 			submission = new Comment();
@@ -254,42 +254,42 @@ public class CreateSubmissionActivity extends Activity{
 
 			switch (submitCode){
 
-			case(0):  //reply to topic
+				case(0):  //reply to topic
 
-				cl.addComment((Comment) submission);
-			cl.getCurrentTopic().incrementCommentCount();
-			break;
+					cl.addComment((Comment) submission);
+					cl.getCurrentTopic().incrementCommentCount();
+					break;
 
-			case(1): //reply to comment
+				case(1): //reply to comment
 
 
-				if (cl.getCurrentTopic().getChildren().size() >= 1){
-					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-					((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
-				}
+					if (cl.getCurrentTopic().getChildren().size() >= 1){
+						prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+						((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
+					}
 
-			//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-			if (((Comment) submission).getIndentLevel() <= 5){
-				prev_comment.addChild(submission);
-				cl.getCurrentTopic().incrementCommentCount();
-			}
+					//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
+					if (((Comment) submission).getIndentLevel() <= 5){
+						prev_comment.addChild(submission);
+						cl.getCurrentTopic().incrementCommentCount();
+					}
+	
+					break;
 
-			break;
+				case(2)://edit topic
 
-			case(2)://edit topic
+					cl.getCurrentTopic().setUsername(submission.getUsername());
+					cl.getCurrentTopic().setCommentText(submission.getCommentText());
+					break;
 
-				cl.getCurrentTopic().setUsername(submission.getUsername());
-			cl.getCurrentTopic().setCommentText(submission.getCommentText());
-			break;
+				case(3): //edit comment
 
-			case(3): //edit comment
+					commentList.get(row).setUsername(submission.getUsername());
+					commentList.get(row).setCommentText(submission.getCommentText());
+					break;
 
-				commentList.get(row).setUsername(submission.getUsername());
-			commentList.get(row).setCommentText(submission.getCommentText());
-			break;
-
-			default:
-				Log.d("onActivityResult", "Error adding comment reply");
+				default:
+					Log.d("onActivityResult", "Error adding comment reply");
 
 
 			}
@@ -327,7 +327,7 @@ public class CreateSubmissionActivity extends Activity{
 			finish();
 		}
 
-		
+
 	}
 
 
@@ -354,15 +354,15 @@ public class CreateSubmissionActivity extends Activity{
 			text += "Title cannot be blank";
 			submission_ok = false;
 		}
-		
+
 		//check comment text
 		if (submission.getCommentText().length() == 0){
 			if (!submission_ok){
 				text += "\n";
 			} 
-			
+
 			text += "Comment cannot be blank";
-			
+
 			submission_ok = false;
 		}
 

@@ -64,10 +64,10 @@ public class CustomAdapter extends BaseAdapter {
 		if (vi == null){
 
 			vi = inflater.inflate(R.layout.root_comment_view, null);
-			setHomeView(vi, position, topic);
+			
 
 		}
-
+		setHomeView(vi, position, topic);
 		return vi;
 	}
 

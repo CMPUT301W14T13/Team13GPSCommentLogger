@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
+import com.CMPUT301W14T13.gpscommentlogger.model.FView;
 import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
 
 /**
@@ -24,8 +25,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
  * @author Austin
  *
  */
-public class SelectUsernameActivity extends Activity
-{
+public class SelectUsernameActivity extends Activity implements FView<CommentLogger>{
 
 	private ArrayList<String> usernames = new ArrayList<String>();
 	private ListView usernameListView;
@@ -53,7 +53,7 @@ public class SelectUsernameActivity extends Activity
 		//set the adapter to display the list of usernames
 		usernameListView = (ListView) findViewById(R.id.usernamesList);
 		adapter = new UsernameAdapter(this, usernames);
-
+		usernameListView.setAdapter(adapter);
 
 		usernameListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -64,17 +64,10 @@ public class SelectUsernameActivity extends Activity
 				text.setText("Current username: " + cl.getCurrentUsername()); //display it
 			}
 		});
-
+		
+		cl.addView(this);
 	}
 
-	public void onResume(){
-		super.onResume();
-
-		usernames = prefs.getArray();
-		usernameListView.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
-
-	}
 
 	/**
 	 * The user can add usernames to their list
@@ -84,12 +77,13 @@ public class SelectUsernameActivity extends Activity
 	public void add(View v){
 		EditText newUsername = (EditText) findViewById(R.id.addUsername);
 		usernames.add(newUsername.getText().toString());
+		newUsername.setText(""); //clear the text field
 		prefs.saveArray(usernames);
-		onResume();
+		prefs.update();
 	}
 
 	/**
-	 * The user can deleted usernames from their list. Tags are used 
+	 * The user can delete usernames from their list. Tags are used 
 	 * to determine which username is being deleted.
 	 * 
 	 * @param v the delete button
@@ -98,12 +92,21 @@ public class SelectUsernameActivity extends Activity
 		int tag = (Integer) v.getTag();
 		usernames.remove(tag);
 		prefs.saveArray(usernames);
-		onResume();
+		prefs.update();
 	};
 
 
 	public void done(View v){
 
 		finish();
+	}
+
+	@Override
+	public void update(CommentLogger model)
+	{
+		usernames.clear();
+		usernames.addAll(prefs.getArray());
+		adapter.notifyDataSetChanged();
+		
 	}
 }

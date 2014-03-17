@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -50,26 +51,25 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         
         cl = CommentLoggerApplication.getCommentLogger();
         controller = new CommentLoggerController(cl);
+        controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
         
-        adapter = new CommentAdapter(this, commentList);
-        controller.setCommentAdapter(adapter);
-        commentList = cl.getCommentList(); //get the comment list to be displayed
-        
+        adapter = new CommentAdapter(this, cl.getCommentList());
         commentListview = (ListView) findViewById(R.id.comment_list);
-        adapter = new CommentAdapter(this, commentList);
+        commentListview.setAdapter(adapter);
+       
+        fillTopicLayout();
         
-		cl = CommentLoggerApplication.getCommentLogger();
 		cl.addView(this);
 	}
 	
 	
-	protected void onResume(){
-		super.onResume();
-		
-		fillTopicLayout();
-		commentListview.setAdapter(adapter);
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        cl.deleteView(this);
 	}
-	
+        
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -108,15 +108,26 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	 */
 	public void fillTopicLayout(){
 		
+		Topic currentTopic = cl.getCurrentTopic();
+		
 		TextView text = (TextView) findViewById(R.id.topic_username);
-		text.setText(cl.getCurrentTopic().getUsername());
+		text.setText(currentTopic.getUsername());
 		
 		text = (TextView) findViewById(R.id.topic_comment);
-		text.setText(cl.getCurrentTopic().getCommentText());
+		text.setText(currentTopic.getCommentText());
 		
 		text = (TextView) findViewById(R.id.topic_title);
-		text.setText(cl.getCurrentTopic().getTitle());
+		text.setText(currentTopic.getTitle());
 		
+		text = (TextView) findViewById(R.id.coordinates);
+		text.setText(currentTopic.locationString());
+		
+		Date post_time = currentTopic.getTimestamp();
+		text = (TextView) findViewById(R.id.age);
+		text.setText(currentTopic.getDateDiff(post_time, new Date()));
+		
+		text = (TextView) findViewById(R.id.number_of_comments);
+		//text.setText(currentTopic.getCommentCount());
 		
 	}
 	
@@ -217,9 +228,10 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	@Override
 	public void update(CommentLogger model)
 	{
-		//CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-		//commentList = cl.getCommentList();
-		
+		fillTopicLayout();
+		commentList.clear();
+		commentList.addAll(cl.getCommentList());
+		adapter.notifyDataSetChanged();
 	}
 
 }

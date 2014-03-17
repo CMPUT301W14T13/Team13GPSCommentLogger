@@ -1,5 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +23,9 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
+import com.CMPUT301W14T13.gpscommentlogger.model.FView;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 /* this is our main activity */
 /**
@@ -33,19 +36,20 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
  * @author Austin
  *
  */
-public class HomeViewActivity extends Activity {
+public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 	private ListView topicListview;
 	private Root home_view = new Root();
 	private CommentLoggerController controller; //controller for the model
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
-
+	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
-		String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
 
 		// IDEALLY, this should get the topics from the server.
 		cl = CommentLoggerApplication.getCommentLogger();
@@ -54,7 +58,6 @@ public class HomeViewActivity extends Activity {
 		home_view = cl.getRoot(); // get the root which holds the list of topics
 
 		adapter = new CustomAdapter(this, home_view.getChildren());
-		controller.setCustomAdapter(adapter);
 
 
 		//set up adapter and listview
@@ -100,17 +103,17 @@ public class HomeViewActivity extends Activity {
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
-
+		cl.addView(this);
 	}
 
 
-	protected void onResume(){
-		super.onResume();
-		topicListview.setAdapter(new CustomAdapter(this, home_view.getChildren()));
-
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        cl.deleteView(this);
 	}
-
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -141,5 +144,13 @@ public class HomeViewActivity extends Activity {
 	}
 
 
+	@Override
+	public void update(CommentLogger model)
+	{
+		displayedTopics.clear();
+		displayedTopics.addAll(home_view.getChildren());
+		adapter.notifyDataSetChanged();
+		
+	}
 
 }
