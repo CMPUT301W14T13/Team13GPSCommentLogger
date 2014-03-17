@@ -378,6 +378,11 @@ public class CreateSubmissionActivity extends Activity{
 		return submission_ok;
 
 	}
+	
+	public Viewable getSubmission(){
+		return this.submission;
+	}
+	
 }
 
 
