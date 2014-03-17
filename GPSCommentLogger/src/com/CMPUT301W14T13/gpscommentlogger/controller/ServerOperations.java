@@ -243,7 +243,7 @@ public class ServerOperations {
 			
 			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<Viewable>>(){}.getType();
 			ElasticSearchSearchResponse<Viewable> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
-			System.err.println(esResponse);
+			System.err.println(esResponse.toString());
 			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
 			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
 				id = r.getESID();
@@ -271,6 +271,7 @@ public class ServerOperations {
 
 		try
 		{
+			Log.w("ElasticSearch","retrieve viewable entered");
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
 			String query = 	"{\"query\" : {\"query_string\" : {\"default_field\" : \"ID\",\"query\" : \"" + currentTask.getSearchTerm() + "\"}}}";
@@ -291,11 +292,14 @@ public class ServerOperations {
 			//Set the matching viewable as the object of the ServerResult
 			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<Viewable>>(){}.getType();
 			ElasticSearchSearchResponse<Viewable> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
-			System.err.println(esResponse);
+			System.err.println(esResponse.toString());
+			
 			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
 			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
 				Viewable output = r.getSource();
 				Log.w("ElasticSearch",(output.getID()));
+				// get the text of the viewable
+				Log.w("ElasticSearch",output.getTitle());			
 				result.setObj(output);
 			}
 		} 
@@ -343,7 +347,7 @@ public class ServerOperations {
 			
 			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<Viewable>>(){}.getType();
 			ElasticSearchSearchResponse<Viewable> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
-			System.err.println(esResponse);
+			System.err.println(esResponse.toString());
 			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
 			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
 				id = r.getESID();

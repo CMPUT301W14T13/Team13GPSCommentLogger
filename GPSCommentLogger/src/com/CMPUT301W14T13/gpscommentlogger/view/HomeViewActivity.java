@@ -126,34 +126,39 @@ public class HomeViewActivity extends Activity {
 		client = ClientServerSystem.getInstance().getClient();
 		server = ClientServerSystem.getInstance().getServer();
 
+		
 		taskFactory = new TaskFactory(client.getDispatcher(), client.getMockup(), client.getDataManager());
-
+/*
 		InitializationServerTask task = taskFactory.getNewInitializer();
 		client.addTask(task);
-
+*/
+		
 		//Testing: Populate ArrayList with topic objects
-		Topic top1 = new Topic("First", "User1");
+		Topic top1 = new Topic("123", "User1");
 
 		PostNewServerTask addChild1 = taskFactory.getNewPoster();
 		addChild1.setSearchTerm("ROOT");
 		addChild1.setObj(top1);
 		client.addTask(addChild1);
 
-		Topic top2 = new Topic("Second", "User2");
+		Topic top2 = new Topic("456", "User2");
+		
 		top2.addChild(new Comment());
 		PostNewServerTask addChild2 = taskFactory.getNewPoster();
 		addChild2.setSearchTerm("ROOT");
 		addChild2.setObj(top2);
 		client.addTask(addChild2);
 
-		Topic top3 = new Topic("Third", "User3");
+		Topic top3 = new Topic("789", "User3");
+		
 		top3.addChild(new Comment());
 		PostNewServerTask addChild3 = taskFactory.getNewPoster();
 		addChild3.setSearchTerm("ROOT");
 		addChild3.setObj(top3);
 		client.addTask(addChild3);
 
-		Topic top4 = new Topic("Fourth", "User4");
+		Topic top4 = new Topic("000", "User4");
+		
 		PostNewServerTask addChild4 = taskFactory.getNewPoster();
 		addChild4.setSearchTerm("ROOT");
 		addChild4.setObj(top4);
@@ -260,7 +265,6 @@ public class HomeViewActivity extends Activity {
 
 	}
 
-	
 	private void getViewableFromServer(String ID){
 		
 		SearchServerTask task = taskFactory.getNewBrowser();
