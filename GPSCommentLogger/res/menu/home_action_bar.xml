@@ -7,7 +7,7 @@
           android:showAsAction="ifRoom" />
     
     <item android:id="@+id/action_post_thread"
-          android:icon="@drawable/plus_white"
+          android:icon="@drawable/plus"
           android:title="@string/action_post"
           android:showAsAction="ifRoom" />
     	

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -58,8 +60,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		home_view = cl.getRoot(); // get the root which holds the list of topics
 
 		adapter = new CustomAdapter(this, home_view.getChildren());
-
-
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
@@ -105,11 +105,13 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 		cl.addView(this);
 	}
-
+	
 	@Override
 	public void onResume(){
 		super.onResume();
 		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
+		invalidateOptionsMenu();
+
 	}
 	
 	@Override
@@ -141,6 +143,21 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		//enable or disable create topic button based on network connection
+		if(!isNetworkAvailable()){
+			menu.findItem(R.id.action_post_thread).setEnabled(false);
+			//change actionbar picture
+			menu.findItem(R.id.action_post_thread).setIcon(R.drawable.plus);
+		} else {
+			menu.findItem(R.id.action_post_thread).setEnabled(true);
+			//change actionbar picture
+			menu.findItem(R.id.action_post_thread).setIcon(R.drawable.plus_white);
+		}
+		return true;
+		
+	}
 
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
@@ -156,6 +173,11 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		displayedTopics.addAll(home_view.getChildren());
 		adapter.notifyDataSetChanged();
 		
+	}
+	private boolean isNetworkAvailable() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		return networkInfo != null && networkInfo.isConnected();
 	}
 
 }

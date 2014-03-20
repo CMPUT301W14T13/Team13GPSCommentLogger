@@ -74,10 +74,10 @@ public class CreateSubmissionActivity extends Activity{
 		submitCode = getIntent().getIntExtra("submit code", -1);
 
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
-		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-		mapLocation = gpsLocation;
+		
 
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		
 		ll = new LocationListener() {
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {		
@@ -94,7 +94,8 @@ public class CreateSubmissionActivity extends Activity{
 			}
 		};
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-
+		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
+		mapLocation = gpsLocation;
 		rowNumber = getIntent().getIntExtra("row number", -1);
 
 		switch(constructCode){
@@ -498,6 +499,14 @@ public class CreateSubmissionActivity extends Activity{
 		return this.submission;
 	}
 	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		lm.removeUpdates(ll);
+	}
+	
 }
+
+
 
 
