@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -136,6 +137,11 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 			case R.id.action_post_thread:
+				if(!isNetworkAvailable()){
+					Toast.makeText(this, "No NetWork", Toast.LENGTH_SHORT).show();
+					invalidateOptionsMenu();
+					return true;
+				}
 				createTopic();
 				return true;
 
