@@ -84,11 +84,6 @@ public class Topic implements Viewable
 	}
 	
 
-	/*public Topic(Parcel in){
-		readFromParcel(in);
-	}*/
-
-
 	public Topic(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
 		this.ID = ID;
@@ -257,64 +252,6 @@ public class Topic implements Viewable
 	}
 
 
-	/**
-	 * Parcelable isn't needed anymore in the app, but this will be left here in case
-	 * it's needed
-	 */
-	
-	/* Interface for
-	 * Parcelable is
-	 * handled in the 
-	 * methods below
-	 */
-	/*@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		GPSLocation.writeToParcel(dest, flags); //This must go first
-		dest.writeString(title);
-		dest.writeString(ID);
-		dest.writeString(username);
-		dest.writeString(commentText);
-		dest.writeValue(comments);
-		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
-		dest.writeValue(image);
-		
-	}
-	
-	//Must read in the order they were written
-	@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every topic has an array list of children
-	private void readFromParcel(Parcel in){
-		GPSLocation = Location.CREATOR.createFromParcel(in);
-		title = in.readString();
-		ID = in.readString();
-		username = in.readString();
-		commentText = in.readString();
-		comments = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
-		timestamp = new Date(in.readLong());
-		image = in.readParcelable(Bitmap.class.getClassLoader());
-		
-	
-	
-	}
-	
-	public static final Parcelable.Creator<Topic> CREATOR =
-			new Parcelable.Creator<Topic>(){
-		public Topic createFromParcel(Parcel in){
-			return new Topic(in);
-		}
-		
-		public Topic[] newArray(int size){
-			return new Topic[size];
-			
-		}
-	};*/
-
 
 	public void addChild(Viewable post) {
 		comments.add(post);
@@ -336,28 +273,6 @@ public class Topic implements Viewable
 		return hasImage;
 	}
 
-	public int countComments(Viewable comment, int num){
-		
-			int count = num;
-			//ArrayList<Viewable> comments = list;
-			ArrayList<Viewable> children = comment.getChildren();
-			//Comment child = (Comment) comment;
-			System.out.println(count);
-			num++;
-			//System.out.println(comment.getCommentText() + "  " + child.getIndentLevel());
-			if (children.size() != 0){
-				
-			
-				for (int i = 0; i < children.size(); i++){
-					
-					countComments(children.get(i), count);
-					
-				}
-			
-			}
-			
-		return count;
-	}
 	public void incrementCommentCount(){
 		commentCount++;
 	}
