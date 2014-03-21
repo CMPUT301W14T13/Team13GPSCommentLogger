@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
@@ -64,6 +66,7 @@ public class CreateSubmissionActivity extends Activity{
 	private Location mapLocation;
 	private LocationManager lm; 
 	private LocationListener ll;
+	private NetworkReceiver nr;
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
 
