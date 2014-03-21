@@ -45,6 +45,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
 	
+	private Menu menu; //A reference to the options menu
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,9 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.home_action_bar, menu);
+		
+		this.menu = menu;
+		
 		return super.onCreateOptionsMenu(menu);
 
 	}
@@ -156,6 +160,10 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		displayedTopics.addAll(home_view.getChildren());
 		adapter.notifyDataSetChanged();
 		
+	}
+
+	public Menu getMenu() {
+		return menu;
 	}
 
 }
