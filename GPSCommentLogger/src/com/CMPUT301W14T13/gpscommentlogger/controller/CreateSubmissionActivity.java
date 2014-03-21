@@ -82,7 +82,6 @@ public class CreateSubmissionActivity extends Activity{
 	
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		
-
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		
 		ll = new LocationListener() {
@@ -246,7 +245,7 @@ public class CreateSubmissionActivity extends Activity{
 	 * @param view
 	 */
 	public void openMap(View view) {
-		if(isOnline()){
+		if(nr.isConnected){
 		Intent map = new Intent(this, MapViewActivity.class);
 		map.putExtra("lat", gpsLocation.getLatitude());
 		map.putExtra("lon", gpsLocation.getLongitude());
@@ -267,7 +266,7 @@ public class CreateSubmissionActivity extends Activity{
 		            // do nothing
 		        }
 		     })
-		    .setIcon(R.drawable.attach)
+		    .setIcon(R.drawable.location)
 		     .show();
 			
 		}
