@@ -181,31 +181,6 @@ public class CreateSubmissionActivity extends Activity{
 		}
 
 
-		//Constructing a topic(0)
-		if (constructCode == 0){
-
-			//only get the title if it's a topic
-			text = (EditText) findViewById(R.id.setTitle);
-			title = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.setTopicUsername);
-			username = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.setTopicText);
-			commentText = text.getText().toString().trim();
-		}
-
-		//Constructing a comment(1), editing a comment(2), or editing a topic(3)
-		else{
-
-			text = (EditText) findViewById(R.id.set_comment_username);
-			username = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.set_comment_text);
-			commentText = text.getText().toString().trim();
-		}
-
-
 
 	}
 
