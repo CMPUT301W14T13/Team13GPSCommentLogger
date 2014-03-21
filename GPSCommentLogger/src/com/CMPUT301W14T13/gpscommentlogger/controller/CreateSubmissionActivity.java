@@ -96,52 +96,55 @@ public class CreateSubmissionActivity extends Activity{
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 
 		rowNumber = getIntent().getIntExtra("row number", -1);
+		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
+		//get the user's global username so they don't have to always enter it
+		currentUsername = cl.getCurrentUsername();
+		
 		switch(constructCode){
 
 			case(0): // constructing a new topic
 				setContentView(R.layout.create_topic); //creating a topic
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			break;
+				getActionBar().setDisplayHomeAsUpEnabled(true);
+				text = (EditText) findViewById(R.id.setTopicUsername);
+				text.setText(currentUsername);
+				break;
 
 			case(1): //constructing a new comment
 				setContentView(R.layout.create_comment); //creating a comment
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
-			//get the user's global username so they don't have to always enter it
-			currentUsername = cl.getCurrentUsername();
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(currentUsername);
-			break;
+				text = (EditText) findViewById(R.id.set_comment_username);
+				text.setText(currentUsername);
+				break;
 
 			//These cases are for editing a comment or topic
 			case(2):
 			case(3):
 				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
-			cl = CommentLoggerApplication.getCommentLogger();
-
-
-			if (constructCode == 3){ //CheckSubmission needs to check the title
-
-				submission = cl.getCurrentTopic();
-				title = submission.getTitle();
-			}
-			else{
-				submission = cl.getCommentList().get(rowNumber);
-			}
-
-			/*
-			 * Set various text fields below from the topic so that they are displayed when editing it
-			 */
-			text = (EditText) findViewById(R.id.set_comment_text);
-			text.setText(submission.getCommentText());
-
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(submission.getUsername());
-			extractTextFields();
-
-			//text = (EditText) findViewById(R.id.coordinates);
-			//text.setText(submission.locationString());
+				cl = CommentLoggerApplication.getCommentLogger();
+	
+	
+				if (constructCode == 3){ //CheckSubmission needs to check the title
+	
+					submission = cl.getCurrentTopic();
+					title = submission.getTitle();
+				}
+				else{
+					submission = cl.getCommentList().get(rowNumber);
+				}
+	
+				/*
+				 * Set various text fields below from the topic so that they are displayed when editing it
+				 */
+				text = (EditText) findViewById(R.id.set_comment_text);
+				text.setText(submission.getCommentText());
+	
+				text = (EditText) findViewById(R.id.set_comment_username);
+				text.setText(submission.getUsername());
+				extractTextFields();
+	
+				//text = (EditText) findViewById(R.id.coordinates);
+				//text.setText(submission.locationString());
 		}
 	}
 

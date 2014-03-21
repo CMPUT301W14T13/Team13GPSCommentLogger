@@ -33,7 +33,7 @@ public class SortByTimeTest extends ActivityInstrumentationTestCase2<HomeViewAct
 			topics.add(new Topic());
 			Thread.sleep(1000);
 		}
-
+		
 		topics = SortFunctions.sortByNewest(topics);
 		
 		for (int i = 0; i < topics.size(); i++){
