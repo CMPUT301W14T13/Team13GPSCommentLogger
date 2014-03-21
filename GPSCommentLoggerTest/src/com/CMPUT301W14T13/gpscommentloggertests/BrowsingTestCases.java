@@ -1,14 +1,13 @@
 package com.CMPUT301W14T13.gpscommentloggertests;
 
-import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
-import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
-import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
+
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
 @SuppressLint("NewApi")
 public class BrowsingTestCases extends ActivityInstrumentationTestCase2<DebugActivity> {

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -59,8 +62,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		home_view = cl.getRoot(); // get the root which holds the list of topics
 
 		adapter = new CustomAdapter(this, home_view.getChildren());
-
-
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
@@ -106,11 +107,13 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 		cl.addView(this);
 	}
-
+	
 	@Override
 	public void onResume(){
 		super.onResume();
 		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
+		invalidateOptionsMenu();
+
 	}
 	
 	@Override
@@ -146,6 +149,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		}
 	}
 
+		
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
 		topic.putExtra("construct code", 0);

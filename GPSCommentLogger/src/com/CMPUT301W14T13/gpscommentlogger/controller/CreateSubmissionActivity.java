@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -74,10 +78,10 @@ public class CreateSubmissionActivity extends Activity{
 		submitCode = getIntent().getIntExtra("submit code", -1);
 
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
-		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-		mapLocation = gpsLocation;
+		
 
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		
 		ll = new LocationListener() {
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {		
@@ -94,7 +98,8 @@ public class CreateSubmissionActivity extends Activity{
 			}
 		};
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-
+		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
+		mapLocation = gpsLocation;
 		rowNumber = getIntent().getIntExtra("row number", -1);
 
 		switch(constructCode){
@@ -181,31 +186,6 @@ public class CreateSubmissionActivity extends Activity{
 		}
 
 
-		//Constructing a topic(0)
-		if (constructCode == 0){
-
-			//only get the title if it's a topic
-			text = (EditText) findViewById(R.id.setTitle);
-			title = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.setTopicUsername);
-			username = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.setTopicText);
-			commentText = text.getText().toString().trim();
-		}
-
-		//Constructing a comment(1), editing a comment(2), or editing a topic(3)
-		else{
-
-			text = (EditText) findViewById(R.id.set_comment_username);
-			username = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.set_comment_text);
-			commentText = text.getText().toString().trim();
-		}
-
-
 
 	}
 
@@ -258,16 +238,36 @@ public class CreateSubmissionActivity extends Activity{
 		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
 	}
 	/**
-	 * Opens the MapViewActivity once the location button is clicked
-	 * passes it a latitude and longitude from the current gps location
-	 * to be used to set the map screen.
+	 * Once location button is clicked we check if our user is online, if so we pop up a map 
+	 * to edit location otherwise we open a dialog fragment for offline location editing
 	 * @param view
 	 */
 	public void openMap(View view) {
+		if(isOnline()){
 		Intent map = new Intent(this, MapViewActivity.class);
 		map.putExtra("lat", gpsLocation.getLatitude());
 		map.putExtra("lon", gpsLocation.getLongitude());
 		startActivityForResult(map, REQUEST_CODE);
+		} else {
+			
+			new AlertDialog.Builder(this)
+		    .setTitle("Location")
+		    .setMessage("Please enter your desired location")
+		    .setView(view)
+		    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) { 
+		            // continue with delete
+		        }
+		     })
+		    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) { 
+		            // do nothing
+		        }
+		     })
+		    .setIcon(R.drawable.attach)
+		     .show();
+			
+		}
 	}
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
@@ -426,7 +426,6 @@ public class CreateSubmissionActivity extends Activity{
 	 */
 	public void submitTopic(View v){
 
-		
 		boolean submission_ok;
 
 		extractTextFields();
@@ -498,6 +497,23 @@ public class CreateSubmissionActivity extends Activity{
 		return this.submission;
 	}
 	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		lm.removeUpdates(ll);
+	}
+	
+	public boolean isOnline() {
+	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	}
+
 }
+
+
 
 

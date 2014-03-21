@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
@@ -27,6 +25,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateSubmissionActivity> {
 
 	CreateSubmissionActivity activity;
+	Intent intent;
 	
 	public MakeSubmissionTest() {
 		super(CreateSubmissionActivity.class);
@@ -78,7 +77,9 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 	
 	public void setUp() throws Exception {
 		super.setUp();
-		activity = getActivity();
+		intent = new Intent();
+		setActivityIntent(intent);
+		
 	}
 	
 	/**
@@ -126,29 +127,23 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 	 */
 	public void testMakeTopic() throws Throwable {
 		
+		
+		intent.putExtra("construct code", 0);
+		activity = getActivity();
+		
 		runTestOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
 		
-				Intent intent = new Intent();
-				setActivityIntent(intent);
-				intent.putExtra("construction code", 0);
 				
 				assertNotNull(activity);
 				CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 				
-				//	View commentLayout = (View) activity.findViewById(R.id.create_topic);
-				/*
 				EditText title = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTitle);
 				EditText username = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicUsername);
 				EditText commentText = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicText);		
 				Button submitButton = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.submit);
-				 */
-				EditText title = (EditText) activity.findViewById(R.id.setTitle);
-				EditText username = (EditText) activity.findViewById(R.id.setTopicUsername);
-				EditText commentText = (EditText) activity.findViewById(R.id.setTopicText);		
-				Button submitButton = (Button) activity.findViewById(R.id.submit);
 				
 				assertNotNull(title);
 				assertNotNull(username);
@@ -163,9 +158,9 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 
 				Topic topic = (Topic) cl.getTopics().get(0);
 
-				assertEquals("Titles not the same", topic.getTitle(), title.toString() );
-				assertEquals("Usernames not the same", topic.getUsername(), username.toString());
-				assertEquals("Texts not the same", topic.getCommentText(), commentText.toString());
+				assertEquals("Titles not the same", topic.getTitle(), title.getText().toString() );
+				assertEquals("Usernames not the same", topic.getUsername(), username.getText().toString());
+				assertEquals("Texts not the same", topic.getCommentText(), commentText.getText().toString());
 
 
 			}
