@@ -79,7 +79,7 @@ public class CreateSubmissionActivity extends Activity{
 
 		constructCode = getIntent().getIntExtra("construct code", -1);
 		submitCode = getIntent().getIntExtra("submit code", -1);
-
+	
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		
 
