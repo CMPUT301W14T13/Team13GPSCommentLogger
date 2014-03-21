@@ -137,11 +137,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 			case R.id.action_post_thread:
-				if(!isNetworkAvailable()){
-					Toast.makeText(this, "No NetWork", Toast.LENGTH_SHORT).show();
-					invalidateOptionsMenu();
-					return true;
-				}
 				createTopic();
 				return true;
 
@@ -149,22 +144,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu){
-		//enable or disable create topic button based on network connection
-		if(!isNetworkAvailable()){
-			menu.findItem(R.id.action_post_thread).setEnabled(false);
-			//change actionbar picture
-			menu.findItem(R.id.action_post_thread).setIcon(R.drawable.plus);
-		} else {
-			menu.findItem(R.id.action_post_thread).setEnabled(true);
-			//change actionbar picture
-			menu.findItem(R.id.action_post_thread).setIcon(R.drawable.plus_white);
-		}
-		return true;
-		
-	}
 
+		
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
 		topic.putExtra("construct code", 0);
@@ -179,11 +160,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		displayedTopics.addAll(home_view.getChildren());
 		adapter.notifyDataSetChanged();
 		
-	}
-	private boolean isNetworkAvailable() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-		return networkInfo != null && networkInfo.isConnected();
 	}
 
 }
