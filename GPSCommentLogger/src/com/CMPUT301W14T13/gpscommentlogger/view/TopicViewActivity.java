@@ -64,6 +64,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	public void onResume(){
 		super.onResume();
 		fillTopicLayout();
+		commentListview.setAdapter(adapter); //set the adapter again so the appropriate edit buttons are hidden
 	}
 	
 	@Override

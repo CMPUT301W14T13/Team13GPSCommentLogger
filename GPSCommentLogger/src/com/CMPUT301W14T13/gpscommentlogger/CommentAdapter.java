@@ -98,10 +98,13 @@ public class CommentAdapter extends BaseAdapter {
 		 * Hide the edit button if it's not the user's comment.
 		 * Currently, only checks if the usernames are equal
 		 */
-		
+	
 		if (!cl.getCurrentUsername().equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	
+		else{
+			editButton.setVisibility(View.VISIBLE);
+		}
 		
 		holder.indentLevel = comment.getIndentLevel();
 		setIndentView(vi, holder.indentLevel, position);

@@ -346,8 +346,8 @@ public class CreateSubmissionActivity extends Activity{
 				case(0):  //reply to topic
 
 					cl.addComment((Comment) submission);
-				cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
-				break;
+					cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
+					break;
 
 				case(1): //reply to comment
 
@@ -363,7 +363,7 @@ public class CreateSubmissionActivity extends Activity{
 						cl.getCurrentTopic().incrementCommentCount();
 					}
 
-				break;
+					break;
 
 				case(2)://edit topic
 
