@@ -96,6 +96,7 @@ public class CommentAdapter extends BaseAdapter {
 		
 		/*
 		 * Hide the edit button if it's not the user's comment.
+		 * Show the edit button if it is the user's comment.
 		 * Currently, only checks if the usernames are equal
 		 */
 	
