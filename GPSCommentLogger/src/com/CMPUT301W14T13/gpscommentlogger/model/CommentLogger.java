@@ -75,6 +75,10 @@ public class CommentLogger extends FModel<FView>
 		notifyViews();
 	}
 	
+	public void addTopic(Topic topic){
+		root.addChild(topic);
+		notifyViews();
+	}
 	
 	public void updateTopicChildren(ArrayList<Viewable> comments){
 		commentList = comments;

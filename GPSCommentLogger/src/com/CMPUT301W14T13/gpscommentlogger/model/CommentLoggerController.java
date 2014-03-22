@@ -48,10 +48,7 @@ public class CommentLoggerController
 	 */
 	public void addTopic(Topic topic) {
 
-
-		cl.getRoot().addChild(topic);
-		cl.notifyViews();
-
+		cl.addTopic(topic);
 	}
 
 
