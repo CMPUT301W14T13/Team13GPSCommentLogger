@@ -4,12 +4,14 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -232,7 +234,15 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	}
 
 	
-
+	//Called when the image in a comment is clicked
+	//Need to expand the image or something here
+	public void viewImage(View v){
+		
+		int tag = (Integer) v.getTag();
+		
+	}
+	
+	
 	@Override
 	public void update(CommentLogger model)
 	{

@@ -102,7 +102,7 @@ public class CustomAdapter extends BaseAdapter {
 		text.setText(topic.getCommentCount() + " comments");
 		
 		/* show bitmap */
-		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		ImageView imageView = (ImageView) vi.findViewById(R.id.topicImage);
 		if (topic.getHasImage()) {			
 			imageView.setImageBitmap(topic.getImage());
 		}

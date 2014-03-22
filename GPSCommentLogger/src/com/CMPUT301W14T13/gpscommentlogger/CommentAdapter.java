@@ -84,6 +84,7 @@ public class CommentAdapter extends BaseAdapter {
 		
 		/* show bitmap */
 		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		imageView.setTag(position);
 		if (comment.getHasImage()) {
 			imageView.setImageBitmap(comment.getImage());
 		}

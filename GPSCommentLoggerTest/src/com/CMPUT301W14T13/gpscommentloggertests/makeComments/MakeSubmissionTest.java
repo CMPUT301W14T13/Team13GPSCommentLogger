@@ -1,6 +1,8 @@
 package com.CMPUT301W14T13.gpscommentloggertests.makeComments;
 import java.util.Date;
 
+import org.junit.Before;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -75,6 +77,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 		}	
 	}
 	
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
