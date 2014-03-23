@@ -26,17 +26,22 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<CreateS
 
 	CreateSubmissionActivity activity;
 	Intent intent;
-
+	CommentLogger cl;
+	
 	public ReplyToCommentTest() {
 		super(CreateSubmissionActivity.class);
 	}
 
-	
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
 		setActivityIntent(intent);
-
+		
+		cl = CommentLoggerApplication.getCommentLogger();
+		cl.getTopics().clear();
+		cl.addTopic(new Topic());
+		cl.setCurrentTopic(0);
 	}
 	public void testTopicReply() throws Throwable {
 
@@ -52,12 +57,6 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<CreateS
 
 
 				assertNotNull(activity);
-				
-				CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-				CommentLoggerController controller = new CommentLoggerController(cl);
-				cl.setCurrentTopic(0);
-				
-				controller.addTopic(new Topic());
 				
 				EditText username = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.set_comment_username);
 				EditText commentText = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.set_comment_text);		
@@ -97,11 +96,7 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<CreateS
 
 
 				assertNotNull(activity);
-				CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-				CommentLoggerController controller = new CommentLoggerController(cl);
 				
-				controller.addTopic(new Topic());
-				cl.setCurrentTopic(0);
 				cl.addComment(new Comment());
 				
 				
