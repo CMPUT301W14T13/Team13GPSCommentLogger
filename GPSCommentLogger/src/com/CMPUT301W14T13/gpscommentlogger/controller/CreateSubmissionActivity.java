@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,13 +21,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
@@ -63,10 +63,9 @@ public class CreateSubmissionActivity extends Activity{
 	private String currentUsername = "";
 	private int submitCode; //0: Reply to topic, 1: Reply to comment, 2: Edited topic 3: Edited comment
 	private Location gpsLocation;
-	private Location mapLocation;
+	private Location userLocation;
 	private LocationManager lm; 
 	private LocationListener ll;
-	private NetworkReceiver nr;
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
 
@@ -100,8 +99,8 @@ public class CreateSubmissionActivity extends Activity{
 			}
 		};
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-		mapLocation = gpsLocation;
+		gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		userLocation = null;
 		rowNumber = getIntent().getIntExtra("row number", -1);
 		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 
@@ -190,7 +189,7 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
-
+ 
 
 	}
 
@@ -212,9 +211,13 @@ public class CreateSubmissionActivity extends Activity{
 			submission = new Comment();
 		}
 
-		submission.setUsername(username);
+		submission.setUsername(username); 
 		submission.setCommentText(commentText);
-		submission.setGPSLocation(mapLocation);
+		if(userLocation == null){
+		submission.setGPSLocation(gpsLocation);
+		} else {
+			submission.setGPSLocation(userLocation);
+		}
 
 
 		//username defaults to Anonymous if left blank
@@ -248,35 +251,51 @@ public class CreateSubmissionActivity extends Activity{
 	 * @param view
 	 */
 	public void openMap(View view) {
-		if(nr.isConnected){
+		if(isOnline()){
 			Intent map = new Intent(this, MapViewActivity.class);
-			map.putExtra("lat", gpsLocation.getLatitude());
+			map.putExtra("lat", gpsLocation.getLatitude()); 
 			map.putExtra("lon", gpsLocation.getLongitude());
-			startActivityForResult(map, REQUEST_CODE);
+			startActivityForResult(map, REQUEST_CODE); 
 		} else {
-
-			new AlertDialog.Builder(this)
-			.setTitle("Location")
-			.setMessage("Please enter your desired location")
-			.setView(view)
-			.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) { 
-					// continue with delete
-				}
-			})
-			.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) { 
-					// do nothing
-				}
-			})
-			.setIcon(R.drawable.location)
-			.show();
-
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+ 
+			LayoutInflater inflater = getLayoutInflater();
+			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
+			builder.setView(dialogView);
+			AlertDialog ad = builder.create();
+			ad.setTitle("Select Location");
+			ad.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
+					new DialogInterface.OnClickListener()
+					{	
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{  
+							text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
+							double latitude = Double.parseDouble(text.getText().toString().trim());
+							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
+							double longitude = Double.parseDouble(text.getText().toString().trim());
+							userLocation = new Location(gpsLocation);
+							userLocation.setLatitude(latitude);
+							userLocation.setLongitude(longitude);
+							
+						}
+					});
+			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+			    new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) {
+			        	//do nothing
+			        }
+			    });
+			ad.show();
+			
+			
 		}
+		
 	}
+	
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
-	 * in construction the topic. if from some reason a lat and lon cannot
+	 * in construction the topic. if from some reason a latitude and longitude cannot
 	 * be retrieved it gets the current gps location. Also used to attach
 	 * an image to the submission.
 	 */
@@ -288,8 +307,9 @@ public class CreateSubmissionActivity extends Activity{
 			if (resultCode == RESULT_OK){
 				double latitude = data.getDoubleExtra("lat", gpsLocation.getLatitude());
 				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
-				mapLocation.setLongitude(longitude);
-				mapLocation.setLatitude(latitude);
+				userLocation = new Location(gpsLocation);
+				userLocation.setLongitude(longitude);
+				userLocation.setLatitude(latitude);
 			}
 		}
 
@@ -353,7 +373,7 @@ public class CreateSubmissionActivity extends Activity{
 
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
-
+		
 		extractTextFields();
 		constructSubmission();
 
@@ -423,7 +443,7 @@ public class CreateSubmissionActivity extends Activity{
 
 	/**
 	 * Submits the new topic. When the user creates a topic and hit submit,
-	 * it will extract the text fields and contruct a new topic from this
+	 * it will extract the text fields and constructs a new topic from this
 	 * information. It then checks that the topic is valid and then adds it to
 	 * the root in the model which holds the list of topics.
 	 * 
@@ -442,7 +462,6 @@ public class CreateSubmissionActivity extends Activity{
 			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 			CommentLoggerController controller = new CommentLoggerController(cl);
 			controller.addTopic((Topic) submission);
-
 			finish();
 		}
 
@@ -506,6 +525,7 @@ public class CreateSubmissionActivity extends Activity{
 	public void onDestroy(){
 		super.onDestroy();
 		lm.removeUpdates(ll);
+		lm = null;
 	}
 
 	public boolean isOnline() {
