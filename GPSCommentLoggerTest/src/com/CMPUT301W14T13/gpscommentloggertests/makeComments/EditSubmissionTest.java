@@ -45,7 +45,7 @@ public class EditSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 		intent = new Intent();
 		setActivityIntent(intent);
 		
-		cl = CommentLoggerApplication.getCommentLogger();
+		cl = CommentLogger.getInstance();
 		cl.getTopics().clear();
 		cl.addTopic(new Topic());
 		cl.setCurrentTopic(0);

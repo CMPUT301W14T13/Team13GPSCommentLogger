@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
 import com.CMPUT301W14T13.gpscommentlogger.view.FView;
 
@@ -46,7 +46,7 @@ public class SelectUsernameActivity extends Activity implements FView<CommentLog
 		setContentView(R.layout.username_view);
 		
 		prefs = new Preferences(getApplicationContext());
-		cl = CommentLoggerApplication.getCommentLogger();
+		cl = CommentLogger.getInstance();
 		controller = new CommentLoggerController(cl);
 		
 		usernames = prefs.getArray(); //get the list of usernames
@@ -77,7 +77,7 @@ public class SelectUsernameActivity extends Activity implements FView<CommentLog
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        CommentLogger cl = CommentLogger.getInstance();
         cl.deleteView(this);
 	}
 	

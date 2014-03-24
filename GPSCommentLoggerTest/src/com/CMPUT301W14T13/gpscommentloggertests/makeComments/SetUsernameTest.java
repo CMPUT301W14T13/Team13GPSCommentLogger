@@ -29,7 +29,7 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<SelectUser
 
 	SelectUsernameActivity activity;
 	Intent intent;
-	CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+	CommentLogger cl = CommentLogger.getInstance();
 	Preferences prefs;
 	ArrayList<String> usernames;
 
