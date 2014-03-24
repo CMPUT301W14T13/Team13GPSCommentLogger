@@ -28,7 +28,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
+/**
+ * This activity class has dependency injection frameworks
+ * for unit testing. In other words, using this activity, we can test
+ * our models and its associated functions (eg. editing, replying) without
+ * a GUI by referencing this activity.
+ *
+ * This activity provides a framework for testing without a GUI by making
+ *  
+ */
 public class DebugActivity extends Activity implements DebugActivityInterface
 {
 	Handler textHandler;
