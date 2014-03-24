@@ -65,6 +65,14 @@ public class ServerController extends Controller
 		tasks = new ArrayList<Task>();
 	}
 	
+	public ServerController()
+	{
+		isInit = false;
+		this.handler = null;
+		this.debuggingWindow = null;
+		tasks = new ArrayList<Task>();
+	}
+	
 	@Override
 	public void init()
 	{

@@ -1,6 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivityInterface;
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivityWithServer;
 
 import android.os.Handler;
@@ -27,6 +28,7 @@ public class ClientServerSystem
 
 	}
 	
+	//Initial version
 	public void init(Handler handler, TextView debuggingWindow)
 	{
 		if(isInit)return;
@@ -44,7 +46,8 @@ public class ClientServerSystem
 		isInit = true;
 	}
 	
-	public void init(DebugActivity activity, String saveLocation, Handler textHandler, Handler listHandler, TextView debuggingWindow)
+	//For debugging
+	public void init(DebugActivityInterface activity, String saveLocation, Handler textHandler, Handler listHandler, TextView debuggingWindow)
 	{
 		if(isInit)return;
 		
@@ -61,12 +64,13 @@ public class ClientServerSystem
 		isInit = true;
 	}
 	
-	public void init(DebugActivityWithServer activity, String saveLocation, Handler textHandler, Handler listHandler, TextView debuggingWindow)
+	//For actual application
+	public void init(Handler handler)
 	{
 		if(isInit)return;
 		
-		client = new ClientController(activity, saveLocation, listHandler, debuggingWindow);
-		server = new ServerController(textHandler, debuggingWindow);
+		client = new ClientController(handler);
+		server = new ServerController();
 		client.setServer(server);
 		server.setClient(client);
 		client.init();

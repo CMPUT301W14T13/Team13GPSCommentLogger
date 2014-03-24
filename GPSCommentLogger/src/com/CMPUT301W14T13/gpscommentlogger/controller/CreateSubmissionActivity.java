@@ -29,10 +29,11 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 import com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity;
 
 
@@ -439,8 +440,19 @@ public class CreateSubmissionActivity extends Activity{
 		if (submission_ok){
 
 			CommentLogger cl = CommentLogger.getInstance();
-			CommentLoggerController controller = new CommentLoggerController(cl);
-			controller.addTopic((Topic) submission);
+			cl.addTopic((Topic) submission);
+			ClientController client = ClientServerSystem.getInstance().getClient();
+			PostNewServerTask task = new TaskFactory(client.getDispatcher(),client.getMockup(),client.getDataManager()).getNewPoster();
+			task.setObj(submission);
+			task.setSearchTerm("ROOT");
+			try
+			{
+				task.setId(Integer.toString(task.hashCode()));
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			client.addTask(task);
 
 			finish();
 		}

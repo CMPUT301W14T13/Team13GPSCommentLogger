@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
@@ -14,13 +15,15 @@ import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 public class ServerListener extends Thread
 {
 	private ClientController client;
+	private Handler handler;
 	private ArrayList<Result> results;
 	private HashMap<String, String> debuggingOutput; 
 
-	public ServerListener(ClientController clientController)
+	public ServerListener(ClientController clientController, Handler handler)
 	{
 		client = clientController;
 		results = new ArrayList<Result>();
+		this.handler = handler;
 	}
 
 	@Override
@@ -78,6 +81,17 @@ public class ServerListener extends Thread
 		}
 		
 		//TODO: perform appropriate action based on result
+		if(result instanceof ServerResult)
+		{
+			ServerResult serverResult = (ServerResult)result;
+			if(((ServerResult) result).getId().equals("ROOT"))
+			{
+				Log.w("ServerListener","Test");
+				Message msg = new Message();
+				msg.obj = serverResult.getObj();
+				handler.dispatchMessage(msg);
+			}
+		}
 
 	}
 	

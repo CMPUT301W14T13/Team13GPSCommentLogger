@@ -47,6 +47,15 @@ public class ClientController extends Controller
 	DebugActivityInterface debugActivity;
 	Handler handler;
 	boolean hasConnection = true;
+	
+	public ClientController(Handler handler)
+	{
+		isInit = false;
+		this.debuggingWindow = null;
+		tasks = new ArrayList<Task>();
+		offlineDataEntity = new DataManager(DATA_STORAGE_LOCATION);
+		this.handler = handler;
+	}
 
 	public ClientController(TextView debuggingWindow)
 	{
@@ -71,7 +80,7 @@ public class ClientController extends Controller
 	public void init()
 	{
 		if (isInit) return;
-		listener = new ServerListener(this);
+		listener = new ServerListener(this, handler);
 		listener.start();
 		onlineDataEntityMockup = new DataEntityMockup(listener);
 		isInit = true;
@@ -113,6 +122,7 @@ public class ClientController extends Controller
 	protected synchronized Result doTask() throws InterruptedException
 	{
 		Task currentTask = tasks.remove(0);	
+		Log.w("ClientController", currentTask.getClass().getCanonicalName());
 		currentTask.execute();
 		return null; //TODO: can this be eliminated?
 	}

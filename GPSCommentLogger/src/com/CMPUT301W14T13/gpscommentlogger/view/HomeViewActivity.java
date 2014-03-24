@@ -11,24 +11,33 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ClientServerSystem;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 /* this is our main activity */
 /**
@@ -42,6 +51,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 	private ListView topicListview;
+	private Handler listViewHandler;
 	private Root home_view = new Root();
 	private CommentLoggerController controller; //controller for the model
 	private CommentLogger cl; // our model
@@ -58,9 +68,88 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		// IDEALLY, this should get the topics from the server.
 		cl = CommentLogger.getInstance();
 		controller = new CommentLoggerController(cl);
+		
+		
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
+		invalidateOptionsMenu();
+		
+		final HomeViewActivity activity = this;
+		
+		listViewHandler = new Handler(Looper.getMainLooper()) {
 
-		home_view = cl.getRoot(); // get the root which holds the list of topics
+            @Override
+            public void handleMessage(Message inputMessage) {
+            	final Root root = (Root)inputMessage.obj;
+            	activity.runOnUiThread(new Runnable(){
+					@Override
+					public void run() {
+						Log.w("DebugMessage", "Message Received in Home View");
+						home_view = root;
+						init();
+		            	}});			
+            }
+        };
+        
+        ClientServerSystem.getInstance().init(listViewHandler);
+        ClientController clientController = ClientServerSystem.getInstance().getClient();
+        
+        InitializationServerTask initTask = new TaskFactory(clientController.getDispatcher(),clientController.getMockup(),clientController.getDataManager()).getNewInitializer();
+        clientController.addTask(initTask);
 
+		SearchServerTask task = new TaskFactory(clientController.getDispatcher(),clientController.getMockup(),clientController.getDataManager()).getNewBrowser();
+		try
+		{
+			task.setId("ROOT");
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		task.setSearchTerm("ROOT");
+		clientController.addTask(task);
+
+	}
+	
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+        CommentLogger cl = CommentLogger.getInstance();
+        cl.deleteView(this);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.home_action_bar, menu);
+		
+		this.menu = menu;
+		
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+			case R.id.action_post_thread:
+				createTopic();
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void init()
+	{
 		adapter = new CustomAdapter(this, home_view.getChildren());
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
@@ -106,47 +195,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
 		cl.addView(this);
-	}
-	
-	@Override
-	public void onResume(){
-		super.onResume();
-		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
-		invalidateOptionsMenu();
-
-	}
-	
-	@Override
-    public void onDestroy() {
-        super.onDestroy();
-        CommentLogger cl = CommentLogger.getInstance();
-        cl.deleteView(this);
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.home_action_bar, menu);
-		
-		this.menu = menu;
-		
-		return super.onCreateOptionsMenu(menu);
-
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-			case R.id.action_post_thread:
-				createTopic();
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
-		}
 	}
 
 		

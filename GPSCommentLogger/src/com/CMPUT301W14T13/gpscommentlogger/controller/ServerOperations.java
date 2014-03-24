@@ -52,7 +52,7 @@ public class ServerOperations {
 		{
 			request.setHeader("Accept","application/json");
 			HttpResponse response = client.execute(request);
-			Log.w("ElasticSearch", response.getStatusLine().toString());
+			Log.w("ElasticSearchDelete", response.getStatusLine().toString());
 			
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
@@ -61,7 +61,7 @@ public class ServerOperations {
 			output += "\n" + reader.readLine();
 			while(output != null)
 			{
-				Log.w("ElasticSearch", output);
+				Log.w("ElasticSearchDelete", output);
 				output = reader.readLine();
 			}
 			result.setContent(output);

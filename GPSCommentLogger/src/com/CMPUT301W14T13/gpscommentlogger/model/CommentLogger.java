@@ -26,7 +26,7 @@ public class CommentLogger extends FModel<FView>
 	private boolean changed = false;
 	private String currentUsername = "Anonymous";
 	
-	private static CommentLogger Instance = new CommentLogger();
+	private static final CommentLogger Instance = new CommentLogger();
 	
 	private CommentLogger()
 	{
