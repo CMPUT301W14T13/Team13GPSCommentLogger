@@ -117,4 +117,6 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<SelectUser
 
 
 	}
+	
+	
 }
