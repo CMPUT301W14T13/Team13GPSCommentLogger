@@ -82,22 +82,27 @@ public class SortFunctions
 		return orderedArray;
 	}
 	
-	public static ArrayList<Viewable> sortByOldest(ArrayList<Viewable> viewables, Location givenLocation){
+	public static ArrayList<Viewable> sortByGivenLocation(ArrayList<Viewable> viewables, Location givenLocation){
+		
 		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
 		int position = 0;
+		double closest = 99999999;
 		double distance;
 		Location location;
+		
 		while(viewables.size() != 0){
-
 			for (int i = 0; i < viewables.size(); i++){
-
-				location = viewables.get(i).getGPSLocation();
-
-	
+				location = viewables.get(i).getGPSLocation();	
+				distance = givenLocation.distanceTo(location);
+				if(distance < closest){
+					closest = distance;
+					position = i;
+				}
+			}
+			orderedArray.add(viewables.get(position));
+			viewables.remove(position);
 		}
-		
-		
-		return orderedArray; 
+		return orderedArray;
 	}
 
 	
