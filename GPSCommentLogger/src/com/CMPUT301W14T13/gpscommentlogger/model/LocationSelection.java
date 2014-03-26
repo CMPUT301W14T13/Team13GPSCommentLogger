@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 
 /**
@@ -34,11 +35,15 @@ public class LocationSelection
 	private static LocationListener locationListener;
 	private static LocationManager locationManager; 
 	private static Location gpsLocation;
-	
+
 	/**
 	 * Constructor
 	 */
-	public void LocationSelection() {
+	static Context activity_context;
+
+  
+	public LocationSelection(Context activity) {
+		this.activity_context = activity;
 	}
 
 	/**
@@ -54,9 +59,15 @@ public class LocationSelection
 	 * This function is called by other methods
 	 * that need to retrieve current location.
 	 */
+	
+	/*activityName.getContext()*/
+	
 	public static void startLocationSelection() {
+		Log.d("LocationSelection", "Started location manager and listener");
 		
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) activity_context.getSystemService(Context.LOCATION_SERVICE);
+		
+		Log.d("LocationSelection", "Location manager is " + locationManager.toString());
 
 		locationListener = new LocationListener() {
 			@Override
@@ -73,13 +84,18 @@ public class LocationSelection
 				gpsLocation = location;				
 			}
 		};
-		
-		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) 
+
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); // update current GPS location
-		else 
+			Log.d("LocationSelection", "Got GPS Provider");
+		}
+		else{ 
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener); // update current network location
+			Log.d("LocationSelection", "Got Network Provider");
+		}
+		
 	}
-	
+
 	/**
 	 * This function stops location manager and listener.
 	 * 
@@ -88,9 +104,30 @@ public class LocationSelection
 	 */
 	public static void stopLocationSelection() {
 		locationManager.removeUpdates(locationListener);
+		Log.d("LocationSelection", "Stopped location manager and listener");
+	}
+	
+	/**
+	 * ForTesting purposes
+	 * Allows our unit Tests to create a mock location provider
+	 * so that this class can acquire location when unit tested on emulator 
+	 * where GPS and Network providers are absent
+	 * @param provier
+	 */
+	public void setProvider( String provider){
+		this.locationManager.addTestProvider(provider, false, false, false, false, true, true, true, 0, 5);
+		this.locationManager.setTestProviderEnabled(provider, true);
+	}
+	/**
+	 * This function sets a specific location 
+	 * for the Test provider above
+	 */
+	public void setProviderLocation (String provider, Location location){
+		this.locationManager.setTestProviderLocation(provider, location);
+		
 	}
 
-	
+
 	/**
 	 * This function is responsible for
 	 * returning the user's current location.
@@ -108,16 +145,19 @@ public class LocationSelection
 	 */
 	public static Location getLocation() {
 		
+
 		stopLocationSelection(); // stop location manager and listener
 		
-		return gpsLocation;
+//		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
 		
+		return gpsLocation;
+
 	}
 
 	public static LocationListener getLocationListener(){
 		return locationListener;
 	}
-	
+
 	public static LocationManager getSystemService(String locationService) {
 		// TODO Auto-generated method stub
 		return null;
