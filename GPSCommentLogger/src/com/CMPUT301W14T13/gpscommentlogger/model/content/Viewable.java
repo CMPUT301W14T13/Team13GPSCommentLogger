@@ -12,11 +12,12 @@ public abstract class Viewable {
 	
 	protected String title;
 	protected String ID;
-	protected String commentText;
+	protected String commentText = "";
 	protected Bitmap image;
 	protected boolean hasImage;
 	protected Date timestamp;
 	protected Date freshness;
+
 	protected Location GPSLocation;
 	protected ArrayList<Viewable> childPosts;
 	protected String username;
@@ -233,5 +234,28 @@ public abstract class Viewable {
 	    else
 	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
 	    
+	}
+	
+	public void setLocation(Location gpsLocation2)
+	{
+		GPSLocation = gpsLocation2;
+	}
+	
+	public Location getLocation()
+	{
+		return this.GPSLocation;
+	}
+	
+	public Date getFreshness()
+	{
+	
+		return freshness;
+	}
+
+	
+	public void setFreshness(Date freshness)
+	{
+	
+		this.freshness = freshness;
 	}
 }

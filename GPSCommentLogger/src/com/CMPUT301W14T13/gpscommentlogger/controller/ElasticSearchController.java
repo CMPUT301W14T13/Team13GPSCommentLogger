@@ -22,6 +22,8 @@ public class ElasticSearchController extends Thread
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
 	
+	private static Handler _handler;
+	
 	//The current task
 	private ArrayList<Task> tasks;
 	
@@ -30,11 +32,17 @@ public class ElasticSearchController extends Thread
 	private ElasticSearchController()
 	{
 		offlineDataEntity = new DataManager(DATA_STORAGE_LOCATION);
+		tasks = new ArrayList<Task>();
 	}
 	
 	public static ElasticSearchController getInstance()
 	{
 		return Instance;
+	}
+	
+	public static void init(Handler handler)
+	{
+		_handler = handler;
 	}
 	
 	@Override
@@ -65,7 +73,7 @@ public class ElasticSearchController extends Thread
 	protected synchronized void doTask() throws InterruptedException
 	{
 		Task currentTask = tasks.remove(0);
-		currentTask.doTask();
+		String result = currentTask.doTask();
 	}
 	
 	public DataManager getDataManager(){

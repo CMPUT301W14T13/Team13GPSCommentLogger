@@ -27,7 +27,7 @@ public class PostNewServerTask extends Task {
 		ServerOperations.postNewViewable(this, esc.getURL());
 		
 		//finally, we update the parent object
-		return ServerOperations.addToList(esID, "comments", this, esc.getURL());
+		return ServerOperations.addToList(esID, "childPosts", this, esc.getURL());
 	}
 
 }

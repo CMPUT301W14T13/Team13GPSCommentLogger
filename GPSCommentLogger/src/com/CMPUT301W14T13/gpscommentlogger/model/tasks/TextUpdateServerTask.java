@@ -2,7 +2,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerOperations;
-import com.CMPUT301W14T13.gpscommentlogger.model.InterfaceSerializer;
+import com.CMPUT301W14T13.gpscommentlogger.model.ViewableSerializer;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerContext;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.google.gson.Gson;
@@ -23,7 +23,7 @@ public class TextUpdateServerTask extends Task {
 
 	@Override
 	public String doTask() throws InterruptedException {
-		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new ViewableSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
 		String jsonString = gson.toJson(this.getObj().getCommentText());

@@ -3,6 +3,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity;
 
 /**
  * Class creates Task objects
@@ -48,6 +49,11 @@ public class TaskFactory {
 	public SearchServerTask getNewBrowser(String searchTerm)
 	{
 		return new SearchServerTask(esc, searchTerm);
+	}
+	
+	public RootSearchServerTask getRoot(HomeViewActivity hva)
+	{
+		return new RootSearchServerTask(esc, hva);
 	}
 	
 	public TextUpdateServerTask getNewTextUpdater(Viewable obj)

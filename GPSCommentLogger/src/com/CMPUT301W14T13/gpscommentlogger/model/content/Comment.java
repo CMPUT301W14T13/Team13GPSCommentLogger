@@ -33,51 +33,65 @@ public class Comment extends Viewable
 {
 
 	private static final long serialVersionUID = 2L;
-	
-	private String ID = "default";
-	private String title = "default title";
-	private String username = "Anonymous";
-	private Bitmap image = null;
-	private boolean hasImage = false;
-	private List<String> childID = new ArrayList<String>();
-	private Date timestamp = new Date();
-	private String commentText = "";
-	private Location GPSLocation;
 
 	private int indentLevel = 0;
-	private ArrayList<Viewable> comments;
 
 	/**
 	 * Comment constructors
 	 */
 	public Comment(){
 		super();
+		ID = "default";
+		title = "default title";
+		username = "Anonymous";
+		image = null;
+		hasImage = false;
+		timestamp = new Date();
+		commentText = "";
 	}
 
 	public Comment(String ID) {
 		super(ID);
+		title = "default title";
+		username = "Anonymous";
+		image = null;
+		hasImage = false;
+		timestamp = new Date();
+		commentText = "";
 	}
 
 
 	public Comment(String username, boolean cheatingOverloadSignature)
 	{
 		super(username, cheatingOverloadSignature);
+		ID = "default";
+		title = "default title";
+		image = null;
+		hasImage = false;
+		timestamp = new Date();
+		commentText = "";
 	}
 
 
 	public Comment(String ID, String username)
 	{
 		super(ID, username);
+		title = "default title";
+		image = null;
+		hasImage = false;
+		timestamp = new Date();
+		commentText = "";
 	}
 
 
 	public Comment(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
 		super(ID, username, picture, timestamp, commentText);
+		title = "default title";
 	}
 
 	public int getNumberOfReplies(){
-		return childID.size();
+		return childPosts.size();
 	}
 
 	/**
@@ -96,10 +110,9 @@ public class Comment extends Viewable
 		Log.w("Comment Equals", "title: " + title.equals(o.title));
 		Log.w("Comment Equals", "username: " + username.equals(o.username));
 		Log.w("Comment Equals", "hasImage: " + Boolean.toString(hasImage == o.hasImage));
-		Log.w("Comment Equals", "childID: " + childID.equals(o.childID));
+		Log.w("Comment Equals", "childID: " + childPosts.equals(o.childPosts));
 		Log.w("Comment Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
 		Log.w("Comment Equals", "commentText: " + commentText.equals(o.commentText));
-		Log.w("Comment Equals", "comments: " + comments.equals(o.comments));
 		
 		boolean imageEquals = true;
 		if(image == null)
@@ -116,10 +129,9 @@ public class Comment extends Viewable
 				&& username.equals(o.username)
 				&& imageEquals
 				&& hasImage == o.hasImage
-				&& childID.equals(o.childID)
+				&& childPosts.equals(o.childPosts)
 				&& timestamp.equals(o.timestamp)
-				&& commentText.equals(o.commentText)
-				&& comments.equals(o.comments);
+				&& commentText.equals(o.commentText);
 	}
 	
 	public int getIndentLevel(){

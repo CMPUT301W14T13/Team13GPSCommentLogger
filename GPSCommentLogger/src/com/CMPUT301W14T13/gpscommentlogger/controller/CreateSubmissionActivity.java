@@ -32,6 +32,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 import com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity;
 
 
@@ -458,8 +460,10 @@ public class CreateSubmissionActivity extends Activity{
 		if (submission_ok){
 
 			CommentLogger cl = CommentLogger.getInstance();
-			CommentLoggerController controller = new CommentLoggerController(cl);
-			controller.addTopic((Topic) submission);
+			cl.addTopic((Topic) submission);
+			ElasticSearchController client = ElasticSearchController.getInstance();
+			PostNewServerTask task = new TaskFactory(client).getNewPoster("ROOT", submission);
+			client.addTask(task);
 			finish();
 		}
 

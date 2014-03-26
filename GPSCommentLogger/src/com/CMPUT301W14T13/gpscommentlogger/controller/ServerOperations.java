@@ -13,11 +13,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.CMPUT301W14T13.gpscommentlogger.model.BitmapSerializer;
 import com.CMPUT301W14T13.gpscommentlogger.model.ElasticSearchResponse;
 import com.CMPUT301W14T13.gpscommentlogger.model.ElasticSearchSearchResponse;
-import com.CMPUT301W14T13.gpscommentlogger.model.InterfaceSerializer;
+import com.CMPUT301W14T13.gpscommentlogger.model.ViewableSerializer;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.Task;
 import com.google.gson.Gson;
@@ -41,12 +43,12 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new ViewableSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(WEB_URL);
 		
-		String output = "";
+		String returnValue = "";
 		
 		try
 		{
@@ -57,31 +59,33 @@ public class ServerOperations {
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-			output = reader.readLine();
+			String output = reader.readLine();
+			returnValue = output;
 			while(output != null)
 			{
-				Log.w("ElasticSearch", output);
-				output += reader.readLine();
+				Log.w("ElasticSearchDELETE", output);
+				returnValue += "\n" + output;
+				output = reader.readLine();
 			}
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return output;
+		return returnValue;
 	}
 	
 	public static String updateField(String id, Task currentTask, String fieldName, String newJson, String WEB_URL){
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new ViewableSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(WEB_URL + id + "/_update");
 		
-		String output = "";
+		String returnValue = "";
 		
 		try
 		{
@@ -101,18 +105,20 @@ public class ServerOperations {
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-			output += reader.readLine();
+			String output = reader.readLine();
+			returnValue = output;
 			while(output != null)
 			{
-				Log.w("ElasticSearch", output);
-				output += reader.readLine();
-			}		
+				Log.w("ElasticSearchUPDATE", output);
+				returnValue += "\n" + output;
+				output = reader.readLine();
+			}	
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return output;
+		return returnValue;
 	}
 	
 	
@@ -121,13 +127,13 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(Viewable.class, new ViewableSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(WEB_URL + id + "/_update");
 
-		String output = "";
+		String returnValue = "";
 		
 		try
 		{
@@ -151,18 +157,20 @@ public class ServerOperations {
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-			output += reader.readLine();
+			String output = reader.readLine();
+			returnValue = output;
 			while(output != null)
 			{
-				Log.w("ElasticSearchADDLIST", output);
-				output += reader.readLine();
+				Log.w("ElasticSearchADDTOLIST", output);
+				returnValue += "\n" + output;
+				output = reader.readLine();
 			}
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return output;
+		return returnValue;
 	}
 	
 	public static String postNewViewable(Task currentTask, String WEB_URL)
@@ -171,12 +179,12 @@ public class ServerOperations {
 		//to custom serialization class rules
 		//specified by the user in the second arg
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(Viewable.class, new ViewableSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		//HttpPost autogenerates keys
 		HttpPost request = new HttpPost(WEB_URL);
-		String output = "";
+		String returnValue = "";
 		try
 		{
 			request.setHeader("Accept","application/json");
@@ -192,18 +200,20 @@ public class ServerOperations {
 			//Entering response into the ServerResult to be returned to client
 			HttpEntity entity = response.getEntity();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-			output += reader.readLine();
+			String output = reader.readLine();
+			returnValue = output;
 			while(output != null)
 			{
-				Log.w("ElasticSearchPOSTNEW", output);
-				output += reader.readLine();
+				Log.w("ElasticSearch", output);
+				returnValue += "\n" + output;
+				output = reader.readLine();		
 			}
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return output;
+		return returnValue;
 	}
 	
 	public static String findESIDByID(Task currentTask, String WEB_URL)
@@ -213,7 +223,7 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new ViewableSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -260,7 +270,7 @@ public class ServerOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new ViewableSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -268,6 +278,8 @@ public class ServerOperations {
 
 		try
 		{
+			Log.w("ESTest",currentTask.getSearchTerm());
+			Log.w("ESTest",WEB_URL);
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
 			String query = 	"{\"query\" : {\"query_string\" : {\"default_field\" : \"ID\",\"query\" : \"" + currentTask.getSearchTerm() + "\"}}}";
@@ -284,11 +296,16 @@ public class ServerOperations {
 
 
 			String json = getEntityContent(response);
+			Log.w("ESTEST", json);
 
 			//Set the matching viewable as the object of the ServerResult
 			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<Viewable>>(){}.getType();
 			ElasticSearchSearchResponse<Viewable> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
-			System.err.println(esResponse);
+			Gson gson2 = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(Viewable.class, new ViewableSerializer()).create();
+			for(Viewable each : esResponse.getSources())
+			{
+				System.err.println(gson2.toJson(each));
+			}
 			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
 			for (ElasticSearchResponse<Viewable> r : esResponse.getHits()) {
 				Viewable output = r.getSource();
