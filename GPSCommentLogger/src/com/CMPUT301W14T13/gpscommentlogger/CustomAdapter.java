@@ -18,8 +18,12 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 /**
- * This is the custom adapter for displaying the topics in HomeViewActivity
- *
+ * This is a custom adapter to display the list of topics (aka. top level comments)
+ * in HomeViewActivity.
+ * Topic objects are stored in an ArrayList, which this adapter accesses to display.
+ * This adapter provides functionality such as returning the number of comments in the
+ * list, accessing specific comment objects by indexing them.
+ * 
  * @author Austin
  */
 
@@ -57,6 +61,13 @@ public class CustomAdapter extends BaseAdapter {
 		return position;
 	}
 
+	/**
+	 * This function is responsible for creating a view for one topic object.
+	 * 
+	 * This function uses the root_comment_view layout, which has an
+	 * empty field specified a topic object, and fills it with 
+	 * the topic given the position in the list of topics. 
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -74,7 +85,11 @@ public class CustomAdapter extends BaseAdapter {
 
 	
 	/**
-	 * Sets all the topic fields to display in HomeViewActivity
+	 * This function looks up empty fields from the layout,
+	 * such as title, username, location, image attachement, age,
+	 * and the list of comments (replies to the topic),
+	 * and fills the empty field with the corresponding attributes
+	 * from a topic view. 
 	 * 
 	 * 
 	 * @param vi  is the current view
@@ -102,7 +117,7 @@ public class CustomAdapter extends BaseAdapter {
 		text.setText(topic.getCommentCount() + " comments");
 		
 		/* show bitmap */
-		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		ImageView imageView = (ImageView) vi.findViewById(R.id.topicImage);
 		if (topic.getHasImage()) {			
 			imageView.setImageBitmap(topic.getImage());
 		}

@@ -39,7 +39,7 @@
             android:textColor="#000000" />
         
         <ImageView
-                android:id="@+id/commentImage"
+                android:id="@+id/topicImage"
                 android:layout_width="20dp"
                 android:layout_height="20dp" 
                 android:layout_marginTop="10dp"                

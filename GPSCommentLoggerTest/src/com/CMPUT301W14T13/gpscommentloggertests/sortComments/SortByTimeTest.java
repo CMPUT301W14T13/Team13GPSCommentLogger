@@ -1,4 +1,4 @@
-package com.CMPUT301W14T13.gpscommentloggertests.sortTests;
+package com.CMPUT301W14T13.gpscommentloggertests.sortComments;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,6 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.SortFunctions;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity;
@@ -26,14 +25,13 @@ public class SortByTimeTest extends ActivityInstrumentationTestCase2<HomeViewAct
 
 	public void testSortByNewest() throws InterruptedException{
 
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 		ArrayList<Viewable> topics = new ArrayList<Viewable>();
 
 		for (int i = 0; i <= 5; i++){
 			topics.add(new Topic());
 			Thread.sleep(1000);
 		}
-
+		
 		topics = SortFunctions.sortByNewest(topics);
 		
 		for (int i = 0; i < topics.size(); i++){
@@ -56,7 +54,6 @@ public class SortByTimeTest extends ActivityInstrumentationTestCase2<HomeViewAct
 
 	public void testSortByOldest() throws InterruptedException{
 
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
 		ArrayList<Viewable> topics = new ArrayList<Viewable>();
 
 		for (int i = 0; i <= 5; i++){

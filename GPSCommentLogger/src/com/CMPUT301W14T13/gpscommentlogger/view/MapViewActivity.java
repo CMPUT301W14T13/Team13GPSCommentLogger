@@ -50,7 +50,7 @@ public class MapViewActivity extends Activity {
         
         Intent intent = getIntent();
         double lat = intent.getDoubleExtra("lat", 53.5333);
-        double lon = intent.getDoubleExtra("lon",113.5000);
+        double lon = intent.getDoubleExtra("lon",-113.5000);
         returnPoint = new GeoPoint(lat, lon);
        
         mapView = (MapView) findViewById(R.id.mapview);

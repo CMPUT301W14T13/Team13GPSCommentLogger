@@ -13,14 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 
 /**
- * This is a custom adapter to display the list of comments in TopicViewActivity
+ * This is a custom adapter to display the list of comments in TopicViewActivity.
+ * Comment objects are stored in an ArrayList, which this adapter accesses to display.
+ * This adapter provides functionality such as returning the number of comments in the
+ * list, accessing specific comment objects by indexing them.
  * 
  * @author Austin
  *
@@ -39,25 +41,42 @@ public class CommentAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-
+	/**
+	 * This function returns the number of comments in the ArrayList.
+	 */
 	@Override
 	public int getCount() {
 
 		return data.size();
 	}
 
+	/**
+	 * This function, given an index (position in the list),
+	 * return the comment object at that index in the ArrayList. 
+	 * 
+	 * This is the main way of accessing specific comments in the  
+	 * list in order to perform other functions such as editing 
+	 * a comment's attributes (attachment, title, username).
+	 */
 	@Override
 	public Comment getItem(int position) {
 
 		return (Comment) data.get(position);
 	}
 
+	
 	@Override
 	public long getItemId(int position) {
 
 		return position;
 	}
-
+	/**
+	 * This function is responsible for creating a view for one comment object.
+	 * 
+	 * This function uses the comment_view layout, which has fields specified
+	 * for title, username, text, location, text, and edit and reply buttons,
+	 * and fills them with information from the comment at a given index (int position). 
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -66,7 +85,7 @@ public class CommentAdapter extends BaseAdapter {
 		Button editButton;
 		Comment comment = this.getItem(position);
 		ViewHolder holder = null;
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		CommentLogger cl = CommentLogger.getInstance();
 
 		if (vi == null){
 
@@ -84,6 +103,7 @@ public class CommentAdapter extends BaseAdapter {
 		
 		/* show bitmap */
 		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		imageView.setTag(position);
 		if (comment.getHasImage()) {
 			imageView.setImageBitmap(comment.getImage());
 		}
@@ -96,12 +116,16 @@ public class CommentAdapter extends BaseAdapter {
 		
 		/*
 		 * Hide the edit button if it's not the user's comment.
+		 * Show the edit button if it is the user's comment.
 		 * Currently, only checks if the usernames are equal
 		 */
-		
+	
 		if (!cl.getCurrentUsername().equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	
+		else{
+			editButton.setVisibility(View.VISIBLE);
+		}
 		
 		holder.indentLevel = comment.getIndentLevel();
 		setIndentView(vi, holder.indentLevel, position);
@@ -114,6 +138,15 @@ public class CommentAdapter extends BaseAdapter {
 
 
 
+	/**
+	 * ViewHolder is a container for a comment's main
+	 * main attributes: username, text, location, and
+	 * level of indentation in the view in relation
+	 * to parent comments.
+	 * 
+	 * This is used by the view to reference attributes of
+	 * a comment that is being displayed.
+	 */
 	public static class ViewHolder {
 		public TextView username;
 		public TextView commentText;

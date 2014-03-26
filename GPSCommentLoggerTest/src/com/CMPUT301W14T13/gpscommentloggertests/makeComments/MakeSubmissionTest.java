@@ -1,6 +1,8 @@
 package com.CMPUT301W14T13.gpscommentloggertests.makeComments;
 import java.util.Date;
 
+import org.junit.Before;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,10 +10,10 @@ import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 /**
@@ -26,34 +28,35 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 
 	CreateSubmissionActivity activity;
 	Intent intent;
-	
+	CommentLogger cl = CommentLogger.getInstance();
+
 	public MakeSubmissionTest() {
 		super(CreateSubmissionActivity.class);
 	}
-	
-	
+
+
 	/**
 	 * Certain fields in a comment cannot be null. The only field
 	 * allowed to be null is the comment's text, but only if
 	 * it has an attached picture
 	 */
-	
-	
+
+
 	public void testNullFields(){
-		
-	/*	Intent intent = new Intent();
+
+		/*	Intent intent = new Intent();
 		setActivityIntent(intent);
-		*/
+		 */
 		CreateSubmissionActivity activity = getActivity();
 
 		assertNotNull(activity);
-		
-		
+
+
 		/*
 		 * various fields for making a comment that can be
 		 * used for testing the asserts below 
 		 */
-		
+
 		//int ID = 4324;
 		//String username = "Austin";
 		//Bitmap picture = Bitmap.createBitmap();
@@ -62,26 +65,27 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 		//String commentText = "Test comment";
 		//
 		Comment comment = new Comment();
-		
-		
+
+
 		assertNotNull(comment.getID());
 		assertNotNull(comment.getUsername());
 		assertNotNull(comment.getTimestamp());
 		//assertNotNull(comment.getGPS());
-		
+
 		if (comment.getCommentText() == null){
 			assertEquals("If comment text is empty, then it must have a picture", true, 
-							comment.getHasImage());
+					comment.getHasImage());
 		}	
 	}
-	
+
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
 		setActivityIntent(intent);
-		
+
 	}
-	
+
 	/**
 	 * test to check that comment fields are correctly set
 	 * by comparing the values used to create the comment with
@@ -112,39 +116,38 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 		assertEquals("Comment IDs should be the same", ID, comment.getID());
 		assertEquals("Usernames should be the same", username, comment.getUsername());
 		assertEquals("Picture should be the attached picture", picture.hashCode(), 
-						comment.getImage().hashCode());
+				comment.getImage().hashCode());
 		assertEquals("Timestamps should be the same", timestamp, comment.getTimestamp());
 		assertEquals("Comment text should be the same", commentText, comment.getCommentText());
 		//assertEquals("GPS coordinates should be the same", GPS, comment.getGPS());
 
 	}
-	
-	
+
+
 	/**
 	 * test to check that comment fields are correctly set
 	 * by comparing the values used to create the comment with
 	 * what is actually in the comment
 	 */
 	public void testMakeTopic() throws Throwable {
-		
-		
+
+
 		intent.putExtra("construct code", 0);
 		activity = getActivity();
-		
+
 		runTestOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-		
-				
+
+
 				assertNotNull(activity);
-				CommentLogger cl = CommentLoggerApplication.getCommentLogger();
-				
+
 				EditText title = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTitle);
 				EditText username = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicUsername);
 				EditText commentText = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicText);		
 				Button submitButton = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.submit);
-				
+
 				assertNotNull(title);
 				assertNotNull(username);
 				assertNotNull(commentText);
@@ -165,5 +168,30 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 
 			}
 		});
+	}
+
+	//Test that the current username is displayed when creating a topic
+	public void testTopicCurrentUsername() throws Throwable{
+
+		intent.putExtra("construct code", 0);
+		cl.setCurrentUsername("Austin");
+		activity = getActivity();
+		assertNotNull(activity);
+		
+
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				EditText username = (EditText) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.setTopicUsername);	
+
+				assertNotNull(username);
+
+				assertEquals("Text field should display current username", "Austin", username.getText().toString());
+			}
+		});
+
+
 	}
 }
