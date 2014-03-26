@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,15 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
@@ -45,6 +48,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
 	
+	private Menu menu; //A reference to the options menu
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +56,12 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		setContentView(R.layout.home_view);
 
 		// IDEALLY, this should get the topics from the server.
-		cl = CommentLoggerApplication.getCommentLogger();
+		cl = CommentLogger.getInstance();
 		controller = new CommentLoggerController(cl);
 
 		home_view = cl.getRoot(); // get the root which holds the list of topics
 
 		adapter = new CustomAdapter(this, home_view.getChildren());
-
-
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
@@ -105,17 +107,19 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 		cl.addView(this);
 	}
-
+	
 	@Override
 	public void onResume(){
 		super.onResume();
 		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
+		invalidateOptionsMenu();
+
 	}
 	
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        CommentLogger cl = CommentLogger.getInstance();
         cl.deleteView(this);
 	}
 	
@@ -125,6 +129,9 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.home_action_bar, menu);
+		
+		this.menu = menu;
+		
 		return super.onCreateOptionsMenu(menu);
 
 	}
@@ -142,6 +149,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		}
 	}
 
+		
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
 		topic.putExtra("construct code", 0);
@@ -156,6 +164,10 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		displayedTopics.addAll(home_view.getChildren());
 		adapter.notifyDataSetChanged();
 		
+	}
+
+	public Menu getMenu() {
+		return menu;
 	}
 
 }

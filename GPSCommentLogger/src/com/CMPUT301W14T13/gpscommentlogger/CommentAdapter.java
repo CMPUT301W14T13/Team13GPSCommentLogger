@@ -86,7 +86,7 @@ public class CommentAdapter extends BaseAdapter {
 		Button editButton;
 		Comment comment = this.getItem(position);
 		ViewHolder holder = null;
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		CommentLogger cl = CommentLogger.getInstance();
 
 		if (vi == null){
 
@@ -104,6 +104,7 @@ public class CommentAdapter extends BaseAdapter {
 		
 		/* show bitmap */
 		ImageView imageView = (ImageView) vi.findViewById(R.id.commentImage);
+		imageView.setTag(position);
 		if (comment.getHasImage()) {
 			imageView.setImageBitmap(comment.getImage());
 		}
@@ -116,12 +117,16 @@ public class CommentAdapter extends BaseAdapter {
 		
 		/*
 		 * Hide the edit button if it's not the user's comment.
+		 * Show the edit button if it is the user's comment.
 		 * Currently, only checks if the usernames are equal
 		 */
-		
+	
 		if (!cl.getCurrentUsername().equals(comment.getUsername())){
 			editButton.setVisibility(View.INVISIBLE);
 		}	
+		else{
+			editButton.setVisibility(View.VISIBLE);
+		}
 		
 		holder.indentLevel = comment.getIndentLevel();
 		setIndentView(vi, holder.indentLevel, position);

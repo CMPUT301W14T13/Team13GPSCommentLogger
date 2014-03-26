@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,10 +25,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -60,6 +65,7 @@ public class CreateSubmissionActivity extends Activity{
 	private Location mapLocation;
 	private LocationManager lm; 
 	private LocationListener ll;
+	private NetworkReceiver nr;
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
 
@@ -74,10 +80,9 @@ public class CreateSubmissionActivity extends Activity{
 		submitCode = getIntent().getIntExtra("submit code", -1);
 
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
-		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-		mapLocation = gpsLocation;
 
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
 		ll = new LocationListener() {
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {		
@@ -94,54 +99,58 @@ public class CreateSubmissionActivity extends Activity{
 			}
 		};
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-
+		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
+		mapLocation = gpsLocation;
 		rowNumber = getIntent().getIntExtra("row number", -1);
+		CommentLogger cl = CommentLogger.getInstance();
+
+		//get the user's global username so they don't have to always enter it
+		currentUsername = cl.getCurrentUsername();
 
 		switch(constructCode){
 
-			case(0): // constructing a new topic
-				setContentView(R.layout.create_topic); //creating a topic
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			break;
+		case(0): // constructing a new topic
+			setContentView(R.layout.create_topic); //creating a topic
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		text = (EditText) findViewById(R.id.setTopicUsername);
+		text.setText(currentUsername);
+		break;
 
-			case(1): //constructing a new comment
-				setContentView(R.layout.create_comment); //creating a comment
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		case(1): //constructing a new comment
+			setContentView(R.layout.create_comment); //creating a comment
 
-			//get the user's global username so they don't have to always enter it
-			currentUsername = cl.getCurrentUsername();
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(currentUsername);
-			break;
+		text = (EditText) findViewById(R.id.set_comment_username);
+		text.setText(currentUsername);
+		break;
 
-			//These cases are for editing a comment or topic
-			case(2):
-			case(3):
-				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
-			cl = CommentLoggerApplication.getCommentLogger();
+		//These cases are for editing a comment or topic
+		case(2):
+		case(3):
+			setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+		cl = CommentLogger.getInstance();
 
 
-			if (constructCode == 3){ //CheckSubmission needs to check the title
+		if (constructCode == 3){ //CheckSubmission needs to check the title
 
-				submission = cl.getCurrentTopic();
-				title = submission.getTitle();
-			}
-			else{
-				submission = cl.getCommentList().get(rowNumber);
-			}
+			submission = cl.getCurrentTopic();
+			title = submission.getTitle();
+		}
+		else{
+			submission = cl.getCommentList().get(rowNumber);
+		}
 
-			/*
-			 * Set various text fields below from the topic so that they are displayed when editing it
-			 */
-			text = (EditText) findViewById(R.id.set_comment_text);
-			text.setText(submission.getCommentText());
+		/*
+		 * Set various text fields below from the topic so that they are displayed when editing it
+		 */
+		text = (EditText) findViewById(R.id.set_comment_text);
+		text.setText(submission.getCommentText());
 
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(submission.getUsername());
-			extractTextFields();
+		text = (EditText) findViewById(R.id.set_comment_username);
+		text.setText(submission.getUsername());
+		extractTextFields();
 
-			//text = (EditText) findViewById(R.id.coordinates);
-			//text.setText(submission.locationString());
+		//text = (EditText) findViewById(R.id.coordinates);
+		//text.setText(submission.locationString());
 		}
 	}
 
@@ -154,31 +163,6 @@ public class CreateSubmissionActivity extends Activity{
 
 	//extract the information that the user has entered
 	private void extractTextFields(){
-
-
-		//Constructing a topic(0)
-		if (constructCode == 0){
-
-			//only get the title if it's a topic
-			text = (EditText) findViewById(R.id.setTitle);
-			title = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.setTopicUsername);
-			username = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.setTopicText);
-			commentText = text.getText().toString().trim();
-		}
-
-		//Constructing a comment(1), editing a comment(2), or editing a topic(3)
-		else{
-
-			text = (EditText) findViewById(R.id.set_comment_username);
-			username = text.getText().toString().trim();
-
-			text = (EditText) findViewById(R.id.set_comment_text);
-			commentText = text.getText().toString().trim();
-		}
 
 
 		//Constructing a topic(0)
@@ -258,16 +242,36 @@ public class CreateSubmissionActivity extends Activity{
 		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
 	}
 	/**
-	 * Opens the MapViewActivity once the location button is clicked
-	 * passes it a latitude and longitude from the current gps location
-	 * to be used to set the map screen.
+	 * Once location button is clicked we check if our user is online, if so we pop up a map 
+	 * to edit location otherwise we open a dialog fragment for offline location editing
 	 * @param view
 	 */
 	public void openMap(View view) {
-		Intent map = new Intent(this, MapViewActivity.class);
-		map.putExtra("lat", gpsLocation.getLatitude());
-		map.putExtra("lon", gpsLocation.getLongitude());
-		startActivityForResult(map, REQUEST_CODE);
+		if(nr.isConnected){
+			Intent map = new Intent(this, MapViewActivity.class);
+			map.putExtra("lat", gpsLocation.getLatitude());
+			map.putExtra("lon", gpsLocation.getLongitude());
+			startActivityForResult(map, REQUEST_CODE);
+		} else {
+
+			new AlertDialog.Builder(this)
+			.setTitle("Location")
+			.setMessage("Please enter your desired location")
+			.setView(view)
+			.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) { 
+					// continue with delete
+				}
+			})
+			.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) { 
+					// do nothing
+				}
+			})
+			.setIcon(R.drawable.location)
+			.show();
+
+		}
 	}
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
@@ -329,7 +333,7 @@ public class CreateSubmissionActivity extends Activity{
 	}
 
 	/**
-	 * 
+	 * Responsible for creating comments and editing viewables
 	 * 
 	 * Submits the submission. When the user hits the submit button,
 	 * it first extracts the information that the user entered in
@@ -345,7 +349,7 @@ public class CreateSubmissionActivity extends Activity{
 	 */
 	public void submit(View v){
 
-		
+
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
 
@@ -358,53 +362,53 @@ public class CreateSubmissionActivity extends Activity{
 
 			int row = rowNumber;
 			Comment prev_comment = new Comment();
-			CommentLoggerController controller = new CommentLoggerController(CommentLoggerApplication.getCommentLogger());
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			CommentLoggerController controller = new CommentLoggerController(CommentLogger.getInstance());
+			CommentLogger cl = CommentLogger.getInstance();
 			commentList = cl.getCommentList();
 
 
 			switch (submitCode){
 
-				case(0):  //reply to topic
+			case(0):  //reply to topic
 
-					cl.addComment((Comment) submission);
-				cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
-				break;
+				cl.addComment((Comment) submission);
+			cl.getCurrentTopic().incrementCommentCount(); //increment the count keeping track of how many comments are in the topic
+			break;
 
-				case(1): //reply to comment
+			case(1): //reply to comment
 
 
-					if (cl.getCurrentTopic().getChildren().size() >= 1){
-						prev_comment = (Comment) commentList.get(row); //get the comment being replied to
-						((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
-					}
+				if (cl.getCurrentTopic().getChildren().size() >= 1){
+					prev_comment = (Comment) commentList.get(row); //get the comment being replied to
+					((Comment) submission).setIndentLevel(prev_comment.getIndentLevel() + 1); //set the indent level of the new comment to be 1 more than the one being replied to
+				}
 
-					//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-					if (((Comment) submission).getIndentLevel() <= 5){
-						prev_comment.addChild(submission);
-						cl.getCurrentTopic().incrementCommentCount();
-					}
+			//For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
+			if (((Comment) submission).getIndentLevel() <= 5){
+				prev_comment.addChild(submission);
+				cl.getCurrentTopic().incrementCommentCount();
+			}
 
-				break;
+			break;
 
-				case(2)://edit topic
+			case(2)://edit topic
 
-					cl.getCurrentTopic().setUsername(submission.getUsername());
-					cl.getCurrentTopic().setCommentText(submission.getCommentText());
-					cl.getCurrentTopic().setLocation(submission.getGPSLocation());
-					cl.getCurrentTopic().setImage(submission.getImage());
-					break;
+				cl.getCurrentTopic().setUsername(submission.getUsername());
+			cl.getCurrentTopic().setCommentText(submission.getCommentText());
+			cl.getCurrentTopic().setLocation(submission.getGPSLocation());
+			cl.getCurrentTopic().setImage(submission.getImage());
+			break;
 
-				case(3): //edit comment
+			case(3): //edit comment
 
-					commentList.get(row).setUsername(submission.getUsername());
-					commentList.get(row).setCommentText(submission.getCommentText());
-					commentList.get(row).setGPSLocation(submission.getGPSLocation());
-					commentList.get(row).setImage(submission.getImage());
-					break;
+				commentList.get(row).setUsername(submission.getUsername());
+			commentList.get(row).setCommentText(submission.getCommentText());
+			commentList.get(row).setGPSLocation(submission.getGPSLocation());
+			commentList.get(row).setImage(submission.getImage());
+			break;
 
-				default:
-					Log.d("onActivityResult", "Error adding comment reply");
+			default:
+				Log.d("onActivityResult", "Error adding comment reply");
 
 
 			}
@@ -426,7 +430,6 @@ public class CreateSubmissionActivity extends Activity{
 	 */
 	public void submitTopic(View v){
 
-		
 		boolean submission_ok;
 
 		extractTextFields();
@@ -435,7 +438,7 @@ public class CreateSubmissionActivity extends Activity{
 		submission_ok = checkSubmission(submission); //check that the submission is valid
 		if (submission_ok){
 
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			CommentLogger cl = CommentLogger.getInstance();
 			CommentLoggerController controller = new CommentLoggerController(cl);
 			controller.addTopic((Topic) submission);
 
@@ -493,11 +496,28 @@ public class CreateSubmissionActivity extends Activity{
 		return submission_ok;
 
 	}
-	
+
 	public Viewable getSubmission(){
 		return this.submission;
 	}
-	
+
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		lm.removeUpdates(ll);
+	}
+
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
+	}
+
 }
+
+
 
 

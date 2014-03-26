@@ -26,6 +26,17 @@ public class CommentLogger extends FModel<FView>
 	private boolean changed = false;
 	private String currentUsername = "Anonymous";
 	
+	private static CommentLogger Instance = new CommentLogger();
+	
+	private CommentLogger()
+	{
+		
+	}
+	
+	public static CommentLogger getInstance()
+	{
+		return Instance;
+	}
 	
 	public void setCurrentUsername(String username){
 		currentUsername = username;
@@ -75,6 +86,10 @@ public class CommentLogger extends FModel<FView>
 		notifyViews();
 	}
 	
+	public void addTopic(Topic topic){
+		root.addChild(topic);
+		notifyViews();
+	}
 	
 	public void updateTopicChildren(ArrayList<Viewable> comments){
 		commentList = comments;
