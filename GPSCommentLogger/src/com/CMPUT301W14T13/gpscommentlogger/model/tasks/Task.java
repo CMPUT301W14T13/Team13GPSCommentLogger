@@ -1,7 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
-import com.CMPUT301W14T13.gpscommentlogger.controller.ClientController;
-import com.CMPUT301W14T13.gpscommentlogger.model.TransferBundle;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 /**
@@ -10,50 +9,28 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
  * that are passed to controllers.
  */
 
-public abstract class Task implements TransferBundle
+public abstract class Task
 {
 	protected Viewable obj;
 	protected String searchTerm;
-	private boolean active = true;
 	
-	protected String id;
-	private boolean isIDSet = false;
+	protected ElasticSearchController esc;
 	
-	public Task()
+	public Task(ElasticSearchController esc, String searchTerm, Viewable obj)
 	{
-
+		this.searchTerm = searchTerm;
+		this.obj = obj;
+		this.esc = esc;
 	}
 	
 	public Viewable getObj() {
 		return obj;
-	}
-
-	public void setObj(Viewable obj) {
-		this.obj = obj;
-	}
-
-	public void setSearchTerm(String searchTerm){
-		this.searchTerm = searchTerm;
 	}
 	
 	public String getSearchTerm() {
 		return searchTerm;
 	}
 	
-	public void execute() throws InterruptedException{
-		if(!active) throw new InterruptedException("Error: attempt to reexecute task.");
-		active = false;
-		doTask();
-	}
-	
-	protected abstract void doTask() throws InterruptedException;
+	public abstract String doTask() throws InterruptedException;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) throws InterruptedException {
-		if (isIDSet)throw new InterruptedException("Error: attempt to alter Task id");
-		this.id = id;
-	}
 }

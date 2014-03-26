@@ -1,21 +1,30 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 
 /**
  * Task for testing local saved
  * topic listings.
  *
  */
-public class MySavesLocalTask extends LocalTask {
+public class MySavesLocalTask extends Task {
 
-	public MySavesLocalTask(DataManager manager) {
-		super(manager);
+	public MySavesLocalTask(ElasticSearchController esc, String searchTerm) {
+		super(esc, searchTerm, null);
 	}
 
 	@Override
-	public void doLocalTask() {
-		this.manager.getData(this.searchTerm);
+	public String doTask() {
+		this.obj = this.esc.getDataManager().getData(this.searchTerm);
+		if(this.obj == null)
+		{
+			return "failure";
+		}
+		else
+		{
+			return "success";
+		}
 	}
 
 }

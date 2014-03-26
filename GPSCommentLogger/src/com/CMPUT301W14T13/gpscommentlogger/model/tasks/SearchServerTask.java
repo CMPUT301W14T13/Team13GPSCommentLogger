@@ -1,31 +1,32 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
-import com.CMPUT301W14T13.gpscommentlogger.controller.ServerDispatcher;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerOperations;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerContext;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
-import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 
 /**
 * Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
 * This class's method searches for a Viewable based on its ID field
 */
 
-public class SearchServerTask extends ServerTask {
+public class SearchServerTask extends Task {
 
-	public SearchServerTask(ServerDispatcher dispatcher) {
-		super(dispatcher);
+	public SearchServerTask(ElasticSearchController esc, String searchTerm) {
+		super(esc, searchTerm, null);
 	}
 
 	@Override
-	public Result executeOnServer(ServerContext context) throws InterruptedException {
-		ServerResult out = new ServerResult();
-		out.setId(this.id);
-			
-		ServerOperations.retrieveViewable(this, out, context.getURL());
-
-		return out;
+	public String doTask() throws InterruptedException {
+		this.obj = ServerOperations.retrieveViewable(this, esc.getURL());
+		if(this.obj == null)
+		{
+			return "failure";
+		}
+		else
+		{
+			return "success";
+		}
 	}
 
 }
