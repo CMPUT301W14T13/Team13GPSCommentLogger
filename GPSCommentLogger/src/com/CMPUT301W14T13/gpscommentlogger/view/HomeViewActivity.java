@@ -17,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -61,10 +63,18 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		home_view = cl.getRoot(); // get the root which holds the list of topics
 
 		adapter = new CustomAdapter(this, home_view.getChildren());
+		
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
 
+		
+		// set up drop down sorting options
+		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_list,
+		          android.R.layout.simple_spinner_dropdown_item);
+		
+		
+		
 
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
