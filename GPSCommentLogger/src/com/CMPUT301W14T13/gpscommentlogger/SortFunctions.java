@@ -81,7 +81,14 @@ public class SortFunctions
 
 		return orderedArray;
 	}
-	
+	/**
+	 * This method takes in an array list of viewables (Topics or Comments) and a location, then sorts
+	 * the array list by how close the Topic or comment is to the givenLocation. It returns an ordered
+	 * array of Topics or Comments from closest to furthest from the givenLocation. 
+	 * @param ArrayList<Viewables> viewables
+	 * @param Location givenLocation
+	 * @return ArrayList<Viewable> orderedArray 
+	 */
 	public static ArrayList<Viewable> sortByGivenLocation(ArrayList<Viewable> viewables, Location givenLocation){
 		
 		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
