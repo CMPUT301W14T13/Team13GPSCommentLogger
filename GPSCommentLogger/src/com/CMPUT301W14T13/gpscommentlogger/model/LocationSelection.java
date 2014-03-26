@@ -65,7 +65,7 @@ public class LocationSelection
 	public static void startLocationSelection() {
 		Log.d("LocationSelection", "Started location manager and listener");
 		
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) activity_context.getSystemService(Context.LOCATION_SERVICE);
 		
 		Log.d("LocationSelection", "Location manager is " + locationManager.toString());
 

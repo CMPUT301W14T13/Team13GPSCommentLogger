@@ -42,7 +42,7 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<CreateSub
         return newLocation;
     }
     public void testLocationSelection (){
-    	LocationSelection locationGetter = new LocationSelection(getInstrumentation().getContext());
+    	LocationSelection locationGetter = new LocationSelection(getActivity());
     	locationGetter.startLocationSelection();
     	locationGetter.setProvider(PROVIDER);
     	Location mockLocation = createLocation(LAT, LNG, ACCURACY);
