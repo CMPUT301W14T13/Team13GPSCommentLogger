@@ -67,11 +67,10 @@ public class MapViewActivity extends Activity {
         MapEventsReceiver receiver = new MapEventsReceiver() {
 			int mIndex = markerIndex;
 			@Override
-			public boolean singleTapUpHelper(IGeoPoint arg0) {
-				returnPoint = (GeoPoint) arg0;
+			public boolean singleTapUpHelper(IGeoPoint tapLocation) {
 			
 				mapView.getOverlays().remove(mIndex);
-				mIndex = setMarker(returnPoint);
+				mIndex = setMarker((GeoPoint) tapLocation);
 				return true;
 			}
 			
@@ -97,13 +96,13 @@ public class MapViewActivity extends Activity {
  * @param point
  * @return markers Index
  */
-	protected  int setMarker(GeoPoint point){
+	public  int setMarker(GeoPoint point){
 		Marker marker = new Marker(mapView);
         marker.setPosition(point);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         mapView.getOverlays().add(marker);
         mapView.invalidate();
-        
+		returnPoint = point;
         return  mapView.getOverlays().indexOf(marker);
 	}
 	
@@ -123,4 +122,16 @@ public class MapViewActivity extends Activity {
 		finish();
 	}
 	
+	/**
+	 * This method returns the point that was selected by the user when they chose to 
+	 * edit their comment or topic location using the interactive map provided.
+	 * 
+	 * This is currently being used as a way to make an integration test to debug this 
+	 * MapViewActivity.
+	 * 
+	 * @return the geopoint that was selected by the current marker on the screen.
+	 */
+	public GeoPoint getReturnPoint(){
+		return returnPoint;
+	}
 }
