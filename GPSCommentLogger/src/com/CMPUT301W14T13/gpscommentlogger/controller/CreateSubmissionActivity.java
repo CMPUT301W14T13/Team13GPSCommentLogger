@@ -233,6 +233,7 @@ public class CreateSubmissionActivity extends Activity{
 			Intent map = new Intent(this, MapViewActivity.class);
 			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
 			map.putExtra("lon", locationGetter.getLocation().getLongitude());
+			map.putExtra("canTap", 1);// for editing  location
 			startActivityForResult(map, REQUEST_CODE); 
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);

@@ -18,18 +18,22 @@ import android.view.View;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 
- 
+
 
 
 /**
- * This method displays a map to let the user select the location 
- * they wish to attach to their comment or topic. it takes a current gps
- * location from the activity that calls it and sets the map with that
- * point in the center. Then the user can use normal google maps controls
- * such as pinch zoom and dragging to find the location they wish to set.
- * To indicate the location they wish to set they tap the screen and a marker 
- * appears where they tap, then they click submit location to close this activity
- * and pass the location back to the activity that called this one.
+ * This Activiy provides the user with a map using OpenStreetMaps for android.
+ * 
+ * It is used by CreateSubmissionActivity to edit the user's location, which is 
+ * done by tapping on the map where you want to set the location, once tapped
+ * a marker is placed as a visual aid indicating the current point the user has selected
+ * for his comment/Topic.
+ * 
+ * Once the user has selected a point for his comment they push the SubmitLocation buton
+ * which returns the current points latitude and longitude to CreateSubmissionActivity
+ * 
+ * This class is also used for our new requirement of displaying all the locations in a Topic thread
+ * I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
  * 
  * @author navjeetdhaliwal
  *
@@ -38,76 +42,89 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
 public class MapViewActivity extends Activity {
 
 	private MapController mapController;
-    private MapView mapView;
-    private GeoPoint returnPoint;
+	private MapView mapView;
+	private GeoPoint returnPoint;
+	private int canSetMarker;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.map_view);
-        // problem with this action bar is Mapview has multiple parents
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        Intent intent = getIntent();
-        double lat = intent.getDoubleExtra("lat", 53.5333);
-        double lon = intent.getDoubleExtra("lon",-113.5000);
-        returnPoint = new GeoPoint(lat, lon);
-       
-        mapView = (MapView) findViewById(R.id.mapview);
-        mapView.setTileSource(TileSourceFactory.MAPNIK);
-        mapView.setBuiltInZoomControls(true);
-        mapView.setMultiTouchControls(true);
-        mapView.setClickable(false);
-        mapController = (MapController) mapView.getController();
-        mapController.setZoom(10);
-        mapController.setCenter(returnPoint);
-        
-        final int markerIndex = setMarker(returnPoint);
-        
-        MapEventsReceiver receiver = new MapEventsReceiver() {
-			int mIndex = markerIndex;
-			@Override
-			public boolean singleTapUpHelper(IGeoPoint tapLocation) {
-			
-				mapView.getOverlays().remove(mIndex);
-				mIndex = setMarker((GeoPoint) tapLocation);
-				return true;
-			}
-			
-			@Override
-			public boolean longPressHelper(IGeoPoint arg0) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.map_view);
+		// problem with this action bar is Mapview has multiple parents
+		//getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		Intent intent = getIntent();
+		double lat = intent.getDoubleExtra("lat", 53.5333);
+		double lon = intent.getDoubleExtra("lon",-113.5000);
+		canSetMarker = intent.getIntExtra("canSetMarker", 0);
+
+		returnPoint = new GeoPoint(lat, lon);
 		
-        MapEventsOverlay mEvent = new MapEventsOverlay(this, receiver);
-        mapView.getOverlays().add(mEvent);
-        
-        
+		// Here is the initialization if user is editing location
+		if(canSetMarker == 1){
+			mapView = (MapView) findViewById(R.id.mapview);
+			mapView.setTileSource(TileSourceFactory.MAPNIK);
+			mapView.setBuiltInZoomControls(true);
+			mapView.setMultiTouchControls(true);
+			mapView.setClickable(false);
+			mapController = (MapController) mapView.getController();
+			mapController.setZoom(10);
+			mapController.setCenter(returnPoint);
+
+			final int markerIndex = setMarker(returnPoint);
+
+			MapEventsReceiver receiver = new MapEventsReceiver() {
+				int mIndex = markerIndex;
+				@Override
+				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
+					// once the user taps, we remove the old marker and place a new one
+					mapView.getOverlays().remove(mIndex);
+					mIndex = setMarker((GeoPoint) tapLocation);
+					return true;
+				}
+
+				@Override
+				public boolean longPressHelper(IGeoPoint arg0) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+			MapEventsOverlay mEvent = new MapEventsOverlay(this, receiver);
+			mapView.getOverlays().add(mEvent);
+
+
+		}else {
+			// here we implement new requirement of displaying Topic Thread Location
+		}
+
+
+
+
 	}
-	
-/**
- * This activity creates a marker overlay from a given latitude and longitude
- * and places it on the screen and refreshes the map. It returns an index
- * that is used to delete it when another marker is placed so that only 1 marker
- * is on the screen at a time, since the user can only submit one location
- * per comment or topic.
- * @param point
- * @return markers Index
- */
+
+	/**
+	 * This activity creates and sets a marker onto the screen at the given location
+	 * 
+	 * CreateSubmissionActivity needs the returnPoint for editing location
+	 * 
+	 * Our new Requirement does not need returnPoint
+	 * 
+	 * @param point
+	 * @return markers Index is used when CreateSubmissionActivity calls MapView Activity and is used
+	 * to remove this current marker if a new one is created.
+	 */
 	public  int setMarker(GeoPoint point){
 		Marker marker = new Marker(mapView);
-        marker.setPosition(point);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        mapView.getOverlays().add(marker);
-        mapView.invalidate();
+		marker.setPosition(point);
+		marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+		mapView.getOverlays().add(marker);
+		mapView.invalidate();
 		returnPoint = point;
-        return  mapView.getOverlays().indexOf(marker);
+		return  mapView.getOverlays().indexOf(marker);
 	}
-	
+
 	protected boolean isRouteDisplayed() {
-	    return false;
+		return false;
 	}
 	/**
 	 * Submits the location of the current marker on the screen 
@@ -121,7 +138,7 @@ public class MapViewActivity extends Activity {
 		setResult(RESULT_OK, result);	
 		finish();
 	}
-	
+
 	/**
 	 * This method returns the point that was selected by the user when they chose to 
 	 * edit their comment or topic location using the interactive map provided.

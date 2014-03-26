@@ -25,6 +25,7 @@ public class MapViewTest extends ActivityInstrumentationTestCase2<MapViewActivit
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
+		intent.putExtra("canSetMarker", 1);
 		setActivityIntent(intent);
 	}
 
