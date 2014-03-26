@@ -32,18 +32,7 @@ import java.util.Collection;
 public class Comment extends Viewable
 {
 
-	private static final long serialVersionUID = 2L;
-	
-	private String ID = "default";
-	private String title = "default title";
-	private String username = "Anonymous";
-	private Bitmap image = null;
-	private boolean hasImage = false;
 	private List<String> childID = new ArrayList<String>();
-	private Date timestamp = new Date();
-	private String commentText = "";
-	private Location GPSLocation;
-
 	private int indentLevel = 0;
 	private ArrayList<Viewable> comments;
 

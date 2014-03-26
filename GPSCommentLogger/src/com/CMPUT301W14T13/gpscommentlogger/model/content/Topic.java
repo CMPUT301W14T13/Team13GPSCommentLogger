@@ -29,18 +29,9 @@ import java.util.concurrent.TimeUnit;
 public class Topic extends Viewable
 
 {
-	
-	private String title = "default title";
-	private String ID = "default";
-	private String username = "Anonymous";
-	private Bitmap image = null;
-	private Date timestamp = new Date();
-	private Date freshness = new Date();
+
 	private Comment rootComment = new Comment();
-	private String commentText = ""; 
 	private ArrayList<Viewable> comments;
-	private Location GPSLocation = new Location("default");
-	private boolean hasImage;
 	private int commentCount = 0;
 	
 	public Topic()

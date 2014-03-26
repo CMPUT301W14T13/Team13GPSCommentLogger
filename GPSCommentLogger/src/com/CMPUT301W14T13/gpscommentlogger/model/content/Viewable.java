@@ -16,8 +16,8 @@ public abstract class Viewable {
 	protected Bitmap image;
 	protected boolean hasImage;
 	protected Date timestamp;
-	protected Date freshness;
-	protected Location GPSLocation;
+	protected Date freshness = new Date();
+	protected Location GPSLocation = new Location("default");
 	protected ArrayList<Viewable> childPosts;
 	protected String username;
 	
@@ -30,6 +30,7 @@ public abstract class Viewable {
 		username = "Anonymous";
 		timestamp = new Date();
 		childPosts = new ArrayList<Viewable>();
+		image = null;
 	}
 	
 	public Viewable(String ID)
@@ -39,6 +40,7 @@ public abstract class Viewable {
 		title = "initial title";
 		timestamp = new Date();
 		childPosts = new ArrayList<Viewable>();
+		image = null;
 	}
 	
 	public Viewable(String username, boolean cheatingOverloadSignature)
@@ -48,6 +50,7 @@ public abstract class Viewable {
 		this.username = username;
 		timestamp = new Date();
 		childPosts = new ArrayList<Viewable>();
+		image = null;
 	}
 	
 	public Viewable(String ID, String username)
@@ -57,6 +60,7 @@ public abstract class Viewable {
 		this.username = username;
 		timestamp = new Date();
 		childPosts = new ArrayList<Viewable>();
+		image = null;
 	}
 	
 
