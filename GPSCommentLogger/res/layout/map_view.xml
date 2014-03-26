@@ -7,12 +7,12 @@
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/btnBanner"
+        android:layout_above="@+id/submitLocation"
         tilesource="Mapnik"
         android:layout_alignParentTop="true"
         />
 
-        <Button android:id="@id/btnBanner" 
+        <Button android:id="@id/submitLocation" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
