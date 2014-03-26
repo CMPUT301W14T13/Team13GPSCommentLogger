@@ -3,6 +3,9 @@ package com.CMPUT301W14T13.gpscommentlogger;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.location.Location;
+
+import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
@@ -78,6 +81,23 @@ public class SortFunctions
 
 
 		return orderedArray;
+	}
+	
+	/**
+	 * This function retrieves current location from 
+	 * the LocationSelection class, and calls sortByGivenLocation,
+	 * passing to it the user's current location and a list of
+	 * comments.
+	 * 
+	 * The function returns a list of ordered comments from
+	 * closes to farthest from current location.
+	 * 
+	 * @param viewables
+	 * @return ArrayList<Viewable>
+	 */
+	public static ArrayList<Viewable> sortByCurrentLocation(ArrayList<Viewable> viewables) {
+		Location location = LocationSelection.getLocation();
+		return (sortByGivenLocation(location));
 	}
 	
 	/**

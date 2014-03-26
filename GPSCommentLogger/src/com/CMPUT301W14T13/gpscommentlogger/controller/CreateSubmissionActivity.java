@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -61,9 +62,8 @@ public class CreateSubmissionActivity extends Activity{
 	private String currentUsername = "";
 	private int submitCode; //0: Reply to topic, 1: Reply to comment, 2: Edited topic 3: Edited comment
 	private Location gpsLocation;
-	private Location mapLocation;
-	private LocationManager lm; 
-	private LocationListener ll;
+	private Location location;
+	private LocationSelection locationGetter;
 	private NetworkReceiver nr;
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
@@ -73,33 +73,14 @@ public class CreateSubmissionActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/* create the location stuff up here */
-
+		/* Location operations */
+		locationGetter = new LocationSelection(); 
+		locationGetter.startLocationSelection(); // starts pulling location
+		location = null; // make sure our map location is empty
+		
 		constructCode = getIntent().getIntExtra("construct code", -1);
 		submitCode = getIntent().getIntExtra("submit code", -1);
-
-		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
-
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-		ll = new LocationListener() {
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {		
-			}			
-			@Override
-			public void onProviderEnabled(String provider) {			
-			}			
-			@Override
-			public void onProviderDisabled(String provider) {			
-			}			
-			@Override
-			public void onLocationChanged(Location location) {
-				gpsLocation = location;				
-			}
-		};
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-		gpsLocation = new Location(LocationManager.GPS_PROVIDER);
-		mapLocation = gpsLocation;
+		
 		rowNumber = getIntent().getIntExtra("row number", -1);
 		CommentLogger cl = CommentLogger.getInstance();
 
@@ -156,7 +137,6 @@ public class CreateSubmissionActivity extends Activity{
 	@Override
 	protected void onResume(){
 		super.onResume();
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
 
 
@@ -212,7 +192,11 @@ public class CreateSubmissionActivity extends Activity{
 
 		submission.setUsername(username);
 		submission.setCommentText(commentText);
-		submission.setGPSLocation(mapLocation);
+		
+		if(location == null) {
+			location = locationGetter.getLocation();
+		}
+		submission.setGPSLocation(location);
 
 
 		//username defaults to Anonymous if left blank
@@ -286,8 +270,8 @@ public class CreateSubmissionActivity extends Activity{
 			if (resultCode == RESULT_OK){
 				double latitude = data.getDoubleExtra("lat", gpsLocation.getLatitude());
 				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
-				mapLocation.setLongitude(longitude);
-				mapLocation.setLatitude(latitude);
+				location.setLongitude(longitude);
+				location.setLatitude(latitude);
 			}
 		}
 
@@ -503,7 +487,6 @@ public class CreateSubmissionActivity extends Activity{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		lm.removeUpdates(ll);
 	}
 
 	public boolean isOnline() {
