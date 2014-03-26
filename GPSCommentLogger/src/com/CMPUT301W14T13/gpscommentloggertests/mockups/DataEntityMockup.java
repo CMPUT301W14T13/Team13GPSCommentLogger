@@ -40,7 +40,7 @@ public class DataEntityMockup {
 		rootThreads.add(thread1);
 		rootThreads.add(thread2);
 		rootThreads.add(thread3);
-		root.setC(rootThreads);
+		root.setChildren(rootThreads);
 		
 		Comment comment1_1 = new Comment("comment1_1", "kyomaru");
 		Comment comment1_2 = new Comment("comment1_2", "kyomaru");

@@ -12,7 +12,7 @@ import android.os.Parcelable;
  * This is the root view that will display
  * all top level comments.
  */
-public class Root implements Viewable, Parcelable {
+public class Root extends Viewable {
 	private String title;
 	private final String username = "default";
 	private String ID;
@@ -40,37 +40,8 @@ public class Root implements Viewable, Parcelable {
 		comments = new ArrayList<Viewable>();
 	}
 	
-	@Override
-
-	public ArrayList<Viewable> getChildren()
-	
-
-	{
-		return comments;
-	}
-
-	public void setC(ArrayList<Viewable> c)
-	{
-		comments = c;
-	}
-	@Override
-	public String getID() {
-		return ID;
-	}
-
-	@Override
 	public String getUsername() {
 		return username;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setTitle(String newTitle) {
-		title = newTitle;
 	}
 
 	@Override
@@ -133,11 +104,6 @@ public class Root implements Viewable, Parcelable {
 	}
 
 
-	@Override
-	public void addChild(Viewable post) {
-		comments.add(post);
-		
-	}
 
 
 	@Override
@@ -146,14 +112,6 @@ public class Root implements Viewable, Parcelable {
 		return null;
 	}
 
-
-	public boolean getHasImage() {
-		/* return image != null; */
-		return hasImage;
-
-	}
-
-
 	@Override
 	public void setUsername(String newUsername) {
 		// TODO Auto-generated method stub
@@ -161,21 +119,20 @@ public class Root implements Viewable, Parcelable {
 	}
 
 
-	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
-	@Override
+
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	@Override
+
 	public String locationString() {
 		// TODO Auto-generated method stub
 		return null;

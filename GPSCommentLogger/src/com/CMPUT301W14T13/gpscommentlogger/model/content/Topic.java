@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  *
  */
 
-public class Topic implements Viewable
+public class Topic extends Viewable
 
 {
 	
@@ -109,12 +109,6 @@ public class Topic implements Viewable
 	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
 	}
 
-	public ArrayList<Viewable> getChildren()
-	
-	
-	{
-		return comments;
-	}
 	
 	/* increment the vote count (remember users can only vote once) */
 	public void upVote(String phoneID){
@@ -126,11 +120,6 @@ public class Topic implements Viewable
 		
 	}
 	
-	public String getID() {
-		return ID;
-	}
-
-	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -138,16 +127,6 @@ public class Topic implements Viewable
 	
 	public void setUsername(String username){
 		this.username = username;
-	}
-	
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setTitle(String newTitle) {
-		title = newTitle;	
 	}
 
 	@Override
@@ -246,18 +225,6 @@ public class Topic implements Viewable
 		return rootComment;
 	}
 
-	public void setChildren(ArrayList<Viewable> threadComments) {
-		// TODO Auto-generated method stub
-		comments = threadComments;
-	}
-
-
-
-	public void addChild(Viewable post) {
-		comments.add(post);
-		
-	}
-
 	public void insertChild(Viewable post, int position){
 		comments.add(position, post);
 	}
@@ -266,11 +233,6 @@ public class Topic implements Viewable
 	public Integer getPopularity() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public boolean getHasImage() {
-		/* return image != null; */
-		return hasImage;
 	}
 
 	public void incrementCommentCount(){

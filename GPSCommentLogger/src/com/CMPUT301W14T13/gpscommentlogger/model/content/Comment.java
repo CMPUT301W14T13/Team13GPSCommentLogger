@@ -29,10 +29,8 @@ import java.util.Collection;
  * implements the viewable interface and the parcelable interface so
  * that comments can be passed between activities properly.
  */
-public class Comment implements Viewable
+public class Comment extends Viewable
 {
-
-
 
 	private static final long serialVersionUID = 2L;
 	
@@ -125,46 +123,13 @@ public class Comment implements Viewable
 	public void downVote(String phoneID){
 		
 	}
-	
 
-	@Override
-	public String getID() {
-		return ID;
-	}
-
-
-
-	@Override
-	public ArrayList<Viewable> getChildren() {
-		return comments;
-	}
-
-	
-	public void setChildren(ArrayList<Viewable> comments) {
-		// TODO Auto-generated method stub
-		comments = comments;
-	}
-	
-	@Override
 	public String getUsername() {
 		return username;
 	}
 
 	public void setUsername(String username){
 		this.username = username;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-
-	@Override
-	public void setTitle(String newTitle) {
-		title = newTitle;
-
-
 	}
 
 	@Override
@@ -204,21 +169,12 @@ public class Comment implements Viewable
 		GPSLocation = location;
 	}
 
-
-	
-	public boolean getHasImage() {
-		/* return image != null; */
-		return hasImage;
-	}
-	
-
 	public int getNumberOfReplies(){
 		return childID.size();
 	}
 
 
 	public void setAnonymous() {
-		// TODO Auto-generated method stub
 		this.username = anonymous;
 	}
 
@@ -266,86 +222,6 @@ public class Comment implements Viewable
 				&& votes.equals(votes);
 	}
 
-	/**
-	 * Parcelable isn't needed anymore in the app, but this will be left here in case
-	 * it's needed
-	 */
-	
-	/* Interface for
-	 * Parcelable is
-	 * handled in the 
-	 * methods below
-	 */
-	/*@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}*/
-
-	/**
-	 * Specifies what contents are being put into the parcel
-	 * Note that the timestamp is a Date object and is converted to
-	 * long so it can be retrieved later when reading from the parcel
-	 */
-	/*@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		//GPSLocation.writeToParcel(dest, flags);
-		dest.writeString(ID);
-		dest.writeString(username);
-		dest.writeString(commentText);
-		dest.writeValue(comments);
-		dest.writeLong(timestamp.getTime()); //convert Date to long and then convert back when reading
-		dest.writeValue(image);
-		dest.writeInt(indentLevel);
-		
-	}/*
-
-	//Must read in the order they were written
-	/**
-	 * Specifies how to read the parcel that was written and must be
-	 * read in the order it was written. The variable timestamp is converted back
-	 * to a Date object here. The unchecked warning can be ignored since an
-	 * array list of viewables will always be passed in.
-	 * 
-	 * 
-	 * @param in the parcel being read
-	 */
-	/*@SuppressWarnings("unchecked") //Fix later if possible. For the meantime, we know that every comment has an array list of comments
-	public void readFromParcel(Parcel in){
-		//GPSLocation = Location.CREATOR.createFromParcel(in);
-		ID = in.readString();
-		username = in.readString();
-		commentText = in.readString();
-		comments = (ArrayList<Viewable>) in.readValue(Viewable.class.getClassLoader());
-		timestamp = new Date(in.readLong());
-		image = in.readParcelable(Bitmap.class.getClassLoader());
-		indentLevel = in.readInt();
-	}
-	
-	public static final Parcelable.Creator<Comment> CREATOR =
-			new Parcelable.Creator<Comment>(){
-		public Comment createFromParcel(Parcel in){
-			return new Comment(in);
-		}
-		
-		public Comment[] newArray(int size){
-			return new Comment[size];
-			
-		}
-	};*/
-
-
-	
-
-
-	@Override
-	public void addChild(Viewable post) {
-		comments.add(post);
-		
-	}
-
-	@Override
 	public Integer getPopularity() {
 		// TODO Auto-generated method stub
 		return null;
