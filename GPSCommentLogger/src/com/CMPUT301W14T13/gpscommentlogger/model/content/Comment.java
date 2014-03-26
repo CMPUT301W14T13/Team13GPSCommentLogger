@@ -45,13 +45,8 @@ public class Comment extends Viewable
 	private Location GPSLocation;
 
 	private int indentLevel = 0;
-	
-	
+	private ArrayList<Viewable> comments;
 
-
-	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
-
-	private HashMap<String, Vote> votes = new HashMap<String, Vote>();
 
 
 	/**
@@ -103,25 +98,8 @@ public class Comment extends Viewable
 		this.image = picture;
 		this.timestamp = timestamp;
 		this.commentText = commentText;
-		comments = new ArrayList<Viewable>();
+		this.comments = new ArrayList<Viewable>();
 		this.hasImage = true;
-	}
-
-
-	/*public Comment(Parcel in){
-		readFromParcel(in);
-	}*/
-
-
-
-	/* increment the vote count (remember users can only vote once) */
-	public void upVote(String phoneID){
-		
-	}
-	
-	/* decrement the vote count (remember users can only vote once)*/
-	public void downVote(String phoneID){
-		
 	}
 
 	public String getUsername() {
@@ -198,7 +176,6 @@ public class Comment extends Viewable
 		Log.w("Comment Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
 		Log.w("Comment Equals", "commentText: " + commentText.equals(o.commentText));
 		Log.w("Comment Equals", "comments: " + comments.equals(o.comments));
-		Log.w("Comment Equals", "votes: " + votes.equals(o.votes));
 		
 		boolean imageEquals = true;
 		if(image == null)
@@ -218,8 +195,7 @@ public class Comment extends Viewable
 				&& childID.equals(o.childID)
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
-				&& comments.equals(o.comments)
-				&& votes.equals(votes);
+				&& comments.equals(o.comments);
 	}
 
 	public Integer getPopularity() {

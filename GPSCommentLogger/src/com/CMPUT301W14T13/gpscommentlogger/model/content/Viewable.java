@@ -151,7 +151,7 @@ public abstract class Viewable {
 	public abstract Integer getPopularity();
 		
 	/**
-	 * Tells us if the Viewable has an assoicated image.
+	 * Tells us if the Viewable has an associated image.
 	 * @return A boolean of true if the Viewable has an image and false if it does not.
 	 */
 	public boolean getHasImage(){
