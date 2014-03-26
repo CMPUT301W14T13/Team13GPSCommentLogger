@@ -80,5 +80,29 @@ public class SortFunctions
 		return orderedArray;
 	}
 	
-	
-}
+	/**
+	 * This function returns a list of Comment objects, sorted
+	 * by current location and image content.
+	 * 
+	 * The function will call another one that sorts comments by
+	 * current location (sortByCurrentLocation) and check the
+	 * returned sorted list of comments and removes those ones that
+	 * don't contain pictures.
+	 * 
+	 * This function returns a list of comments closest to the user
+	 * that contain images.
+	 * 
+	 * @param locationSortedCommentes
+	 * @return ArrayList<Viewable>
+	 */
+	public static ArrayList<Viewable> sortByPicture(ArrayList<Viewable> viewables) {
+		ArrayList<Viewable> pictureSortedList = sortByCurrentLocation(viewables); // get location sorted comments in function  
+		for (int i = 0; i < pictureSortedList.size(); i++) {
+			if (pictureSortedList.get(i).getHasImage() == false) {
+				pictureSortedList.remove(i);
+			}
+		}
+		
+		return pictureSortedList;
+		}
+	}
