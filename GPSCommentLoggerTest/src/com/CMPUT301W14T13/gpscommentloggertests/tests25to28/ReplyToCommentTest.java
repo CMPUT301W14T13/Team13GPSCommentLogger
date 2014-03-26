@@ -8,10 +8,10 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
@@ -38,7 +38,7 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<CreateS
 		intent = new Intent();
 		setActivityIntent(intent);
 		
-		cl = CommentLoggerApplication.getCommentLogger();
+		cl = CommentLogger.getInstance();
 		cl.getTopics().clear();
 		cl.addTopic(new Topic());
 		cl.setCurrentTopic(0);

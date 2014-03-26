@@ -23,10 +23,10 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
@@ -56,7 +56,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		setContentView(R.layout.home_view);
 
 		// IDEALLY, this should get the topics from the server.
-		cl = CommentLoggerApplication.getCommentLogger();
+		cl = CommentLogger.getInstance();
 		controller = new CommentLoggerController(cl);
 
 		home_view = cl.getRoot(); // get the root which holds the list of topics
@@ -119,7 +119,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        CommentLogger cl = CommentLogger.getInstance();
         cl.deleteView(this);
 	}
 	

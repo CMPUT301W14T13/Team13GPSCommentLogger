@@ -66,7 +66,7 @@ public class CommentAdapter extends BaseAdapter {
 		Button editButton;
 		Comment comment = this.getItem(position);
 		ViewHolder holder = null;
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		CommentLogger cl = CommentLogger.getInstance();
 
 		if (vi == null){
 

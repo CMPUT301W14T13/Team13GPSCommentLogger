@@ -18,10 +18,10 @@ import android.widget.TextView;
 import com.CMPUT301W14T13.gpscommentlogger.CommentAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
+import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -52,7 +52,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_view);
         
-        cl = CommentLoggerApplication.getCommentLogger();
+        cl = CommentLogger.getInstance();
         controller = new CommentLoggerController(cl);
         
         adapter = new CommentAdapter(this, cl.getCommentList());
@@ -72,7 +72,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+        CommentLogger cl = CommentLogger.getInstance();
         cl.deleteView(this);
 	}
         

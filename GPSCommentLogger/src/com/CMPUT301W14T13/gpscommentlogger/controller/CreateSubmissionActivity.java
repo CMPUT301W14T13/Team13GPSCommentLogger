@@ -30,7 +30,6 @@ import android.widget.Toast;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -102,7 +101,7 @@ public class CreateSubmissionActivity extends Activity{
 		gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		userLocation = null;
 		rowNumber = getIntent().getIntExtra("row number", -1);
-		CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+		CommentLogger cl = CommentLogger.getInstance();
 
 		//get the user's global username so they don't have to always enter it
 		currentUsername = cl.getCurrentUsername();
@@ -127,7 +126,7 @@ public class CreateSubmissionActivity extends Activity{
 		case(2):
 		case(3):
 			setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
-		cl = CommentLoggerApplication.getCommentLogger();
+		cl = CommentLogger.getInstance();
 
 
 		if (constructCode == 3){ //CheckSubmission needs to check the title
@@ -354,7 +353,7 @@ public class CreateSubmissionActivity extends Activity{
 	}
 
 	/**
-	 * 
+	 * Responsible for creating comments and editing viewables
 	 * 
 	 * Submits the submission. When the user hits the submit button,
 	 * it first extracts the information that the user entered in
@@ -383,8 +382,8 @@ public class CreateSubmissionActivity extends Activity{
 
 			int row = rowNumber;
 			Comment prev_comment = new Comment();
-			CommentLoggerController controller = new CommentLoggerController(CommentLoggerApplication.getCommentLogger());
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			CommentLoggerController controller = new CommentLoggerController(CommentLogger.getInstance());
+			CommentLogger cl = CommentLogger.getInstance();
 			commentList = cl.getCommentList();
 
 
@@ -459,7 +458,7 @@ public class CreateSubmissionActivity extends Activity{
 		submission_ok = checkSubmission(submission); //check that the submission is valid
 		if (submission_ok){
 
-			CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+			CommentLogger cl = CommentLogger.getInstance();
 			CommentLoggerController controller = new CommentLoggerController(cl);
 			controller.addTopic((Topic) submission);
 			finish();

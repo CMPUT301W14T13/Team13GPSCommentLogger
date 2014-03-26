@@ -29,7 +29,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<CreateS
 
 	CreateSubmissionActivity activity;
 	Intent intent;
-	CommentLogger cl = CommentLoggerApplication.getCommentLogger();
+	CommentLogger cl = CommentLogger.getInstance();
 
 	public MakeSubmissionTest() {
 		super(CreateSubmissionActivity.class);
