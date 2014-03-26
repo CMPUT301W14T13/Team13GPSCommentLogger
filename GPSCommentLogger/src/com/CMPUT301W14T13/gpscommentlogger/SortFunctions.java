@@ -5,7 +5,9 @@ import java.util.Date;
 
 import android.location.Location;
 
+
 import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
+
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
@@ -82,6 +84,7 @@ public class SortFunctions
 
 		return orderedArray;
 	}
+
 	
 	/**
 	 * This function retrieves current location from 
@@ -97,8 +100,40 @@ public class SortFunctions
 	 */
 	public static ArrayList<Viewable> sortByCurrentLocation(ArrayList<Viewable> viewables) {
 		Location location = LocationSelection.getLocation();
-		return (sortByGivenLocation(location));
+		return (sortByGivenLocation(viewables, location));
 	}
+
+	/**
+	 * This method takes in an array list of viewables (Topics or Comments) and a location, then sorts
+	 * the array list by how close the Topic or comment is to the givenLocation. It returns an ordered
+	 * array of Topics or Comments from closest to furthest from the givenLocation. 
+	 * @param ArrayList<Viewables> viewables
+	 * @param Location givenLocation
+	 * @return ArrayList<Viewable> orderedArray 
+	 */
+	public static ArrayList<Viewable> sortByGivenLocation(ArrayList<Viewable> viewables, Location givenLocation){
+		
+		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
+		int position = 0;
+		double closest = 99999999;
+		double distance;
+		Location location;
+		
+		while(viewables.size() != 0){
+			for (int i = 0; i < viewables.size(); i++){
+				location = viewables.get(i).getGPSLocation();	
+				distance = givenLocation.distanceTo(location);
+				if(distance < closest){
+					closest = distance;
+					position = i;
+				}
+			}
+			orderedArray.add(viewables.get(position));
+			viewables.remove(position);
+		}
+		return orderedArray;
+	}
+
 	
 	/**
 	 * This function returns a list of Comment objects, sorted

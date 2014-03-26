@@ -7,7 +7,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
-
+/**
+ * Network receiver constantly checks for network change, once a change
+ * has occured we take action inside the onReceive() function.
+ * @author nsd
+ *
+ */
 public class NetworkReceiver extends BroadcastReceiver
 {
 	public boolean isConnected = false;
