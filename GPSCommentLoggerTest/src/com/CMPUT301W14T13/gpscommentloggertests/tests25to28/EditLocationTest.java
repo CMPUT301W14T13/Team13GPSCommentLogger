@@ -41,17 +41,24 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<CreateSub
         newLocation.setAccuracy(accuracy);
         return newLocation;
     }
-    public void testLocationSelection (){
+    public void testLocationSelection () throws InterruptedException{
     	LocationSelection locationGetter = new LocationSelection(getActivity());
+    	
     	locationGetter.startLocationSelection();
     	locationGetter.setProvider(PROVIDER);
+    	
     	Location mockLocation = createLocation(LAT, LNG, ACCURACY);
+    	
     	locationGetter.setProviderLocation(PROVIDER, mockLocation);
+    	
+    	Thread.sleep(100); // wait for phone to fetch location    	
+    	
     	Location location = locationGetter.getLocation();
     	
-    	assertFalse("fail", false);
-    	assertNotNull("got a location", location);
-    	
+    	assertNotNull("Didn't get a location", location);
+    	assertEquals("Mock location latitudes not equal to provider location", location.getLatitude(), mockLocation.getLatitude());
+    	assertEquals("Mock location longitudes not equal to provider location", location.getLongitude(), mockLocation.getLongitude());
+
     }
     
     

@@ -144,9 +144,12 @@ public class LocationSelection
 	 * @return Location
 	 */
 	public static Location getLocation() {
+		
 
 		stopLocationSelection(); // stop location manager and listener
-
+		
+//		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
+		
 		return gpsLocation;
 
 	}
