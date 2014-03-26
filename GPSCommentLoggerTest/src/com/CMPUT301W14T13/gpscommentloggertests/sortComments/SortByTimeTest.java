@@ -7,7 +7,6 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.CMPUT301W14T13.gpscommentlogger.SortFunctions;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity;
