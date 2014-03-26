@@ -2,6 +2,7 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 
 import java.util.ArrayList;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -73,7 +74,26 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_list,
 		          android.R.layout.simple_spinner_dropdown_item);
 		
+		// FIX FIX FIX FIX FIX FIX
+		getActionBar().setNavigationMode();
+
 		
+		getActionBar().OnNavigationListener navigationListener = new OnNavigationListener() {
+			@Override
+			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+			    switch(itemPosition) {
+			    case 0:
+			        Intent i = new Intent(this, SecondActivity.class);
+			        startActivity(i);
+			        break;
+			    case 1:
+			        // ...
+			        break;
+			    }
+			    return false;
+			}
+	    };
+	    // FIX FIX FIX FIX FIX FIX
 		
 
 		//set up listener for topic clicks, clicking makes you enter the topic
