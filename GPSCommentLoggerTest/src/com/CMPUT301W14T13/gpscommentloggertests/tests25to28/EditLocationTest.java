@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import com.CMPUT301W14T13.gpscommentlogger.DebugActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 
 @SuppressLint("NewApi")
@@ -23,7 +24,7 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<CreateSub
 	int constructCode;
 	int submitCode;
 	CommentLogger cl;
-	private static final String PROVIDER = "flp";
+	private static final String PROVIDER = "gps";
     private static final double LAT = 37.377166;
     private static final double LNG = -122.086966;
     private static final float ACCURACY = 3.0f;
@@ -39,6 +40,18 @@ public class EditLocationTest extends ActivityInstrumentationTestCase2<CreateSub
         newLocation.setLongitude(lng);
         newLocation.setAccuracy(accuracy);
         return newLocation;
+    }
+    public void testLocationSelection (){
+    	LocationSelection locationGetter = new LocationSelection(getInstrumentation().getContext());
+    	locationGetter.startLocationSelection();
+    	locationGetter.setProvider(PROVIDER);
+    	Location mockLocation = createLocation(LAT, LNG, ACCURACY);
+    	locationGetter.setProviderLocation(PROVIDER, mockLocation);
+    	Location location = locationGetter.getLocation();
+    	
+    	assertFalse("fail", false);
+    	assertNotNull("got a location", location);
+    	
     }
     
     

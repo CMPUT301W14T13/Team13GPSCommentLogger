@@ -72,7 +72,7 @@ public class CreateSubmissionActivity extends Activity{
 		super.onCreate(savedInstanceState);
 
 		/* Location operations */
-		locationGetter = new LocationSelection(); 
+		locationGetter = new LocationSelection(this); 
 		locationGetter.startLocationSelection(); // starts pulling location
 		location = null; // make sure our map location is empty
 		
@@ -191,15 +191,10 @@ public class CreateSubmissionActivity extends Activity{
 		submission.setUsername(username); 
 		submission.setCommentText(commentText);
 		
-<<<<<<< HEAD
-		if(userLocation == null){
-		submission.setGPSLocation(gpsLocation);
-		} else {
-			submission.setGPSLocation(userLocation);
-=======
+
 		if(location == null) {
 			location = locationGetter.getLocation();
->>>>>>> origin/ReplyToComment
+
 		}
 		submission.setGPSLocation(location);
 
