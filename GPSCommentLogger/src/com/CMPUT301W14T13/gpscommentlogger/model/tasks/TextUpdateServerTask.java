@@ -1,12 +1,10 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
-import com.CMPUT301W14T13.gpscommentlogger.controller.ServerDispatcher;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ServerOperations;
 import com.CMPUT301W14T13.gpscommentlogger.model.InterfaceSerializer;
 import com.CMPUT301W14T13.gpscommentlogger.model.ServerContext;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.results.Result;
-import com.CMPUT301W14T13.gpscommentlogger.model.results.ServerResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,17 +15,14 @@ import com.google.gson.GsonBuilder;
  * to the new state provided by the client
  */
 
-public class TextUpdateServerTask extends UpdateServerTask {
+public class TextUpdateServerTask extends Task {
 
-	public TextUpdateServerTask(ServerDispatcher dispatcher) {
-		super(dispatcher);
+	public TextUpdateServerTask(ElasticSearchController esc, Viewable obj) {
+		super(esc, obj.getID(), obj);
 	}
 
 	@Override
-	public Result executeUpdateOnServer(ServerContext context) throws InterruptedException {
-		ServerResult out = new ServerResult();
-		out.setId(this.id);
-		
+	public String doTask() throws InterruptedException {
 		Gson gson = new GsonBuilder().registerTypeAdapter(Viewable.class, new InterfaceSerializer<Viewable>()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
@@ -36,12 +31,10 @@ public class TextUpdateServerTask extends UpdateServerTask {
 
 		//searchTerm should have the viewable's ID
 		//we need to get the ESID to process an update request
-		String esID = ServerOperations.findESIDByID(this, context.getURL());
+		String esID = ServerOperations.findESIDByID(this, esc.getURL());
 		
 		//next, we update the viewable
-		ServerOperations.updateField(esID,this, out, fieldName,jsonString ,context.getURL());
-		
-		return out;
+		return ServerOperations.updateField(esID,this, fieldName,jsonString , esc.getURL());
 	}
 
 }
