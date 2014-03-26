@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 

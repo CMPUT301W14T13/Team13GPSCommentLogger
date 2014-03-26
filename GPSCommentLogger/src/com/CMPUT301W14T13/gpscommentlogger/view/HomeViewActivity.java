@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -26,7 +23,6 @@ import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.CommentLoggerApplication;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
@@ -144,6 +140,10 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 				createTopic();
 				return true;
 
+			case R.id.saved:
+				viewFavourites();
+				return true;
+				
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -156,6 +156,10 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		startActivity(topic);
 	}
 
+	private void viewFavourites(){
+		Intent favourites = new Intent(this, FavouritesViewActivity.class);
+		startActivity(favourites);
+	}
 
 	@Override
 	public void update(CommentLogger model)
