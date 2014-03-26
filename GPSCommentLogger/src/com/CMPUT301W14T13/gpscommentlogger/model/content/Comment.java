@@ -47,113 +47,37 @@ public class Comment extends Viewable
 	private int indentLevel = 0;
 	private ArrayList<Viewable> comments;
 
-
-
 	/**
 	 * Comment constructors
 	 */
 	public Comment(){
-		//TODO: automatic ID gen
-		this.ID = "default";
-		username = "Anonymous";
-		title = "initial title";
-		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		super();
 	}
 
 	public Comment(String ID) {
-		this.ID = ID;
-		username = "Anonymous";
-		title = "initial title";
-		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		super(ID);
 	}
 
 
 	public Comment(String username, boolean cheatingOverloadSignature)
 	{
-		//TODO: automatic ID gen
-		this.ID = "default";
-		this.username = username;
-		title = "initial title";
-		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		super(username, cheatingOverloadSignature);
 	}
 
 
 	public Comment(String ID, String username)
 	{
-		this.ID = ID;
-		this.username = username;
-		title = "initial title";
-		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		super(ID, username);
 	}
 
 
 	public Comment(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
-		this.ID = ID;
-		this.username = username;
-		this.image = picture;
-		this.timestamp = timestamp;
-		this.commentText = commentText;
-		this.comments = new ArrayList<Viewable>();
-		this.hasImage = true;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username){
-		this.username = username;
-	}
-
-	@Override
-	public void setImage(Bitmap image) {
-		this.image = image;
-		this.hasImage = true;
-		
-	}
-
-	@Override
-	public Bitmap getImage() {
-		return image;
-	}
-
-	@Override
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
-		
-	}
-
-	@Override
-	public String getCommentText() {
-		return commentText;
-	}
-
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public Location getGPSLocation() {
-		return GPSLocation;
-	}
-
-
-	public void setGPSLocation(Location location) {
-		GPSLocation = location;
+		super(ID, username, picture, timestamp, commentText);
 	}
 
 	public int getNumberOfReplies(){
 		return childID.size();
-	}
-
-
-	public void setAnonymous() {
-		this.username = anonymous;
 	}
 
 	/**
@@ -197,24 +121,11 @@ public class Comment extends Viewable
 				&& commentText.equals(o.commentText)
 				&& comments.equals(o.comments);
 	}
-
-	public Integer getPopularity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	
 	public int getIndentLevel(){
 		
 		return indentLevel;
 	}
-
-	/* return GPS coordinates as a string */
-	public String locationString() {
-	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
-	}
-
 
 
 	/**

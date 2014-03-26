@@ -1,141 +1,47 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.content;
 
 import java.util.ArrayList;
-import java.util.Date;
-
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * This is the root view that will display
  * all top level comments.
  */
-public class Root extends Viewable {
-	private String title;
-	private final String username = "default";
+public class Root {
+
 	private String ID;
-	private String commentText;
-	private Bitmap image;
-	private boolean hasImage;
-	private Date timestamp;
-	private Date freshness;
-	private Location GPSLocation;
-	private ArrayList<Viewable> comments;
+	private ArrayList<Viewable> topics;
 	
 	public Root()
 	{
-		//TODO: create automatic ID generation system
 		ID = "ROOT";
-		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		topics = new ArrayList<Viewable>();
 	}
-	
 
 	public Root(String ID)
 	{
 		this.ID = ID;
-		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		topics = new ArrayList<Viewable>();
+	}
+
+	public ArrayList<Viewable> getChildren() {
+		return this.topics;
+	};
+	
+	/**
+	 * Sets the children of the parent Viewable object.
+	 * @param childViewables the children to add to the parent Viewable.
+	 */
+	public void setChildren(ArrayList<Viewable> childViewables) {
+		this.topics = childViewables;
 	}
 	
-	public String getUsername() {
-		return username;
-	}
-
-	@Override
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
-	}
-
-	@Override
-	public String getCommentText() {
-		return commentText;
-	}
-
-	@Override
-	public void setImage(Bitmap picture) {
-		this.image = picture;
-	}
-
-	@Override
-	public Bitmap getImage() {
-		return image;
-	}
-
-	@Override
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
 	/**
-	 * Function to compare top level
-	 * comment to other.
+	 * Adds a child within the Viewable object.
+	 * @param The Viewable to add as a child.
 	 */
-	@Override
-	public boolean equals(Object other)
-	{
-	    if (other == null) return false;
-	    if (other == this) return true;
-		if (!(other instanceof Root))return false;
-		Root o = (Root)other; 
-		
-		return ID.equals(o.ID)
-				&& title.equals(o.title)
-				&& username.equals(o.username)
-				&& image.equals(o.image)
-				&& timestamp.equals(o.timestamp)
-				&& commentText.equals(o.commentText)
-				&& comments.equals(o.comments);
+	public void addChild(Viewable post) {
+		/* Consider adding this in a controller */
+		topics.add(post);
 	}
-
-	@Override
-	public void setAnonymous() {
-		// TODO Auto-generated method stub
-		
-	}
-	public Location getGPSLocation() {
-		return GPSLocation;
-	}
-
-	public void setGPSLocation(Location gPSLocation) {
-		GPSLocation = gPSLocation;
-	}
-
-
-
-
-	@Override
-	public Integer getPopularity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setUsername(String newUsername) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	public String locationString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
