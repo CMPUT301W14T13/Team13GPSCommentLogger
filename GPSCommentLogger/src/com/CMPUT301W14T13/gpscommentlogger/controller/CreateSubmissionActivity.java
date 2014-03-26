@@ -211,6 +211,7 @@ public class CreateSubmissionActivity extends Activity{
 
 		submission.setUsername(username); 
 		submission.setCommentText(commentText);
+		
 		if(userLocation == null){
 		submission.setGPSLocation(gpsLocation);
 		} else {
