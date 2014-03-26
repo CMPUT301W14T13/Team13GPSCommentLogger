@@ -4,14 +4,12 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +19,7 @@ import com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -241,6 +240,14 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		
 	}
 	
+	public void saveComment(View v){
+		Preferences prefs = new Preferences(getApplicationContext());
+		Comment comment = (Comment) cl.getCommentList().get((Integer) v.getTag());
+		ArrayList<Comment> comments = prefs.loadCommentFile("comments.sav");
+		comments.add(comment);
+		
+		prefs.saveInCommentFile("comments.sav", comments);
+	}
 	
 	@Override
 	public void update(CommentLogger model)
