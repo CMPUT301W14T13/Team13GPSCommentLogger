@@ -84,7 +84,7 @@ public class LocationSelection
 				gpsLocation = location;				
 			}
 		};
-
+		
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); // update current GPS location
 			Log.d("LocationSelection", "Got GPS Provider");
