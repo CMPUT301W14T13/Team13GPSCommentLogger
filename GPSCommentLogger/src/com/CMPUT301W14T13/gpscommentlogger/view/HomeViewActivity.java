@@ -93,12 +93,13 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		
-		updateHomeView(homeView);
+		
 		
 		// IDEALLY, this should get the topics from the server.
 		cl = CommentLogger.getInstance();
 		controller = new CommentLoggerController(cl);
 		
+		updateHomeView(homeView);
 		final HomeViewActivity activity = this;
         
         ElasticSearchController esc = ElasticSearchController.getInstance();
@@ -182,7 +183,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	{
 		homeView = root;
 		Log.w("UpdateHomeView", Boolean.toString(root == null));
-		adapter = new CustomAdapter(this, homeView.getChildren());
+		adapter = new CustomAdapter(this, cl.getTopics());
 		topicListview.setAdapter(adapter);
 	}
 
@@ -197,8 +198,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	@Override
 	public void update(CommentLogger model)
 	{
-		displayedTopics.clear();
-		displayedTopics.addAll(cl.getTopics());
 		adapter.notifyDataSetChanged();
 		
 	}
