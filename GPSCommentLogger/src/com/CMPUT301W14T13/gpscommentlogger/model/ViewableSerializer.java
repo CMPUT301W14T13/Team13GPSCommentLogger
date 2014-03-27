@@ -70,7 +70,7 @@ public class ViewableSerializer implements
         	TaskFactory factory = new TaskFactory(ElasticSearchController.getInstance());
         	for(final JsonElement each : viewable.get("childPosts").getAsJsonArray())
         	{
-        		String eachID = each.getAsString();
+        		String eachID = each.getAsJsonObject().get("ID").getAsString();
         		SearchServerTask task = factory.getNewBrowser(eachID);
         		ElasticSearchController.getInstance().addTask(task);
         		childPosts.add(task.getObj());
