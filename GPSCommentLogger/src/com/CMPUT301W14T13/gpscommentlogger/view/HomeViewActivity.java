@@ -9,12 +9,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -22,9 +27,14 @@ import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
+import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.RootSearchServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 /* this is our main activity */
 /**
@@ -38,7 +48,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 	private ListView topicListview;
-	private Root home_view = new Root();
+	private Handler listViewHandler;
+	private Root homeView = new Root();
 	private CommentLoggerController controller; //controller for the model
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
@@ -50,39 +61,13 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
-
-		// IDEALLY, this should get the topics from the server.
-		cl = CommentLogger.getInstance();
-		controller = new CommentLoggerController(cl);
-
-		home_view = cl.getRoot(); // get the root which holds the list of topics
-
-		adapter = new CustomAdapter(this, home_view.getChildren());
-		//set up adapter and listview
-		topicListview = (ListView) findViewById(R.id.topic_listview);
-		topicListview.setAdapter(adapter);
-
-
-		//set up listener for topic clicks, clicking makes you enter the topic
-		topicListview.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
-				controller.updateCurrentTopic(position); //set the current topic the user is opening
-
-				startActivity(viewTopic);
-
-
-			}
-		});
+		
+		ElasticSearchController.getInstance().start();
+		
 		/* setup the location managers now so that you can get GPS coords */
 		// Acquire a reference to the system Location Manager
 
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-
 
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
@@ -100,16 +85,61 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		
+		//set up adapter and listview
+		topicListview = (ListView) findViewById(R.id.topic_listview);
+		
+		
+		
+		// IDEALLY, this should get the topics from the server.
+		cl = CommentLogger.getInstance();
+		controller = new CommentLoggerController(cl);
+		
+		updateHomeView(homeView);
+		final HomeViewActivity activity = this;
+        
+        ElasticSearchController esc = ElasticSearchController.getInstance();
+        
+        //InitializationServerTask initTask = new TaskFactory(esc).getNewInitializer();
+        //esc.addTask(initTask);
+
+        try
+		{
+			Thread.sleep(2000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		RootSearchServerTask task = new TaskFactory(esc).getRoot(activity);
+		esc.addTask(task);
+
+		//set up listener for topic clicks, clicking makes you enter the topic
+		topicListview.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
+				controller.updateCurrentTopic(position); //set the current topic the user is opening
+
+				startActivity(viewTopic);
+
+
+			}
+		});
+		
 
 		cl.addView(this);
+		
 	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
 		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
-		invalidateOptionsMenu();
-
+		invalidateOptionsMenu();		
 	}
 	
 	@Override
@@ -148,6 +178,14 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	public void updateHomeView(Root root)
+	{
+		//cl.setRoot(root);
+		Log.w("UpdateHomeView", Boolean.toString(root == null));
+		adapter = new CustomAdapter(this, cl.getTopics());
+		topicListview.setAdapter(adapter);
+	}
 
 		
 	private void createTopic(){
@@ -164,8 +202,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	@Override
 	public void update(CommentLogger model)
 	{
-		displayedTopics.clear();
-		displayedTopics.addAll(home_view.getChildren());
 		adapter.notifyDataSetChanged();
 		
 	}

@@ -4,181 +4,43 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.graphics.Bitmap;
-import android.location.Location;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * This is the root view that will display
  * all top level comments.
  */
-public class Root implements Viewable, Parcelable {
-	private String title;
-	private final String username = "default";
-	private String ID;
-	private String commentText;
-	private Bitmap image;
-	private boolean hasImage;
-	private Date timestamp;
-	private Date freshness;
-	private Location GPSLocation;
-	private ArrayList<Viewable> comments;
+public class Root extends Viewable{
 	
 	public Root()
 	{
-		//TODO: create automatic ID generation system
-		ID = "ROOT";
-		title = "initial title";
-		comments = new ArrayList<Viewable>();
+		super("ROOT");
+	}
+	
+	public Root(String ID, String username, Bitmap picture, Date timestamp,
+			String commentText) {
+		super(ID, username, picture, timestamp, commentText);
 	}
 	
 
-	public Root(String ID)
-	{
-		this.ID = ID;
-		title = "initial title";
-		comments = new ArrayList<Viewable>();
-	}
+	public ArrayList<Viewable> getChildren() {
+		return this.childPosts;
+	};
 	
-	@Override
-
-	public ArrayList<Viewable> getChildren()
-	
-
-	{
-		return comments;
-	}
-
-	public void setC(ArrayList<Viewable> c)
-	{
-		comments = c;
-	}
-	@Override
-	public String getID() {
-		return ID;
-	}
-
-	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setTitle(String newTitle) {
-		title = newTitle;
-	}
-
-	@Override
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
-	}
-
-	@Override
-	public String getCommentText() {
-		return commentText;
-	}
-
-	@Override
-	public void setImage(Bitmap picture) {
-		this.image = picture;
-	}
-
-	@Override
-	public Bitmap getImage() {
-		return image;
-	}
-
-	@Override
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
 	/**
-	 * Function to compare top level
-	 * comment to other.
+	 * Sets the children of the parent Viewable object.
+	 * @param childViewables the children to add to the parent Viewable.
 	 */
-	@Override
-	public boolean equals(Object other)
-	{
-	    if (other == null) return false;
-	    if (other == this) return true;
-		if (!(other instanceof Root))return false;
-		Root o = (Root)other; 
-		
-		return ID.equals(o.ID)
-				&& title.equals(o.title)
-				&& username.equals(o.username)
-				&& image.equals(o.image)
-				&& timestamp.equals(o.timestamp)
-				&& commentText.equals(o.commentText)
-				&& comments.equals(o.comments);
+	public void setChildren(ArrayList<Viewable> childViewables) {
+		this.childPosts = childViewables;
 	}
-
-	@Override
-	public void setAnonymous() {
-		// TODO Auto-generated method stub
-		
-	}
-	public Location getGPSLocation() {
-		return GPSLocation;
-	}
-
-	public void setGPSLocation(Location gPSLocation) {
-		GPSLocation = gPSLocation;
-	}
-
-
-	@Override
+	
+	/**
+	 * Adds a child within the Viewable object.
+	 * @param The Viewable to add as a child.
+	 */
 	public void addChild(Viewable post) {
-		comments.add(post);
-		
+		/* Consider adding this in a controller */
+		this.childPosts.add(post);
 	}
-
-
-	@Override
-	public Integer getPopularity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public boolean getHasImage() {
-		/* return image != null; */
-		return hasImage;
-
-	}
-
-
-	@Override
-	public void setUsername(String newUsername) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public String locationString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

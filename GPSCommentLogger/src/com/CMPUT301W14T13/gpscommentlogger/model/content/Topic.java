@@ -26,174 +26,76 @@ import java.util.concurrent.TimeUnit;
  *
  */
 
-public class Topic implements Viewable
+public class Topic extends Viewable
 
 {
-	
-	private static final long serialVersionUID = 1L;
-
-	private String title = "default title";
-	private String ID = "default";
-	private String username = "Anonymous";
-	private Bitmap image = null;
-	private Date timestamp = new Date();
-	private Date freshness = new Date();
-	private Comment rootComment = new Comment();
-	private String commentText = ""; 
-	private ArrayList<Viewable> comments = new ArrayList<Viewable>();
-	private Location GPSLocation = new Location("default");
-	private boolean hasImage;
 	private int commentCount = 0;
 	
 	public Topic()
 	{
-		//TODO: create automatic ID generation system
+		super();
+		title = "default title";
 		ID = "default";
-		title = "initial title";
 		username = "Anonymous";
+		image = null;
 		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
-
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String ID)
 	{
-		this.ID = ID;
-		title = "initial title";
+		super(ID);
+		title = "default title";
+		username = "Anonymous";
+		image = null;
 		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String username, boolean cheatingOverloadSignature)
 	{
-		//TODO: automatic ID gen
-		this.ID = "default";
-		title = "initial title";
-		this.username = username;
+		super(username, cheatingOverloadSignature);
+		title = "default title";
+		ID = "default";
+		image = null;
 		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String ID, String username)
 	{
-		this.ID = ID;
-		title = "initial title";
-		this.username = username;
+		super(ID, username);
+		title = "default title";
+		image = null;
 		timestamp = new Date();
-		comments = new ArrayList<Viewable>();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 
 	public Topic(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
-		this.ID = ID;
-		this.username = username;
-		this.image = picture;
-		this.timestamp = timestamp;
-		this.commentText = commentText;
-		comments = new ArrayList<Viewable>();
-		this.hasImage = true;
-	}
-	
-	public Location getGPSLocation() {
-		return GPSLocation;
+		super(ID, username, picture, timestamp, commentText);
+		title = "default title";
+		freshness = new Date();
+		GPSLocation = new Location("default");
 	}
 
 
-	public void setGPSLocation(Location gPSLocation) {
-		GPSLocation = gPSLocation;
-	}
 	
 	/* return GPS coordinates as a string */
 	public String locationString() {
 	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
 	}
 
-	public ArrayList<Viewable> getChildren()
-	
-	
-	{
-		return comments;
-	}
-	
-	/* increment the vote count (remember users can only vote once) */
-	public void upVote(String phoneID){
-		
-	}
-	
-	/* decrement the vote count (remember users can only vote once)*/
-	public void downVote(String phoneID){
-		
-	}
-	
-	public String getID() {
-		return ID;
-	}
 
-	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	
-	public void setUsername(String username){
-		this.username = username;
-	}
-	
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setTitle(String newTitle) {
-		title = newTitle;	
-	}
-
-	@Override
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
-		
-	}
-
-	@Override
-	public String getCommentText() {
-		return commentText;
-	}
-
-	@Override
-	public void setImage(Bitmap picture) {
-		this.image = picture;
-		this.hasImage = true;
-		
-	}
-
-	@Override
-	public Bitmap getImage() {
-		
-		return image;
-	}
-
-	@Override
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-
-	
-
-	public void setLocation(Location location){
-		this.GPSLocation = location;
-	}
-	
-	public Location getLocation(){
-		return GPSLocation;
-	}
-	
-	public void setAnonymous() {
-		// TODO Auto-generated method stub
-		this.username = anonymous;
-	}
 	
 	
 	@Override
@@ -210,8 +112,7 @@ public class Topic implements Viewable
 		Log.w("Topic Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
 		Log.w("Topic Equals", "freshness: " + freshness.getTime() + " " + o.freshness.getTime());
 		Log.w("Topic Equals", "commentText: " + commentText.equals(o.commentText));
-		Log.w("Topic Equals", "rootComment: " + rootComment.equals(o.rootComment));
-		Log.w("Topic Equals", "comments: " + comments.equals(o.comments));
+		Log.w("Topic Equals", "comments: " + childPosts.equals(o.childPosts));
 
 		
 		boolean imageEquals = true;
@@ -231,46 +132,14 @@ public class Topic implements Viewable
 				&& timestamp.equals(o.timestamp)
 				&& commentText.equals(o.commentText)
 				&& freshness.equals(o.freshness)
-				&& rootComment.equals(o.rootComment)
-				&& comments.equals(comments)
-				&& GPSLocation.equals(GPSLocation);
+				&& childPosts.equals(o.childPosts)
+				&& GPSLocation.equals(o.GPSLocation);
 
 	}
 	
-
-	public void setRootComment(Comment comment){
-		this.rootComment = comment;
-	}
-	
-	public Comment getRootComment(){
-		return rootComment;
-	}
-
-	public void setChildren(ArrayList<Viewable> threadComments) {
-		// TODO Auto-generated method stub
-		comments = threadComments;
-	}
-
-
-
-	public void addChild(Viewable post) {
-		comments.add(post);
-		
-	}
 
 	public void insertChild(Viewable post, int position){
-		comments.add(position, post);
-	}
-	
-	@Override
-	public Integer getPopularity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean getHasImage() {
-		/* return image != null; */
-		return hasImage;
+		childPosts.add(position, post);
 	}
 
 	public void incrementCommentCount(){
@@ -281,23 +150,5 @@ public class Topic implements Viewable
 		return commentCount;
 	}
 	
-	
-	/* gets the difference between two dates and corrects for time resolution */
-	public String getDateDiff(Date previous, Date current) {
-	    long diffInMillies = current.getTime() - previous.getTime();
-	    
-	    if (diffInMillies >= 0 && diffInMillies < 60000)
-	    	return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago");
-	    else if (diffInMillies >= 60000 && diffInMillies < 3600000)
-	    	return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago");
-	    else if (diffInMillies >= 3600000 && diffInMillies < 24*3600000)
-	    	return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago");
-	    else if (diffInMillies >= 24*3600000 && diffInMillies < 24*30*3600000)
-	    	return String.valueOf(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" days ago");
-	    else if (diffInMillies >= 24*30*3600000 && diffInMillies < 24*30*12*3600000)
-	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago");
-	    else
-	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
-	    
-	}
+
 }

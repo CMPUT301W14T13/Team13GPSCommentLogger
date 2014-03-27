@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
 import java.io.BufferedReader;
-import com.CMPUT301W14T13.gpscommentlogger.model.InterfaceSerializer;
+import com.CMPUT301W14T13.gpscommentlogger.model.ViewableSerializer;
 import com.CMPUT301W14T13.gpscommentlogger.model.MapOfInterfacesSerializer;
 
 import java.io.BufferedWriter;

@@ -32,6 +32,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 import com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity;
 
 
@@ -93,25 +95,34 @@ public class CreateSubmissionActivity extends Activity{
 			}			
 			@Override
 			public void onLocationChanged(Location location) {
-				gpsLocation = location;				
+				gpsLocation = location;
+				Log.d("locationChange", gpsLocation.toString());
 			}
 		};
+		
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 		gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		/* if you cannot get a GPS fix set the values to : 0,0*/
+		if (gpsLocation == null){
+			gpsLocation = new Location("fake");
+			gpsLocation.setLatitude(0);
+			gpsLocation.setLongitude(0);
+		}
 		userLocation = null;
 		rowNumber = getIntent().getIntExtra("row number", -1);
 		CommentLogger cl = CommentLogger.getInstance();
 
-		//get the user's global username so they don't have to always enter it
+		//get the user's global user name so they don't have to always enter it
 		currentUsername = cl.getCurrentUsername();
 
 		switch(constructCode){
 
 		case(0): // constructing a new topic
 			setContentView(R.layout.create_topic); //creating a topic
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		text = (EditText) findViewById(R.id.setTopicUsername);
-		text.setText(currentUsername);
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+			text = (EditText) findViewById(R.id.setTopicUsername);
+			text.setText(currentUsername);
 		break;
 
 		case(1): //constructing a new comment
@@ -187,7 +198,7 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
- 
+
 
 	}
 
@@ -212,7 +223,7 @@ public class CreateSubmissionActivity extends Activity{
 		submission.setUsername(username); 
 		submission.setCommentText(commentText);
 		if(userLocation == null){
-		submission.setGPSLocation(gpsLocation);
+			submission.setGPSLocation(gpsLocation);
 		} else {
 			submission.setGPSLocation(userLocation);
 		}
@@ -256,7 +267,7 @@ public class CreateSubmissionActivity extends Activity{
 			startActivityForResult(map, REQUEST_CODE); 
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
- 
+
 			LayoutInflater inflater = getLayoutInflater();
 			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
 			builder.setView(dialogView);
@@ -264,33 +275,33 @@ public class CreateSubmissionActivity extends Activity{
 			ad.setTitle("Select Location");
 			ad.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
 					new DialogInterface.OnClickListener()
-					{	
-						@Override
-						public void onClick(DialogInterface dialog, int which)
-						{  
-							text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
-							double latitude = Double.parseDouble(text.getText().toString().trim());
-							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
-							double longitude = Double.parseDouble(text.getText().toString().trim());
-							userLocation = new Location(gpsLocation);
-							userLocation.setLatitude(latitude);
-							userLocation.setLongitude(longitude);
-							
-						}
-					});
+			{	
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{  
+					text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
+					double latitude = Double.parseDouble(text.getText().toString().trim());
+					text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
+					double longitude = Double.parseDouble(text.getText().toString().trim());
+					userLocation = new Location(gpsLocation);
+					userLocation.setLatitude(latitude);
+					userLocation.setLongitude(longitude);
+
+				}
+			});
 			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-			    new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) {
-			        	//do nothing
-			        }
-			    });
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					//do nothing
+				}
+			});
 			ad.show();
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
 	 * in construction the topic. if from some reason a latitude and longitude cannot
@@ -371,7 +382,7 @@ public class CreateSubmissionActivity extends Activity{
 
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
-		
+
 		extractTextFields();
 		constructSubmission();
 
@@ -458,8 +469,10 @@ public class CreateSubmissionActivity extends Activity{
 		if (submission_ok){
 
 			CommentLogger cl = CommentLogger.getInstance();
-			CommentLoggerController controller = new CommentLoggerController(cl);
-			controller.addTopic((Topic) submission);
+			cl.addTopic((Topic) submission);
+			ElasticSearchController client = ElasticSearchController.getInstance();
+			PostNewServerTask task = new TaskFactory(client).getNewPoster("ROOT", submission);
+			client.addTask(task);
 			finish();
 		}
 

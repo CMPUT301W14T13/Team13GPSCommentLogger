@@ -90,7 +90,7 @@ public class CustomAdapter extends BaseAdapter {
 
 		/* get the GPS coordinates */
 		text = (TextView) vi.findViewById(R.id.coordinates);
-		text.setText(topic.locationString());
+		//text.setText(topic.locationString());
 
 		/* get the comment age */
 		text = (TextView) vi.findViewById(R.id.age);
