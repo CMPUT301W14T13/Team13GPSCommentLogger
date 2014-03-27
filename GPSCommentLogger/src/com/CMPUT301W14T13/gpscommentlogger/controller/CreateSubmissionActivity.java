@@ -231,7 +231,6 @@ public class CreateSubmissionActivity extends Activity{
 	public void openMap(View view) {
 		if(isOnline()){
 			Intent map = new Intent(this, MapViewActivity.class);
-			Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
 			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
 			map.putExtra("lon", locationGetter.getLocation().getLongitude());
 			map.putExtra("canSetMarker", 1);// for editing  location
