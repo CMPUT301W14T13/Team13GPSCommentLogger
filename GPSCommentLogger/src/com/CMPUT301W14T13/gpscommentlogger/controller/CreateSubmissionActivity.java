@@ -253,6 +253,7 @@ public class CreateSubmissionActivity extends Activity{
 							double latitude = Double.parseDouble(text.getText().toString().trim());
 							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
 							double longitude = Double.parseDouble(text.getText().toString().trim());
+							location = locationGetter.getLocation();
 							location.setLatitude(latitude);
 							location.setLongitude(longitude);
 							
@@ -285,7 +286,7 @@ public class CreateSubmissionActivity extends Activity{
 			if (resultCode == RESULT_OK){
 				double latitude = data.getDoubleExtra("lat", locationGetter.getLocation().getLatitude());
 				double longitude = data.getDoubleExtra("lon", locationGetter.getLocation().getLongitude());
-
+				location = locationGetter.getLocation();
 				location.setLongitude(longitude);
 				location.setLatitude(latitude);
 
