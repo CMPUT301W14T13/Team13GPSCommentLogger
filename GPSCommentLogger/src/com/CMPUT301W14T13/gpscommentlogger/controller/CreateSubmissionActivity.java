@@ -231,10 +231,11 @@ public class CreateSubmissionActivity extends Activity{
 	public void openMap(View view) {
 		if(isOnline()){
 			Intent map = new Intent(this, MapViewActivity.class);
+			Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
 			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
 			map.putExtra("lon", locationGetter.getLocation().getLongitude());
-			map.putExtra("canTap", 1);// for editing  location
-			startActivityForResult(map, REQUEST_CODE); 
+			map.putExtra("canSetMarker", 1);// for editing  location
+			startActivityForResult(map, REQUEST_CODE);  
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
  

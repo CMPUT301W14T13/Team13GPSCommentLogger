@@ -49,7 +49,7 @@ public class MapViewActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map_view);
+		
 		// problem with this action bar is Mapview has multiple parents
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -62,6 +62,7 @@ public class MapViewActivity extends Activity {
 		
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
+			setContentView(R.layout.map_edit_location_view);
 			mapView = (MapView) findViewById(R.id.mapview);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
 			mapView.setBuiltInZoomControls(true);
