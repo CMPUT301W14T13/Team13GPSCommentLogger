@@ -179,7 +179,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	
 	public void updateHomeView(Root root)
 	{
-		//cl.setRoot(root);
+		cl.setRoot(root);
 		Log.w("UpdateHomeView", Boolean.toString(root == null));
 		adapter = new CustomAdapter(this, cl.getTopics());
 		topicListview.setAdapter(adapter);
