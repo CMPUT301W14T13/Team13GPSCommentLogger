@@ -40,7 +40,7 @@ public class FavouritesViewActivity extends Activity implements FView<CommentLog
 
 		String text = "";
 		for (int i = 0; i < favouriteTopics.size(); i++){
-			text += favouriteTopics.get(i).getCommentText() + "\n";
+			text += favouriteTopics.get(i).getUsername() + "\n";
 		}
 
 		TextView textview = (TextView) findViewById(R.id.textView1);

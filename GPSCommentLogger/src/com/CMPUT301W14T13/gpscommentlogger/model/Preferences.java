@@ -96,6 +96,7 @@ public class Preferences {
 
 
 			//iterate through the loaded array and add it to the topic array
+            
 			Topic topic;	
 			while (line != null) {
 
@@ -122,7 +123,7 @@ public class Preferences {
 			Gson g_object = new Gson();
 			String to_be_stored = g_object.toJson(topic);
 			FileOutputStream fos = context.openFileOutput(file,
-					Context.MODE_APPEND);
+					Context.MODE_PRIVATE);
 
 
 			fos.write(to_be_stored.getBytes());

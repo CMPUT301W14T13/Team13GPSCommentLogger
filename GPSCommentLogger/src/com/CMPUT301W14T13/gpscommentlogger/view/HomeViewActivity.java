@@ -10,16 +10,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -30,10 +26,9 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.RootSearchServerTask;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
 /* this is our main activity */
@@ -94,7 +89,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		// IDEALLY, this should get the topics from the server.
 		cl = CommentLogger.getInstance();
 		controller = new CommentLoggerController(cl);
-		
+		cl.addTopic(new Topic("Testing", true));
 		updateHomeView(homeView);
 		final HomeViewActivity activity = this;
         
