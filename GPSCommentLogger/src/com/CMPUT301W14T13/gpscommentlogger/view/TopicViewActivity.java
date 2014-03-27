@@ -249,6 +249,15 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		prefs.saveInCommentFile("comments.sav", comments);
 	}
 	
+	public void saveTopic(View v){
+		Preferences prefs = new Preferences(getApplicationContext());
+		Topic topic = cl.getCurrentTopic();
+		ArrayList<Topic> topics = prefs.loadTopicFile("topics.sav");
+		topics.add(topic);
+		
+		prefs.saveInTopicFile("comments.sav", topic);
+	}
+	
 	@Override
 	public void update(CommentLogger model)
 	{
