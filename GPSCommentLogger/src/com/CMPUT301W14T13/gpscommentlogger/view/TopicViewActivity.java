@@ -124,6 +124,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		text = (TextView) findViewById(R.id.topic_title);
 		text.setText(currentTopic.getTitle());
 		
+		/* having trouble getting the coordinates, why is this?*/
 		text = (TextView) findViewById(R.id.coordinates);
 		text.setText(currentTopic.locationString());
 		

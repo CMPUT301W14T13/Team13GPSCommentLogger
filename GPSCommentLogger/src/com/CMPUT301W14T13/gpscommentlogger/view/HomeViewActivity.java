@@ -71,8 +71,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-
-
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
