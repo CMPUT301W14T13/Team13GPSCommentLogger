@@ -66,7 +66,7 @@ public class ViewableSerializer implements
         	Location GPSLocation = gson.fromJson(viewable.get("GPSLocation").getAsString(), Location.class);;
         	ArrayList<Viewable> childPosts = new ArrayList<Viewable>();
         	
-        	
+        	//
         	TaskFactory factory = new TaskFactory(ElasticSearchController.getInstance());
         	for(final JsonElement each : viewable.get("childPosts").getAsJsonArray())
         	{
