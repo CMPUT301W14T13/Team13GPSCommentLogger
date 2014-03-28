@@ -13,7 +13,7 @@ import android.util.Log;
  * current location.
  * 
  * This is done by:
- *  
+ * 
  * 1) By GPS:
  * 	  Starting a location manager, attach a listener to it
  *    and request a location update from the location listener.
@@ -144,11 +144,11 @@ public class LocationSelection
 	 * @return Location
 	 */
 	public static Location getLocation() {
-		 
+		
 
 		stopLocationSelection(); // stop location manager and listener
 		
-		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
+//		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
 		
 		return gpsLocation;
 
@@ -156,6 +156,11 @@ public class LocationSelection
 
 	public static LocationListener getLocationListener(){
 		return locationListener;
+	}
+
+	public static LocationManager getSystemService(String locationService) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
