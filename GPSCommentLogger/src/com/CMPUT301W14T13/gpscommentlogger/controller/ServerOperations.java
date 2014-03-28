@@ -138,14 +138,13 @@ public class ServerOperations {
 		try
 		{
 			//the object of the current serverTask is the viewable to be serialized
-			String jsonString = gson.toJson(currentTask.getObj());
-			Log.w("JsonTest",jsonString);
+			String jsonString = currentTask.getObj().getID();
 			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
 			String query = "{\"script\" : \"ctx._source.CLASS_DATA." + listName + "+= viewable\", " +
 					"\"params\" : {" +
-				        "\"viewable\" : "+ jsonString +"" +
+				        "\"viewable\" : \""+ jsonString +"\"" +
 				    "}}";
 			StringEntity stringentity = new StringEntity(query);
 

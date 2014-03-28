@@ -66,11 +66,10 @@ public class ViewableSerializer implements
         	Location GPSLocation = gson.fromJson(viewable.get("GPSLocation").getAsString(), Location.class);;
         	ArrayList<Viewable> childPosts = new ArrayList<Viewable>();
         	
-        	//
         	TaskFactory factory = new TaskFactory(ElasticSearchController.getInstance());
         	for(final JsonElement each : viewable.get("childPosts").getAsJsonArray())
         	{
-        		String eachID = each.getAsString();
+        		String eachID = each.getAsJsonPrimitive().getAsString();
         		SearchServerTask task = factory.getNewBrowser(eachID);
         		ElasticSearchController.getInstance().addTask(task);
         		childPosts.add(task.getObj());
@@ -101,6 +100,9 @@ public class ViewableSerializer implements
 		{
 			e.printStackTrace();
 		} catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
