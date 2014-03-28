@@ -75,7 +75,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		          android.R.layout.simple_spinner_dropdown_item);
 		
 		// FIX FIX FIX FIX FIX FIX
-		getActionBar().setNavigationMode();
+		getActionBar().setNavigationMode(1); // NAVIGATION_MODE_LIST = 1
 
 		
 		getActionBar().OnNavigationListener navigationListener = new OnNavigationListener() {
