@@ -102,9 +102,6 @@ public class ViewableSerializer implements
 		} catch (InvocationTargetException e)
 		{
 			e.printStackTrace();
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
 		}
         return null;
     }

@@ -21,10 +21,7 @@ public class LocationSelection
 	public static LocationListener getLocationListener(){
 		return locationListener;
 	}
-	public static LocationManager getSystemService(String locationService) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	
 }
