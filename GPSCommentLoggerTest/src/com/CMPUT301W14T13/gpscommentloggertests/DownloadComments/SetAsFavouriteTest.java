@@ -34,13 +34,12 @@ public class SetAsFavouriteTest extends ActivityInstrumentationTestCase2<TopicVi
 
 	@Before
 	public void setup(){
+		
 		intent = new Intent();
 		setActivityIntent(intent);
+		cl.setCurrentTopic(0);
+		cl.getTopics().clear();
 		
-		//prefs.saveInTopicFile(topicFile, new Topic());
-		prefs.saveInCommentFile("comments.sav", new ArrayList<Comment>());
-		
-		cl.getTopicChildren().clear();
 		
 		
 		
@@ -50,10 +49,11 @@ public class SetAsFavouriteTest extends ActivityInstrumentationTestCase2<TopicVi
 		
 		topic = new Topic("Testing");
 		cl.addTopic(topic);
-		cl.setCurrentTopic(0);
 		activity = getActivity();
 		assertNotNull(activity);
 
+		prefs = new Preferences(activity.getApplicationContext());
+		
 		runTestOnUiThread(new Runnable() {
 
 			@Override
@@ -63,14 +63,46 @@ public class SetAsFavouriteTest extends ActivityInstrumentationTestCase2<TopicVi
 				Button saveTopic = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.topicSaveButton);
 				assertNotNull(saveTopic);
 				
+				saveTopic.performClick();
+				
 				ArrayList<Topic> favouriteTopics = prefs.loadTopicFile(topicFile);
 				
-				for (int i = 0; i < favouriteTopics.size(); i++){
-					favouriteTopics.add(favouriteTopics.get(i));
-				}				
+				Topic savedTopic = favouriteTopics.get(favouriteTopics.size() - 1);
+				
+				assertTrue("Topics should be the same", savedTopic.equals(topic));
+			}
+		});
+	}
+
+	
+public void testSetCommentFavourite() throws Throwable{
+		
+		topic = new Topic("Testing");
+		cl.addTopic(topic);
+		comment = new Comment("Testing");
+		cl.addComment(comment);
+		comment = new Comment("Test 2");
+		activity = getActivity();
+		assertNotNull(activity);
+
+		prefs = new Preferences(activity.getApplicationContext());
+		
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
 
 
-				assertTrue("Topics should be the same", favouriteTopics.get(favouriteTopics.size() - 1).equals(topic));
+				Button saveTopic = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.topicSaveButton);
+				assertNotNull(saveTopic);
+				
+				saveTopic.performClick();
+				
+				ArrayList<Topic> favouriteTopics = prefs.loadTopicFile(topicFile);
+				
+				Topic savedTopic = favouriteTopics.get(favouriteTopics.size() - 1);
+				
+				assertTrue("Topics should be the same", savedTopic.equals(topic));
 			}
 		});
 	}

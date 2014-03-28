@@ -129,11 +129,11 @@ public class Topic extends Viewable
 				&& title.equals(o.title)
 				&& username.equals(o.username)
 				&& imageEquals
-				&& timestamp.equals(o.timestamp)
+				&& timestamp.toString().equals(o.timestamp.toString())
 				&& commentText.equals(o.commentText)
-				&& freshness.equals(o.freshness)
+				&& freshness.toString().equals(o.freshness.toString())
 				&& childPosts.equals(o.childPosts)
-				&& GPSLocation.equals(o.GPSLocation);
+				&& GPSLocation.toString().equals(o.GPSLocation.toString());
 
 	}
 	

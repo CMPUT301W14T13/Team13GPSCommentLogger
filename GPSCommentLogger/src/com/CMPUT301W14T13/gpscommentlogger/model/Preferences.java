@@ -93,7 +93,7 @@ public class Preferences {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 			String line = reader.readLine();
 			Gson gson = new Gson();
-
+			System.out.println(line);
 
 			//iterate through the loaded array and add it to the topic array
             
@@ -121,9 +121,9 @@ public class Preferences {
 
 		try {
 			Gson g_object = new Gson();
-			String to_be_stored = g_object.toJson(topic);
+			String to_be_stored = g_object.toJson(topic) + "\n";
 			FileOutputStream fos = context.openFileOutput(file,
-					Context.MODE_PRIVATE);
+					Context.MODE_APPEND);
 
 
 			fos.write(to_be_stored.getBytes());
@@ -140,50 +140,46 @@ public class Preferences {
 	}
 
 	//load the viewables using gson
-	public ArrayList<Comment> loadCommentFile(String file){
+		public ArrayList<Comment> loadCommentFile(String file){
 
-		ArrayList<Comment> comments = new ArrayList<Comment>();
+			ArrayList<Comment> comments = new ArrayList<Comment>();
 
-		try {
-			FileInputStream fis = context.openFileInput(file);
+			try {
+				FileInputStream fis = context.openFileInput(file);
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-			String line = reader.readLine();
-			Gson gson = new Gson();
-			
-			
-			//iterate through the loaded array and add it to the comment array
-			JsonParser parser = new JsonParser();
-            JsonArray array = parser.parse(line).getAsJsonArray();
-            
-          
-            //iterate through the loaded array and add it to the comment array
-            Comment comment;	
-            for (int i = 0; i < array.size(); i++) {
-            
-             comment = gson.fromJson(array.get(i), Comment.class);
-             comments.add(comment);
-            }
+				BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+				String line = reader.readLine();
+				Gson gson = new Gson();
+
+				//iterate through the loaded lines and add it to the comment array
+	            
+				Comment comment;	
+				while (line != null) {
+
+					comment = gson.fromJson(line, Comment.class);
+					comments.add(comment);
+					line = reader.readLine();
+				}
 
 
-			fis.close();
-		} catch (IOException e) {
+				fis.close();
+			} catch (IOException e) {
 
-			e.printStackTrace();
+				e.printStackTrace();
+			}
+
+			return comments;
 		}
 
-		return comments;
-	}
-
 	//save the viewables using gson
-	public void saveInCommentFile(String file, ArrayList<Comment> comments) {
+	public void saveInCommentFile(String file, Comment comment) {
 
 
 		try {
 			Gson g_object = new Gson();
-			String to_be_stored = g_object.toJson(comments);
+			String to_be_stored = g_object.toJson(comment) + "\n";
 			FileOutputStream fos = context.openFileOutput(file,
-					Context.MODE_PRIVATE);
+					Context.MODE_APPEND);
 
 
 			fos.write(to_be_stored.getBytes());

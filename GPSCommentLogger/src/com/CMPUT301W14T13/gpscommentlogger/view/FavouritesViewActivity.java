@@ -29,22 +29,6 @@ public class FavouritesViewActivity extends Activity implements FView<CommentLog
 		setContentView(R.layout.favourites_view);
 		prefs = new Preferences(getApplicationContext());
 
-		/*favouriteComments = prefs.loadCommentFile(commentFile);
-
-		String text = "";
-		for (int i = 0; i < favouriteComments.size(); i++){
-			text += favouriteComments.get(i).getCommentText() + "\n";
-		}*/
-
-		favouriteTopics = prefs.loadTopicFile(topicFile);
-
-		String text = "";
-		for (int i = 0; i < favouriteTopics.size(); i++){
-			text += favouriteTopics.get(i).getUsername() + "\n";
-		}
-
-		TextView textview = (TextView) findViewById(R.id.textView1);
-		textview.setText(text);
 	}
 
 

@@ -28,6 +28,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.RootSearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
@@ -95,8 +96,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
         
         ElasticSearchController esc = ElasticSearchController.getInstance();
         
-        //InitializationServerTask initTask = new TaskFactory(esc).getNewInitializer();
-        //esc.addTask(initTask);
+        InitializationServerTask initTask = new TaskFactory(esc).getNewInitializer();
+        esc.addTask(initTask);
 
         try
 		{

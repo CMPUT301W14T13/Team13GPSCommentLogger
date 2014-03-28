@@ -128,10 +128,11 @@ public class Comment extends Viewable
 				&& title.equals(o.title)
 				&& username.equals(o.username)
 				&& imageEquals
-				&& hasImage == o.hasImage
+				&& timestamp.toString().equals(o.timestamp.toString())
+				&& commentText.equals(o.commentText)
+				&& freshness.toString().equals(o.freshness.toString())
 				&& childPosts.equals(o.childPosts)
-				&& timestamp.equals(o.timestamp)
-				&& commentText.equals(o.commentText);
+				&& GPSLocation.toString().equals(o.GPSLocation.toString());
 	}
 	
 	public int getIndentLevel(){
