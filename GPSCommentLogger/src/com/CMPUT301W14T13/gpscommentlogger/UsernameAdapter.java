@@ -11,8 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-/*
- * This is the custom adapter for the various listviews throughout the app
+/**
+ * This is the custom adapter used for displaying a list of usernames,
+ * which are contained in an ArrayList. This custom adapter is used in the
+ * "Select Usernames" page, where users have the option to add and remove usernames.
+ * 
+ * This adapter gives access to functionality such getting the number of
+ * usernames in the list, and accessing at username a specific position. 
  *
  */
 public class UsernameAdapter extends BaseAdapter {
@@ -50,6 +55,13 @@ public class UsernameAdapter extends BaseAdapter {
 		return position;
 	}
 
+	/**
+	 * This function is responsible for creating a view for one comment object.
+	 * 
+	 * This function uses the username_row layout, which has a field specified
+	 * for a username, and fills it with the username given its position in the
+	 * list of usernames. 
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 

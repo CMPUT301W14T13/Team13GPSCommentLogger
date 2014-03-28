@@ -4,19 +4,11 @@
     android:layout_height="fill_parent">
     
         <org.osmdroid.views.MapView
-        android:id="@+id/mapview"
+        android:id="@+id/mapthreadview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/btnBanner"
         tilesource="Mapnik"
         android:layout_alignParentTop="true"
         />
-
-        <Button android:id="@id/btnBanner" 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text ="@string/submit_location"
-        android:onClick="submitLocation" />
    
 </RelativeLayout>

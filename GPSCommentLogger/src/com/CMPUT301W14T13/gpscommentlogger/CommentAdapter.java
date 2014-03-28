@@ -19,7 +19,10 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 /**
- * This is a custom adapter to display the list of comments in TopicViewActivity
+ * This is a custom adapter to display the list of comments in TopicViewActivity.
+ * Comment objects are stored in an ArrayList, which this adapter accesses to display.
+ * This adapter provides functionality such as returning the number of comments in the
+ * list, accessing specific comment objects by indexing them.
  * 
  * @author Austin
  *
@@ -38,25 +41,42 @@ public class CommentAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-
+	/**
+	 * This function returns the number of comments in the ArrayList.
+	 */
 	@Override
 	public int getCount() {
 
 		return data.size();
 	}
 
+	/**
+	 * This function, given an index (position in the list),
+	 * return the comment object at that index in the ArrayList. 
+	 * 
+	 * This is the main way of accessing specific comments in the  
+	 * list in order to perform other functions such as editing 
+	 * a comment's attributes (attachment, title, username).
+	 */
 	@Override
 	public Comment getItem(int position) {
 
 		return (Comment) data.get(position);
 	}
 
+	
 	@Override
 	public long getItemId(int position) {
 
 		return position;
 	}
-
+	/**
+	 * This function is responsible for creating a view for one comment object.
+	 * 
+	 * This function uses the comment_view layout, which has fields specified
+	 * for title, username, text, location, text, and edit and reply buttons,
+	 * and fills them with information from the comment at a given index (int position). 
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -120,6 +140,15 @@ public class CommentAdapter extends BaseAdapter {
 
 
 
+	/**
+	 * ViewHolder is a container for a comment's main
+	 * main attributes: username, text, location, and
+	 * level of indentation in the view in relation
+	 * to parent comments.
+	 * 
+	 * This is used by the view to reference attributes of
+	 * a comment that is being displayed.
+	 */
 	public static class ViewHolder {
 		public TextView username;
 		public TextView commentText;
