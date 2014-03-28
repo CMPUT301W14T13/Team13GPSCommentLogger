@@ -396,7 +396,7 @@ public class CreateSubmissionActivity extends Activity{
 
 				cl.getCurrentTopic().setUsername(submission.getUsername());
 			cl.getCurrentTopic().setCommentText(submission.getCommentText());
-			cl.getCurrentTopic().setLocation(submission.getGPSLocation());
+			cl.getCurrentTopic().setGPSLocation(submission.getGPSLocation());
 			cl.getCurrentTopic().setImage(submission.getImage());
 			break;
 
