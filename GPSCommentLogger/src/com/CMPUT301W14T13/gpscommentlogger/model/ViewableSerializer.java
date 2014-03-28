@@ -11,6 +11,9 @@ import android.location.Location;
 import android.util.Log;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.SearchServerTask;
@@ -75,31 +78,31 @@ public class ViewableSerializer implements
         		childPosts.add(task.getObj());
         	}
         	
+        	Viewable instance = null;
         	
-        	Class<?> clazz = Class.forName(className);
-        	Constructor<?> constructor = clazz.getConstructor(String.class, String.class, Bitmap.class, Date.class, String.class);
-        	Viewable instance = (Viewable) constructor.newInstance(ID, username, image, timestamp, commentText);
+        	if(className.contains("Root"))
+        	{
+        		instance = new Root(ID, username, image, timestamp, commentText);
+        	}
+        	else if(className.contains("Topic"))
+        	{
+        		instance = new Topic(ID, username, image, timestamp, commentText);
+        	}
+        	else if(className.contains("Comment"))
+        	{
+        		instance = new Comment(ID, username, image, timestamp, commentText);
+        	}
+        	else
+        	{
+        		throw new IllegalArgumentException("Illegal Class Deserialization");
+        	}
         	instance.setLocation(GPSLocation);
         	instance.setChildren(childPosts);
         	instance.setFreshness(freshness);
         	instance.setTitle(title);        	
         	return instance;
         	
-        } catch (ClassNotFoundException e) {
-            throw new JsonParseException(e);
-        } catch (NoSuchMethodException e)
-		{
-			e.printStackTrace();
-		} catch (IllegalArgumentException e)
-		{
-			e.printStackTrace();
-		} catch (InstantiationException e)
-		{
-			e.printStackTrace();
-		} catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		} catch (InvocationTargetException e)
+        } catch (IllegalArgumentException e)
 		{
 			e.printStackTrace();
 		}
