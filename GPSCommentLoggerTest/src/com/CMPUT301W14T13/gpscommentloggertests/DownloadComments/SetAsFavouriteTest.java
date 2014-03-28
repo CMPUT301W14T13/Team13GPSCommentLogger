@@ -2,12 +2,14 @@ package com.CMPUT301W14T13.gpscommentloggertests.DownloadComments;
 
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
 import com.CMPUT301W14T13.gpscommentlogger.model.Preferences;
@@ -26,6 +28,7 @@ public class SetAsFavouriteTest extends ActivityInstrumentationTestCase2<TopicVi
 	Comment comment;
 	
 	private String topicFile = "topics.sav";
+	private String commentFile = "comments.sav";
 	
 	
 	public SetAsFavouriteTest() {
@@ -40,11 +43,8 @@ public class SetAsFavouriteTest extends ActivityInstrumentationTestCase2<TopicVi
 		cl.setCurrentTopic(0);
 		cl.getTopics().clear();
 		
-		
-		
-		
 	}
-	
+
 	public void testSetTopicFavourite() throws Throwable{
 		
 		topic = new Topic("Testing");
@@ -81,7 +81,7 @@ public void testSetCommentFavourite() throws Throwable{
 		cl.addTopic(topic);
 		comment = new Comment("Testing");
 		cl.addComment(comment);
-		comment = new Comment("Test 2");
+		
 		activity = getActivity();
 		assertNotNull(activity);
 
@@ -93,16 +93,20 @@ public void testSetCommentFavourite() throws Throwable{
 			public void run() {
 
 
-				Button saveTopic = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.topicSaveButton);
-				assertNotNull(saveTopic);
+				Button saveComment = (Button) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.saveComment);
+				ListView commentList = (ListView) activity.findViewById(com.CMPUT301W14T13.gpscommentlogger.R.id.comment_list);
 				
-				saveTopic.performClick();
+				assertNotNull(saveComment);
+				assertNotNull(commentList);
 				
-				ArrayList<Topic> favouriteTopics = prefs.loadTopicFile(topicFile);
+				saveComment.performClick();
+			
+				ArrayList<Comment> favouriteComments = prefs.loadCommentFile(commentFile);
 				
-				Topic savedTopic = favouriteTopics.get(favouriteTopics.size() - 1);
+				Comment savedComment = favouriteComments.get(favouriteComments.size() - 1);
+				assertTrue("Comments should be the same", savedComment.equals(comment));
 				
-				assertTrue("Topics should be the same", savedTopic.equals(topic));
+				
 			}
 		});
 	}

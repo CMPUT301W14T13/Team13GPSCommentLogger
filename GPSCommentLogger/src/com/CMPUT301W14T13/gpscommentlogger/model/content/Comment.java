@@ -48,6 +48,7 @@ public class Comment extends Viewable
 		hasImage = false;
 		timestamp = new Date();
 		commentText = "";
+		GPSLocation = new Location("default");
 	}
 
 	public Comment(String ID) {
@@ -58,6 +59,7 @@ public class Comment extends Viewable
 		hasImage = false;
 		timestamp = new Date();
 		commentText = "";
+		GPSLocation = new Location("default");
 	}
 
 
@@ -70,6 +72,7 @@ public class Comment extends Viewable
 		hasImage = false;
 		timestamp = new Date();
 		commentText = "";
+		GPSLocation = new Location("default");
 	}
 
 
@@ -81,6 +84,7 @@ public class Comment extends Viewable
 		hasImage = false;
 		timestamp = new Date();
 		commentText = "";
+		GPSLocation = new Location("default");
 	}
 
 
@@ -88,6 +92,7 @@ public class Comment extends Viewable
 			String commentText) {
 		super(ID, username, picture, timestamp, commentText);
 		title = "default title";
+		GPSLocation = new Location("default");
 	}
 
 	public int getNumberOfReplies(){
@@ -130,7 +135,6 @@ public class Comment extends Viewable
 				&& imageEquals
 				&& timestamp.toString().equals(o.timestamp.toString())
 				&& commentText.equals(o.commentText)
-				&& freshness.toString().equals(o.freshness.toString())
 				&& childPosts.equals(o.childPosts)
 				&& GPSLocation.toString().equals(o.GPSLocation.toString());
 	}

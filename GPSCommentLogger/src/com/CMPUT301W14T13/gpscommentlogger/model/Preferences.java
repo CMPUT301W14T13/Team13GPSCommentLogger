@@ -93,7 +93,6 @@ public class Preferences {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 			String line = reader.readLine();
 			Gson gson = new Gson();
-			System.out.println(line);
 
 			//iterate through the loaded array and add it to the topic array
             
