@@ -58,7 +58,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
 		
-		ElasticSearchController.getInstance().start();
+		if(!ElasticSearchController.getInstance().isAlive())
+			ElasticSearchController.getInstance().start();
 		
 		/* setup the location managers now so that you can get GPS coords */
 		// Acquire a reference to the system Location Manager
