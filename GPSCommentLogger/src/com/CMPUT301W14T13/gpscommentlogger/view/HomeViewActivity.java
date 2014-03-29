@@ -42,7 +42,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
  * @author Austin
  *
  */
-public class HomeViewActivity extends Activity implements FView<CommentLogger>, OnNavigationListener{
+public class HomeViewActivity extends Activity implements FView<CommentLogger>, OnNavigationListener {
 
 	private ListView topicListview;
 	private Root home_view = new Root();
@@ -50,10 +50,11 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
+
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	
+
 	private Menu menu; //A reference to the options menu
-	
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,26 +68,25 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		home_view = cl.getRoot(); // get the root which holds the list of topics
 
 		adapter = new CustomAdapter(this, home_view.getChildren());
-		
+
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
-		topicListview.setAdapter(adapter);
+		topicListview.setAdapter(adapter);	
 
-		
-		// Setup drop down sorting options
+		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		
-		final String[] dropdownValues = getResources().getStringArray(R.array.sort_list);
-		
-		// Spinner adapter setup
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-		
-		// Setup spinner in Action Bar
-		actionBar.setListNavigationCallbacks(adapter, this);
-		
+
+		// Set up the dropdown list navigation in the action bar.
+		actionBar.setListNavigationCallbacks(
+				// Specify a SpinnerAdapter to populate the dropdown list.
+				new ArrayAdapter<String>(actionBar.getThemedContext(),
+						android.R.layout.simple_list_item_1,
+						android.R.id.text1, new String[] {
+					getString(R.string.sort1),
+					getString(R.string.sort2),
+					getString(R.string.sort3), }), this);
 
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
@@ -128,20 +128,25 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 
 		cl.addView(this);
 	}
-	
 
-	
-	public boolean onNavigationItemSelected(int position, long id) {
-	    // Do actions here when drop down item is selected
-		
-		Toast.makeText(getApplicationContext(), "Clicked!", 
-				   Toast.LENGTH_LONG).show();
-		
-	    return true;
-	  }
-		
-	
-	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Restore the previously serialized current dropdown position.
+		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+			getActionBar().setSelectedNavigationItem(
+					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// Serialize the current dropdown position.
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
+				.getSelectedNavigationIndex());
+	}
+
+
+
 	@Override
 	public void onResume(){
 		super.onResume();
@@ -149,23 +154,23 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		invalidateOptionsMenu();
 
 	}
-	
+
 	@Override
-    public void onDestroy() {
-        super.onDestroy();
-        CommentLogger cl = CommentLogger.getInstance();
-        cl.deleteView(this);
+	public void onDestroy() {
+		super.onDestroy();
+		CommentLogger cl = CommentLogger.getInstance();
+		cl.deleteView(this);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.home_action_bar, menu);
-		
+
 		this.menu = menu;
-		
+
 		return super.onCreateOptionsMenu(menu);
 
 	}
@@ -174,16 +179,20 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-			case R.id.action_post_thread:
-				createTopic();
-				return true;
 
-			default:
-				return super.onOptionsItemSelected(item);
+		case R.id.action_post_thread:
+			createTopic();
+			return true;
+
+		case R.id.action_settings:
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
-		
+
 	private void createTopic(){
 		Intent topic = new Intent(this, CreateSubmissionActivity.class);
 		topic.putExtra("construct code", 0);
@@ -197,11 +206,19 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		displayedTopics.clear();
 		displayedTopics.addAll(home_view.getChildren());
 		adapter.notifyDataSetChanged();
-		
+
 	}
 
 	public Menu getMenu() {
 		return menu;
+	}
+
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// When the given dropdown item is selected, show its contents in the
+		// container view.
+		return true;
 	}
 
 }
