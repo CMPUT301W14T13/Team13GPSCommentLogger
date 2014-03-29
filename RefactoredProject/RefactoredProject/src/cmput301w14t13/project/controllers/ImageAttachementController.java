@@ -3,8 +3,6 @@ package cmput301w14t13.project.controllers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.CMPUT301W14T13.gpscommentlogger.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;

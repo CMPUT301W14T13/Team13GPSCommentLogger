@@ -43,7 +43,7 @@ public class HomeController implements AsyncProcess{
 		
 		initializeLocationService();
         
-        initialize(dss);
+        //initialize(dss);
         
 		getRoot(dss);
 		

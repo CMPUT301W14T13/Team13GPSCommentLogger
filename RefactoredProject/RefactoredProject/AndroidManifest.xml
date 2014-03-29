@@ -24,7 +24,7 @@
 	
         android:theme="@style/AppBaseTheme" >
         
-		<receiver android:name="com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver" >
+		<receiver android:name="cmput301w14t13.project.services.NetworkReceiver" >
         	<intent-filter>
             	<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
         	</intent-filter>
@@ -35,7 +35,7 @@
 
         <activity
 
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity"
+            android:name="cmput301w14t13.project.views.HomeView"
 
             android:label="@string/app_name" >
             <intent-filter>
@@ -45,36 +45,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.DebugActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.DebugActivityWithServer"
-            android:label="@string/app_name" >
-            <intent-filter>
-                
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity"
+            android:name="cmput301w14t13.project.controllers.CreateSubmissionController"
             android:label="@string/create_topic_label"
-            android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" >
+            android:parentActivityName="cmput301w14t13.project.views.HomeView" >
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" />
-        </activity>
-        
+                android:value="cmput301w14t13.project.views.HomeView" />
+        </activity> 
         <activity
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.TopicViewActivity"
-			android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" >
+			android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity" />
+                android:value="cmput301w14t13.project.views.HomeView" />
         </activity>
         
         <activity
@@ -85,14 +70,14 @@
 
             android:name="com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity">
         </activity>
-
+		
         <activity
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity"
             android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.CreateTopicActivity">
             
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity" />
+                android:value="cmput301w14t13.project.controllers.CreateSubmissionController" />
             
         </activity>
         

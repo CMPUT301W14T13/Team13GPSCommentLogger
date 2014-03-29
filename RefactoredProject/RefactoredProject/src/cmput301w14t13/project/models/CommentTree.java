@@ -52,6 +52,8 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	}
 	
 	public ArrayList<CommentTreeElement> getCurrentChildren(){
+		if(stack.isEmpty())
+			return new ArrayList<CommentTreeElement>();
 		return stack.peek().getChildren();
 	}
 	

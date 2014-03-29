@@ -366,7 +366,7 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 	 * @param v the submit button
 	 * @throws InterruptedException 
 	 */
-	public void submitTopic(View v) throws InterruptedException{
+	public synchronized void submitTopic(View v) throws InterruptedException{
 
 		boolean submission_ok;
 
