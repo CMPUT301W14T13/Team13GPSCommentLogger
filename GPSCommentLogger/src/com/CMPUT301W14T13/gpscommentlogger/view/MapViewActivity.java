@@ -1,5 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import java.util.ArrayList;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -12,11 +14,12 @@ import org.osmdroid.views.MapView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 
@@ -45,24 +48,24 @@ public class MapViewActivity extends Activity {
 	private MapView mapView;
 	private GeoPoint returnPoint;
 	private int canSetMarker;
+	private CommentLogger cl;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// problem with this action bar is Mapview has multiple parents
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = getIntent();
 		double lat = intent.getDoubleExtra("lat", 53.5333);
 		double lon = intent.getDoubleExtra("lon",-113.5000);
 		canSetMarker = intent.getIntExtra("canSetMarker", 0);
 
-		returnPoint = new GeoPoint(lat, lon);
+		
 		
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
 			setContentView(R.layout.map_edit_location_view);
+			returnPoint = new GeoPoint(lat, lon);
 			mapView = (MapView) findViewById(R.id.mapview);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
 			mapView.setBuiltInZoomControls(true);
@@ -96,6 +99,24 @@ public class MapViewActivity extends Activity {
 
 		}else {
 			// here we implement new requirement of displaying Topic Thread Location
+			setContentView(R.layout.map_thread_view);
+			cl = CommentLogger.getInstance();
+			Topic topic = cl.getCurrentTopic();
+			returnPoint  = new GeoPoint(topic.getGPSLocation().getLatitude(),topic.getGPSLocation().getLongitude());
+			mapView = (MapView) findViewById(R.id.mapview);
+			mapView.setTileSource(TileSourceFactory.MAPNIK);
+			mapView.setBuiltInZoomControls(true);
+			mapView.setMultiTouchControls(true);
+			mapView.setClickable(false);
+			mapController = (MapController) mapView.getController();
+			mapController.setZoom(2);
+			mapController.setCenter(returnPoint);
+			ArrayList<Viewable> commentList = cl.getCommentList();
+			while(commentList.iterator().hasNext()){
+				GeoPoint point = new GeoPoint(commentList.iterator().next().getGPSLocation().getLatitude(),
+						commentList.iterator().next().getGPSLocation().getLongitude());
+				setMarker(point);
+			}
 		}
 
 

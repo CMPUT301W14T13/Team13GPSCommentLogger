@@ -33,6 +33,8 @@ import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 import com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity;
 
 
@@ -62,7 +64,9 @@ public class CreateSubmissionActivity extends Activity{
 	private String currentUsername = "";
 	private int submitCode; //0: Reply to topic, 1: Reply to comment, 2: Edited topic 3: Edited comment
 	private Location location;
-	private LocationSelection locationGetter;
+	LocationSelection locationGetter;
+	
+
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
 
@@ -71,27 +75,25 @@ public class CreateSubmissionActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/* Location operations */
-		locationGetter = new LocationSelection(this); 
-		locationGetter.startLocationSelection(); // starts pulling location
-		location = null; // make sure our map location is empty
-		
+		/* create the location stuff up here */
+
 		constructCode = getIntent().getIntExtra("construct code", -1);
 		submitCode = getIntent().getIntExtra("submit code", -1);
+
 
 		rowNumber = getIntent().getIntExtra("row number", -1);
 		CommentLogger cl = CommentLogger.getInstance();
 
-		//get the user's global username so they don't have to always enter it
+		//get the user's global user name so they don't have to always enter it
 		currentUsername = cl.getCurrentUsername();
 
 		switch(constructCode){
 
 		case(0): // constructing a new topic
 			setContentView(R.layout.create_topic); //creating a topic
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		text = (EditText) findViewById(R.id.setTopicUsername);
-		text.setText(currentUsername);
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+			text = (EditText) findViewById(R.id.setTopicUsername);
+			text.setText(currentUsername);
 		break;
 
 		case(1): //constructing a new comment
@@ -130,13 +132,10 @@ public class CreateSubmissionActivity extends Activity{
 		//text = (EditText) findViewById(R.id.coordinates);
 		//text.setText(submission.locationString());
 		}
+		
+	locationGetter = new LocationSelection(this);
+	locationGetter.startLocationSelection();
 	}
-
-	@Override
-	protected void onResume(){
-		super.onResume();
-	}
-
 
 	//extract the information that the user has entered
 	private void extractTextFields(){
@@ -166,14 +165,14 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
- 
+
 
 	}
 
 
 	/**
 	 * Constructs the comment/topic to be submitted by checking the
-	 * construct code
+	 * construct code 
 	 */
 	private void constructSubmission(){
 
@@ -190,14 +189,12 @@ public class CreateSubmissionActivity extends Activity{
 
 		submission.setUsername(username); 
 		submission.setCommentText(commentText);
-		
-
-		if(location == null) {
+		if(location == null){
 			location = locationGetter.getLocation();
-
 		}
-		submission.setGPSLocation(location);
-
+		if(location != null){
+			submission.setGPSLocation(location);
+		}
 		//username defaults to Anonymous if left blank
 		if (username.length() == 0){
 			submission.setAnonymous();
@@ -231,14 +228,16 @@ public class CreateSubmissionActivity extends Activity{
 	public void openMap(View view) {
 		if(isOnline()){
 			Intent map = new Intent(this, MapViewActivity.class);
-			Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
+			//Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
 			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
 			map.putExtra("lon", locationGetter.getLocation().getLongitude());
 			map.putExtra("canSetMarker", 1);// for editing  location
 			startActivityForResult(map, REQUEST_CODE);  
+
 		} else {
+			// when we are not connected to any network we open a dialog for user to edit dialog
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
- 
+
 			LayoutInflater inflater = getLayoutInflater();
 			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
 			builder.setView(dialogView);
@@ -254,24 +253,26 @@ public class CreateSubmissionActivity extends Activity{
 							double latitude = Double.parseDouble(text.getText().toString().trim());
 							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
 							double longitude = Double.parseDouble(text.getText().toString().trim());
+							location = new Location("default");
 							location.setLatitude(latitude);
 							location.setLongitude(longitude);
 							
 						}
 					});
+
 			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-			    new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) {
-			        	//do nothing
-			        }
-			    });
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					//do nothing
+				}
+			});
 			ad.show();
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
 	 * in construction the topic. if from some reason a latitude and longitude cannot
@@ -286,7 +287,7 @@ public class CreateSubmissionActivity extends Activity{
 			if (resultCode == RESULT_OK){
 				double latitude = data.getDoubleExtra("lat", locationGetter.getLocation().getLatitude());
 				double longitude = data.getDoubleExtra("lon", locationGetter.getLocation().getLongitude());
-
+				location = new Location("default");
 				location.setLongitude(longitude);
 				location.setLatitude(latitude);
 
@@ -353,7 +354,7 @@ public class CreateSubmissionActivity extends Activity{
 
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
-		
+
 		extractTextFields();
 		constructSubmission();
 
@@ -440,8 +441,10 @@ public class CreateSubmissionActivity extends Activity{
 		if (submission_ok){
 
 			CommentLogger cl = CommentLogger.getInstance();
-			CommentLoggerController controller = new CommentLoggerController(cl);
-			controller.addTopic((Topic) submission);
+			cl.addTopic((Topic) submission);
+			ElasticSearchController client = ElasticSearchController.getInstance();
+			PostNewServerTask task = new TaskFactory(client).getNewPoster("ROOT", submission);
+			client.addTask(task);
 			finish();
 		}
 
@@ -501,10 +504,6 @@ public class CreateSubmissionActivity extends Activity{
 		return this.submission;
 	}
 
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-	}
 
 	public boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

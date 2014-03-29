@@ -81,7 +81,9 @@ public class LocationSelection
 			}			
 			@Override
 			public void onLocationChanged(Location location) {
-				gpsLocation = location;				
+				gpsLocation = location;	
+				Log.d("LocationSelection", "Location changed");
+				
 			}
 		};
 		
@@ -158,10 +160,7 @@ public class LocationSelection
 		return locationListener;
 	}
 
-	public static LocationManager getSystemService(String locationService) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 
 }

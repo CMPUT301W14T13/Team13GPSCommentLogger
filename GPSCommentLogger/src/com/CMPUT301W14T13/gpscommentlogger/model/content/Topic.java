@@ -29,44 +29,63 @@ import java.util.concurrent.TimeUnit;
 public class Topic extends Viewable
 
 {
-	
-	private String title = "default title";
-	private String ID = "default";
-	private String username = "Anonymous";
-	private Bitmap image = null;
-	private Date timestamp = new Date();
-	private Date freshness = new Date();
-	private Comment rootComment = new Comment();
-	private String commentText = ""; 
-	private ArrayList<Viewable> comments;
-	private Location GPSLocation = new Location("default");
-	private boolean hasImage;
 	private int commentCount = 0;
 	
 	public Topic()
 	{
 		super();
+		title = "default title";
+		ID = "default";
+		username = "Anonymous";
+		image = null;
+		timestamp = new Date();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String ID)
 	{
 		super(ID);
+		title = "default title";
+		username = "Anonymous";
+		image = null;
+		timestamp = new Date();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String username, boolean cheatingOverloadSignature)
 	{
 		super(username, cheatingOverloadSignature);
+		title = "default title";
+		ID = "default";
+		image = null;
+		timestamp = new Date();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String ID, String username)
 	{
 		super(ID, username);
+		title = "default title";
+		image = null;
+		timestamp = new Date();
+		freshness = new Date();
+		commentText = ""; 
+		GPSLocation = new Location("default");
 	}
 	
 
 	public Topic(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
 		super(ID, username, picture, timestamp, commentText);
+		title = "default title";
+		freshness = new Date();
+		GPSLocation = new Location("default");
 	}
 
 
@@ -93,8 +112,7 @@ public class Topic extends Viewable
 		Log.w("Topic Equals", "timestamp: " + timestamp.getTime() + " " + o.timestamp.getTime());
 		Log.w("Topic Equals", "freshness: " + freshness.getTime() + " " + o.freshness.getTime());
 		Log.w("Topic Equals", "commentText: " + commentText.equals(o.commentText));
-		Log.w("Topic Equals", "rootComment: " + rootComment.equals(o.rootComment));
-		Log.w("Topic Equals", "comments: " + comments.equals(o.comments));
+		Log.w("Topic Equals", "comments: " + childPosts.equals(o.childPosts));
 
 		
 		boolean imageEquals = true;
@@ -111,26 +129,17 @@ public class Topic extends Viewable
 				&& title.equals(o.title)
 				&& username.equals(o.username)
 				&& imageEquals
-				&& timestamp.equals(o.timestamp)
+				&& timestamp.toString().equals(o.timestamp.toString())
 				&& commentText.equals(o.commentText)
-				&& freshness.equals(o.freshness)
-				&& rootComment.equals(o.rootComment)
-				&& comments.equals(comments)
-				&& GPSLocation.equals(GPSLocation);
+				&& freshness.toString().equals(o.freshness.toString())
+				&& childPosts.equals(o.childPosts)
+				&& GPSLocation.toString().equals(o.GPSLocation.toString());
 
 	}
 	
-
-	public void setRootComment(Comment comment){
-		this.rootComment = comment;
-	}
-	
-	public Comment getRootComment(){
-		return rootComment;
-	}
 
 	public void insertChild(Viewable post, int position){
-		comments.add(position, post);
+		childPosts.add(position, post);
 	}
 
 	public void incrementCommentCount(){
@@ -140,7 +149,6 @@ public class Topic extends Viewable
 	public int getCommentCount(){
 		return commentCount;
 	}
-	
 	
 
 }
