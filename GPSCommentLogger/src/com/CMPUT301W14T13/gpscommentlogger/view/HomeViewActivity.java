@@ -118,6 +118,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				Intent viewTopic = new Intent(HomeViewActivity.this, TopicViewActivity.class);
+				controller.updateCurrentTopic(position); //set the current topic the user is opening
+
 				startActivity(viewTopic);
 
 
