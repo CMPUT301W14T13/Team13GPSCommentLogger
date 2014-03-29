@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:shrinkColumns="*"
+    android:stretchColumns="*" >
+
+    <TableRow>
+
+        <EditText
+            android:id="@+id/setTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="bottom|left"
+            android:hint="@string/title"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@android:color/transparent" />
+
+    <TableRow>
+
+        <EditText
+            android:id="@+id/setTopicUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="bottom|left"
+            android:hint="@string/username"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@android:color/transparent" />
+
+    <TableRow>
+
+        <EditText
+            android:id="@+id/setTopicText"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:ems="10"
+            android:gravity="top|left"
+            android:hint="@string/text"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences"
+            android:paddingBottom="5dp" />
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/attach" 
+            android:onClick="attachImage" />
+
+        <ImageButton
+            android:id="@+id/mapButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/location" 
+            android:onClick="openMap" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="48dp" >
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:onClick="submitTopic"
+            android:text="@string/submit_button" />
+    </RelativeLayout>
+
+</TableLayout>
