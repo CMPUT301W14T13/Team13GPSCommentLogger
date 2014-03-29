@@ -10,6 +10,5 @@
           android:icon="@drawable/plus_white"
           android:title="@string/action_post"
           android:showAsAction="ifRoom" />
-    	
-
+    
 </menu>
