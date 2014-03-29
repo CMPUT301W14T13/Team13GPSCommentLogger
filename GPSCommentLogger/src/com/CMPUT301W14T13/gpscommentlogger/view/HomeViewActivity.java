@@ -1,7 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
 import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -25,7 +25,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
@@ -43,7 +42,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
  * @author Austin
  *
  */
-public class HomeViewActivity extends Activity implements FView<CommentLogger>{
+public class HomeViewActivity extends Activity implements FView<CommentLogger>, OnNavigationListener{
 
 	private ListView topicListview;
 	private Root home_view = new Root();
@@ -55,6 +54,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	
 	private Menu menu; //A reference to the options menu
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,14 +78,14 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		
-		final String[] dropdownValues = getResources().getStringArray(R.id.sort_spinner);
+		final String[] dropdownValues = getResources().getStringArray(R.array.sort_list);
 		
 		// Spinner adapter setup
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 		
 		// Setup spinner in Action Bar
-		actionBar.setListNavigationCallbacks(adapter, (OnNavigationListener) this);
+		actionBar.setListNavigationCallbacks(adapter, this);
 		
 
 		//set up listener for topic clicks, clicking makes you enter the topic
@@ -129,20 +129,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		cl.addView(this);
 	}
 	
-	@Override
-	  public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Restore previously selected drop down selection
-	    if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-	      getActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
-	    }
-	  }
-	
-	@Override
-	  public void onSaveInstanceState(Bundle outState) {
-		// Save current drop down selection
-	    outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
-	        .getSelectedNavigationIndex());
-	  }
+
 	
 	public boolean onNavigationItemSelected(int position, long id) {
 	    // Do actions here when drop down item is selected

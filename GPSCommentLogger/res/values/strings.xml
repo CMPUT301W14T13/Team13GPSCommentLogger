@@ -28,6 +28,19 @@
 
 
     <string name="bullet">\u0020•\u0020</string>
+    
+    <string name="sort1">Item 1</string>
+    <string name="sort2">Item 2</string>
+    <string name="sort3">Item 3</string>
+    <string name="sort4">Item 4</string>
+    <string name="sort5">Item 5</string>
+    <string name="sort6">Item 6</string>
+    
+    <string-array name="sort_list">
+        <item>@string/sort1</item>
+        <item>@string/sort2</item>
+        <item>@string/sort3</item>
+    </string-array>
 
 
 </resources>
