@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -49,6 +50,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
+	private MenuItem mSpinnerItem = null; // Sort spinner container
 	
 	private Menu menu; //A reference to the options menu
 	
@@ -69,7 +71,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
 
-		
+		/*
 		// set up drop down sorting options
 		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_list,
 		          android.R.layout.simple_spinner_dropdown_item);
@@ -94,7 +96,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 			}
 	    };
 	    // FIX FIX FIX FIX FIX FIX
-		
+		*/
 
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
@@ -160,6 +162,26 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		inflater.inflate(R.menu.home_action_bar, menu);
 		
 		this.menu = menu;
+		
+		// Drop down menu
+		mSpinnerItem = menu.findItem(R.id.sort_spinner);
+		View spinnerView = mSpinnerItem.getActionView();
+		
+		if (spinnerView instanceof View) {
+			final Spinner spinner = (Spinner) spinnerView;
+			spinner.setAdapter(adapter);
+			
+			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					
+				}
+				
+				
+				
+			});
+		}
+		
 		
 		return super.onCreateOptionsMenu(menu);
 
