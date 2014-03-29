@@ -3,7 +3,9 @@ package com.CMPUT301W14T13.gpscommentlogger.view;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -19,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -50,7 +51,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
-	private MenuItem mSpinnerItem = null; // Sort spinner container
+	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
 	private Menu menu; //A reference to the options menu
 	
@@ -71,32 +72,21 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		topicListview.setAdapter(adapter);
 
-		/*
-		// set up drop down sorting options
-		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_list,
-		          android.R.layout.simple_spinner_dropdown_item);
 		
-		// FIX FIX FIX FIX FIX FIX
-		getActionBar().setNavigationMode(1); // NAVIGATION_MODE_LIST = 1
-
+		// Setup drop down sorting options
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		
-		getActionBar().OnNavigationListener navigationListener = new OnNavigationListener() {
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-			    switch(itemPosition) {
-			    case 0:
-			        Intent i = new Intent(this, SecondActivity.class);
-			        startActivity(i);
-			        break;
-			    case 1:
-			        // ...
-			        break;
-			    }
-			    return false;
-			}
-	    };
-	    // FIX FIX FIX FIX FIX FIX
-		*/
+		final String[] dropdownValues = getResources().getStringArray(R.id.sort_spinner);
+		
+		// Spinner adapter setup
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+		
+		// Setup spinner in Action Bar
+		actionBar.setListNavigationCallbacks(adapter, (OnNavigationListener) this);
+		
 
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
@@ -140,6 +130,32 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 	}
 	
 	@Override
+	  public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Restore previously selected drop down selection
+	    if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+	      getActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+	    }
+	  }
+	
+	@Override
+	  public void onSaveInstanceState(Bundle outState) {
+		// Save current drop down selection
+	    outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
+	        .getSelectedNavigationIndex());
+	  }
+	
+	public boolean onNavigationItemSelected(int position, long id) {
+	    // Do actions here when drop down item is selected
+		
+		Toast.makeText(getApplicationContext(), "Clicked!", 
+				   Toast.LENGTH_LONG).show();
+		
+	    return true;
+	  }
+		
+	
+	
+	@Override
 	public void onResume(){
 		super.onResume();
 		controller.update(); //updates the topic age in HomeViewActivity for when the user exits this activity
@@ -162,26 +178,6 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
 		inflater.inflate(R.menu.home_action_bar, menu);
 		
 		this.menu = menu;
-		
-		// Drop down menu
-		mSpinnerItem = menu.findItem(R.id.sort_spinner);
-		View spinnerView = mSpinnerItem.getActionView();
-		
-		if (spinnerView instanceof View) {
-			final Spinner spinner = (Spinner) spinnerView;
-			spinner.setAdapter(adapter);
-			
-			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				
-				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					
-				}
-				
-				
-				
-			});
-		}
-		
 		
 		return super.onCreateOptionsMenu(menu);
 
