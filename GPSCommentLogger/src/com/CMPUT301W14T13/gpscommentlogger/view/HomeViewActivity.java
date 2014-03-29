@@ -222,6 +222,35 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
+		
+		// ITEM SELECTION ACTIONS DONE HERE
+		switch (itemPosition) {
+		case 0:
+			Toast.makeText(getApplicationContext(), "Proximity to Me",
+					   Toast.LENGTH_LONG).show();
+			return true;
+		case 1:
+			Toast.makeText(getApplicationContext(), "Proximity to Location",
+					   Toast.LENGTH_LONG).show();
+			return true;
+		case 2:
+			Toast.makeText(getApplicationContext(), "Pictures",
+					   Toast.LENGTH_LONG).show();
+			return true;
+		case 3:
+			Toast.makeText(getApplicationContext(), "Newest",
+					   Toast.LENGTH_LONG).show();
+			return true;
+		case 4:
+			Toast.makeText(getApplicationContext(), "Oldest",
+					   Toast.LENGTH_LONG).show();
+			return true;
+		case 5:
+			Toast.makeText(getApplicationContext(), "Popularity",
+					   Toast.LENGTH_LONG).show();
+			return true;
+		}
+		
 		return true;
 	}
 
