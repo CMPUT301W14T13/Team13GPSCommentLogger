@@ -41,58 +41,29 @@ public class Comment extends Viewable
 	 */
 	public Comment(){
 		super();
-		ID = "default";
-		title = "default title";
-		username = "Anonymous";
-		image = null;
-		hasImage = false;
-		timestamp = new Date();
-		commentText = "";
-		GPSLocation = new Location("default");
+
 	}
 
 	public Comment(String ID) {
 		super(ID);
-		title = "default title";
-		username = "Anonymous";
-		image = null;
-		hasImage = false;
-		timestamp = new Date();
-		commentText = "";
-		GPSLocation = new Location("default");
 	}
 
 
 	public Comment(String username, boolean cheatingOverloadSignature)
 	{
 		super(username, cheatingOverloadSignature);
-		ID = "default";
-		title = "default title";
-		image = null;
-		hasImage = false;
-		timestamp = new Date();
-		commentText = "";
-		GPSLocation = new Location("default");
 	}
 
 
 	public Comment(String ID, String username)
 	{
 		super(ID, username);
-		title = "default title";
-		image = null;
-		hasImage = false;
-		timestamp = new Date();
-		commentText = "";
-		GPSLocation = new Location("default");
 	}
 
 
 	public Comment(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
 		super(ID, username, picture, timestamp, commentText);
-		title = "default title";
-		GPSLocation = new Location("default");
 	}
 
 	public int getNumberOfReplies(){

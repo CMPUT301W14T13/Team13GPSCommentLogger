@@ -75,6 +75,14 @@ public class ViewableSerializer implements
         		String eachID = each.getAsJsonPrimitive().getAsString();
         		SearchServerTask task = factory.getNewBrowser(eachID);
         		ElasticSearchController.getInstance().addTask(task);
+        		while(task.getObj() == null)
+        		{
+	        		try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+        		}
         		childPosts.add(task.getObj());
         	}
         	
@@ -99,7 +107,7 @@ public class ViewableSerializer implements
         	instance.setLocation(GPSLocation);
         	instance.setChildren(childPosts);
         	instance.setFreshness(freshness);
-        	instance.setTitle(title);        	
+        	instance.setTitle(title);   
         	return instance;
         	
         } catch (IllegalArgumentException e)
