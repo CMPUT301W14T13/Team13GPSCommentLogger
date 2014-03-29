@@ -84,9 +84,13 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 				new ArrayAdapter<String>(actionBar.getThemedContext(),
 						android.R.layout.simple_list_item_1,
 						android.R.id.text1, new String[] {
-					getString(R.string.sort1),
-					getString(R.string.sort2),
-					getString(R.string.sort3), }), this);
+							getString(R.string.sort1),
+							getString(R.string.sort2),
+							getString(R.string.sort3),
+							getString(R.string.sort4),
+							getString(R.string.sort5),
+							getString(R.string.sort6),
+							}), this);
 
 		//set up listener for topic clicks, clicking makes you enter the topic
 		topicListview.setOnItemClickListener(new OnItemClickListener() {
