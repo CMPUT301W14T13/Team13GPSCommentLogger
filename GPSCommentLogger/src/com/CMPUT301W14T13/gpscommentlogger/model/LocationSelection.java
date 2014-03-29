@@ -13,7 +13,7 @@ import android.util.Log;
  * current location.
  * 
  * This is done by:
- * 
+ *  
  * 1) By GPS:
  * 	  Starting a location manager, attach a listener to it
  *    and request a location update from the location listener.
@@ -81,10 +81,10 @@ public class LocationSelection
 			}			
 			@Override
 			public void onLocationChanged(Location location) {
-				gpsLocation = location;				
+				gpsLocation = location;		
 			}
 		};
-
+		
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); // update current GPS location
 			Log.d("LocationSelection", "Got GPS Provider");
@@ -144,11 +144,11 @@ public class LocationSelection
 	 * @return Location
 	 */
 	public static Location getLocation() {
-		
+		 
 
 		stopLocationSelection(); // stop location manager and listener
 		
-//		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
+		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
 		
 		return gpsLocation;
 
@@ -158,10 +158,6 @@ public class LocationSelection
 		return locationListener;
 	}
 
-	public static LocationManager getSystemService(String locationService) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 }

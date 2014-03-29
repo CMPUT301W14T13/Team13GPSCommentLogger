@@ -114,6 +114,8 @@ public class CommentAdapter extends BaseAdapter {
 		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
 		editButton.setTag(position); //gives a unique tag for identifying comments
 		
+		Button saveButton = (Button) vi.findViewById(R.id.saveComment);
+		saveButton.setTag(position);
 		/*
 		 * Hide the edit button if it's not the user's comment.
 		 * Show the edit button if it is the user's comment.

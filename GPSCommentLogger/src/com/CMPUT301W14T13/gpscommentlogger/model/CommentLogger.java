@@ -61,6 +61,10 @@ public class CommentLogger extends FModel<FView>
 	}
 	
 	
+	public void setRoot(Root root){
+		this.root = root;
+	}
+	
 	public Root getRoot(){
 		return root;
 	}

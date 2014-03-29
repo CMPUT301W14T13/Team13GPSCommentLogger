@@ -6,10 +6,10 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/GPSCommentLogger"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="/cshome/imamverd/CMPUT 301/lib/GSON/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="/cshome/imamverd/CMPUT 301/lib/GSON/gson-2.2.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="/cshome/imamverd/CMPUT 301/lib/GSON/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,8 @@ public class CustomAdapter extends BaseAdapter {
 			
 
 		}
-		setHomeView(vi, topic);
+		//TODO: look into null return value for getItem
+		if(topic != null)setHomeView(vi, topic);
 		return vi;
 	}
 

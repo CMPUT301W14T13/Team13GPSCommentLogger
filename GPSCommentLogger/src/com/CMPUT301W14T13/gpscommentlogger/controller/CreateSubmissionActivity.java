@@ -29,10 +29,11 @@ import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
-import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.PostNewServerTask;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 import com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity;
 
 
@@ -61,8 +62,10 @@ public class CreateSubmissionActivity extends Activity{
 	private EditText text;
 	private String currentUsername = "";
 	private int submitCode; //0: Reply to topic, 1: Reply to comment, 2: Edited topic 3: Edited comment
-	private Location location;
-	private LocationSelection locationGetter;
+	private Location gpsLocation;
+	private Location userLocation;
+	private LocationManager lm; 
+	private LocationListener ll;
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
 
@@ -71,27 +74,55 @@ public class CreateSubmissionActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/* Location operations */
-		locationGetter = new LocationSelection(this); 
-		locationGetter.startLocationSelection(); // starts pulling location
-		location = null; // make sure our map location is empty
-		
+		/* create the location stuff up here */
+
 		constructCode = getIntent().getIntExtra("construct code", -1);
 		submitCode = getIntent().getIntExtra("submit code", -1);
 
+		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
+
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		ll = new LocationListener() {
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {		
+			}			
+			@Override
+			public void onProviderEnabled(String provider) {			
+			}			
+			@Override
+			public void onProviderDisabled(String provider) {			
+			}			
+			@Override
+			public void onLocationChanged(Location location) {
+				gpsLocation = location;
+				Log.d("locationChange", gpsLocation.toString());
+			}
+		};
+		
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+		gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		/* if you cannot get a GPS fix set the values to : 0,0*/
+		if (gpsLocation == null){
+			gpsLocation = new Location("fake");
+			gpsLocation.setLatitude(0);
+			gpsLocation.setLongitude(0);
+		}
+		userLocation = null;
 		rowNumber = getIntent().getIntExtra("row number", -1);
 		CommentLogger cl = CommentLogger.getInstance();
 
-		//get the user's global username so they don't have to always enter it
+		//get the user's global user name so they don't have to always enter it
 		currentUsername = cl.getCurrentUsername();
 
 		switch(constructCode){
 
 		case(0): // constructing a new topic
 			setContentView(R.layout.create_topic); //creating a topic
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		text = (EditText) findViewById(R.id.setTopicUsername);
-		text.setText(currentUsername);
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+			text = (EditText) findViewById(R.id.setTopicUsername);
+			text.setText(currentUsername);
 		break;
 
 		case(1): //constructing a new comment
@@ -135,6 +166,7 @@ public class CreateSubmissionActivity extends Activity{
 	@Override
 	protected void onResume(){
 		super.onResume();
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
 
 
@@ -166,7 +198,7 @@ public class CreateSubmissionActivity extends Activity{
 			commentText = text.getText().toString().trim();
 		}
 
- 
+
 
 	}
 
@@ -190,13 +222,12 @@ public class CreateSubmissionActivity extends Activity{
 
 		submission.setUsername(username); 
 		submission.setCommentText(commentText);
-		
-
-		if(location == null) {
-			location = locationGetter.getLocation();
-
+		if(userLocation == null){
+			submission.setGPSLocation(gpsLocation);
+		} else {
+			submission.setGPSLocation(userLocation);
 		}
-		submission.setGPSLocation(location);
+
 
 		//username defaults to Anonymous if left blank
 		if (username.length() == 0){
@@ -231,12 +262,12 @@ public class CreateSubmissionActivity extends Activity{
 	public void openMap(View view) {
 		if(isOnline()){
 			Intent map = new Intent(this, MapViewActivity.class);
-			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
-			map.putExtra("lon", locationGetter.getLocation().getLongitude());
+			map.putExtra("lat", gpsLocation.getLatitude()); 
+			map.putExtra("lon", gpsLocation.getLongitude());
 			startActivityForResult(map, REQUEST_CODE); 
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
- 
+
 			LayoutInflater inflater = getLayoutInflater();
 			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
 			builder.setView(dialogView);
@@ -244,32 +275,33 @@ public class CreateSubmissionActivity extends Activity{
 			ad.setTitle("Select Location");
 			ad.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
 					new DialogInterface.OnClickListener()
-					{	
-						@Override
-						public void onClick(DialogInterface dialog, int which)
-						{  
-							text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
-							double latitude = Double.parseDouble(text.getText().toString().trim());
-							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
-							double longitude = Double.parseDouble(text.getText().toString().trim());
-							location.setLatitude(latitude);
-							location.setLongitude(longitude);
-							
-						}
-					});
+			{	
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{  
+					text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
+					double latitude = Double.parseDouble(text.getText().toString().trim());
+					text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
+					double longitude = Double.parseDouble(text.getText().toString().trim());
+					userLocation = new Location(gpsLocation);
+					userLocation.setLatitude(latitude);
+					userLocation.setLongitude(longitude);
+
+				}
+			});
 			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-			    new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) {
-			        	//do nothing
-			        }
-			    });
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					//do nothing
+				}
+			});
 			ad.show();
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
 	 * in construction the topic. if from some reason a latitude and longitude cannot
@@ -282,12 +314,11 @@ public class CreateSubmissionActivity extends Activity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
-				double latitude = data.getDoubleExtra("lat", locationGetter.getLocation().getLatitude());
-				double longitude = data.getDoubleExtra("lon", locationGetter.getLocation().getLongitude());
-
-				location.setLongitude(longitude);
-				location.setLatitude(latitude);
-
+				double latitude = data.getDoubleExtra("lat", gpsLocation.getLatitude());
+				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
+				userLocation = new Location(gpsLocation);
+				userLocation.setLongitude(longitude);
+				userLocation.setLatitude(latitude);
 			}
 		}
 
@@ -351,7 +382,7 @@ public class CreateSubmissionActivity extends Activity{
 
 		boolean submission_ok;
 		ArrayList<Viewable> commentList;
-		
+
 		extractTextFields();
 		constructSubmission();
 
@@ -438,8 +469,10 @@ public class CreateSubmissionActivity extends Activity{
 		if (submission_ok){
 
 			CommentLogger cl = CommentLogger.getInstance();
-			CommentLoggerController controller = new CommentLoggerController(cl);
-			controller.addTopic((Topic) submission);
+			cl.addTopic((Topic) submission);
+			ElasticSearchController client = ElasticSearchController.getInstance();
+			PostNewServerTask task = new TaskFactory(client).getNewPoster("ROOT", submission);
+			client.addTask(task);
 			finish();
 		}
 
@@ -502,6 +535,8 @@ public class CreateSubmissionActivity extends Activity{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		lm.removeUpdates(ll);
+		lm = null;
 	}
 
 	public boolean isOnline() {

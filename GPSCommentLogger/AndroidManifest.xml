@@ -96,6 +96,10 @@
             
         </activity>
         
+        <activity
+
+            android:name="com.CMPUT301W14T13.gpscommentlogger.view.FavouritesViewActivity">
+        </activity>
 
     </application>
 

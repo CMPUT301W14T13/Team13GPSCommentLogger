@@ -1,75 +1,64 @@
 package com.CMPUT301W14T13.gpscommentlogger.model.tasks;
 
 import com.CMPUT301W14T13.gpscommentlogger.controller.DataManager;
-import com.CMPUT301W14T13.gpscommentlogger.controller.ServerDispatcher;
-import com.CMPUT301W14T13.gpscommentloggertests.mockups.DataEntityMockup;
-
+import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.view.HomeViewActivity;
 
 /**
  * Class creates Task objects
  */
 public class TaskFactory {
 
-	private ServerDispatcher dispatcher;
-	private DataEntityMockup mock;
-    private DataManager local;
+	private ElasticSearchController esc;
 	
-	public TaskFactory(ServerDispatcher dispatcher,
-					   DataEntityMockup mock,
-					   DataManager local) {
-		this.dispatcher = dispatcher;
-		this.mock = mock;
-		this.local = local;
+	public TaskFactory(ElasticSearchController esc) {
+		this.esc = esc;
 	}
 	
 	public InitializationServerTask getNewInitializer()
 	{
-		return new InitializationServerTask(dispatcher);
+		return new InitializationServerTask(esc);
 	}
 	
-	public ImageUpdateServerTask getNewImageUpdater()
+	public ImageUpdateServerTask getNewImageUpdater(Viewable obj)
 	{
-		return new ImageUpdateServerTask(dispatcher);
+		return new ImageUpdateServerTask(esc, obj);
 	}
 	
-	public LocationUpdateServerTask getNewLocationUpdater()
+	public LocationUpdateServerTask getNewLocationUpdater(Viewable obj)
 	{
-		return new LocationUpdateServerTask(dispatcher);
+		return new LocationUpdateServerTask(esc, obj);
 	}
 
-	public MyFavouritesLocalTask getNewFavouriteBrowser()
+	public MyFavouritesLocalTask getNewFavouriteBrowser(String searchTerm)
 	{
-		return new MyFavouritesLocalTask(local);
+		return new MyFavouritesLocalTask(esc, searchTerm);
 	}
 	
-	public MySavesLocalTask getNewSavesBrowser()
+	public MySavesLocalTask getNewSavesBrowser(String searchTerm)
 	{
-		return new MySavesLocalTask(local);
+		return new MySavesLocalTask(esc, searchTerm);
 	}
 	
-	public PageMockTask getNewMockBrowser()
+	public PostNewServerTask getNewPoster(String parentID, Viewable obj)
 	{
-		return new PageMockTask(mock);
+		return new PostNewServerTask(esc, parentID, obj);
 	}
 	
-	public PostMockTask getNewMockPoster()
+	public SearchServerTask getNewBrowser(String searchTerm)
 	{
-		return new PostMockTask(mock);
+		return new SearchServerTask(esc, searchTerm);
 	}
 	
-	public PostNewServerTask getNewPoster()
+	public RootSearchServerTask getRoot(HomeViewActivity hva)
 	{
-		return new PostNewServerTask(dispatcher);
+		return new RootSearchServerTask(esc, hva);
 	}
 	
-	public SearchServerTask getNewBrowser()
+	public TextUpdateServerTask getNewTextUpdater(Viewable obj)
 	{
-		return new SearchServerTask(dispatcher);
-	}
-	
-	public TextUpdateServerTask getNewTextUpdater()
-	{
-		return new TextUpdateServerTask(dispatcher);
+		return new TextUpdateServerTask(esc, obj);
 	}
 	
 }
