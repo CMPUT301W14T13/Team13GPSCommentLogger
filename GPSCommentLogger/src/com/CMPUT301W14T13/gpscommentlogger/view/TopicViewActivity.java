@@ -225,7 +225,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>,
 	 * editing a topic or comment. A submit code is passed as well which tells the
 	 * activity what is being submitted and how to edit it properly.
 	 * 
-	 * 
+	 *  
 	 * @param v	 the view for the edit button
 	 * @throws InterruptedException when an incorrect id is found
 	 */
@@ -267,6 +267,15 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>,
 	public void viewImage(View v){
 
 		int tag = (Integer) v.getTag();
+
+	}
+
+	public void openMap(View v){
+		Intent map = new Intent(this, MapViewActivity.class);
+		map.putExtra("lat", cl.getCurrentTopic().getGPSLocation().getLatitude()); 
+		map.putExtra("lon", cl.getCurrentTopic().getGPSLocation().getLongitude());
+		map.putExtra("canSetMarker", 0);// for editing  location
+		startActivity(map);
 
 	}
 

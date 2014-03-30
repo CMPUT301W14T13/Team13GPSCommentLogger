@@ -1,5 +1,7 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
+import java.util.ArrayList;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -12,11 +14,12 @@ import org.osmdroid.views.MapView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
+import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
 
 
 
@@ -45,25 +48,25 @@ public class MapViewActivity extends Activity {
 	private MapView mapView;
 	private GeoPoint returnPoint;
 	private int canSetMarker;
+	private CommentLogger cl;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// problem with this action bar is Mapview has multiple parents
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = getIntent();
 		double lat = intent.getDoubleExtra("lat", 53.5333);
 		double lon = intent.getDoubleExtra("lon",-113.5000);
 		canSetMarker = intent.getIntExtra("canSetMarker", 0);
 
-		returnPoint = new GeoPoint(lat, lon);
+		
 		
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
 			setContentView(R.layout.map_edit_location_view);
-			mapView = (MapView) findViewById(R.id.mapview);
+			returnPoint = new GeoPoint(lat, lon);
+			mapView = (MapView) findViewById(R.id.mapEditView);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
 			mapView.setBuiltInZoomControls(true);
 			mapView.setMultiTouchControls(true);
@@ -96,6 +99,44 @@ public class MapViewActivity extends Activity {
 
 		}else {
 			// here we implement new requirement of displaying Topic Thread Location
+			setContentView(R.layout.map_thread_view);
+			cl = CommentLogger.getInstance();
+			//Topic topic = cl.getCurrentTopic();
+			returnPoint  = new GeoPoint(lat,lon);
+			mapView = (MapView) findViewById(R.id.mapThreadView);
+			mapView.setTileSource(TileSourceFactory.MAPNIK);
+			mapView.setBuiltInZoomControls(true);
+			mapView.setMultiTouchControls(true);
+			mapView.setClickable(false);
+			mapController = (MapController) mapView.getController();
+			mapController.setZoom(5);
+			mapController.setCenter(returnPoint);
+			ArrayList<Viewable> commentList = cl.getCommentList();
+			final int markerIndex = setMarker(returnPoint);
+			
+			for(int i=0;i<commentList.size();i++){
+				Viewable comment = commentList.get(i);
+				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
+				int index = setMarker(point);		
+			}
+			
+			MapEventsReceiver receiver = new MapEventsReceiver() {
+				int mIndex = markerIndex;
+				@Override
+				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
+					// once the user taps, we remove the old marker and place a new one
+					
+					return true;
+				}
+
+				@Override
+				public boolean longPressHelper(IGeoPoint arg0) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+			MapEventsOverlay mEvent = new MapEventsOverlay(this, receiver);
+			mapView.getOverlays().add(mEvent);
 		}
 
 
@@ -139,6 +180,15 @@ public class MapViewActivity extends Activity {
 		setResult(RESULT_OK, result);	
 		finish();
 	}
+	public void doneMapThread(){	
+		finish();
+	}
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+       // CommentLogger cl = CommentLogger.getInstance();
+	}
+        
 
 	/**
 	 * This method returns the point that was selected by the user when they chose to 

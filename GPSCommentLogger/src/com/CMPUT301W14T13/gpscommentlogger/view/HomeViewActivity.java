@@ -1,11 +1,11 @@
 package com.CMPUT301W14T13.gpscommentlogger.view;
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -19,11 +19,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SortFunctions;
@@ -31,10 +31,10 @@ import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.RootSearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
@@ -291,8 +291,9 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		
 		switch (itemPosition) {
 		case 0:
-			
-			//sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
+			LocationSelection location = new LocationSelection(this);
+			location.startLocationSelection();
+			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Proximity to Me",
 					Toast.LENGTH_LONG).show();
 			break;
