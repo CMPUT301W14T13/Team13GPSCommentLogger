@@ -26,6 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
 import com.CMPUT301W14T13.gpscommentlogger.R;
+import com.CMPUT301W14T13.gpscommentlogger.SortFunctions;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CreateSubmissionActivity;
 import com.CMPUT301W14T13.gpscommentlogger.controller.ElasticSearchController;
@@ -286,33 +287,53 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		// container view.
 
 		// ITEM SELECTION ACTIONS DONE HERE
+		ArrayList<Viewable> sortedTopics = cl.getTopics();
+		
 		switch (itemPosition) {
 		case 0:
+			
+			//sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Proximity to Me",
 					Toast.LENGTH_LONG).show();
-			return true;
+			break;
+			
 		case 1:
+			
+			//sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Proximity to Location",
 					Toast.LENGTH_LONG).show();
-			return true;
+			break;
+			
 		case 2:
+			
+			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Pictures",
 					Toast.LENGTH_LONG).show();
-			return true;
+			break;
+			
 		case 3:
+			
+			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
+			
 			Toast.makeText(getApplicationContext(), "Newest",
 					Toast.LENGTH_LONG).show();
-			return true;
+			break;
+			
 		case 4:
+			sortedTopics = cl.getTopics();
+			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Oldest",
 					Toast.LENGTH_LONG).show();
-			return true;
+			break;
 		case 5:
 			Toast.makeText(getApplicationContext(), "Popularity",
 					Toast.LENGTH_LONG).show();
-			return true;
+			break;
 		}
 
+		cl.getTopics().clear();
+		cl.getTopics().addAll(sortedTopics);
+		adapter.notifyDataSetChanged();
 		return true;
 	}
 
