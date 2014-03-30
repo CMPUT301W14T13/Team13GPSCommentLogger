@@ -31,6 +31,7 @@ public abstract class Viewable {
 		title = "initial title";
 		username = "Anonymous";
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -40,6 +41,7 @@ public abstract class Viewable {
 		username = anonymous;
 		title = "initial title";
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -49,6 +51,7 @@ public abstract class Viewable {
 		title = "initial title";
 		this.username = username;
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -58,6 +61,7 @@ public abstract class Viewable {
 		title = "initial title";
 		this.username = username;
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -69,6 +73,7 @@ public abstract class Viewable {
 		this.image = picture;
 		this.timestamp = timestamp;
 		this.commentText = commentText;
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 		this.hasImage = true;
 	}
