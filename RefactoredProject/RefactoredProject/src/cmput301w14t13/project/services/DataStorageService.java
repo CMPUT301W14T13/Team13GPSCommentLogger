@@ -36,16 +36,17 @@ public class DataStorageService extends Service
         }
 	}
 
-	
 	//data manager for local data storage
-	private static CommentTreeProxy offlineDataEntity;
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
+	private static CommentTreeProxy offlineDataEntity = new CommentTreeProxy(DATA_STORAGE_LOCATION);
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
 	private static final DataStorageService Instance = new DataStorageService();
+
+	private static CacheProcessor cacheProcessor = new CacheProcessor(offlineDataEntity);
 	
 	private DataStorageService()
 	{
-		offlineDataEntity = new CommentTreeProxy(DATA_STORAGE_LOCATION);
+		cacheProcessor.start();
 	}
 	
 	public static DataStorageService getInstance()
@@ -73,6 +74,11 @@ public class DataStorageService extends Service
 	
 	public CommentTreeProxy getProxy(){
 		return offlineDataEntity;
+	}
+	
+	public CacheProcessor getCacheProcessor()
+	{
+		return cacheProcessor;
 	}
 	
 	public String getURL()

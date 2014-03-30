@@ -30,9 +30,7 @@
         	</intent-filter>
    		 </receiver>
        
-        
-
-
+ 
         <activity
 
             android:name="cmput301w14t13.project.views.HomeView"
@@ -52,9 +50,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmput301w14t13.project.views.HomeView" />
-        </activity> 
+        </activity>
+        
         <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.TopicViewActivity"
+            android:name="cmput301w14t13.project.views.TopicView"
 			android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             
             <meta-data
@@ -63,17 +62,12 @@
         </activity>
         
         <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.CreateCommentActivity">
+            android:name="cmput301w14t13.project.controllers.SelectUsernameController">
         </activity>
-        
-        <activity
 
-            android:name="com.CMPUT301W14T13.gpscommentlogger.SelectUsernameActivity">
-        </activity>
-		
         <activity
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity"
-            android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.CreateTopicActivity">
+            android:name="cmput301w14t13.project.controllers.MapViewController"
+            android:parentActivityName="cmput301w14t13.project.controllers.CreateSubmissionController">
             
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -83,7 +77,7 @@
         
         <activity
 
-            android:name="com.CMPUT301W14T13.gpscommentlogger.view.FavouritesViewActivity">
+            android:name="cmput301w14t13.project.views.FavouritesView">
         </activity>
 
     </application>

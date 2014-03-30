@@ -366,7 +366,7 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 	 * @param v the submit button
 	 * @throws InterruptedException 
 	 */
-	public synchronized void submitTopic(View v) throws InterruptedException{
+	public void submitTopic(View v) throws InterruptedException{
 
 		boolean submission_ok;
 
@@ -527,10 +527,10 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 	 */
 	public void openMap(View view) {
 		if(isOnline()){
-			//Intent map = new Intent(this, MapViewActivity.class);
-			//map.putExtra("lat", gpsLocation.getLatitude()); 
-			//map.putExtra("lon", gpsLocation.getLongitude());
-			//startActivityForResult(map, REQUEST_CODE); 
+			Intent map = new Intent(this, MapViewController.class);
+			map.putExtra("lat", gpsLocation.getLatitude()); 
+			map.putExtra("lon", gpsLocation.getLongitude());
+			startActivityForResult(map, REQUEST_CODE); 
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 

@@ -3,9 +3,11 @@ package cmput301w14t13.project.views;
 import java.util.ArrayList;
 
 import cmput301w14t13.project.R;
+import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.adapters.CustomAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.controllers.HomeViewController;
+import cmput301w14t13.project.controllers.TopicViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import android.app.Activity;
@@ -37,78 +39,70 @@ import android.widget.ListView;
  * @author Austin
  *
  */
-public class HomeView extends Activity implements UpdateInterface{
-
-	private ListView topicListview;
-	private CustomAdapter displayAdapter; //adapter to display the topics
-	private Menu menu; //A reference to the options menu
-	protected HomeViewController controller = new HomeViewController(this);
-
-	@Override
+public class TopicView extends Activity implements UpdateInterface{
+	
+	private ListView commentListview;
+	private CommentAdapter adapter; //adapter to display the comments
+	private TopicViewController controller = new TopicViewController(this);
+	
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home_view);
-		
-		//set up adapter and listview
-		topicListview = (ListView) findViewById(R.id.topic_listview);
-		
-		try {
-			controller.init();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.topic_view);
+        
+		CommentTree.getInstance().addView(this);
 	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
-		CommentTree.getInstance().updateCommentList(); //updates the topic age in HomeViewActivity for when the user exits this activity
-		invalidateOptionsMenu();		
+		update();
 	}
 	
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        controller.unbind();
-        CommentTree ct = CommentTree.getInstance();
-        ct.deleteView(this);
+        CommentTree cl = CommentTree.getInstance();
+        cl.deleteView(this);
 	}
-	
+        
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.home_action_bar, menu);
-		
-		this.menu = menu;
-		
+		inflater.inflate(R.menu.topic_action_bar, menu);
 		return super.onCreateOptionsMenu(menu);
 
 	}
 
+	/**
+	 * There will be a select username option on the action bar
+	 * which takes the user to an activity to manage their
+	 * usernames.
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
-		return (controller.selectOptions(item))?true:super.onOptionsItemSelected(item);
-	}
+		switch (item.getItemId()) {
+		case R.id.action_select_username:
+			controller.selectUsername();
+			return true;
 
-	public Menu getMenu() {
-		return menu;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-
+	
+	
 	@Override
-	public void update() {
-		CommentTree ct = CommentTree.getInstance();
-		Log.w("UpdateHomeView", Boolean.toString(ct.getCurrentElement() == null));
-		displayAdapter = new CustomAdapter(this, ct.getCurrentChildren());
-		topicListview.setAdapter(displayAdapter);
-		CommentTree.getInstance().getCommentList();
-		displayAdapter.notifyDataSetChanged();		
+	public void update()
+	{
+        CommentTree cl = CommentTree.getInstance();
+        adapter = new CommentAdapter(this, cl.getCommentList());
+        commentListview = (ListView) findViewById(R.id.comment_list);
+        commentListview.setAdapter(adapter);
+		controller.fillTopicLayout();
+		adapter.notifyDataSetChanged();
 	}
 
-	public ListView getListView()
-	{
-		return topicListview;
-	}
 }
