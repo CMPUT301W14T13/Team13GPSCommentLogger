@@ -156,15 +156,33 @@ public class SortFunctions
 	 * @return ArrayList<Viewable>
 	 */
 	public static ArrayList<Viewable> sortByPicture(ArrayList<Viewable> viewables) {
-		ArrayList<Viewable> pictureSortedList = sortByCurrentLocation(viewables); // get location sorted comments in function  
-		for (int i = 0; i < pictureSortedList.size(); i++) {
-			if (pictureSortedList.get(i).getHasImage() == false) {
-				pictureSortedList.remove(i);
+		
+		viewables = sortByCurrentLocation(viewables); // get location sorted comments in function  
+		ArrayList<Viewable> pictures = new ArrayList<Viewable>();
+		ArrayList<Viewable> noPictures = new ArrayList<Viewable>();
+		
+		while (viewables.size() != 0){
+			
+			
+			for (int i = 0; i < viewables.size();){
+
+				if (viewables.get(i).getHasImage()){
+
+					
+					pictures.add(viewables.remove(i));
+				}
+				else{
+					noPictures.add(viewables.remove(i));
+				}
+				
+				
 			}
+
 		}
 		
-		return pictureSortedList;
-		}
+		pictures.addAll(noPictures);
+		return pictures;
+	}
 	
 	
 	public static ArrayList<Viewable> sortByMostRelevant(ArrayList<Viewable> viewables){
