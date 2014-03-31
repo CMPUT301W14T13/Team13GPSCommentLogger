@@ -301,7 +301,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 			break;
 			
 		case 1:
-			//Location location = locationGetter.getLocation();
+			
 			//sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Proximity to Location",
 					Toast.LENGTH_LONG).show();
@@ -329,7 +329,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 					Toast.LENGTH_LONG).show();
 			break;
 		case 5:
-			Toast.makeText(getApplicationContext(), "Popularity",
+			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
+			Toast.makeText(getApplicationContext(), "Relevant",
 					Toast.LENGTH_LONG).show();
 			break;
 		}
