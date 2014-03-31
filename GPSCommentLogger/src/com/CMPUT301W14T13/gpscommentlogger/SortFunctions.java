@@ -93,7 +93,7 @@ public class SortFunctions
 	 * comments.
 	 * 
 	 * The function returns a list of ordered comments from
-	 * closes to farthest from current location.
+	 * closest to farthest from current location.
 	 * 
 	 * @param viewables
 	 * @return ArrayList<Viewable>
@@ -116,16 +116,19 @@ public class SortFunctions
 		
 		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
 		int position = 0;
-		double closest = 99999999;
+		double closest;
 		double distance;
 		Location location;
-		
+		System.out.println(givenLocation.getLatitude() + " " + givenLocation.getLongitude());
 		while(viewables.size() != 0){
 			position = 0;
+			closest = givenLocation.distanceTo(viewables.get(0).getGPSLocation());
+			
 			for (int i = 0; i < viewables.size(); i++){
 				location = viewables.get(i).getGPSLocation();	
 				distance = givenLocation.distanceTo(location);
-				if(distance < closest){
+				if(distance <= closest){
+					
 					closest = distance;
 					position = i;
 				}
@@ -166,27 +169,44 @@ public class SortFunctions
 	
 	public static ArrayList<Viewable> sortByMostRelevant(ArrayList<Viewable> viewables){
 		
-		ArrayList<Viewable> orderedArray = sortByCurrentLocation(viewables);
-		ArrayList<Viewable> mostRelevant = new ArrayList<Viewable>();
-		Location location; 
+		viewables = sortByCurrentLocation(viewables);
+		/*for (int i = 0; i < viewables.size(); i++){
+			System.out.println(viewables.get(i).getTimestamp() + " " + viewables.get(i).getGPSLocation().getLatitude() + " " + viewables.get(i).getGPSLocation().getLongitude());
+		}*/
 		
+		ArrayList<Viewable> mostRelevant = new ArrayList<Viewable>();
+		ArrayList<Viewable> leastRelevant = new ArrayList<Viewable>();
+		Location location; 
+		int position;
 		Location currentLocation = LocationSelection.getLocation();
 		LocationSelection.startLocationSelection();
 		
-		for (int i = 0; i < orderedArray.size(); i++){
+		while (viewables.size() != 0){
 			
-			location = orderedArray.get(i).getGPSLocation();	
-			
-			//want it to be within 50km
-			if(currentLocation.distanceTo(location) <= 500000){
-				mostRelevant.add(orderedArray.remove(i));
+		
+			for (int i = 0; i < viewables.size();){
+
+				location = viewables.get(i).getGPSLocation();
+				//System.out.println(currentLocation.distanceTo(location));
+				if (currentLocation.distanceTo(location) <= 50000){
+
+					
+					mostRelevant.add(viewables.remove(i));
+				}
+				else{
+					leastRelevant.add(viewables.remove(i));
+				}
+				
+				
 			}
+
 			
+
 		}
 		
-		
+		//System.out.println(mostRelevant);
 		mostRelevant = sortByNewest(mostRelevant);
-		mostRelevant.addAll(orderedArray);
+		mostRelevant.addAll(leastRelevant);
 		return mostRelevant;
 	}
 	

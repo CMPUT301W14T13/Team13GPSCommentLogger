@@ -27,29 +27,27 @@ public class SortByMostRelevant extends ActivityInstrumentationTestCase2<HomeVie
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		activity = getActivity();
-		
 		ArrayList<Viewable> topics = new ArrayList<Viewable>();
 		Topic topic = new Topic();
 		Location originalLocation = new Location("default");
 		Location location = new Location(originalLocation);
 		
-		int latitude = 53;
-		int longitude = 113;
+		double latitude = 53.4;
+		double longitude = -113;
 		
 		
 		for (int i = 0; i <= 5; i++){
 			topic = new Topic();
+			location = new Location(location);
 			location.setLatitude(latitude);
 			location.setLongitude(longitude);
-			location = new Location(location);
 			
 			topic.setGPSLocation(location);
 			topics.add(topic);
 			Thread.sleep(1000);
-			latitude += 1;
-			longitude += 0.1;
+			latitude += 0.1;
 		}
-		
+	
 		topics = SortFunctions.sortByMostRelevant(topics);
 		
 		for (int i = 0; i < topics.size(); i++){
@@ -63,7 +61,10 @@ public class SortByMostRelevant extends ActivityInstrumentationTestCase2<HomeVie
 			for (int j = i; j < topics.size(); j++){
 
 				if (j != topics.size() - 1 && j != i && originalLocation.distanceTo(location) <= 50000){
-					assertTrue("Comments should be sorted from most to least relevant", topics.get(i).getTimestamp().after(topics.get(j).getTimestamp()));
+					double distance = topics.get(i).getGPSLocation().distanceTo(topics.get(j).getGPSLocation());
+					assertTrue("Comments should be newer", topics.get(i).getTimestamp().after(topics.get(j).getTimestamp()));
+					assertTrue("Comments should be closer than ones after it", distance <= 50000);
+					
 				}
 
 			}
