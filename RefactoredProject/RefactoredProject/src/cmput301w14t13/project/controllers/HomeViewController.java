@@ -79,6 +79,7 @@ public class HomeViewController implements AsyncProcess{
 			throws InterruptedException {
 		
         DataStorageService.getInstance().registerContext(homeView);
+        CommentTree.getInstance().registerUIThread(homeView);
 	}
 	
 	public synchronized void bind() throws InterruptedException

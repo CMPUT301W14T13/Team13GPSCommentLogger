@@ -57,7 +57,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		
 		try {
 			controller.connect();
-			//controller.init();
+			controller.init();
 			controller.bind();
 		} catch (InterruptedException e) {
 			e.printStackTrace();

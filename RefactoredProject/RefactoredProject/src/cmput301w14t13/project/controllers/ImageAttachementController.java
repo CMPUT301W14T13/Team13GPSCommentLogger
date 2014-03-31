@@ -123,12 +123,15 @@ public class ImageAttachementController extends Activity
 	@SuppressLint("NewApi")
 	public boolean sizeCheck (Bitmap image) {
 		// Get size in bytes
+		/*
 		int size = image.getByteCount();
 		
 		// Return true if size is less than 100*1024 bytes
 		if (size < 102401) return true;
+		
 		else return false;
-
+		 */
+		return false;
 	}
 
 
