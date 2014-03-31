@@ -10,11 +10,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.Task;
 
@@ -39,7 +41,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(WEB_URL);
@@ -75,7 +77,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -83,19 +85,27 @@ public class ElasticSearchOperations {
 		
 		String returnValue = "";
 		
+		HttpClient refreshClient = new DefaultHttpClient();
+		HttpPost refresh = new HttpPost("http://cmput301.softwareprocess.es:8080/cmput301w14t13/_refresh");
 		try
 		{
+			HttpResponse response = refreshClient.execute(refresh);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearchRefresh",status);
+			
+			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
-			String query = "{\"script\" : \"ctx._source." + fieldName + " = field\", " +
+			String query = "{\"script\" : \"ctx._source.CLASS_DATA." + fieldName + " = field\", " +
 					"\"params\" : {" +
-				        "\"field\" : \""+ newJson +"\"" +
+				        "\"field\" : \""+ new Escaper(false).escapeJsonString(newJson) +"\"" +
 				    "}}";
+			
 			StringEntity stringentity = new StringEntity(query);
 
 			request.setHeader("Accept","application/json");
 			request.setEntity(stringentity);
-			HttpResponse response = client.execute(request);
+			response = client.execute(request);
 			Log.w("ElasticSearch", response.getStatusLine().toString());
 			
 			//Entering response into the ServerResult to be returned to client
@@ -123,7 +133,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -131,8 +141,14 @@ public class ElasticSearchOperations {
 
 		String returnValue = "";
 		
+		HttpClient refreshClient = new DefaultHttpClient();
+		HttpPost refresh = new HttpPost("http://cmput301.softwareprocess.es:8080/cmput301w14t13/_refresh");
 		try
 		{
+			HttpResponse response = refreshClient.execute(refresh);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearchRefresh",status);
+			
 			//the object of the current serverTask is the viewable to be serialized
 			String jsonString = currentTask.getObj().getID();
 			
@@ -146,7 +162,7 @@ public class ElasticSearchOperations {
 
 			request.setHeader("Accept","application/json");
 			request.setEntity(stringentity);
-			HttpResponse response = client.execute(request);
+			response = client.execute(request);
 			Log.w("ElasticSearchADDLIST", response.getStatusLine().toString());
 			
 			//Entering response into the ServerResult to be returned to client
@@ -174,14 +190,20 @@ public class ElasticSearchOperations {
 		//to custom serialization class rules
 		//specified by the user in the second arg
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		//HttpPost autogenerates keys
 		HttpPost request = new HttpPost(WEB_URL);
 		String returnValue = "";
+		
+		HttpClient refreshClient = new DefaultHttpClient();
+		HttpPost refresh = new HttpPost("http://cmput301.softwareprocess.es:8080/cmput301w14t13/_refresh");
 		try
 		{
+			HttpResponse response = refreshClient.execute(refresh);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearchRefresh",status);
 			request.setHeader("Accept","application/json");
 			
 			//the object of the current serverTask is the viewable to be serialized
@@ -189,7 +211,7 @@ public class ElasticSearchOperations {
 			
 			//proceeding with elasticSearch request
 			request.setEntity(new StringEntity(jsonString));
-			HttpResponse response = client.execute(request);
+			response = client.execute(request);
 			Log.w("ElasticSearchPOSTNEW", response.getStatusLine().toString());
 
 			//Entering response into the ServerResult to be returned to client
@@ -218,16 +240,23 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(WEB_URL + "_search");
 
+		HttpClient refreshClient = new DefaultHttpClient();
+		HttpPost refresh = new HttpPost("http://cmput301.softwareprocess.es:8080/cmput301w14t13/_refresh");
 		try
 		{
+			HttpResponse response = refreshClient.execute(refresh);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearchRefresh",status);
+			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
+			Log.w("ElasticSearchUpdateTest",currentTask.getSearchTerm());
 			String query = 	"{\"query\" : {\"query_string\" : {\"default_field\" : \"ID\",\"query\" : \"" + currentTask.getSearchTerm() + "\"}}}";
 			StringEntity stringentity = new StringEntity(query);
 
@@ -236,8 +265,8 @@ public class ElasticSearchOperations {
 			request.setEntity(stringentity);
 
 			//Execute search
-			HttpResponse response = client.execute(request);
-			String status = response.getStatusLine().toString();
+			response = client.execute(request);
+			status = response.getStatusLine().toString();
 			Log.w("ElasticSearchFINDES",status);
 
 			//Get ID of Viewable as it exists in the elastic search system
@@ -265,14 +294,20 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(WEB_URL + "_search");
-
+		
+		HttpClient refreshClient = new DefaultHttpClient();
+		HttpPost refresh = new HttpPost("http://cmput301.softwareprocess.es:8080/cmput301w14t13/_refresh");
 		try
 		{
+			HttpResponse response = refreshClient.execute(refresh);
+			String status = response.getStatusLine().toString();
+			Log.w("ElasticSearchRefresh",status);
+			
 			Log.w("ESTest",currentTask.getSearchTerm());
 			Log.w("ESTest",WEB_URL);
 			//search for the current serverTask's searchTerm 
@@ -285,8 +320,8 @@ public class ElasticSearchOperations {
 			request.setEntity(stringentity);
 
 			//Execute elasticSearch request
-			HttpResponse response = client.execute(request);
-			String status = response.getStatusLine().toString();
+			response = client.execute(request);
+			status = response.getStatusLine().toString();
 			Log.w("ElasticSearch",status);
 
 
@@ -296,7 +331,7 @@ public class ElasticSearchOperations {
 			//Set the matching viewable as the object of the ServerResult
 			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentTreeElement>>(){}.getType();
 			ElasticSearchSearchResponse<CommentTreeElement> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
-			Gson gson2 = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).create();
+			Gson gson2 = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 			for(CommentTreeElement each : esResponse.getSources())
 			{
 				System.err.println(gson2.toJson(each));

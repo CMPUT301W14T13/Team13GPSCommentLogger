@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.CustomAdapter;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
 import cmput301w14t13.project.controllers.HomeViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.models.content.Root;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -37,7 +40,7 @@ import android.widget.ListView;
  * @author Austin
  *
  */
-public class HomeView extends Activity implements UpdateInterface{
+public class HomeView extends RankedHierarchicalActivity implements UpdateInterface{
 
 	private ListView topicListview;
 	private CustomAdapter displayAdapter; //adapter to display the topics
@@ -53,24 +56,36 @@ public class HomeView extends Activity implements UpdateInterface{
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 		
 		try {
-			controller.init();
+			controller.connect();
+			//controller.init();
+			controller.bind();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		try {
+			controller.resume();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public void onResume(){
-		super.onResume();
-		CommentTree.getInstance().updateCommentList(); //updates the topic age in HomeViewActivity for when the user exits this activity
-		invalidateOptionsMenu();		
+	public void onStop(){
+		super.onStop();
+        controller.unbind();
 	}
 	
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        controller.unbind();
         CommentTree ct = CommentTree.getInstance();
+		ct.popRoot();
         ct.deleteView(this);
 	}
 	
@@ -100,15 +115,22 @@ public class HomeView extends Activity implements UpdateInterface{
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();
-		Log.w("UpdateHomeView", Boolean.toString(ct.getCurrentElement() == null));
-		displayAdapter = new CustomAdapter(this, ct.getCurrentChildren());
+		Log.w("UpdateHomeView", Boolean.toString(ct.getElement(this) == null));
+		Log.w("UpdateHomeView", ct.getElement(this).toString());
+		Log.w("UpdateHomeView", ct.getChildren(this).toString());
+		displayAdapter = new CustomAdapter(this, ct.getChildren(this));
 		topicListview.setAdapter(displayAdapter);
-		CommentTree.getInstance().getCommentList();
+		CommentTree.getInstance().getCommentList(this);
 		displayAdapter.notifyDataSetChanged();		
 	}
 
 	public ListView getListView()
 	{
 		return topicListview;
+	}
+
+	@Override
+	public UpdateRank getRank() {
+		return rank;
 	}
 }

@@ -19,7 +19,8 @@ public class RootSearchServerTask extends SearchServerTask
 	@Override
 	public String doTask() throws InterruptedException {
 		this.obj = ElasticSearchOperations.retrieveViewable(this, esc.getURL());
-		CommentTree.getInstance().pushToCommentStack((Root)this.obj);
+		final Root newRoot = (Root)this.obj;
+		CommentTree.getInstance().pushToCommentStack(newRoot);
 		hva.runOnUiThread(new Runnable(){
 			@Override
 			public void run()

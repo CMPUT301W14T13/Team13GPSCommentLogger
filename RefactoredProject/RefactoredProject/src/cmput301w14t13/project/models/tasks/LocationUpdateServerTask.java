@@ -1,7 +1,7 @@
 package cmput301w14t13.project.models.tasks;
 
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.services.CommentTreeElementSerializer;
+import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.ElasticSearchOperations;
 
@@ -23,7 +23,7 @@ public class LocationUpdateServerTask extends Task {
 
 	@Override
 	public String doTask() throws InterruptedException {
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
 		String jsonString = gson.toJson(this.getObj().getGPSLocation());

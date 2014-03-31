@@ -79,7 +79,7 @@
 
             android:name="cmput301w14t13.project.views.FavouritesView">
         </activity>
-
+        
     </application>
 
 </manifest>

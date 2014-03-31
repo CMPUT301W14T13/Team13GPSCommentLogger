@@ -20,14 +20,14 @@ public class TaskFactory {
 		return new InitializationServerTask(esc);
 	}
 	
-	public ImageUpdateServerTask getNewImageUpdater(CommentTreeElement obj)
+	public void requestImageUpdate(CommentTreeElement obj)
 	{
-		return new ImageUpdateServerTask(esc, obj);
+		esc.getProxy().saveTask(new ImageUpdateServerTask(esc, obj));
 	}
 	
-	public LocationUpdateServerTask getNewLocationUpdater(CommentTreeElement obj)
+	public void requestLocationUpdate(CommentTreeElement obj)
 	{
-		return new LocationUpdateServerTask(esc, obj);
+		esc.getProxy().saveTask(new LocationUpdateServerTask(esc, obj));
 	}
 
 	public MyFavouritesLocalTask getNewFavouriteBrowser(String searchTerm)
@@ -40,9 +40,9 @@ public class TaskFactory {
 		return new MySavesLocalTask(esc, searchTerm);
 	}
 	
-	public PostNewServerTask getNewPoster(String parentID, CommentTreeElement obj)
+	public void requestPost(String parentID, CommentTreeElement obj)
 	{
-		return new PostNewServerTask(esc, parentID, obj);
+		esc.getProxy().saveTask(new PostNewServerTask(esc, parentID, obj));
 	}
 	
 	public SearchServerTask getNewBrowser(String searchTerm)
@@ -55,9 +55,9 @@ public class TaskFactory {
 		return new RootSearchServerTask(esc, hva);
 	}
 	
-	public TextUpdateServerTask getNewTextUpdater(CommentTreeElement obj)
+	public void requestTextUpdate(CommentTreeElement obj)
 	{
-		return new TextUpdateServerTask(esc, obj);
+		esc.getProxy().saveTask(new TextUpdateServerTask(esc, obj));
 	}
 	
 }

@@ -1,7 +1,8 @@
 package cmput301w14t13.project.models.tasks;
 
+import android.util.Log;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.services.CommentTreeElementSerializer;
+import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.ElasticSearchOperations;
 
@@ -22,7 +23,7 @@ public class ImageUpdateServerTask extends Task {
 
 	@Override
 	public String doTask() throws InterruptedException {	
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
 		String jsonString = gson.toJson(this.getObj().getImage());
@@ -33,6 +34,7 @@ public class ImageUpdateServerTask extends Task {
 		String esID = ElasticSearchOperations.findESIDByID(this, esc.getURL());
 		
 		//next, we update the viewable
+		Log.w("UpdateTest", esID);
 		return ElasticSearchOperations.updateField(esID,this,fieldName,jsonString , esc.getURL());
 	}
 

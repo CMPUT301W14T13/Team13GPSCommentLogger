@@ -3,13 +3,16 @@ package cmput301w14t13.project.controllers;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.tasks.InitializationServerTask;
 import cmput301w14t13.project.models.tasks.RootSearchServerTask;
+import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
+import cmput301w14t13.project.views.TopicView;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -28,10 +31,39 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class HomeViewController implements AsyncProcess{
 
+	private final class OnLinkClickListener implements OnItemClickListener,AsyncProcess {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent viewTopic = new Intent(homeView, TopicView.class);
+			viewTopic.putExtra("updateRank", homeView.getRank().getRank() + 1);
+			CommentTree ct = CommentTree.getInstance();
+			DataStorageService dss = DataStorageService.getInstance();
+			SearchServerTask task = new TaskFactory(dss).getNewBrowser(ct.getChildren(homeView).get(position).getID());
+			try {
+				dss.doTask(this, task);
+				waitForCompletion();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			ct.pushToCommentStack(task.getObj()); //set the current topic the user is opening
+			dss.getProxy().startSaveData(task.getObj());
+			
+			homeView.startActivity(viewTopic);
+		}
+
+		private synchronized void waitForCompletion() throws InterruptedException {
+			wait();			
+		}
+
+		@Override
+		public synchronized void receiveResult(String result) {
+			notify();			
+		}
+	}
+
 	private boolean isBoundToDataService;
 	private ServiceConnection dataServiceConnection;
 	private HomeView homeView;
-	private DataStorageService dataService;
 
 	public HomeViewController(HomeView homeView) {
 		this.homeView = homeView;
@@ -39,38 +71,43 @@ public class HomeViewController implements AsyncProcess{
 	
 	public void init() throws InterruptedException
 	{
+        DataStorageService dss = DataStorageService.getInstance();
+        initialize(dss);
+	}
+
+	public void connect()
+			throws InterruptedException {
+		
+        DataStorageService.getInstance().registerContext(homeView);
+	}
+	
+	public synchronized void bind() throws InterruptedException
+	{
+		initializeDataServiceConnection();
+		initializeLocationService();
+        DataStorageService dss = DataStorageService.getInstance();
+        dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
+        wait();
+	}
+	
+	public void resume() throws InterruptedException
+	{
 		CommentTree ct = CommentTree.getInstance();
         DataStorageService dss = DataStorageService.getInstance();
-        
-		initializeDataServiceConnection();
-		
-		initializeLocationService();
-        
-        //initialize(dss);
-        
 		getRoot(dss);
-		
 		ct.addView(homeView);
-
 		addListListener();
+		ct.updateCommentList(homeView); //updates the topic age in HomeViewActivity for when the user exits this activity
+		homeView.invalidateOptionsMenu();
 	}
 	
 	private void addListListener() {
 		//set up listener for topic clicks, clicking makes you enter the topic
-		homeView.getListView().setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent viewTopic = new Intent(homeView, TopicViewController.class);
-				CommentTree ct = CommentTree.getInstance();
-				ct.pushToCommentStack(ct.getCurrentChildren().get(position)); //set the current topic the user is opening
-
-				homeView.startActivity(viewTopic);
-			}
-		});
+		homeView.getListView().setOnItemClickListener(new OnLinkClickListener());
 	}
 
 	private synchronized void getRoot(DataStorageService dss) throws InterruptedException {
-		RootSearchServerTask task = new TaskFactory(dss).getRoot(homeView);
+		SearchServerTask task = new TaskFactory(dss).getNewBrowser("ROOT");
 		dss.doTask(this, task);
 		wait();
 	}
@@ -79,11 +116,13 @@ public class HomeViewController implements AsyncProcess{
 		InitializationServerTask initTask = new TaskFactory(dss).getNewInitializer();
         dss.doTask(this, initTask);
         wait();
+        dss.getProxy().clearFavourites();
+        dss.getProxy().clearSaves((Root)initTask.getObj());
 	}
 	
 	@Override
 	public synchronized void receiveResult(String result) {
-		notify();		
+		notify();
 	}
 
 	private void initializeLocationService() {
@@ -121,7 +160,7 @@ public class HomeViewController implements AsyncProcess{
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
 		        LocalBinder binder = (LocalBinder) service;
-		        dataService = binder.getService();
+		        binder.getService();
 		        isBoundToDataService = true;
 			}
 		    
@@ -134,6 +173,7 @@ public class HomeViewController implements AsyncProcess{
 	private void createTopic(){
 		Intent topic = new Intent(homeView, CreateSubmissionController.class);
 		topic.putExtra("construct code", 0);
+		topic.putExtra("updateRank", homeView.getRank().getRank());
 		homeView.startActivity(topic);
 	}
 

@@ -48,7 +48,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void fillTopicLayout(){
 		
-		CommentTreeElement currentTopic = CommentTree.getInstance().getCurrentElement();
+		CommentTreeElement currentTopic = CommentTree.getInstance().getElement(topicView);
 		
 		TextView text = (TextView) topicView.findViewById(R.id.topic_username);
 		text.setText(currentTopic.getUsername());
@@ -72,8 +72,8 @@ public class TopicViewController implements AsyncProcess
 		
 		/* show bitmap */
 		ImageView imageView = (ImageView) topicView.findViewById(R.id.commentImage);
-		if (CommentTree.getInstance().getCurrentElement().getHasImage()) {
-			imageView.setImageBitmap(CommentTree.getInstance().getCurrentElement().getImage());
+		if (CommentTree.getInstance().getElement(topicView).getHasImage()) {
+			imageView.setImageBitmap(CommentTree.getInstance().getElement(topicView).getImage());
 		}
 		
 	}
@@ -98,6 +98,7 @@ public class TopicViewController implements AsyncProcess
 		Intent intent = new Intent(topicView, CreateSubmissionController.class);
 		int rowNumber;
 		intent.putExtra("construct code", 1); //construct a comment
+		intent.putExtra("updateRank", topicView.getRank().getRank());
 		
 		 switch (v.getId()) {
 		 
@@ -139,6 +140,7 @@ public class TopicViewController implements AsyncProcess
 	public void edit(View v) throws InterruptedException{
 		
 		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		intent.putExtra("updateRank", topicView.getRank().getRank());
 		int rowNumber;
 		
 				

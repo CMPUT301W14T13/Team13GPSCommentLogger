@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -52,7 +55,7 @@ import android.widget.Toast;
  * @author Austin
  *
  */
-public class CreateSubmissionController extends Activity implements AsyncProcess{
+public class CreateSubmissionController extends RankedHierarchicalActivity implements AsyncProcess, UpdateInterface{
 
 	private String username;
 	private String title;
@@ -235,11 +238,11 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 		cl = CommentTree.getInstance();
 		if (constructCode == 3){ //CheckSubmission needs to check the title
 
-			submission = cl.getCurrentElement();
+			submission = cl.getElement(this);
 			title = submission.getTitle();
 		}
 		else{
-			submission = cl.getCommentList().get(rowNumber);
+			submission = cl.getCommentList(this).get(rowNumber);
 		}
 
 		/*
@@ -288,22 +291,18 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 
 			case(0):  //reply to topic
 				cl.addElementToCurrent(submission);
-				PostNewServerTask task1 = factory.getNewPoster(cl.getCurrentElement().getID(), submission);
-				dss.doTask(this, task1);
-				wait();
+				factory.requestPost(cl.getElement(this).getID(), submission);
 				break;
 
 			case(1): //reply to comment
-				CommentTreeElement parent = cl.getCommentList().get(row);//get the comment being replied to
+				CommentTreeElement parent = cl.getCommentList(this).get(row);//get the comment being replied to
 				submission.setIndentLevel(parent.getIndentLevel() + 1);//set the indent level of the new comment to be 1 more than the one being replied to
 				
 				
 				//TODO: For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
 				if (submission.getIndentLevel() <= 5){
 					parent.addChild(submission);
-					PostNewServerTask task2 = factory.getNewPoster(parent.getID(), submission);
-					dss.doTask(this, task2);
-					wait();
+					factory.requestPost(parent.getID(), submission);
 				}
 	
 				break;
@@ -311,48 +310,36 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 			case(2)://edit topic
 
 				//TODO: no username update support at the moment
-				cl.getCurrentElement().setUsername(submission.getUsername());
-				cl.getCurrentElement().setCommentText(submission.getCommentText());
-				cl.getCurrentElement().setLocation(submission.getGPSLocation());
-				cl.getCurrentElement().setImage(submission.getImage());
-				
+				cl.getElement(this).setUsername(submission.getUsername());
+				cl.getElement(this).setCommentText(submission.getCommentText());
+				cl.getElement(this).setLocation(submission.getGPSLocation());
+				cl.getElement(this).setImage(submission.getImage());
+				Log.w("UpdateTest", cl.getElement(this).getID());
 				//TODO: it wasn't anticipated that more than one field would be set at a time
-				ImageUpdateServerTask task3 = factory.getNewImageUpdater(submission);
-				dss.doTask(this, task3);
-				wait();
-				LocationUpdateServerTask task4 = factory.getNewLocationUpdater(submission);
-				dss.doTask(this, task4);
-				wait();
-				TextUpdateServerTask task5 = factory.getNewTextUpdater(submission);
-				dss.doTask(this, task5);
-				wait();
+				factory.requestImageUpdate(submission);
+				factory.requestLocationUpdate(submission);
+				factory.requestTextUpdate(submission);
 				break;
 
 			case(3): //edit comment
 				
 				//TODO: no username update support at the moment
-				cl.getCommentList().get(row).setUsername(submission.getUsername());
-				cl.getCommentList().get(row).setCommentText(submission.getCommentText());
-				cl.getCommentList().get(row).setGPSLocation(submission.getGPSLocation());
-				cl.getCommentList().get(row).setImage(submission.getImage());
+				cl.getCommentList(this).get(row).setUsername(submission.getUsername());
+				cl.getCommentList(this).get(row).setCommentText(submission.getCommentText());
+				cl.getCommentList(this).get(row).setGPSLocation(submission.getGPSLocation());
+				cl.getCommentList(this).get(row).setImage(submission.getImage());
 				
 				//TODO: it wasn't anticipated that more than one field would be set at a time
-				ImageUpdateServerTask task6 = factory.getNewImageUpdater(submission);
-				dss.doTask(this, task6);
-				wait();
-				LocationUpdateServerTask task7 = factory.getNewLocationUpdater(submission);
-				dss.doTask(this, task7);
-				wait();
-				TextUpdateServerTask task8 = factory.getNewTextUpdater(submission);
-				dss.doTask(this, task8);
-				wait();
+				factory.requestImageUpdate(submission);
+				factory.requestLocationUpdate(submission);
+				factory.requestTextUpdate(submission);
 				break;
 
 			default:
 				Log.d("onActivityResult", "Error adding comment reply");
 			}
 
-			cl.updateCommentList(); //this will update the comment list being displayed to show the new changes
+			cl.updateCommentList(this); //this will update the comment list being displayed to show the new changes
 			finish();
 		}
 	}
@@ -366,7 +353,7 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 	 * @param v the submit button
 	 * @throws InterruptedException 
 	 */
-	public void submitTopic(View v) throws InterruptedException{
+	public synchronized void submitTopic(View v) throws InterruptedException{
 
 		boolean submission_ok;
 
@@ -379,9 +366,7 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 			CommentTree cl = CommentTree.getInstance();
 			cl.addElementToCurrent(submission);
 			DataStorageService dss = DataStorageService.getInstance();
-			PostNewServerTask task = new TaskFactory(dss).getNewPoster("ROOT", submission);
-			dss.doTask(this, task);	
-			wait();	
+			new TaskFactory(dss).requestPost("ROOT", submission);
 			finish();
 		}
 
@@ -476,11 +461,13 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 	private void constructSubmission(){
 
 		//Add a title if a topic is being made
-		if (constructCode == 0 || constructCode == 3){
+		if (constructCode == 0){
 			submission = new Topic();
 			submission.setTitle(title);
-
-
+		}
+		else if(constructCode == 3)
+		{
+			submission = CommentTree.getInstance().getElement(this);
 		}
 		else{
 			submission = new Comment();
@@ -571,6 +558,15 @@ public class CreateSubmissionController extends Activity implements AsyncProcess
 	@Override
 	public synchronized void receiveResult(String result) {
 		notify();		
+	}
+
+	@Override
+	public void update() {
+	}
+
+	@Override
+	public UpdateRank getRank() {
+		return rank;
 	}
 }
 

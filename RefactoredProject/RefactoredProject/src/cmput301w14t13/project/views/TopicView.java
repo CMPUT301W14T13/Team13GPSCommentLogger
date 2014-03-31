@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.adapters.CustomAdapter;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
 import cmput301w14t13.project.controllers.HomeViewController;
 import cmput301w14t13.project.controllers.TopicViewController;
 import cmput301w14t13.project.models.CommentTree;
@@ -39,7 +41,7 @@ import android.widget.ListView;
  * @author Austin
  *
  */
-public class TopicView extends Activity implements UpdateInterface{
+public class TopicView extends RankedHierarchicalActivity implements UpdateInterface{
 	
 	private ListView commentListview;
 	private CommentAdapter adapter; //adapter to display the comments
@@ -93,16 +95,28 @@ public class TopicView extends Activity implements UpdateInterface{
 		}
 	}
 	
+	public void reply(View v) throws InterruptedException{
+		controller.reply(v);
+	}
+	
+	public void edit(View v) throws InterruptedException{
+		controller.edit(v);
+	}
 	
 	@Override
 	public void update()
 	{
         CommentTree cl = CommentTree.getInstance();
-        adapter = new CommentAdapter(this, cl.getCommentList());
+        adapter = new CommentAdapter(this, cl.getCommentList(this));
         commentListview = (ListView) findViewById(R.id.comment_list);
         commentListview.setAdapter(adapter);
 		controller.fillTopicLayout();
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public UpdateRank getRank() {
+		return rank;
 	}
 
 }

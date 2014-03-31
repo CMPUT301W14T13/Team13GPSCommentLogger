@@ -17,6 +17,7 @@ import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.UsernameAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.services.DataStorageService;
 
@@ -136,6 +137,12 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 	public void receiveResult(String result) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public UpdateRank getRank() {
+		return null;
 	}
 
 }

@@ -10,6 +10,7 @@ import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import android.app.Activity;
+import android.util.Log;
 
 /**
  * The model for the entire app to modify. It holds the root which contains the list
@@ -22,7 +23,7 @@ import android.app.Activity;
 public class CommentTree extends ViewList<UpdateInterface> implements AsyncProcess
 {
 	private Stack<CommentTreeElement> stack = new Stack<CommentTreeElement>();
-	private ArrayList<CommentTreeElement> commentListInDisplayOrder = new ArrayList<CommentTreeElement>(); //the comment list to be displayed in a topic
+	private Stack<ArrayList<CommentTreeElement>> commentListsInDisplayOrder = new Stack<ArrayList<CommentTreeElement>>(); 
 	private String currentUsername = "Anonymous";
 	
 	private static final CommentTree Instance = new CommentTree();
@@ -46,13 +47,13 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		return currentUsername;
 	}
 	
-	public ArrayList<CommentTreeElement> getCommentList(){
-		update();
-		return commentListInDisplayOrder;
+	public ArrayList<CommentTreeElement> getCommentList(UpdateInterface updateable){
+		update(updateable);
+		return commentListsInDisplayOrder.elementAt(updateable.getRank().getRank());
 	}
 	
-	public ArrayList<CommentTreeElement> getCurrentChildren(){
-		return stack.peek().getChildren();
+	public ArrayList<CommentTreeElement> getChildren(UpdateInterface updateable){
+		return stack.elementAt(updateable.getRank().getRank()).getChildren();
 	}
 	
 	/**
@@ -69,10 +70,11 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	 * updates the commentList to be displayed in a topic. For each topic child,
 	 * it gets the children all the way down and adds them to the comment list.
 	 */
-	private void update(){
-		commentListInDisplayOrder.clear();
-		for (CommentTreeElement each : getCurrentChildren()){
-			fillTopicChildren(each);
+	private void update(UpdateInterface updateable){
+		int rank = updateable.getRank().getRank();
+		commentListsInDisplayOrder.elementAt(rank).clear();
+		for (CommentTreeElement each : getChildren(updateable)){
+			fillTopicChildren(each,updateable);
 		}
 	}
 	
@@ -87,29 +89,42 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	 * 
 	 * @param comment  the comment whose children are being added
 	 */
-	public void fillTopicChildren(CommentTreeElement comment){
-		commentListInDisplayOrder.add(comment);
+	public void fillTopicChildren(CommentTreeElement comment, UpdateInterface updateable){
+		commentListsInDisplayOrder.elementAt(updateable.getRank().getRank()).add(comment);
 		ArrayList<CommentTreeElement> children = comment.getChildren();
 		for (int i = 0; i < children.size(); i++){
-			fillTopicChildren(children.get(i));
+			fillTopicChildren(children.get(i), updateable);
 		}
 	}
 	
-	public void updateCommentList(){
-		update();
+	public void updateCommentList(UpdateInterface updateable){
+		update(updateable);
 		notifyViews();
 	}
 	
 	public void pushToCommentStack(CommentTreeElement comment)
 	{
 		stack.push(comment);
+		commentListsInDisplayOrder.push(new ArrayList<CommentTreeElement>());
 		notifyViews();
+	}
+	
+	public void popRoot()
+	{
+		stack.pop();
+	}
+	
+	public boolean isEmpty()
+	{
+		return stack.isEmpty();
 	}
 	
 	public synchronized void popFromCommentStack() throws InterruptedException
 	{
 		CommentTreeElement ele = stack.pop();
 		stack.pop();
+		commentListsInDisplayOrder.pop();
+		commentListsInDisplayOrder.pop();
 		SearchServerTask task = new TaskFactory(DataStorageService.getInstance()).getNewBrowser(ele.getID());
 		DataStorageService.getInstance().doTask(this, task);
 		wait();
@@ -121,9 +136,9 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		notify();
 	}
 	
-	public CommentTreeElement getCurrentElement()
+	public CommentTreeElement getElement(UpdateInterface updateable)
 	{
-		return stack.peek();
+		return stack.elementAt(updateable.getRank().getRank());
 	}
 	
 }

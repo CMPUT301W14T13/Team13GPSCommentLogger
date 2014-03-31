@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
 
 public class FavouritesView extends Activity implements UpdateInterface
 {
@@ -20,6 +21,11 @@ public class FavouritesView extends Activity implements UpdateInterface
 	public void update()
 	{
 		// TODO Auto-generated method stub
+	}
+	@Override
+	public UpdateRank getRank() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

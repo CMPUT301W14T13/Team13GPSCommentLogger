@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.CommentTreeProxy;
 import cmput301w14t13.project.models.tasks.Task;
+import cmput301w14t13.project.views.HomeView;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -38,15 +41,29 @@ public class DataStorageService extends Service
 
 	//data manager for local data storage
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
-	private static CommentTreeProxy offlineDataEntity = new CommentTreeProxy(DATA_STORAGE_LOCATION);
+	private static CommentTreeProxy offlineDataEntity = null;
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
 	private static final DataStorageService Instance = new DataStorageService();
 
-	private static CacheProcessor cacheProcessor = new CacheProcessor(offlineDataEntity);
+	private static CacheProcessor cacheProcessor;
 	
 	private DataStorageService()
 	{
-		cacheProcessor.start();
+	}
+	
+	public void registerContext(final HomeView hv)
+	{
+		if(offlineDataEntity == null)
+		{
+			try {
+				offlineDataEntity = new CommentTreeProxy(
+						DATA_STORAGE_LOCATION, hv);
+				cacheProcessor = new CacheProcessor(offlineDataEntity);
+				cacheProcessor.start();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}	
+		}
 	}
 	
 	public static DataStorageService getInstance()

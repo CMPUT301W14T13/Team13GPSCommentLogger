@@ -9,4 +9,5 @@ package cmput301w14t13.project.auxilliary.interfaces;
 
 public interface UpdateInterface {
     public void update();
+    public UpdateRank getRank();
 }
