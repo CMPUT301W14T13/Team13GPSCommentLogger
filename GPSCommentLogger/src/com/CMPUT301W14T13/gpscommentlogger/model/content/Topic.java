@@ -34,58 +34,27 @@ public class Topic extends Viewable
 	public Topic()
 	{
 		super();
-		title = "default title";
-		ID = "default";
-		username = "Anonymous";
-		image = null;
-		timestamp = new Date();
-		freshness = new Date();
-		commentText = ""; 
-		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String ID)
 	{
 		super(ID);
-		title = "default title";
-		username = "Anonymous";
-		image = null;
-		timestamp = new Date();
-		freshness = new Date();
-		commentText = ""; 
-		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String username, boolean cheatingOverloadSignature)
 	{
 		super(username, cheatingOverloadSignature);
-		title = "default title";
-		ID = "default";
-		image = null;
-		timestamp = new Date();
-		freshness = new Date();
-		commentText = ""; 
-		GPSLocation = new Location("default");
 	}
 	
 	public Topic(String ID, String username)
 	{
 		super(ID, username);
-		title = "default title";
-		image = null;
-		timestamp = new Date();
-		freshness = new Date();
-		commentText = ""; 
-		GPSLocation = new Location("default");
 	}
 	
 
 	public Topic(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
 		super(ID, username, picture, timestamp, commentText);
-		title = "default title";
-		freshness = new Date();
-		GPSLocation = new Location("default");
 	}
 
 

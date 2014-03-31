@@ -2,6 +2,7 @@ package com.CMPUT301W14T13.gpscommentlogger.model.content;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import android.graphics.Bitmap;
@@ -26,10 +27,11 @@ public abstract class Viewable {
 	
 	public Viewable()
 	{
-		ID = "default";
+		ID = UUID.randomUUID().toString();
 		title = "initial title";
 		username = "Anonymous";
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -39,15 +41,17 @@ public abstract class Viewable {
 		username = anonymous;
 		title = "initial title";
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
 	public Viewable(String username, boolean cheatingOverloadSignature)
 	{
-		this.ID = "default";
+		ID = UUID.randomUUID().toString();
 		title = "initial title";
 		this.username = username;
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -57,6 +61,7 @@ public abstract class Viewable {
 		title = "initial title";
 		this.username = username;
 		timestamp = new Date();
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 	}
 	
@@ -68,6 +73,7 @@ public abstract class Viewable {
 		this.image = picture;
 		this.timestamp = timestamp;
 		this.commentText = commentText;
+		GPSLocation = new Location("Default");
 		childPosts = new ArrayList<Viewable>();
 		this.hasImage = true;
 	}
