@@ -116,19 +116,15 @@ public class MapViewActivity extends Activity {
 			
 			for(int i=0;i<commentList.size();i++){
 				Viewable comment = commentList.get(i);
-				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
-				int index = setMarker(point);		
+				setMarkerWithInfo(comment);
+				
 			}
-			
 			MapEventsReceiver receiver = new MapEventsReceiver() {
 				int mIndex = markerIndex;
 				@Override
 				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
-					// once the user taps, we remove the old marker and place a new one
-					
 					return true;
 				}
-
 				@Override
 				public boolean longPressHelper(IGeoPoint arg0) {
 					// TODO Auto-generated method stub
@@ -164,6 +160,12 @@ public class MapViewActivity extends Activity {
 		returnPoint = point;
 		return  mapView.getOverlays().indexOf(marker);
 	}
+	public void setMarkerWithInfo(Viewable comment){
+		GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
+		Marker marker = new Marker(mapView);
+		marker.setTitle(comment.getUsername());
+		marker.setPosition(point);
+	}
 
 	protected boolean isRouteDisplayed() {
 		return false;
@@ -183,12 +185,7 @@ public class MapViewActivity extends Activity {
 	public void doneMapThread(){	
 		finish();
 	}
-	@Override
-    public void onDestroy() {
-        super.onDestroy();
-       // CommentLogger cl = CommentLogger.getInstance();
-	}
-        
+
 
 	/**
 	 * This method returns the point that was selected by the user when they chose to 
