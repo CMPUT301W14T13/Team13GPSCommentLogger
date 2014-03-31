@@ -36,7 +36,7 @@ public class SortByLocation extends ActivityInstrumentationTestCase2<HomeViewAct
 
 	public void testSortByLocation() throws InterruptedException{
 
-
+		
 		ArrayList<Viewable> topics = new ArrayList<Viewable>();
 		Topic topic = new Topic();
 		Location originalLocation = LocationSelection.getLocation();
@@ -58,16 +58,12 @@ public class SortByLocation extends ActivityInstrumentationTestCase2<HomeViewAct
 			latitude += 0.1;
 		}
 
+		
+
+	
+		//sort by current location
 		topics = SortFunctions.sortByCurrentLocation(topics);
-
-		for (int i = 0; i < topics.size(); i++){
-			System.out.println(topics.get(i).getTimestamp() + " " + topics.get(i).getGPSLocation().getLatitude() + " " + topics.get(i).getGPSLocation().getLongitude());
-		}
-
-
-
-		//Every topic should be more closer than the ones after it
-
+		
 		for (int j = 0; j < topics.size(); j++){
 
 			if (j != topics.size() - 1){
@@ -79,54 +75,12 @@ public class SortByLocation extends ActivityInstrumentationTestCase2<HomeViewAct
 		}
 
 		
+		//sort by given location
 		Location givenLocation = new Location("default");
-		topics = sortByGivenLocation(topics, givenLocation);
-		for (int j = 0; j < topics.size(); j++){
-
-			if (j != topics.size() - 1){
-				double distance = givenLocation.distanceTo(topics.get(j).getGPSLocation());
-				assertTrue("Comments should be closer than one after it", distance <= givenLocation.distanceTo(topics.get(j+1).getGPSLocation()));
-
-			}
-
-		}
-		
-	}
-
-	public void testSortByGivenLocation() throws InterruptedException{
-
-
-		ArrayList<Viewable> topics = new ArrayList<Viewable>();
-		Topic topic = new Topic();
-		Location givenLocation = new Location("default");
-		Location location = new Location(givenLocation);
-
-		double latitude = 5;
-		double longitude = 57;
-
-
-		for (int i = 0; i <= 5; i++){
-			topic = new Topic();
-			location = new Location(location);
-			location.setLatitude(latitude);
-			location.setLongitude(longitude);
-
-			topic.setGPSLocation(location);
-			topics.add(topic);
-			Thread.sleep(1000);
-			latitude += 0.1;
-		}
-
+		givenLocation.setLatitude(39);
+		givenLocation.setLongitude(104);
 		topics = SortFunctions.sortByGivenLocation(topics, givenLocation);
-
-		for (int i = 0; i < topics.size(); i++){
-			System.out.println(topics.get(i).getTimestamp() + " " + topics.get(i).getGPSLocation().getLatitude() + " " + topics.get(i).getGPSLocation().getLongitude());
-		}
-
-
-
-		//Every topic should be more closer than the ones after it
-
+		
 		for (int j = 0; j < topics.size(); j++){
 
 			if (j != topics.size() - 1){
@@ -136,9 +90,9 @@ public class SortByLocation extends ActivityInstrumentationTestCase2<HomeViewAct
 			}
 
 		}
-
 		
 	}
+
 
 
 }
