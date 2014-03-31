@@ -82,6 +82,7 @@ public class CustomAdapter extends BaseAdapter {
 		}
 		//TODO: look into null return value for getItem
 		if(topic != null)setHomeView(vi, topic);
+		System.out.println(topic.getHasImage());
 		return vi;
 	}
 
