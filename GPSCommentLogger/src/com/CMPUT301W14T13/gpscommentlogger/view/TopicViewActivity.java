@@ -279,6 +279,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>,
 
 	}
 
+	/* Use these methods to configure the comment and topic saving */
 	
 	public void saveComment(View v){
 		
