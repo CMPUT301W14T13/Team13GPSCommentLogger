@@ -119,7 +119,6 @@ public class SortFunctions
 		double closest;
 		double distance;
 		Location location;
-		System.out.println(givenLocation.getLatitude() + " " + givenLocation.getLongitude());
 		while(viewables.size() != 0){
 			position = 0;
 			closest = givenLocation.distanceTo(viewables.get(0).getGPSLocation());
