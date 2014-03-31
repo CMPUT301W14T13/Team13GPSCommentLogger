@@ -240,6 +240,12 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>
 		int tag = (Integer) v.getTag();
 		
 	}
+	/**
+	 * This method opens up MapviewActivity
+	 * to be used to map a thread of all replies to the current topic
+	 * 
+	 * @param v
+	 */
 	public void openMap(View v){
 		Intent map = new Intent(this, MapViewActivity.class);
 		map.putExtra("lat", cl.getCurrentTopic().getGPSLocation().getLatitude()); 
