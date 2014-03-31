@@ -96,8 +96,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>{
         
         ElasticSearchController esc = ElasticSearchController.getInstance();
         
-        InitializationServerTask initTask = new TaskFactory(esc).getNewInitializer();
-        esc.addTask(initTask);
+        //InitializationServerTask initTask = new TaskFactory(esc).getNewInitializer();
+        //esc.addTask(initTask);
 
         try
 		{

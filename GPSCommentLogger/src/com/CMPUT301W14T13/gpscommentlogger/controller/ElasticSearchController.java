@@ -66,14 +66,27 @@ public class ElasticSearchController extends Thread
 
 	public synchronized void addTask(Task task)
 	{
+		Log.w("ESC", "Task added");
 		tasks.add(task);
 		notify();
 	}
 	
 	protected synchronized void doTask() throws InterruptedException
 	{
-		Task currentTask = tasks.remove(0);
-		String result = currentTask.doTask();
+		final Task currentTask = tasks.remove(0);
+		new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				try {
+					String result = currentTask.doTask();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		
 	}
 	
 	public DataManager getDataManager(){
