@@ -6,7 +6,9 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,10 +24,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.CustomAdapter;
+import com.CMPUT301W14T13.gpscommentlogger.NetworkReceiver;
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.SortFunctions;
 import com.CMPUT301W14T13.gpscommentlogger.controller.CommentLoggerController;
@@ -35,7 +40,6 @@ import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
-import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.RootSearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
@@ -58,7 +62,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
 	private LocationSelection locationGetter;
-	
+	private EditText text;
+	private Location location = new Location("default");
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
 	private Menu menu; //A reference to the options menu
@@ -302,9 +307,15 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 			
 		case 1:
 			
-			//sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics);
-			Toast.makeText(getApplicationContext(), "Proximity to Location",
-					Toast.LENGTH_LONG).show();
+				openMap();
+			
+				//locationGetter.startLocationSelection();
+			
+				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
+				Toast.makeText(getApplicationContext(), "Proximity to Location",
+						Toast.LENGTH_LONG).show();
+			
+			
 			break;
 			
 		case 2:
@@ -340,5 +351,67 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		adapter.notifyDataSetChanged();
 		return true;
 	}
+	
+	public void openMap() {
+		if(NetworkReceiver.isConnected){
+			Intent map = new Intent(this, MapViewActivity.class);
+			//Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
+			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
+			map.putExtra("lon", locationGetter.getLocation().getLongitude());
+			map.putExtra("canSetMarker", 1);// for editing  location
+			startActivityForResult(map, 0);  
 
+		} else {
+			// when we are not connected to any network we open a dialog for user to edit dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+			LayoutInflater inflater = getLayoutInflater();
+			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
+			builder.setView(dialogView);
+			AlertDialog ad = builder.create();
+			ad.setTitle("Select Location");
+			ad.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
+					new DialogInterface.OnClickListener()
+					{	
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{  
+							text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
+							double latitude = Double.parseDouble(text.getText().toString().trim());
+							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
+							double longitude = Double.parseDouble(text.getText().toString().trim());
+							location = new Location("default");
+							location.setLatitude(latitude);
+							location.setLongitude(longitude);
+							
+						}
+					});
+
+			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					//do nothing
+				}
+			});
+			ad.show();
+			
+		}
+
+
+		}
+		
+		@SuppressLint("NewApi")
+		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			if (requestCode == 0){
+				if (resultCode == RESULT_OK){
+					double latitude = data.getDoubleExtra("lat", locationGetter.getLocation().getLatitude());
+					double longitude = data.getDoubleExtra("lon", locationGetter.getLocation().getLongitude());
+					location = new Location("default");
+					location.setLongitude(longitude);
+					location.setLatitude(latitude);
+
+				}
+			}
+
+}
 }
