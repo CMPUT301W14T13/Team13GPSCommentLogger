@@ -200,7 +200,7 @@ public class MapViewActivity extends Activity {
 	 * called by Topic View for mapping all the replies to a topic
 	 * 
 	 */
-	public void doneMapThread(){	
+	public void doneMapThread(View v){	
 		finish();
 	}
 
