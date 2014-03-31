@@ -31,13 +31,6 @@ public class FavouritesViewActivity extends Activity implements FView<CommentLog
 
 	}
 
-
-
-
-
-
-
-
 	@Override
 	public void update(CommentLogger model)
 	{
