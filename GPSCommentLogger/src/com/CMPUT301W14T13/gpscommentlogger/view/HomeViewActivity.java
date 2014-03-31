@@ -35,6 +35,7 @@ import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Root;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
+import com.CMPUT301W14T13.gpscommentlogger.model.tasks.InitializationServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.RootSearchServerTask;
 import com.CMPUT301W14T13.gpscommentlogger.model.tasks.TaskFactory;
 
@@ -56,7 +57,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 	private CommentLogger cl; // our model
 	private CustomAdapter adapter; //adapter to display the topics
 	private ArrayList<Viewable> displayedTopics = new ArrayList<Viewable>();
-
+	private LocationSelection locationGetter;
+	
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
 	private Menu menu; //A reference to the options menu
@@ -132,7 +134,8 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
+		locationGetter = new LocationSelection(this);
+		locationGetter.startLocationSelection();
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
 
@@ -291,15 +294,14 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 		
 		switch (itemPosition) {
 		case 0:
-			LocationSelection location = new LocationSelection(this);
-			location.startLocationSelection();
+			
 			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Proximity to Me",
 					Toast.LENGTH_LONG).show();
 			break;
 			
 		case 1:
-			
+			//Location location = locationGetter.getLocation();
 			//sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Proximity to Location",
 					Toast.LENGTH_LONG).show();
@@ -321,7 +323,7 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 			break;
 			
 		case 4:
-			sortedTopics = cl.getTopics();
+			
 			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
 			Toast.makeText(getApplicationContext(), "Oldest",
 					Toast.LENGTH_LONG).show();

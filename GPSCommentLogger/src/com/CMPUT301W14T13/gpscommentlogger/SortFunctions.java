@@ -19,7 +19,7 @@ public class SortFunctions
 
 
 
-		Date newest = viewables.get(0).getTimestamp();
+		Date newest;
 		int position = 0;
 		Date date;
 		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
@@ -100,6 +100,7 @@ public class SortFunctions
 	 */
 	public static ArrayList<Viewable> sortByCurrentLocation(ArrayList<Viewable> viewables) {
 		Location location = LocationSelection.getLocation();
+		LocationSelection.startLocationSelection();
 		return (sortByGivenLocation(viewables, location));
 	}
 
@@ -120,6 +121,7 @@ public class SortFunctions
 		Location location;
 		
 		while(viewables.size() != 0){
+			position = 0;
 			for (int i = 0; i < viewables.size(); i++){
 				location = viewables.get(i).getGPSLocation();	
 				distance = givenLocation.distanceTo(location);
@@ -160,4 +162,32 @@ public class SortFunctions
 		
 		return pictureSortedList;
 		}
+	
+	
+	public static ArrayList<Viewable> sortByMostRelevant(ArrayList<Viewable> viewables){
+		
+		ArrayList<Viewable> orderedArray = sortByCurrentLocation(viewables);
+		ArrayList<Viewable> mostRelevant = new ArrayList<Viewable>();
+		Location location; 
+		
+		Location currentLocation = LocationSelection.getLocation();
+		LocationSelection.startLocationSelection();
+		
+		for (int i = 0; i < orderedArray.size(); i++){
+			
+			location = orderedArray.get(i).getGPSLocation();	
+			
+			//want it to be within 50km
+			if(currentLocation.distanceTo(location) <= 500000){
+				mostRelevant.add(orderedArray.remove(i));
+			}
+			
+		}
+		
+		
+		mostRelevant = sortByNewest(mostRelevant);
+		mostRelevant.addAll(orderedArray);
+		return mostRelevant;
+	}
+	
 	}
