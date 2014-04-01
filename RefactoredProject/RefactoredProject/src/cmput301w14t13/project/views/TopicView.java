@@ -103,6 +103,17 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 		controller.edit(v);
 	}
 	
+	/**
+	 * This method is invoked when the user wishes to save the topic for later viewing. 
+	 * This instructs the topic controller to save the topic to the user's list of favourites.
+	 * 
+	 * @param v The current view of the topic.
+	 * @throws InterruptedException
+	 */
+	public void  saveTopic(View v) throws InterruptedException{
+		controller.saveTopic(v);
+	}
+	
 	@Override
 	public void update()
 	{
@@ -118,5 +129,6 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	public UpdateRank getRank() {
 		return rank;
 	}
+	
 
 }
