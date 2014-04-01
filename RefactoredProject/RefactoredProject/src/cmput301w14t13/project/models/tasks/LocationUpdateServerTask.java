@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.DataStorageService;
@@ -26,7 +27,7 @@ public class LocationUpdateServerTask extends Task {
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
-		String jsonString = gson.toJson(this.getObj().getGPSLocation());
+		String jsonString = new Escaper(false).escapeJsonString(gson.toJson(this.getObj().getGPSLocation()));
 		String fieldName = "GPSLocation";
 
 		//searchTerm should have the viewable's ID
