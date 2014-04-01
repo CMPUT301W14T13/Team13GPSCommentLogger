@@ -1,5 +1,8 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.models.content.Comment;
+import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.DataStorageService;
 
 /**
@@ -9,13 +12,25 @@ import cmput301w14t13.project.services.DataStorageService;
  */
 public class MyFavouritesLocalTask extends Task {
 
-	public MyFavouritesLocalTask(DataStorageService esc, String searchTerm) {
-		super(esc, searchTerm, null);
+	public MyFavouritesLocalTask(DataStorageService esc, CommentTreeElement ele) {
+		super(esc, null, ele);
 	}
 
+	
+	private CommentTreeElement trimTree(CommentTreeElement ele){
+		ele.getChildren().clear();
+		return ele;
+	}
+	
 	@Override
 	public String doTask() {
-		this.obj = this.esc.getProxy().getFavourite(this.searchTerm);
+		if (this.getObj() instanceof Topic){
+			this.obj = trimTree(this.getObj());
+		}
+		else if (this.getObj() instanceof Comment){
+			this.obj = this.esc.getProxy().getTopicOfFavouriteComment(this.getObj());
+		}
+
 		if(this.obj == null)
 		{
 			return "failure";

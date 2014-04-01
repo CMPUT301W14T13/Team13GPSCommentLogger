@@ -183,6 +183,7 @@ public class TopicViewController implements AsyncProcess
 	 * 
 	 * @param v The current View of the object
 	 */
+	/* You will want to append the new topic to the FavouritesModel class you are writing*/
 	public void saveTopic(View v){
 		
 	}

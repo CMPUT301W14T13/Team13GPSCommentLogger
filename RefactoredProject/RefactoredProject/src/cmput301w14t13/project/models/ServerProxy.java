@@ -1,14 +1,9 @@
 package cmput301w14t13.project.models;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
@@ -24,9 +19,7 @@ import android.util.Log;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
-import cmput301w14t13.project.models.tasks.RootSearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
-import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.views.HomeView;
@@ -37,7 +30,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class ServerProxy implements AsyncProcess{
 	private HashMap<String, String> saves;
-	private HashMap<String, String> favourites;
+	private HashMap<CommentTreeElement, String> favourites;
 	private ArrayList<String> usernames;
 	private ArrayList<Task> cachedTasks;
 	private String filepath;
@@ -45,8 +38,9 @@ public class ServerProxy implements AsyncProcess{
 	
 	public ServerProxy(String filepath, HomeView hv) throws InterruptedException
 	{
+		/* id : Json*/
 		saves = new HashMap<String, String>();
-		favourites = new HashMap<String, String>();
+		favourites = new HashMap<CommentTreeElement, String>();
 		usernames = new ArrayList<String>();
 		cachedTasks = new ArrayList<Task>();
 		this.filepath = filepath;
@@ -158,12 +152,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	private void saveFavourite(CommentTreeElement data)
 	{
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
-		this.favourites.put(data.getID(), gson.toJson(data));
-		for(CommentTreeElement each : data.getChildren())
-		{
-			saveFavourite(each);
-		}
+		this.favourites.put(data, CommentTree.getInstance().peek().getID());
 	}
 	
 	public CommentTreeElement getData(String key)
@@ -172,10 +161,38 @@ public class ServerProxy implements AsyncProcess{
 		return gson.fromJson(saves.get(key), CommentTreeElement.class);
 	}
 	
-	public CommentTreeElement getFavourite(String key)
+	/**
+	 * This method is called when a user clicks a comment that they have saved as a favourite. It will then display the Topic along with 
+	 * the single comment that they have marked as a favourite. The comment will be displayed as well as all of its replies..
+	 * 
+	 * @param key The comment that we want to see in the context of the topic it was made within.
+	 * @return
+	 */
+	public CommentTreeElement getTopicOfFavouriteComment(CommentTreeElement key)
 	{
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
-		return gson.fromJson(favourites.get(key), CommentTreeElement.class);
+		String Id = favourites.get(key);
+		CommentTreeElement topic = getData(Id);
+		topic.getChildren().clear();
+		int level = key.getIndentLevel();
+		/* subtract the indent level of the comment by the parents level */
+		this.indentSubtraction(level, key);
+		topic.addChild(key);
+		return topic;
+	}
+	/**
+	 * This method makes sure that when we load a favourited comment to view that it and its children get displayed with the correct
+	 * level of indentation.
+	 * 
+	 * @param level The indentation level of the comment that we are viewing.
+	 * @param comment The favourited comment that we are trying to view. 
+	 */
+	
+	private void indentSubtraction(int level, CommentTreeElement comment){
+		comment.setIndentLevel(comment.getIndentLevel() - level);
+		for(CommentTreeElement child : comment.getChildren()){
+			indentSubtraction(level, child);
+		}
+		
 	}
 	
 	public void clearSaves(Root newRoot)
@@ -197,7 +214,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	public void clearFavourites()
 	{
-		favourites = new HashMap<String, String>();
+		favourites = new HashMap<CommentTreeElement, String>();
 		try {
 			save();
 		} catch (IOException e) {
@@ -207,7 +224,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	public void save() throws IOException
 	{
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		FileOutputStream fw = hv.getApplicationContext().openFileOutput(filepath, Context.MODE_PRIVATE);
 		PrintStream bw = new PrintStream(fw);
 		bw.println(gson.toJson(saves, HashMap.class));
@@ -227,7 +244,7 @@ public class ServerProxy implements AsyncProcess{
 		File f = new File(filepath);
 		if(!f.exists() || f.isDirectory())throw new FileNotFoundException();
 		
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		Type hashmap = new TypeToken<HashMap<String,String>>(){}.getType();
 		
 		StringWriter writer = new StringWriter();
