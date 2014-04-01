@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
@@ -323,7 +325,48 @@ public class CreateSubmissionActivity extends Activity{
 					Log.d("Image Attach", "Image size safe");
 				}
 				else {
-					image = null;
+					 int newWidth = 200;
+
+					    int newHeight = 200; 
+					Bitmap originalImage = image;
+
+	                int width = originalImage.getWidth();
+
+	                Log.i("Old width................", width + "");
+
+	               int height = originalImage.getHeight();
+
+	                Log.i("Old height................", height + "");
+
+	 
+
+	               Matrix matrix = new Matrix(); 
+
+	              float  scaleWidth = ((float) newWidth) / width;
+
+	               float scaleHeight = ((float) newHeight) / height; 
+
+	                matrix.postScale(scaleWidth, scaleHeight);
+
+	                matrix.postRotate(45);
+
+	         
+	               Bitmap resizedBitmap = Bitmap.createBitmap(originalImage, 0, 0, width, height, matrix, true);
+
+	               ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+	                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+
+	                attachButton.setImageBitmap(resizedBitmap);
+
+	                width = resizedBitmap.getWidth();
+
+	                Log.i("new width................", width + "");
+
+	                height = resizedBitmap.getHeight();
+
+	                Log.i("new height................", height + "");
 					Log.d("Image Attach", "Image size unsafe");
 					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
 							Toast.LENGTH_LONG).show();
