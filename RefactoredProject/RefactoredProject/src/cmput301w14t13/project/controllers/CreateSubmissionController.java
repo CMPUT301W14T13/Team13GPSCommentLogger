@@ -135,7 +135,7 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 
 				Log.d("Image Attach", "Image received: " + image.toString());
 				ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
-
+				/*
 				// Check if image satisfies size conditions
 				int imageSize = image.getByteCount();
 				Log.d("Image Attach", "Image size is: " + imageSize);
@@ -150,7 +150,7 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
 							Toast.LENGTH_LONG).show();
 				}
-
+*/
 			}
 		}
 
