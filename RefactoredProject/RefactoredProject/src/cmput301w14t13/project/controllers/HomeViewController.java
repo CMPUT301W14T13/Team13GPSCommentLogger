@@ -119,6 +119,7 @@ public class HomeViewController implements AsyncProcess{
         wait();
         dss.getProxy().clearFavourites();
         dss.getProxy().clearSaves((Root)initTask.getObj());
+        
 	}
 	
 	@Override
