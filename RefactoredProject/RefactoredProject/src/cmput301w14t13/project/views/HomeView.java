@@ -58,8 +58,21 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		try {
 			controller.connect();
 			//controller.init();
-			controller.bind();
+
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		try
+		{
+			controller.bind();
+		} catch (InterruptedException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -85,7 +98,6 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
     public void onDestroy() {
         super.onDestroy();
         CommentTree ct = CommentTree.getInstance();
-		ct.popRoot();
         ct.deleteView(this);
 	}
 	

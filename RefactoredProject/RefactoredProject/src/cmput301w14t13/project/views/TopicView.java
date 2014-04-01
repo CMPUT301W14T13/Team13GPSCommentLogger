@@ -49,22 +49,33 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.topic_view);
-        
-		CommentTree.getInstance().addView(this);
+        setContentView(R.layout.topic_view);  
 	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
+		CommentTree.getInstance().addView(this);
 		update();
+	}
+	
+	@Override 
+	public void onPause()
+	{
+		super.onPause();
+		CommentTree.getInstance().deleteView(this);
 	}
 	
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        CommentTree cl = CommentTree.getInstance();
-        cl.deleteView(this);
+        try
+		{
+			CommentTree.getInstance().popFromCommentStack();
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 	}
         
 	@Override
