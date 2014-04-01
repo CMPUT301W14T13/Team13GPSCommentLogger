@@ -19,7 +19,7 @@ public class SortFunctions
 
 
 
-		Date newest = viewables.get(0).getTimestamp();
+		Date newest;
 		int position = 0;
 		Date date;
 		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
@@ -93,13 +93,14 @@ public class SortFunctions
 	 * comments.
 	 * 
 	 * The function returns a list of ordered comments from
-	 * closes to farthest from current location.
+	 * closest to farthest from current location.
 	 * 
 	 * @param viewables
 	 * @return ArrayList<Viewable>
 	 */
 	public static ArrayList<Viewable> sortByCurrentLocation(ArrayList<Viewable> viewables) {
 		Location location = LocationSelection.getLocation();
+		LocationSelection.startLocationSelection();
 		return (sortByGivenLocation(viewables, location));
 	}
 
@@ -115,15 +116,18 @@ public class SortFunctions
 		
 		ArrayList<Viewable> orderedArray = new ArrayList<Viewable>();
 		int position = 0;
-		double closest = 99999999;
+		double closest;
 		double distance;
 		Location location;
-		
 		while(viewables.size() != 0){
+			position = 0;
+			closest = givenLocation.distanceTo(viewables.get(0).getGPSLocation());
+			
 			for (int i = 0; i < viewables.size(); i++){
 				location = viewables.get(i).getGPSLocation();	
 				distance = givenLocation.distanceTo(location);
-				if(distance < closest){
+				if(distance <= closest){
+					
 					closest = distance;
 					position = i;
 				}
@@ -151,13 +155,76 @@ public class SortFunctions
 	 * @return ArrayList<Viewable>
 	 */
 	public static ArrayList<Viewable> sortByPicture(ArrayList<Viewable> viewables) {
-		ArrayList<Viewable> pictureSortedList = sortByCurrentLocation(viewables); // get location sorted comments in function  
-		for (int i = 0; i < pictureSortedList.size(); i++) {
-			if (pictureSortedList.get(i).getHasImage() == false) {
-				pictureSortedList.remove(i);
+		
+		viewables = sortByCurrentLocation(viewables); // get location sorted comments in function  
+		ArrayList<Viewable> pictures = new ArrayList<Viewable>();
+		ArrayList<Viewable> noPictures = new ArrayList<Viewable>();
+		
+		while (viewables.size() != 0){
+			
+			
+			for (int i = 0; i < viewables.size();){
+
+				if (viewables.get(i).getHasImage()){
+
+					
+					pictures.add(viewables.remove(i));
+				}
+				else{
+					noPictures.add(viewables.remove(i));
+				}
+				
+				
 			}
+
 		}
 		
-		return pictureSortedList;
+		pictures.addAll(noPictures);
+		return pictures;
+	}
+	
+	
+	public static ArrayList<Viewable> sortByMostRelevant(ArrayList<Viewable> viewables){
+		
+		viewables = sortByCurrentLocation(viewables);
+		/*for (int i = 0; i < viewables.size(); i++){
+			System.out.println(viewables.get(i).getTimestamp() + " " + viewables.get(i).getGPSLocation().getLatitude() + " " + viewables.get(i).getGPSLocation().getLongitude());
+		}*/
+		
+		ArrayList<Viewable> mostRelevant = new ArrayList<Viewable>();
+		ArrayList<Viewable> leastRelevant = new ArrayList<Viewable>();
+		Location location; 
+		int position;
+		Location currentLocation = LocationSelection.getLocation();
+		LocationSelection.startLocationSelection();
+		
+		while (viewables.size() != 0){
+			
+		
+			for (int i = 0; i < viewables.size();){
+
+				location = viewables.get(i).getGPSLocation();
+				//System.out.println(currentLocation.distanceTo(location));
+				if (currentLocation.distanceTo(location) <= 50000){
+
+					
+					mostRelevant.add(viewables.remove(i));
+				}
+				else{
+					leastRelevant.add(viewables.remove(i));
+				}
+				
+				
+			}
+
+			
+
 		}
+		
+		//System.out.println(mostRelevant);
+		mostRelevant = sortByNewest(mostRelevant);
+		mostRelevant.addAll(leastRelevant);
+		return mostRelevant;
+	}
+	
 	}

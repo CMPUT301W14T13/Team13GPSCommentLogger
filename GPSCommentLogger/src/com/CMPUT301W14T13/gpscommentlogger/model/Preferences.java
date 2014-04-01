@@ -95,7 +95,7 @@ public class Preferences {
 			Gson gson = new Gson();
 
 			//iterate through the loaded array and add it to the topic array
-            
+
 			Topic topic;	
 			while (line != null) {
 
@@ -138,39 +138,42 @@ public class Preferences {
 		}
 	}
 
+
 	//load the viewables using gson
-		public ArrayList<Comment> loadCommentFile(String file){
+	public ArrayList<Comment> loadCommentFile(String file){
 
-			ArrayList<Comment> comments = new ArrayList<Comment>();
+		ArrayList<Comment> comments = new ArrayList<Comment>();
 
-			try {
-				FileInputStream fis = context.openFileInput(file);
+		try {
+			FileInputStream fis = context.openFileInput(file);
 
-				BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-				String line = reader.readLine();
-				Gson gson = new Gson();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+			String line = reader.readLine();
+			Gson gson = new Gson();
 
-				//iterate through the loaded lines and add it to the comment array
-	            
-				Comment comment;	
-				while (line != null) {
+			//iterate through the loaded lines and add it to the comment array
 
-					comment = gson.fromJson(line, Comment.class);
-					comments.add(comment);
-					line = reader.readLine();
-				}
+			Comment comment;	
+			while (line != null) {
 
-
-				fis.close();
-			} catch (IOException e) {
-
-				e.printStackTrace();
+				comment = gson.fromJson(line, Comment.class);
+				comments.add(comment);
+				line = reader.readLine();
 			}
 
-			return comments;
+
+			fis.close();
+		} catch (IOException e) {
+
+			e.printStackTrace();
 		}
 
+		return comments;
+	}
+
 	//save the viewables using gson
+	
+	/* this needs to be fixed, it is bugged */
 	public void saveInCommentFile(String file, Comment comment) {
 
 

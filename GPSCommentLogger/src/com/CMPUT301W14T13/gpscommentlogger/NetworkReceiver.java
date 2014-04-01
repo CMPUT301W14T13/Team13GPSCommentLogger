@@ -15,7 +15,7 @@ import android.widget.Toast;
  */
 public class NetworkReceiver extends BroadcastReceiver
 {
-	public boolean isConnected = false;
+	public static boolean isConnected = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent)
