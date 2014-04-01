@@ -12,9 +12,17 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.TopicView;
 
+/* This controller simply needs to be able to view the saved topics and comment data. 
+ * I don't think that it should be using any of the server stuff because this must work offline.
+ * 
+ * It seems fairly clear to me that a lot of what CommentTreeProxy can do wants to be done in this
+ * controller. 
+ * 
+ * */
+
 public class FavouritesViewController{
 	private FavouritesView favouritesView;
-
+	
 	public FavouritesViewController(FavouritesView favouritesView) {
 		this.favouritesView = favouritesView;
 	}
@@ -24,6 +32,11 @@ public class FavouritesViewController{
 		favouritesView.getListView().setOnItemClickListener(new OnLinkClickListener());
 	}
 	
+	/* */
+	public void initialize(){
+		
+	
+	}
 	
 	/* I think this click listener will function as desired. It is more or less a straight copy
 	 * of the homeView listener */
@@ -32,6 +45,8 @@ public class FavouritesViewController{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent viewTopic = new Intent(favouritesView, TopicView.class);
 			viewTopic.putExtra("updateRank", favouritesView.getRank().getRank() + 1);
+			
+			/* We will want to switch out some of the below with the new Favourites model (that is to act as a stand in for the CommentTree) */
 			CommentTree ct = CommentTree.getInstance();
 			DataStorageService dss = DataStorageService.getInstance();
 			SearchServerTask task = new TaskFactory(dss).getNewBrowser(ct.getChildren(favouritesView).get(position).getID());
@@ -43,6 +58,10 @@ public class FavouritesViewController{
 			}
 			ct.pushToCommentStack(task.getObj()); //set the current topic the user is opening
 			dss.getProxy().startSaveData(task.getObj());
+			
+			
+			
+			
 			
 			favouritesView.startActivity(viewTopic);
 		}

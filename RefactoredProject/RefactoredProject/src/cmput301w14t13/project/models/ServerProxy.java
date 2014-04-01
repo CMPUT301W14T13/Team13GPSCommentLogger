@@ -35,7 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class CommentTreeProxy implements AsyncProcess{
+public class ServerProxy implements AsyncProcess{
 	private HashMap<String, String> saves;
 	private HashMap<String, String> favourites;
 	private ArrayList<String> usernames;
@@ -43,7 +43,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	private String filepath;
 	private HomeView hv;
 	
-	public CommentTreeProxy(String filepath, HomeView hv) throws InterruptedException
+	public ServerProxy(String filepath, HomeView hv) throws InterruptedException
 	{
 		saves = new HashMap<String, String>();
 		favourites = new HashMap<String, String>();
