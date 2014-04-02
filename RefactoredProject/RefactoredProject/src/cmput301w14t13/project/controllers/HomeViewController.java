@@ -62,7 +62,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 
 	private boolean isBoundToDataService;
-	private ServiceConnection dataServiceConnection;
+	private ServiceConnection dataServiceConnection = null;
 	private HomeView homeView;
 
 	public HomeViewController(HomeView homeView) {
@@ -82,20 +82,21 @@ public class HomeViewController implements AsyncProcess{
         CommentTree.getInstance().registerUIThread(homeView);
 	}
 	
-	public synchronized void bind() throws InterruptedException
+	public void bind() throws InterruptedException
 	{
 		initializeDataServiceConnection();
 		initializeLocationService();
-        DataStorageService dss = DataStorageService.getInstance();
-        dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
-        wait();
 	}
 	
-	public void resume() throws InterruptedException
+	public synchronized void resume() throws InterruptedException
 	{
 		CommentTree ct = CommentTree.getInstance();
         DataStorageService dss = DataStorageService.getInstance();
-		getRoot(dss);
+        if(CommentTree.getInstance().isEmpty())
+        {
+            dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
+            wait();
+        }
 		ct.addView(homeView);
 		addListListener();
 		ct.updateCommentList(homeView); //updates the topic age in HomeViewActivity for when the user exits this activity
@@ -105,12 +106,6 @@ public class HomeViewController implements AsyncProcess{
 	private void addListListener() {
 		//set up listener for topic clicks, clicking makes you enter the topic
 		homeView.getListView().setOnItemClickListener(new OnLinkClickListener());
-	}
-
-	private synchronized void getRoot(DataStorageService dss) throws InterruptedException {
-		SearchServerTask task = new TaskFactory(dss).getNewBrowser("ROOT");
-		dss.doTask(this, task);
-		wait();
 	}
 
 	private synchronized void initialize(DataStorageService dss) throws InterruptedException {
@@ -152,24 +147,27 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	private void initializeDataServiceConnection() {
-		dataServiceConnection = new ServiceConnection() {
-
-			@Override
-		    public void onServiceDisconnected(ComponentName arg0) {
-		    	isBoundToDataService = false;
-		    }
-
-			@Override
-			public void onServiceConnected(ComponentName name, IBinder service) {
-		        LocalBinder binder = (LocalBinder) service;
-		        binder.getService();
-		        isBoundToDataService = true;
-			}
-		    
-		   };
-		   
-        Intent intent = new Intent(homeView, DataStorageService.class);
-        homeView.bindService(intent, dataServiceConnection, Context.BIND_AUTO_CREATE);
+		if(dataServiceConnection == null)
+		{
+			dataServiceConnection = new ServiceConnection() {
+	
+				@Override
+			    public void onServiceDisconnected(ComponentName arg0) {
+			    	isBoundToDataService = false;
+			    }
+	
+				@Override
+				public void onServiceConnected(ComponentName name, IBinder service) {
+			        LocalBinder binder = (LocalBinder) service;
+			        binder.getService();
+			        isBoundToDataService = true;
+				}
+			    
+			   };
+			   
+	        Intent intent = new Intent(homeView, DataStorageService.class);
+	        homeView.bindService(intent, dataServiceConnection, Context.BIND_AUTO_CREATE);
+		}
 	}
 	
 	private void createTopic(){

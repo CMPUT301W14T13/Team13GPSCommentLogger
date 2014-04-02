@@ -216,48 +216,51 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 
 		switch(constructCode){
 
-		case(0): // constructing a new topic
-			setContentView(R.layout.create_topic); //creating a topic
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			EditText text = (EditText) findViewById(R.id.setTopicUsername);
-			text.setText(currentUsername);
-		break;
-
-		case(1): //constructing a new comment
-			setContentView(R.layout.create_comment); //creating a comment
-			text = (EditText) findViewById(R.id.set_comment_username);
-			text.setText(currentUsername);
-			break;
-
-		//These cases are for editing a comment or topic
-		case(2):
-		case(3):
-			setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+			case(0): // constructing a new topic
+				setContentView(R.layout.create_topic); //creating a topic
+				getActionBar().setDisplayHomeAsUpEnabled(true);
+				EditText text = (EditText) findViewById(R.id.setTopicUsername);
+				text.setText(currentUsername);
+				break;
+	
+			case(1): //constructing a new comment
+				setContentView(R.layout.create_comment); //creating a comment
+				text = (EditText) findViewById(R.id.set_comment_username);
+				text.setText(currentUsername);
+				break;
+	
+			//These cases are for editing a comment or topic
+			case(2):
+			case(3):
+				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+			
+			
+				cl = CommentTree.getInstance();
+				if (constructCode == 3){ //CheckSubmission needs to check the title
 		
+					submission = cl.getElement(this);
+					title = submission.getTitle();
+				}
+				else{
+					submission = cl.getCommentList(this).get(rowNumber);
+				}
 		
-		cl = CommentTree.getInstance();
-		if (constructCode == 3){ //CheckSubmission needs to check the title
-
-			submission = cl.getElement(this);
-			title = submission.getTitle();
+				/*
+				 * Set various text fields below from the topic so that they are displayed when editing it
+				 */
+				text = (EditText) findViewById(R.id.set_comment_text);
+				text.setText(submission.getCommentText());
+		
+				text = (EditText) findViewById(R.id.set_comment_username);
+				text.setText(submission.getUsername());
+				extractTextFields();
+		
+				//text = (EditText) findViewById(R.id.coordinates);
+				//text.setText(submission.locationString());
+				break;
+			default:throw new IllegalArgumentException("Illegal ConstructCode");
 		}
-		else{
-			submission = cl.getCommentList(this).get(rowNumber);
-		}
-
-		/*
-		 * Set various text fields below from the topic so that they are displayed when editing it
-		 */
-		text = (EditText) findViewById(R.id.set_comment_text);
-		text.setText(submission.getCommentText());
-
-		text = (EditText) findViewById(R.id.set_comment_username);
-		text.setText(submission.getUsername());
-		extractTextFields();
-
-		//text = (EditText) findViewById(R.id.coordinates);
-		//text.setText(submission.locationString());
-		}
+			
 	}	
 
 	/**
@@ -460,17 +463,25 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 	 */
 	private void constructSubmission(){
 
-		//Add a title if a topic is being made
+		
 		if (constructCode == 0){
+			//Add a title if a NEW TOPIC is being made
 			submission = new Topic();
 			submission.setTitle(title);
 		}
 		else if(constructCode == 3)
 		{
+			//A TOPIC is being EDITED
 			submission = CommentTree.getInstance().getElement(this);
 		}
-		else{
+		else if(constructCode == 1){
+			//A NEW COMMENT is being made
 			submission = new Comment();
+		}
+		else
+		{
+			//else a COMMENT is being EDITED
+			submission = CommentTree.getInstance().getCommentList(this).get(rowNumber);
 		}
 
 		submission.setUsername(username); 

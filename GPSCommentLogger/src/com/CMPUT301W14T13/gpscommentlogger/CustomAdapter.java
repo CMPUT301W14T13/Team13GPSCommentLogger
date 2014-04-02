@@ -123,7 +123,9 @@ public class CustomAdapter extends BaseAdapter {
 		if (topic.getHasImage()) {			
 			imageView.setImageBitmap(topic.getImage());
 		}
-		
+		else{
+			imageView.setImageBitmap(null);
+		}
 	
 	}
 

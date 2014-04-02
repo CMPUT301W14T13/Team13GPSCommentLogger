@@ -96,9 +96,10 @@ public class ElasticSearchOperations {
 			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
+			Log.w("EscapeTest", newJson);
 			String query = "{\"script\" : \"ctx._source.CLASS_DATA." + fieldName + " = field\", " +
 					"\"params\" : {" +
-				        "\"field\" : \""+ new Escaper(false).escapeJsonString(newJson) +"\"" +
+				        "\"field\" : \""+ newJson + "\"" +
 				    "}}";
 			
 			StringEntity stringentity = new StringEntity(query);

@@ -2,6 +2,9 @@ package cmput301w14t13.project.controllers;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
@@ -9,10 +12,13 @@ import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
+import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
+import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;

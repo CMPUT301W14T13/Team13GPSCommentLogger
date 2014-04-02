@@ -27,7 +27,6 @@ public class TextUpdateServerTask extends Task {
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
-		String jsonString = gson.toJson(this.getObj().getCommentText());
 		String fieldName = "commentText";
 		Log.w("UpdateTest", "Test");
 
@@ -37,7 +36,7 @@ public class TextUpdateServerTask extends Task {
 		
 		//next, we update the viewable
 		Log.w("UpdateTest", esID);
-		return ElasticSearchOperations.updateField(esID,this, fieldName,jsonString , esc.getURL());
+		return ElasticSearchOperations.updateField(esID,this, fieldName,this.getObj().getCommentText() , esc.getURL());
 	}
 
 }

@@ -9,6 +9,7 @@ import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.views.HomeView;
 import android.app.Activity;
 import android.util.Log;
 
@@ -127,7 +128,9 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	{
 		stack.pop();
 		CommentTreeElement ele = stack.pop();
+
 		commentListsInDisplayOrder.pop(); /* cached versions of the linearized hierarchy */
+
 		commentListsInDisplayOrder.pop();
 		SearchServerTask task = new TaskFactory(DataStorageService.getInstance()).getNewBrowser(ele.getID());
 		DataStorageService.getInstance().doTask(this, task);

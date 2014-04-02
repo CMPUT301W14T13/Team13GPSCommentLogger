@@ -1,5 +1,6 @@
 package com.CMPUT301W14T13.gpscommentlogger.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,10 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.CMPUT301W14T13.gpscommentlogger.R;
 import com.CMPUT301W14T13.gpscommentlogger.model.CommentLogger;
+import com.CMPUT301W14T13.gpscommentlogger.model.LocationSelection;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Comment;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Topic;
 import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
@@ -62,10 +65,10 @@ public class CreateSubmissionActivity extends Activity{
 	private EditText text;
 	private String currentUsername = "";
 	private int submitCode; //0: Reply to topic, 1: Reply to comment, 2: Edited topic 3: Edited comment
-	private Location gpsLocation;
-	private Location userLocation;
-	private LocationManager lm; 
-	private LocationListener ll;
+	private Location location;
+	LocationSelection locationGetter;
+	
+
 	private static final int REQUEST_CODE = 1;
 	private static final int PICK_FROM_FILE = 2;
 
@@ -79,37 +82,7 @@ public class CreateSubmissionActivity extends Activity{
 		constructCode = getIntent().getIntExtra("construct code", -1);
 		submitCode = getIntent().getIntExtra("submit code", -1);
 
-		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-		ll = new LocationListener() {
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {		
-			}			
-			@Override
-			public void onProviderEnabled(String provider) {			
-			}			
-			@Override
-			public void onProviderDisabled(String provider) {			
-			}			
-			@Override
-			public void onLocationChanged(Location location) {
-				gpsLocation = location;
-				Log.d("locationChange", gpsLocation.toString());
-			}
-		};
-		
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-		gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		
-		/* if you cannot get a GPS fix set the values to : 0,0*/
-		if (gpsLocation == null){
-			gpsLocation = new Location("fake");
-			gpsLocation.setLatitude(0);
-			gpsLocation.setLongitude(0);
-		}
-		userLocation = null;
 		rowNumber = getIntent().getIntExtra("row number", -1);
 		CommentLogger cl = CommentLogger.getInstance();
 
@@ -161,14 +134,10 @@ public class CreateSubmissionActivity extends Activity{
 		//text = (EditText) findViewById(R.id.coordinates);
 		//text.setText(submission.locationString());
 		}
+		
+	locationGetter = new LocationSelection(this);
+	locationGetter.startLocationSelection();
 	}
-
-	@Override
-	protected void onResume(){
-		super.onResume();
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-	}
-
 
 	//extract the information that the user has entered
 	private void extractTextFields(){
@@ -205,7 +174,7 @@ public class CreateSubmissionActivity extends Activity{
 
 	/**
 	 * Constructs the comment/topic to be submitted by checking the
-	 * construct code
+	 * construct code 
 	 */
 	private void constructSubmission(){
 
@@ -222,13 +191,12 @@ public class CreateSubmissionActivity extends Activity{
 
 		submission.setUsername(username); 
 		submission.setCommentText(commentText);
-		if(userLocation == null){
-			submission.setGPSLocation(gpsLocation);
-		} else {
-			submission.setGPSLocation(userLocation);
+		if(location == null){
+			location = locationGetter.getLocation();
 		}
-
-
+		if(location != null){
+			submission.setGPSLocation(location);
+		}
 		//username defaults to Anonymous if left blank
 		if (username.length() == 0){
 			submission.setAnonymous();
@@ -262,10 +230,14 @@ public class CreateSubmissionActivity extends Activity{
 	public void openMap(View view) {
 		if(isOnline()){
 			Intent map = new Intent(this, MapViewActivity.class);
-			map.putExtra("lat", gpsLocation.getLatitude()); 
-			map.putExtra("lon", gpsLocation.getLongitude());
-			startActivityForResult(map, REQUEST_CODE); 
+			//Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
+			map.putExtra("lat", locationGetter.getLocation().getLatitude()); 
+			map.putExtra("lon", locationGetter.getLocation().getLongitude());
+			map.putExtra("canSetMarker", 1);// for editing  location
+			startActivityForResult(map, REQUEST_CODE);  
+
 		} else {
+			// when we are not connected to any network we open a dialog for user to edit dialog
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			LayoutInflater inflater = getLayoutInflater();
@@ -275,20 +247,21 @@ public class CreateSubmissionActivity extends Activity{
 			ad.setTitle("Select Location");
 			ad.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
 					new DialogInterface.OnClickListener()
-			{	
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{  
-					text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
-					double latitude = Double.parseDouble(text.getText().toString().trim());
-					text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
-					double longitude = Double.parseDouble(text.getText().toString().trim());
-					userLocation = new Location(gpsLocation);
-					userLocation.setLatitude(latitude);
-					userLocation.setLongitude(longitude);
+					{	
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{  
+							text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
+							double latitude = Double.parseDouble(text.getText().toString().trim());
+							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
+							double longitude = Double.parseDouble(text.getText().toString().trim());
+							location = new Location("default");
+							location.setLatitude(latitude);
+							location.setLongitude(longitude);
+							
+						}
+					});
 
-				}
-			});
 			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
@@ -314,11 +287,12 @@ public class CreateSubmissionActivity extends Activity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE){
 			if (resultCode == RESULT_OK){
-				double latitude = data.getDoubleExtra("lat", gpsLocation.getLatitude());
-				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
-				userLocation = new Location(gpsLocation);
-				userLocation.setLongitude(longitude);
-				userLocation.setLatitude(latitude);
+				double latitude = data.getDoubleExtra("lat", locationGetter.getLocation().getLatitude());
+				double longitude = data.getDoubleExtra("lon", locationGetter.getLocation().getLongitude());
+				location = new Location("default");
+				location.setLongitude(longitude);
+				location.setLatitude(latitude);
+
 			}
 		}
 
@@ -351,7 +325,48 @@ public class CreateSubmissionActivity extends Activity{
 					Log.d("Image Attach", "Image size safe");
 				}
 				else {
-					image = null;
+					 int newWidth = 200;
+
+					    int newHeight = 200; 
+					Bitmap originalImage = image;
+
+	                int width = originalImage.getWidth();
+
+	                Log.i("Old width................", width + "");
+
+	               int height = originalImage.getHeight();
+
+	                Log.i("Old height................", height + "");
+
+	 
+
+	               Matrix matrix = new Matrix(); 
+
+	              float  scaleWidth = ((float) newWidth) / width;
+
+	               float scaleHeight = ((float) newHeight) / height; 
+
+	                matrix.postScale(scaleWidth, scaleHeight);
+
+	                matrix.postRotate(45);
+
+	         
+	               Bitmap resizedBitmap = Bitmap.createBitmap(originalImage, 0, 0, width, height, matrix, true);
+
+	               ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+	                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+
+	                attachButton.setImageBitmap(resizedBitmap);
+
+	                width = resizedBitmap.getWidth();
+
+	                Log.i("new width................", width + "");
+
+	                height = resizedBitmap.getHeight();
+
+	                Log.i("new height................", height + "");
 					Log.d("Image Attach", "Image size unsafe");
 					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
 							Toast.LENGTH_LONG).show();
@@ -425,7 +440,7 @@ public class CreateSubmissionActivity extends Activity{
 
 				cl.getCurrentTopic().setUsername(submission.getUsername());
 			cl.getCurrentTopic().setCommentText(submission.getCommentText());
-			cl.getCurrentTopic().setLocation(submission.getGPSLocation());
+			cl.getCurrentTopic().setGPSLocation(submission.getGPSLocation());
 			cl.getCurrentTopic().setImage(submission.getImage());
 			break;
 
@@ -532,12 +547,6 @@ public class CreateSubmissionActivity extends Activity{
 		return this.submission;
 	}
 
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-		lm.removeUpdates(ll);
-		lm = null;
-	}
 
 	public boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
