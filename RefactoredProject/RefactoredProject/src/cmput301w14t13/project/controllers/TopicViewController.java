@@ -14,6 +14,7 @@ import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
+import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
 import android.content.Intent;
@@ -47,6 +48,14 @@ public class TopicViewController implements AsyncProcess
 	public void selectUsername(){
 		Intent intent = new Intent(topicView, SelectUsernameController.class);
 		topicView.startActivity(intent);
+	}
+	public void OpenMap(){
+		Intent map = new Intent(topicView, MapViewController.class);
+		map.putExtra("lat", LocationSelection.getInstance().getLocation().getLatitude()); 
+		map.putExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+		map.putExtra("canSetMarker", 0);// for editing  location
+		topicView.startActivity(map);
+
 	}
 	
 	/**

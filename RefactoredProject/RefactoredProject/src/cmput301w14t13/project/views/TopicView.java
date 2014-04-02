@@ -105,7 +105,9 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+	public void openMap(View v){
+		controller.OpenMap();
+	}
 	public void reply(View v) throws InterruptedException{
 		controller.reply(v);
 	}

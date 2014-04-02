@@ -113,7 +113,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapController.setZoom(5);
 			mapController.setCenter(returnPoint);
 			
-			//set topic marker with special icon
+			//set topic marker with special icon 
 			Marker topicMarker = new Marker(mapView);
 			topicMarker.setPosition(returnPoint);
 			topicMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
