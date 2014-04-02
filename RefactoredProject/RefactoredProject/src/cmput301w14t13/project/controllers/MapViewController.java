@@ -66,7 +66,7 @@ public class MapViewController extends Activity {
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
 			setContentView(R.layout.map_edit_location_view);
-			mapView = (MapView) findViewById(R.id.mapview);
+			mapView = (MapView) findViewById(R.id.mapEditView);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
 			mapView.setBuiltInZoomControls(true);
 			mapView.setMultiTouchControls(true);

@@ -34,7 +34,7 @@ public class LocationSelection
 
 	private static LocationListener locationListener;
 	private static LocationManager locationManager; 
-	private static Location gpsLocation;
+	private static Location gpsLocation = new Location("default");
 
 	/**
 	 * Constructor
