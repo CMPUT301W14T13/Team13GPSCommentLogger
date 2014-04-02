@@ -118,6 +118,7 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	public void update()
 	{
         CommentTree cl = CommentTree.getInstance();
+        cl.update(this);
         adapter = new CommentAdapter(this, cl.getCommentList(this));
         commentListview = (ListView) findViewById(R.id.comment_list);
         commentListview.setAdapter(adapter);

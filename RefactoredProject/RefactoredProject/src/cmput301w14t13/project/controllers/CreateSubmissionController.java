@@ -528,6 +528,8 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 			Intent map = new Intent(this, MapViewController.class);
 			map.putExtra("lat", gpsLocation.getLatitude()); 
 			map.putExtra("lon", gpsLocation.getLongitude());
+			map.putExtra("canSetMarker", 1);
+			map.putExtra("updateRank", rank.getRank());
 			startActivityForResult(map, REQUEST_CODE); 
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);

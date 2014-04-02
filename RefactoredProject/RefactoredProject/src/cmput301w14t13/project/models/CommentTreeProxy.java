@@ -20,6 +20,7 @@ import java.util.Scanner;
 import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -27,8 +28,10 @@ import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.tasks.RootSearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.BitmapSerializer;
 import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.TaskSerializer;
 import cmput301w14t13.project.views.HomeView;
 
 import com.google.gson.Gson;
@@ -52,6 +55,7 @@ public class CommentTreeProxy implements AsyncProcess{
 		this.filepath = filepath;
 		this.hv = hv;
 		try {
+			Log.w("DMLoad", "constructor" );
 			load();
 		}
 		catch(FileNotFoundException e)
@@ -73,6 +77,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	{
 		this.usernames.add(newUsername);
 		try {
+			Log.w("DataSaving", "save username" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -83,6 +88,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	{
 		this.usernames.remove(index);
 		try {
+			Log.w("DataSaving", "remove username" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,6 +105,7 @@ public class CommentTreeProxy implements AsyncProcess{
 		this.cachedTasks.add(newTask);
 		DataStorageService.getInstance().getCacheProcessor().alertNew();
 		try {
+			Log.w("DataSaving", "save task" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -109,6 +116,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	{
 		this.cachedTasks.remove(0);
 		try {
+			Log.w("DataSaving", "remove task" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -130,6 +138,7 @@ public class CommentTreeProxy implements AsyncProcess{
 		
 		saveData(data);
 		try {
+			Log.w("DataSaving", "start save data" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -140,6 +149,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	{
 		saveFavourite(data);
 		try {
+			Log.w("DataSaving", "start save favourites" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -183,6 +193,7 @@ public class CommentTreeProxy implements AsyncProcess{
 		saves = new HashMap<String, String>();
 		addNewRoot(newRoot);
 		try {
+			Log.w("DataSaving", "clear saves" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -199,6 +210,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	{
 		favourites = new HashMap<String, String>();
 		try {
+			Log.w("DataSaving", "clear favourites" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -207,7 +219,7 @@ public class CommentTreeProxy implements AsyncProcess{
 	
 	public void save() throws IOException
 	{
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
 		FileOutputStream fw = hv.getApplicationContext().openFileOutput(filepath, Context.MODE_PRIVATE);
 		PrintStream bw = new PrintStream(fw);
 		bw.println(gson.toJson(saves, HashMap.class));
@@ -227,7 +239,7 @@ public class CommentTreeProxy implements AsyncProcess{
 		File f = new File(filepath);
 		if(!f.exists() || f.isDirectory())throw new FileNotFoundException();
 		
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		Type hashmap = new TypeToken<HashMap<String,String>>(){}.getType();
 		
 		StringWriter writer = new StringWriter();

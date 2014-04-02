@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -92,14 +93,7 @@ public class ImageAttachementController extends Activity
 	public Bitmap getBitmap (Uri uri) {
 		try {
 			Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-
-
-
-			// Return bitmap if size is less than 100*1024 bytes
-			if (sizeCheck(bitmap)) {
-				return bitmap;
-			}
-
+			return getResizedBitmap(bitmap, 100, 100);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -112,28 +106,30 @@ public class ImageAttachementController extends Activity
 		Log.w("IMAGE ATTACH", "Image too large");
 		return null;
 	}
+	
 
 	/**
-	 * Method to check size of bitmap, 
 	 * 
+	 * @author http://stackoverflow.com/questions/4837715/how-to-resize-a-bitmap-in-android
 	 * 
-	 * @param image is the image being checked
-	 * @return boolean  true if it's 100 KB or less
+	 * @param bm
+	 * @param newHeight
+	 * @param newWidth
+	 * @return
 	 */
-	@SuppressLint("NewApi")
-	public boolean sizeCheck (Bitmap image) {
-		// Get size in bytes
-		/*
-		int size = image.getByteCount();
-		
-		// Return true if size is less than 100*1024 bytes
-		if (size < 102401) return true;
-		
-		else return false;
-		 */
-		return false;
+
+	public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+	    int width = bm.getWidth();
+	    int height = bm.getHeight();
+	    float scaleWidth = ((float) newWidth) / width;
+	    float scaleHeight = ((float) newHeight) / height;
+	    // CREATE A MATRIX FOR THE MANIPULATION
+	    Matrix matrix = new Matrix();
+	    // RESIZE THE BIT MAP
+	    matrix.postScale(scaleWidth, scaleHeight);
+	
+	    // "RECREATE" THE NEW BITMAP
+	    Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+	    return resizedBitmap;
 	}
-
-
-
 }

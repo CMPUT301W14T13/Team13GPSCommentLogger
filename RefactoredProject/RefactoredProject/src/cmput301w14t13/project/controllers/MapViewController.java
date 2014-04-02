@@ -1,5 +1,7 @@
 package cmput301w14t13.project.controllers;
 
+import java.util.ArrayList;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -10,6 +12,11 @@ import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 
 import cmput301w14t13.project.R;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
+import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.CommentTreeElement;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,37 +43,30 @@ import android.view.View;
  *
  */
 
-public class MapViewController extends Activity {
+public class MapViewController extends RankedHierarchicalActivity implements UpdateInterface{
 
-	public MapController mapController;
-	public MapView mapView;
-	public GeoPoint returnPoint;
-	public int canSetMarker;
+	private MapController mapController;
+	private MapView mapView;
+	private GeoPoint returnPoint;
+	private int canSetMarker;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// problem with this action bar is Mapview has multiple parents
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = getIntent();
-		loadFromIntent(intent);
-
-	}
-	
-
-	public void loadFromIntent(Intent intent) {
 		double lat = intent.getDoubleExtra("lat", 53.5333);
 		double lon = intent.getDoubleExtra("lon",-113.5000);
 		canSetMarker = intent.getIntExtra("canSetMarker", 0);
 
-		returnPoint = new GeoPoint(lat, lon);
+		
 		
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
 			setContentView(R.layout.map_edit_location_view);
-			mapView = (MapView) findViewById(R.id.mapview);
+			returnPoint = new GeoPoint(lat, lon);
+			mapView = (MapView) findViewById(R.id.mapEditView);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
 			mapView.setBuiltInZoomControls(true);
 			mapView.setMultiTouchControls(true);
@@ -99,7 +99,49 @@ public class MapViewController extends Activity {
 
 		}else {
 			// here we implement new requirement of displaying Topic Thread Location
+			setContentView(R.layout.map_thread_view);
+			CommentTree cl = CommentTree.getInstance();
+			//Topic topic = cl.getCurrentTopic();
+			returnPoint  = new GeoPoint(lat,lon);
+			mapView = (MapView) findViewById(R.id.mapThreadView);
+			mapView.setTileSource(TileSourceFactory.MAPNIK);
+			mapView.setBuiltInZoomControls(true);
+			mapView.setMultiTouchControls(true);
+			mapView.setClickable(false);
+			mapController = (MapController) mapView.getController();
+			mapController.setZoom(5);
+			mapController.setCenter(returnPoint);
+			ArrayList<CommentTreeElement> commentList = cl.getChildren(this);
+			final int markerIndex = setMarker(returnPoint);
+			
+			for(int i=0;i<commentList.size();i++){
+				CommentTreeElement comment = commentList.get(i);
+				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
+				int index = setMarker(point);		
+			}
+			
+			MapEventsReceiver receiver = new MapEventsReceiver() {
+				int mIndex = markerIndex;
+				@Override
+				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
+					// once the user taps, we remove the old marker and place a new one
+					
+					return true;
+				}
+
+				@Override
+				public boolean longPressHelper(IGeoPoint arg0) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+			MapEventsOverlay mEvent = new MapEventsOverlay(this, receiver);
+			mapView.getOverlays().add(mEvent);
 		}
+
+
+
+
 	}
 
 	/**
@@ -135,9 +177,18 @@ public class MapViewController extends Activity {
 		Intent result = new Intent();
 		result.putExtra("lat", returnPoint.getLatitude());
 		result.putExtra("lon", returnPoint.getLongitude());
-		setResult(MapViewController.RESULT_OK, result);	
+		setResult(RESULT_OK, result);	
 		finish();
 	}
+	public void doneMapThread(View v){
+		finish();
+	}
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+       // CommentLogger cl = CommentLogger.getInstance();
+	}
+        
 
 	/**
 	 * This method returns the point that was selected by the user when they chose to 
@@ -152,4 +203,15 @@ public class MapViewController extends Activity {
 		return returnPoint;
 	}
 
+	@Override
+	public void update()
+	{
+
+	}
+
+	@Override
+	public UpdateRank getRank()
+	{
+		return rank;
+	}
 }

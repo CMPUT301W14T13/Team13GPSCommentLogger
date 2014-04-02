@@ -413,5 +413,5 @@ public class HomeViewActivity extends Activity implements FView<CommentLogger>, 
 				}
 			}
 
-}
+		}
 }
