@@ -9,6 +9,7 @@ import cmput301w14t13.project.views.HomeView;
  */
 public class TaskFactory {
 
+
 	private DataStorageService esc;
 	
 	public TaskFactory(DataStorageService esc) {

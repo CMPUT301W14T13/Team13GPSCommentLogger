@@ -5,15 +5,16 @@ import cmput301w14t13.project.services.DataStorageService;
 
 
 /**
- * Tasks contain server execution commands
- * (eg. server object request)
- * that are passed to controllers.
+ * Tasks contain server execution commands (eg. server object request) that are passed to controllers.
  */
 
 public abstract class Task
 {
+
 	protected CommentTreeElement obj;
+
 	protected String searchTerm;
+	
 	
 	protected DataStorageService esc;
 	
@@ -24,6 +25,7 @@ public abstract class Task
 		this.esc = esc;
 	}
 	
+
 	public CommentTreeElement getObj() {
 		return obj;
 	}

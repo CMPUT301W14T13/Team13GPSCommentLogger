@@ -5,10 +5,13 @@ import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.ServerProxy;
 import cmput301w14t13.project.models.tasks.Task;
 
+
 public class CacheProcessor extends Thread {
+
 
 	private class CacheTask extends Thread implements AsyncProcess{
 		
+	
 		private CacheProcessor cp;
 		boolean success;
 		public CacheTask(CacheProcessor cp)
@@ -42,6 +45,7 @@ public class CacheProcessor extends Thread {
 		}
 	}
 	
+
 	private ServerProxy offlineDataEntity;
 	private boolean success;
 	

@@ -43,20 +43,19 @@ import android.widget.ListView;
 
 /* this is our main activity */
 /**
- * HomeViewActivity is where the user will see a list of topics and various options
- * like adding a topic, viewing saved comments, and sorting topics. From here the user can
- * click on a topic to enter it and view its comments and/or reply to comments
- *
- * @author Austin
- *
+ * HomeViewActivity is where the user will see a list of topics and various options like adding a topic, viewing saved comments, and sorting topics. From here the user can click on a topic to enter it and view its comments and/or reply to comments
+ * @author  Austin
  */
 public class HomeView extends RankedHierarchicalActivity implements UpdateInterface, OnNavigationListener {
 
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
 	private ListView topicListview;
+
 	private CustomAdapter displayAdapter; //adapter to display the topics
+
 	private Menu menu; //A reference to the options menu
+
 	protected HomeViewController controller = new HomeViewController(this);
 
 	@Override
@@ -134,6 +133,10 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		return (controller.selectOptions(item))?true:super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="menu"
+	 */
 	public Menu getMenu() {
 		return menu;
 	}

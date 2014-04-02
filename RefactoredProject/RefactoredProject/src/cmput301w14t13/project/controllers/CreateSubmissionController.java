@@ -44,16 +44,8 @@ import android.widget.Toast;
 
 
 /**
- * This is where the user can construct a new submission or
- * edit a previous one. This activity uses a construct code which tells it how to
- * build the submission, and a submit code which tells it how to submit the
- * submission. It also uses the CheckSubmission function to check if the
- * submission is a valid one. A valid comment must have comment text and a 
- * valid topic must have comment text and a title. The username will default
- * to "Anonymous" if left empty.
- * 
- * @author Austin
- *
+ * This is where the user can construct a new submission or edit a previous one. This activity uses a construct code which tells it how to build the submission, and a submit code which tells it how to submit the submission. It also uses the CheckSubmission function to check if the submission is a valid one. A valid comment must have comment text and a  valid topic must have comment text and a title. The username will default to "Anonymous" if left empty.
+ * @author  Austin
  */
 public class CreateSubmissionController extends RankedHierarchicalActivity implements AsyncProcess, UpdateInterface{
 
@@ -61,7 +53,9 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 	private String title;
 	private String commentText;
 	private Bitmap image;
+
 	private ImageAttachementController imageAttacher;
+
 	private CommentTreeElement submission;
 	private int constructCode; //0: Creating topic, 1: Creating comment, 2,3: Editing
 	private int rowNumber;

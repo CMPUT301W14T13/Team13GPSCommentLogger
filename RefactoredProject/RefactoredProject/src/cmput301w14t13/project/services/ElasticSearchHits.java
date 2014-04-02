@@ -3,23 +3,21 @@ package cmput301w14t13.project.services;
 import java.util.Collection;
 
 /**
- *  
- * Holder for elastic search
- * results.
- * 
- * @param <T>
+ * Holder for elastic search results.
+ * @param  <T >
  */
 public class ElasticSearchHits<T> {
 	
     int total;
     double max_score;
+
     Collection<ElasticSearchResponse<T>> hits;
     
     /**
-     * Return elastic search results
-     * 
-     * @return Collection<ElasticSearchResponse<T>>
-     */
+	 * Return elastic search results
+	 * @return  Collection<ElasticSearchResponse<T>>
+	 * 
+	 */
     public Collection<ElasticSearchResponse<T>> getHits() {
         return hits;
     }

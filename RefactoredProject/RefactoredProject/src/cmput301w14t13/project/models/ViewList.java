@@ -14,6 +14,7 @@ import cmput301w14t13.project.views.HomeView;
 
 public class ViewList<V extends UpdateInterface> {
     private ArrayList<V> views;
+
 	private HomeView hv = null;
 
     public ViewList() {

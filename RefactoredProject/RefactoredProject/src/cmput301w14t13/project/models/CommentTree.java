@@ -14,19 +14,17 @@ import android.app.Activity;
 import android.util.Log;
 
 /**
- * The model for the entire app to modify. It holds the root which contains the list
- * of topics, a comment list which displays every comment made in a topic, the user's
- * global username, a number which is used to grab topics from root, and adapters for updating the lists.
- * 
- * @author arweber
- *
+ * The model for the entire app to modify. It holds the root which contains the list of topics, a comment list which displays every comment made in a topic, the user's global username, a number which is used to grab topics from root, and adapters for updating the lists.
+ * @author  arweber
  */
 public class CommentTree extends ViewList<UpdateInterface> implements AsyncProcess
 {
 	private Stack<CommentTreeElement> stack = new Stack<CommentTreeElement>();
 	private Stack<ArrayList<CommentTreeElement>> commentListsInDisplayOrder = new Stack<ArrayList<CommentTreeElement>>(); 
+	
 	private String currentUsername = "Anonymous";
 	
+
 	private static final CommentTree Instance = new CommentTree();
 	
 	private CommentTree()
@@ -34,16 +32,19 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		
 	}
 	
+	
 	public static CommentTree getInstance()
 	{
 		return Instance;
 	}
 	
+
 	public void setCurrentUsername(String username){
 		currentUsername = username;
 		notifyViews();
 	}
 	
+
 	public String getCurrentUsername(){
 		return currentUsername;
 	}

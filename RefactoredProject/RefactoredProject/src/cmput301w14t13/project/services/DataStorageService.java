@@ -41,8 +41,10 @@ public class DataStorageService extends Service
 
 	//data manager for local data storage
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
+
 	private static ServerProxy offlineDataEntity = null;
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
+
 	private static final DataStorageService Instance = new DataStorageService();
 
 	private static CacheProcessor cacheProcessor;
@@ -66,6 +68,7 @@ public class DataStorageService extends Service
 		}
 	}
 	
+
 	public static DataStorageService getInstance()
 	{
 		return Instance;

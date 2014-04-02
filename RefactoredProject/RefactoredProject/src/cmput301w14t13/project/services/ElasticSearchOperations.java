@@ -24,7 +24,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+
 public class ElasticSearchOperations {
+
 
 	private static ElasticSearchOperations instance = new ElasticSearchOperations();
 	
