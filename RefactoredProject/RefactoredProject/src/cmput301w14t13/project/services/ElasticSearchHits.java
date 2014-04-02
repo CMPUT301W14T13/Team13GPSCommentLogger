@@ -10,15 +10,13 @@ public class ElasticSearchHits<T> {
 	
     int total;
     double max_score;
-    /**
-	 * @uml.property  name="hits"
-	 */
+
     Collection<ElasticSearchResponse<T>> hits;
     
     /**
 	 * Return elastic search results
 	 * @return  Collection<ElasticSearchResponse<T>>
-	 * @uml.property  name="hits"
+	 * 
 	 */
     public Collection<ElasticSearchResponse<T>> getHits() {
         return hits;

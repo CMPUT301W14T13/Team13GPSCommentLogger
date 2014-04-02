@@ -53,15 +53,9 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 	private String title;
 	private String commentText;
 	private Bitmap image;
-	/**
-	 * @uml.property  name="imageAttacher"
-	 * @uml.associationEnd  
-	 */
+
 	private ImageAttachementController imageAttacher;
-	/**
-	 * @uml.property  name="submission"
-	 * @uml.associationEnd  
-	 */
+
 	private CommentTreeElement submission;
 	private int constructCode; //0: Creating topic, 1: Creating comment, 2,3: Editing
 	private int rowNumber;
@@ -420,10 +414,6 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 
 	}
 
-	/**
-	 * @return
-	 * @uml.property  name="submission"
-	 */
 	public CommentTreeElement getSubmission(){
 		return this.submission;
 	}

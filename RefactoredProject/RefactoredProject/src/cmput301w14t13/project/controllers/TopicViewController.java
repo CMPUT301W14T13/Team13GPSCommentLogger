@@ -34,10 +34,7 @@ import android.widget.TextView;
  */
 public class TopicViewController implements AsyncProcess
 {
-	/**
-	 * @uml.property  name="topicView"
-	 * @uml.associationEnd  
-	 */
+
 	private TopicView topicView;
 
 	public TopicViewController(TopicView topicView) {

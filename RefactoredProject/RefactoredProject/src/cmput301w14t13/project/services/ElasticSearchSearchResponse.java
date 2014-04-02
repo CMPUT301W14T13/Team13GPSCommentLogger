@@ -13,16 +13,10 @@ public class ElasticSearchSearchResponse<T> {
     int took;
     boolean timed_out;
     transient Object _shards;
-    /**
-	 * @uml.property  name="hits"
-	 * @uml.associationEnd  
-	 */
+ 
     ElasticSearchHits<T> hits;
     boolean exists;    
-    /**
-	 * @return
-	 * @uml.property  name="hits"
-	 */
+   
     public Collection<ElasticSearchResponse<T>> getHits() {
         return hits.getHits();        
     }

@@ -31,10 +31,7 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 	private ListView usernameListView;
 	private String currentUsername = "";
 	private TextView text;
-	/**
-	 * @uml.property  name="adapter"
-	 * @uml.associationEnd  
-	 */
+
 	private UsernameAdapter adapter; //adapter to display the usernames
 	
 	protected void onCreate(Bundle savedInstanceState) {

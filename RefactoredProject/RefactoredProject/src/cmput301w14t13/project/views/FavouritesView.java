@@ -74,6 +74,9 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();
+		
+		/* In order to show the topics attach a CustomAdapter */
+		/* We need to be able to show both topics and comments */
 		displayAdapter = new CommentAdapter(this, favouritesTopics);
 		favouritesListview.setAdapter(displayAdapter);
 		displayAdapter.notifyDataSetChanged();		
@@ -89,10 +92,6 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 		this.favouritesListview = listview;
 	}
 	
-	/**
-	 * @return
-	 * @uml.property  name="menu"
-	 */
 	public Menu getMenu() {
 		return menu;
 	}

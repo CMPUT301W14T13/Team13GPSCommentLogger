@@ -11,10 +11,7 @@ import cmput301w14t13.project.views.HomeView;
  */
 public class RootSearchServerTask extends SearchServerTask
 {
-	/**
-	 * @uml.property  name="hva"
-	 * @uml.associationEnd  
-	 */
+
 	private HomeView hva;
 	
 	public RootSearchServerTask(DataStorageService esc, HomeView hva)

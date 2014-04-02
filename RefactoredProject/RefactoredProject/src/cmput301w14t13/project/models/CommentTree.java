@@ -21,15 +21,10 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 {
 	private Stack<CommentTreeElement> stack = new Stack<CommentTreeElement>();
 	private Stack<ArrayList<CommentTreeElement>> commentListsInDisplayOrder = new Stack<ArrayList<CommentTreeElement>>(); 
-	/**
-	 * @uml.property  name="currentUsername"
-	 */
+	
 	private String currentUsername = "Anonymous";
 	
-	/**
-	 * @uml.property  name="instance"
-	 * @uml.associationEnd  
-	 */
+
 	private static final CommentTree Instance = new CommentTree();
 	
 	private CommentTree()
@@ -37,28 +32,19 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		
 	}
 	
-	/**
-	 * @return
-	 * @uml.property  name="instance"
-	 */
+	
 	public static CommentTree getInstance()
 	{
 		return Instance;
 	}
 	
-	/**
-	 * @param username
-	 * @uml.property  name="currentUsername"
-	 */
+
 	public void setCurrentUsername(String username){
 		currentUsername = username;
 		notifyViews();
 	}
 	
-	/**
-	 * @return
-	 * @uml.property  name="currentUsername"
-	 */
+
 	public String getCurrentUsername(){
 		return currentUsername;
 	}

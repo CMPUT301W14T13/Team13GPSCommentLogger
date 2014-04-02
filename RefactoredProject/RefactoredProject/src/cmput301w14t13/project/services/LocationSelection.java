@@ -15,18 +15,13 @@ import android.util.Log;
 public class LocationSelection
 {
 
-	/**
-	 * @uml.property  name="locationListener"
-	 */
+	
 	private LocationListener locationListener;
 	private LocationManager locationManager; 
 	private Location gpsLocation = new Location("default");
 	private Context context;
 
-	/**
-	 * @uml.property  name="instance"
-	 * @uml.associationEnd  
-	 */
+
 	private static final LocationSelection Instance = new LocationSelection();
 	
 	private LocationSelection() {
@@ -38,10 +33,7 @@ public class LocationSelection
 		this.context = context;
 	}
 	
-	/**
-	 * @return
-	 * @uml.property  name="instance"
-	 */
+	
 	public static LocationSelection getInstance()
 	{
 		return Instance;
@@ -150,10 +142,6 @@ public class LocationSelection
 
 	}
 
-	/**
-	 * @return
-	 * @uml.property  name="locationListener"
-	 */
 	public LocationListener getLocationListener(){
 		return locationListener;
 	}

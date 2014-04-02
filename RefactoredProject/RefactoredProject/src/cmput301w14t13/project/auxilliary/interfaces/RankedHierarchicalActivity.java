@@ -6,15 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
-/**
- * @author  mjnichol
- */
 public abstract class RankedHierarchicalActivity extends Activity {
 
-	/**
-	 * @uml.property  name="rank"
-	 * @uml.associationEnd  
-	 */
 	protected UpdateRank rank;
 	
 	@Override

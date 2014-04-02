@@ -44,16 +44,11 @@ import com.google.gson.reflect.TypeToken;
 public class ServerProxy implements AsyncProcess{
 	private HashMap<String, String> saves;
 	private HashMap<CommentTreeElement, String> favourites;
-	/**
-	 * @uml.property  name="usernames"
-	 */
+
 	private ArrayList<String> usernames;
 	private ArrayList<Task> cachedTasks;
 	private String filepath;
-	/**
-	 * @uml.property  name="hv"
-	 * @uml.associationEnd  
-	 */
+
 	private HomeView hv;
 	
 	public ServerProxy(String filepath, HomeView hv) throws InterruptedException
@@ -107,7 +102,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	/**
 	 * @return
-	 * @uml.property  name="usernames"
+	 * 
 	 */
 	public ArrayList<String> getUsernames()
 	{

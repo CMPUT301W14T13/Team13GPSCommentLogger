@@ -9,10 +9,7 @@ import cmput301w14t13.project.views.HomeView;
  */
 public class TaskFactory {
 
-	/**
-	 * @uml.property  name="esc"
-	 * @uml.associationEnd  
-	 */
+
 	private DataStorageService esc;
 	
 	public TaskFactory(DataStorageService esc) {

@@ -34,9 +34,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 
 	private MapController mapController;
 	private MapView mapView;
-	/**
-	 * @uml.property  name="returnPoint"
-	 */
+
 	private GeoPoint returnPoint;
 	private int canSetMarker;
 
@@ -184,7 +182,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 	/**
 	 * This method returns the point that was selected by the user when they chose to  edit their comment or topic location using the interactive map provided. This is currently being used as a way to make an integration test to debug this  MapViewActivity.
 	 * @return  the geopoint that was selected by the current marker on the screen.
-	 * @uml.property  name="returnPoint"
+	 * 
 	 */
 	public GeoPoint getReturnPoint(){
 		return returnPoint;

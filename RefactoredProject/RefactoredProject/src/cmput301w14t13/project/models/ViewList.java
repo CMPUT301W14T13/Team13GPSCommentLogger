@@ -12,15 +12,9 @@ import java.util.ArrayList;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.views.HomeView;
 
-/**
- * @author  mjnichol
- */
 public class ViewList<V extends UpdateInterface> {
     private ArrayList<V> views;
-	/**
-	 * @uml.property  name="hv"
-	 * @uml.associationEnd  
-	 */
+
 	private HomeView hv = null;
 
     public ViewList() {

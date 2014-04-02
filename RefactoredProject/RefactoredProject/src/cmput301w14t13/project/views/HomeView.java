@@ -51,19 +51,11 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
 	private ListView topicListview;
-	/**
-	 * @uml.property  name="displayAdapter"
-	 * @uml.associationEnd  
-	 */
+
 	private CustomAdapter displayAdapter; //adapter to display the topics
-	/**
-	 * @uml.property  name="menu"
-	 */
+
 	private Menu menu; //A reference to the options menu
-	/**
-	 * @uml.property  name="controller"
-	 * @uml.associationEnd  
-	 */
+
 	protected HomeViewController controller = new HomeViewController(this);
 
 	@Override
@@ -77,7 +69,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		try {
 			controller.connect();
 
-			 controller.init();
+			//controller.init();
 			controller.bind();
 			initializeActionBar();
 		} catch (InterruptedException e) {

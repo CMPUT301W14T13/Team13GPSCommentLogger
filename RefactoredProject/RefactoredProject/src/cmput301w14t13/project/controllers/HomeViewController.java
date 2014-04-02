@@ -41,9 +41,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-/**
- * @author  mjnichol
- */
+
 public class HomeViewController implements AsyncProcess{
 
 	private final class OnLinkClickListener implements OnItemClickListener,AsyncProcess {
@@ -78,10 +76,6 @@ public class HomeViewController implements AsyncProcess{
 
 	private boolean isBoundToDataService;
 	private ServiceConnection dataServiceConnection = null;
-	/**
-	 * @uml.property  name="homeView"
-	 * @uml.associationEnd  
-	 */
 	private HomeView homeView;
 	private Location location = new Location("default");
 
