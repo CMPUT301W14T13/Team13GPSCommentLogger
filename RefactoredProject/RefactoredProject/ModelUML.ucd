@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="ModelUML" size="1438,823" id="cmput301w14t13.project.models" metadata="uml2-1.0" initialized="true" tag="1000" key="32303037303533312D31303030205265666163746F72656450726F6A6563742F6D6A6E6963686F6C">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.0 //@children.3/@sourceConnections.1 //@children.1/@sourceConnections.0" name="HomeView" location="255,420" size="184,332" id="cmput301w14t13.project.views/HomeView" runTimeClassModel="onCreateOptionsMenu(Landroid.view.Menu;),getListView(),openMap(),onOptionsItemSelected(Landroid.view.MenuItem;),menu,onStart(),onNavigationItemSelected(IJ),onStop(),onRestoreInstanceState(Landroid.os.Bundle;),getRank(),onDestroy(),update(),setListView(Landroid.widget.ListView;),onResume(),onSaveInstanceState(Landroid.os.Bundle;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="80,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="menu" id="cmput301w14t13.project.views/HomeView#menu"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="161,252">
+      <children xsi:type="editmodel:MethodEditModel" name="getListView" id="cmput301w14t13.project.views/HomeView#getListView()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getRank" id="cmput301w14t13.project.views/HomeView#getRank()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCreateOptionsMenu" id="cmput301w14t13.project.views/HomeView#onCreateOptionsMenu(Landroid.view.Menu;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onDestroy" id="cmput301w14t13.project.views/HomeView#onDestroy()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onNavigationItemSelected" id="cmput301w14t13.project.views/HomeView#onNavigationItemSelected(IJ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onOptionsItemSelected" id="cmput301w14t13.project.views/HomeView#onOptionsItemSelected(Landroid.view.MenuItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onRestoreInstanceState" id="cmput301w14t13.project.views/HomeView#onRestoreInstanceState(Landroid.os.Bundle;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onResume" id="cmput301w14t13.project.views/HomeView#onResume()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onSaveInstanceState" id="cmput301w14t13.project.views/HomeView#onSaveInstanceState(Landroid.os.Bundle;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onStart" id="cmput301w14t13.project.views/HomeView#onStart()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onStop" id="cmput301w14t13.project.views/HomeView#onStop()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="openMap" id="cmput301w14t13.project.views/HomeView#openMap()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setListView" id="cmput301w14t13.project.views/HomeView#setListView(Landroid.widget.ListView;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="cmput301w14t13.project.views/HomeView#update()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="cmput301w14t13.project.views/HomeView@hv+cmput301w14t13.project.models/ViewList@" source="//@children.0" target="//@children.1" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="hv" location="166,0" id="cmput301w14t13.project.views/HomeView@hv+cmput301w14t13.project.models/ViewList@|cmput301w14t13.project.views/HomeView#hv" attachSource="true" multiplicityLabel="//@children.0/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.0/@sourceConnections.0/@children.1/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - hv" location="428,400" size="22,13" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="408,400" size="6,13" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="16,139" id="cmput301w14t13.project.views/HomeView@hv+cmput301w14t13.project.models/ViewList@|cmput301w14t13.project.models/ViewList#"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.views/HomeView->Standard::Call" source="//@children.0" target="//@children.5" targetEnd="//@children.0/@sourceConnections.1/@children.2" label="//@children.0/@sourceConnections.1/@children.0" sourceEnd="//@children.0/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Import»" size="70,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="184,96" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,223"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.5/@sourceConnections.2 //@children.5/@sourceConnections.3 //@children.2/@sourceConnections.0 //@children.0/@sourceConnections.0" name="ViewList" location="405,15" size="140,139" id="cmput301w14t13.project.models/ViewList" runTimeClassModel="notifyViews(),registerUIThread(Lcmput301w14t13.project.views.HomeView;),deleteView(LV;),ViewList(),addView(LV;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="112,90">
+      <children xsi:type="editmodel:MethodEditModel" name="ViewList" id="cmput301w14t13.project.models/ViewList#ViewList()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addView" id="cmput301w14t13.project.models/ViewList#addView(LV;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteView" id="cmput301w14t13.project.models/ViewList#deleteView(LV;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="notifyViews" id="cmput301w14t13.project.models/ViewList#notifyViews()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="registerUIThread" id="cmput301w14t13.project.models/ViewList#registerUIThread(Lcmput301w14t13.project.views.HomeView;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/ViewList->Standard::Call" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Import»" size="70,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="36,139" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="195,10"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="FavouritesModel" location="675,51" size="162,67" id="cmput301w14t13.project.models/FavouritesModel" runTimeClassModel="receiveResult(Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="98,18">
+      <children xsi:type="editmodel:MethodEditModel" name="receiveResult" id="cmput301w14t13.project.models/FavouritesModel#receiveResult(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/FavouritesModel-Standard::Derive->cmput301w14t13.project.models/ViewList" source="//@children.2" target="//@children.1" targetEnd="//@children.2/@sourceConnections.0/@children.2" label="//@children.2/@sourceConnections.0/@children.0" sourceEnd="//@children.2/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Derive»" size="45,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,33" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="140,69"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/FavouritesModel-Soyatec::Implement->cmput301w14t13.project.auxilliary.interfaces/AsyncProcess" source="//@children.2" target="//@children.4" targetEnd="//@children.2/@sourceConnections.1/@children.2" label="//@children.2/@sourceConnections.1/@children.0" sourceEnd="//@children.2/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Implement»" size="66,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="162,28" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,64"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="cmput301w14t13.project.models/ViewList&lt;-cmput301w14t13.project.models/FavouritesModel" source="//@children.2" target="//@children.5/@sourceConnections.3" targetEnd="//@children.2/@sourceConnections.2/@children.1" sourceEnd="//@children.2/@sourceConnections.2/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="81,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="cmput301w14t13.project.auxilliary.interfaces/AsyncProcess&lt;-cmput301w14t13.project.models/FavouritesModel" source="//@children.2" target="//@children.5/@sourceConnections.4" targetEnd="//@children.2/@sourceConnections.3/@children.1" sourceEnd="//@children.2/@sourceConnections.3/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="81,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ServerProxy" location="938,450" size="201,337" id="cmput301w14t13.project.models/ServerProxy" runTimeClassModel="getTopicOfFavouriteComment(Lcmput301w14t13.project.models.content.CommentTreeElement;),ServerProxy(Ljava.lang.String;Lcmput301w14t13.project.views.HomeView;),load(),usernames,getData(Ljava.lang.String;),removeUsername(I),startSaveData(Lcmput301w14t13.project.models.content.CommentTreeElement;),clearSaves(Lcmput301w14t13.project.models.content.Root;),getTasks(),save(),removeTask(),saveUsername(Ljava.lang.String;),startSaveFavourites(Lcmput301w14t13.project.models.content.CommentTreeElement;),receiveResult(Ljava.lang.String;),clearFavourites(),saveTask(Lcmput301w14t13.project.models.tasks.Task;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="169,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="usernames" id="cmput301w14t13.project.models/ServerProxy#usernames"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="178,270">
+      <children xsi:type="editmodel:MethodEditModel" name="ServerProxy" id="cmput301w14t13.project.models/ServerProxy#ServerProxy(Ljava.lang.String;Lcmput301w14t13.project.views.HomeView;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clearFavourites" id="cmput301w14t13.project.models/ServerProxy#clearFavourites()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clearSaves" id="cmput301w14t13.project.models/ServerProxy#clearSaves(Lcmput301w14t13.project.models.content.Root;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getData" id="cmput301w14t13.project.models/ServerProxy#getData(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTasks" id="cmput301w14t13.project.models/ServerProxy#getTasks()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTopicOfFavouriteComment" id="cmput301w14t13.project.models/ServerProxy#getTopicOfFavouriteComment(Lcmput301w14t13.project.models.content.CommentTreeElement;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="load" id="cmput301w14t13.project.models/ServerProxy#load()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="receiveResult" id="cmput301w14t13.project.models/ServerProxy#receiveResult(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeTask" id="cmput301w14t13.project.models/ServerProxy#removeTask()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeUsername" id="cmput301w14t13.project.models/ServerProxy#removeUsername(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="save" id="cmput301w14t13.project.models/ServerProxy#save()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="saveTask" id="cmput301w14t13.project.models/ServerProxy#saveTask(Lcmput301w14t13.project.models.tasks.Task;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="saveUsername" id="cmput301w14t13.project.models/ServerProxy#saveUsername(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="startSaveData" id="cmput301w14t13.project.models/ServerProxy#startSaveData(Lcmput301w14t13.project.models.content.CommentTreeElement;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="startSaveFavourites" id="cmput301w14t13.project.models/ServerProxy#startSaveFavourites(Lcmput301w14t13.project.models.content.CommentTreeElement;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="cmput301w14t13.project.views/HomeView@hv+cmput301w14t13.project.models/ServerProxy@" source="//@children.3" target="//@children.0" targetEnd="//@children.3/@sourceConnections.0/@children.2" label="//@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,150" id="cmput301w14t13.project.views/HomeView@hv+cmput301w14t13.project.models/ServerProxy@|cmput301w14t13.project.models/ServerProxy#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="hv" location="184,180" id="cmput301w14t13.project.views/HomeView@hv+cmput301w14t13.project.models/ServerProxy@|cmput301w14t13.project.views/HomeView#hv" multiplicityLabel="//@children.3/@sourceConnections.0/@children.2/@children.1" roleLabel="//@children.3/@sourceConnections.0/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - hv" location="446,580" size="22,13" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="446,607" size="18,13" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/ServerProxy->Standard::Call" source="//@children.3" target="//@children.0" targetEnd="//@children.3/@sourceConnections.1/@children.2" label="//@children.3/@sourceConnections.1/@children.0" sourceEnd="//@children.3/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call, Import»" size="70,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,154" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="184,210"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/ServerProxy-Standard::Call->cmput301w14t13.project.models/CommentTree" source="//@children.3" target="//@children.5" targetEnd="//@children.3/@sourceConnections.2/@children.2" label="//@children.3/@sourceConnections.2/@children.0" sourceEnd="//@children.3/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call»" size="31,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,80" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="173,237"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/ServerProxy-Soyatec::Implement->cmput301w14t13.project.auxilliary.interfaces/AsyncProcess" source="//@children.3" target="//@children.4" targetEnd="//@children.3/@sourceConnections.3/@children.2" label="//@children.3/@sourceConnections.3/@children.0" sourceEnd="//@children.3/@sourceConnections.3/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Implement»" size="66,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="100,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="123,93"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="cmput301w14t13.project.auxilliary.interfaces/AsyncProcess&lt;-cmput301w14t13.project.models/ServerProxy" source="//@children.3" target="//@children.5/@sourceConnections.4" targetEnd="//@children.3/@sourceConnections.4/@children.1" sourceEnd="//@children.3/@sourceConnections.4/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="100,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.5/@sourceConnections.1 //@children.5/@sourceConnections.4 //@children.2/@sourceConnections.1 //@children.3/@sourceConnections.3" name="AsyncProcess" location="915,15" size="248,93" id="cmput301w14t13.project.auxilliary.interfaces/AsyncProcess" runTimeClassModel="receiveResult(Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="98,18">
+      <children xsi:type="editmodel:MethodEditModel" name="receiveResult" id="cmput301w14t13.project.auxilliary.interfaces/AsyncProcess#receiveResult(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.5/@sourceConnections.0 //@children.3/@sourceConnections.2 //@children.0/@sourceConnections.1" name="CommentTree" location="585,293" size="173,319" id="cmput301w14t13.project.models/CommentTree" runTimeClassModel="update(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;),currentUsername,pushToCommentStack(Lcmput301w14t13.project.models.content.CommentTreeElement;),updateCommentList(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;),getInstance(),popRoot(),getCommentList(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;),getChildren(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;),addElementToCurrent(Lcmput301w14t13.project.models.content.CommentTreeElement;),getElement(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;),isEmpty(),receiveResult(Ljava.lang.String;),addSortedList(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;Ljava.util.ArrayList;),peek(),popFromCommentStack(),fillTopicChildren(Lcmput301w14t13.project.models.content.CommentTreeElement;Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="140,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="currentUsername" id="cmput301w14t13.project.models/CommentTree#currentUsername"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="150,252">
+      <children xsi:type="editmodel:MethodEditModel" name="addElementToCurrent" id="cmput301w14t13.project.models/CommentTree#addElementToCurrent(Lcmput301w14t13.project.models.content.CommentTreeElement;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addSortedList" id="cmput301w14t13.project.models/CommentTree#addSortedList(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;Ljava.util.ArrayList;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fillTopicChildren" id="cmput301w14t13.project.models/CommentTree#fillTopicChildren(Lcmput301w14t13.project.models.content.CommentTreeElement;Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getChildren" id="cmput301w14t13.project.models/CommentTree#getChildren(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getCommentList" id="cmput301w14t13.project.models/CommentTree#getCommentList(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getElement" id="cmput301w14t13.project.models/CommentTree#getElement(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="isEmpty" id="cmput301w14t13.project.models/CommentTree#isEmpty()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="peek" id="cmput301w14t13.project.models/CommentTree#peek()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="popFromCommentStack" id="cmput301w14t13.project.models/CommentTree#popFromCommentStack()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="popRoot" id="cmput301w14t13.project.models/CommentTree#popRoot()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="pushToCommentStack" id="cmput301w14t13.project.models/CommentTree#pushToCommentStack(Lcmput301w14t13.project.models.content.CommentTreeElement;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="receiveResult" id="cmput301w14t13.project.models/CommentTree#receiveResult(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="cmput301w14t13.project.models/CommentTree#update(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="updateCommentList" id="cmput301w14t13.project.models/CommentTree#updateCommentList(Lcmput301w14t13.project.auxilliary.interfaces.UpdateInterface;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="cmput301w14t13.project.models/CommentTree@instance+cmput301w14t13.project.models/CommentTree@" source="//@children.5" target="//@children.5" targetEnd="//@children.5/@sourceConnections.0/@children.2" label="//@children.5/@sourceConnections.0/@children.0" sourceEnd="//@children.5/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="instance" location="0,20" id="cmput301w14t13.project.models/CommentTree@instance+cmput301w14t13.project.models/CommentTree@|cmput301w14t13.project.models/CommentTree#instance" anchorKind="FixedAtEdge" attachSource="true" multiplicityLabel="//@children.5/@sourceConnections.0/@children.1/@children.2" roleLabel="//@children.5/@sourceConnections.0/@children.1/@children.0" orderingLabel="//@children.5/@sourceConnections.0/@children.1/@children.1" scopeKind="1" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - instance" location="526,320" size="52,13" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="{order}" location="540,293" size="38,13" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="572,333" size="6,13" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="20,0" id="cmput301w14t13.project.models/CommentTree@instance+cmput301w14t13.project.models/CommentTree@|cmput301w14t13.project.models/CommentTree#" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/CommentTree-Soyatec::Implement->cmput301w14t13.project.auxilliary.interfaces/AsyncProcess" source="//@children.5" target="//@children.4" targetEnd="//@children.5/@sourceConnections.1/@children.2" label="//@children.5/@sourceConnections.1/@children.0" sourceEnd="//@children.5/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Implement»" size="66,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="173,67" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="80,93"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models/CommentTree-Standard::Derive->cmput301w14t13.project.models/ViewList" source="//@children.5" target="//@children.1" targetEnd="//@children.5/@sourceConnections.2/@children.2" label="//@children.5/@sourceConnections.2/@children.0" sourceEnd="//@children.5/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Derive»" size="45,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="1,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="107,139"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.2/@sourceConnections.2" autoLocated="true" id="cmput301w14t13.project.models/ViewList&lt;-cmput301w14t13.project.models/CommentTree" source="//@children.5" target="//@children.1" targetEnd="//@children.5/@sourceConnections.3/@children.1" sourceEnd="//@children.5/@sourceConnections.3/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="153,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="38,139" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.2/@sourceConnections.3 //@children.3/@sourceConnections.4" autoLocated="true" id="cmput301w14t13.project.auxilliary.interfaces/AsyncProcess&lt;-cmput301w14t13.project.models/CommentTree" source="//@children.5" target="//@children.4" targetEnd="//@children.5/@sourceConnections.4/@children.1" sourceEnd="//@children.5/@sourceConnections.4/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="173,68" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="64,93" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=7;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

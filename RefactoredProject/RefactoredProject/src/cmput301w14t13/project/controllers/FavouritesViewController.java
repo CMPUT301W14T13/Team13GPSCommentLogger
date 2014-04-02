@@ -20,7 +20,14 @@ import cmput301w14t13.project.views.TopicView;
  * 
  * */
 
+/**
+ * @author  mjnichol
+ */
 public class FavouritesViewController{
+	/**
+	 * @uml.property  name="favouritesView"
+	 * @uml.associationEnd  
+	 */
 	private FavouritesView favouritesView;
 	
 	public FavouritesViewController(FavouritesView favouritesView) {

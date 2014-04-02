@@ -22,13 +22,8 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.services.DataStorageService;
 
 /**
- * In this activity, the user can manage their usernames and
- * select their global username to user when creating or
- * editing. The usernames are stored and retrieved using
- * shared preferences.
- * 
- * @author Austin
- *
+ * In this activity, the user can manage their usernames and select their global username to user when creating or editing. The usernames are stored and retrieved using shared preferences.
+ * @author  Austin
  */
 public class SelectUsernameController extends Activity implements UpdateInterface, AsyncProcess{
 
@@ -36,6 +31,10 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 	private ListView usernameListView;
 	private String currentUsername = "";
 	private TextView text;
+	/**
+	 * @uml.property  name="adapter"
+	 * @uml.associationEnd  
+	 */
 	private UsernameAdapter adapter; //adapter to display the usernames
 	
 	protected void onCreate(Bundle savedInstanceState) {

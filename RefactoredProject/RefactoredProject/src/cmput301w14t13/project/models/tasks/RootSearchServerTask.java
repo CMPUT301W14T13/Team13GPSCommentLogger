@@ -6,8 +6,15 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.ElasticSearchOperations;
 import cmput301w14t13.project.views.HomeView;
 
+/**
+ * @author  mjnichol
+ */
 public class RootSearchServerTask extends SearchServerTask
 {
+	/**
+	 * @uml.property  name="hva"
+	 * @uml.associationEnd  
+	 */
 	private HomeView hva;
 	
 	public RootSearchServerTask(DataStorageService esc, HomeView hva)

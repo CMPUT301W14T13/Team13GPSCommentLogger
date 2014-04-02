@@ -16,21 +16,19 @@ import cmput301w14t13.project.auxilliary.tools.Preferences;
 import cmput301w14t13.project.controllers.TopicViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
-import cmput301w14t13.project.models.content.Topic;
+import cmput301w14t13.project.models.content.CommentTreeElement;
 
 /* this is our main activity */
 /**
- * HomeViewActivity is where the user will see a list of topics and various options
- * like adding a topic, viewing saved comments, and sorting topics. From here the user can
- * click on a topic to enter it and view its comments and/or reply to comments
- *
- * @author Austin
- *
+ * HomeViewActivity is where the user will see a list of topics and various options like adding a topic, viewing saved comments, and sorting topics. From here the user can click on a topic to enter it and view its comments and/or reply to comments
+ * @author  Austin
  */
 public class TopicView extends RankedHierarchicalActivity implements UpdateInterface{
 
 	private ListView commentListview;
+
 	private CommentAdapter adapter; //adapter to display the comments
+
 	private TopicViewController controller = new TopicViewController(this);
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,27 +104,30 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	 * @param v The current view of the topic.
 	 * @throws InterruptedException
 	 */
+	
+	/*
 	public void  saveTopic(View v) throws InterruptedException{
 
 		controller.saveTopic(v);
 	}
 
-	/*
+	*/
 	public void saveComment(View v){
+		CommentTree ct = CommentTree.getInstance();
 		Toast.makeText(getApplicationContext(), "Comment Saved!",Toast.LENGTH_SHORT).show();
 		Preferences prefs = new Preferences(getApplicationContext());
-		Comment comment = (Comment) cl.getCommentList().get((Integer) v.getTag());
+		CommentTreeElement comment = (Comment) ct.getCommentList(this).get((Integer) v.getTag());
 		prefs.saveInCommentFile("comments.sav", comment);
 	}
 
 	public void saveTopic(View v){
+		CommentTree ct = CommentTree.getInstance();
 		Toast.makeText(getApplicationContext(), "Topic Saved!",Toast.LENGTH_SHORT).show();
 		Preferences prefs = new Preferences(getApplicationContext());
-		Topic topic = ct.getCurrentTopic();
+		CommentTreeElement topic = ct.getElement(this);
 		prefs.saveInTopicFile("topics.sav", topic);
 		
 	}
-*/
 	@Override
 	public void update()
 	{

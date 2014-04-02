@@ -26,27 +26,17 @@ import android.view.View;
 
 
 /**
- * This Activiy provides the user with a map using OpenStreetMaps for android.
- * 
- * It is used by CreateSubmissionActivity to edit the user's location, which is 
- * done by tapping on the map where you want to set the location, once tapped
- * a marker is placed as a visual aid indicating the current point the user has selected
- * for his comment/Topic.
- * 
- * Once the user has selected a point for his comment they push the SubmitLocation buton
- * which returns the current points latitude and longitude to CreateSubmissionActivity
- * 
- * This class is also used for our new requirement of displaying all the locations in a Topic thread
- * I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
- * 
- * @author navjeetdhaliwal
- *
+ * This Activiy provides the user with a map using OpenStreetMaps for android. It is used by CreateSubmissionActivity to edit the user's location, which is  done by tapping on the map where you want to set the location, once tapped a marker is placed as a visual aid indicating the current point the user has selected for his comment/Topic. Once the user has selected a point for his comment they push the SubmitLocation buton which returns the current points latitude and longitude to CreateSubmissionActivity This class is also used for our new requirement of displaying all the locations in a Topic thread I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
+ * @author  navjeetdhaliwal
  */
 
 public class MapViewController extends RankedHierarchicalActivity implements UpdateInterface{
 
 	private MapController mapController;
 	private MapView mapView;
+	/**
+	 * @uml.property  name="returnPoint"
+	 */
 	private GeoPoint returnPoint;
 	private int canSetMarker;
 
@@ -192,13 +182,9 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
         
 
 	/**
-	 * This method returns the point that was selected by the user when they chose to 
-	 * edit their comment or topic location using the interactive map provided.
-	 * 
-	 * This is currently being used as a way to make an integration test to debug this 
-	 * MapViewActivity.
-	 * 
-	 * @return the geopoint that was selected by the current marker on the screen.
+	 * This method returns the point that was selected by the user when they chose to  edit their comment or topic location using the interactive map provided. This is currently being used as a way to make an integration test to debug this  MapViewActivity.
+	 * @return  the geopoint that was selected by the current marker on the screen.
+	 * @uml.property  name="returnPoint"
 	 */
 	public GeoPoint getReturnPoint(){
 		return returnPoint;

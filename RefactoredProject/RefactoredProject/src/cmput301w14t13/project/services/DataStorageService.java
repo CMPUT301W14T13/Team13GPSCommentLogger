@@ -18,6 +18,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 
+/**
+ * @author  mjnichol
+ */
 public class DataStorageService extends Service
 {
 
@@ -41,10 +44,22 @@ public class DataStorageService extends Service
 
 	//data manager for local data storage
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
+	/**
+	 * @uml.property  name="offlineDataEntity"
+	 * @uml.associationEnd  
+	 */
 	private static ServerProxy offlineDataEntity = null;
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
+	/**
+	 * @uml.property  name="instance"
+	 * @uml.associationEnd  
+	 */
 	private static final DataStorageService Instance = new DataStorageService();
 
+	/**
+	 * @uml.property  name="cacheProcessor"
+	 * @uml.associationEnd  
+	 */
 	private static CacheProcessor cacheProcessor;
 	
 	private DataStorageService()
@@ -66,6 +81,10 @@ public class DataStorageService extends Service
 		}
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="instance"
+	 */
 	public static DataStorageService getInstance()
 	{
 		return Instance;
@@ -93,6 +112,10 @@ public class DataStorageService extends Service
 		return offlineDataEntity;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="cacheProcessor"
+	 */
 	public CacheProcessor getCacheProcessor()
 	{
 		return cacheProcessor;

@@ -29,15 +29,15 @@ import android.widget.TextView;
 
 
 /**
- * TopicViewActivity is where the user can view the topic that they selected
- * from HomeViewActivity. Here they can comment, edit their comments, and
- * select a global username.
- * 
- * @author Austin
- *
+ * TopicViewActivity is where the user can view the topic that they selected from HomeViewActivity. Here they can comment, edit their comments, and select a global username.
+ * @author  Austin
  */
 public class TopicViewController implements AsyncProcess
 {
+	/**
+	 * @uml.property  name="topicView"
+	 * @uml.associationEnd  
+	 */
 	private TopicView topicView;
 
 	public TopicViewController(TopicView topicView) {

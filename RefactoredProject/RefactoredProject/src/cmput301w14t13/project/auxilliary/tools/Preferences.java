@@ -14,7 +14,9 @@ import org.json.JSONException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import cmput301w14t13.project.models.content.Comment;
+import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
 
 import com.google.gson.Gson;
@@ -81,22 +83,26 @@ public class Preferences {
 	}
 
 	//load the viewables using gson
-	public ArrayList<Topic> loadTopicFile(String file){
-
-		ArrayList<Topic> topics = new ArrayList<Topic>();
-
+	public ArrayList<CommentTreeElement> loadTopicFile(String file){
+		Log.d("load_fav","loaded array list");
+		ArrayList<CommentTreeElement> topics = new ArrayList<CommentTreeElement>();
+		Log.d("load_fav","trying");
 		try {
+			Log.d("load_fav","making input stream");
 			FileInputStream fis = context.openFileInput(file);
-
+			Log.d("load_fav","making reader");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+			Log.d("load_fav","getting first line");
 			String line = reader.readLine();
 			Gson gson = new Gson();
 
 			//iterate through the loaded array and add it to the topic array
 
-			Topic topic;	
+			CommentTreeElement topic;	
+			Log.d("load_fav","reading all topics");
 			while (line != null) {
-
+				Log.d("load_fav","looping");
+				Log.d("load_fav", line);
 				topic = gson.fromJson(line, Topic.class);
 				topics.add(topic);
 				line = reader.readLine();
@@ -113,7 +119,7 @@ public class Preferences {
 	}
 
 	//save the viewables using gson
-	public void saveInTopicFile(String file, Topic topic) {
+	public void saveInTopicFile(String file, CommentTreeElement topic) {
 
 
 		try {
@@ -138,9 +144,9 @@ public class Preferences {
 
 
 	//load the viewables using gson
-	public ArrayList<Comment> loadCommentFile(String file){
+	public ArrayList<CommentTreeElement> loadCommentFile(String file){
 
-		ArrayList<Comment> comments = new ArrayList<Comment>();
+		ArrayList<CommentTreeElement> comments = new ArrayList<CommentTreeElement>();
 
 		try {
 			FileInputStream fis = context.openFileInput(file);
@@ -151,7 +157,7 @@ public class Preferences {
 
 			//iterate through the loaded lines and add it to the comment array
 
-			Comment comment;	
+			CommentTreeElement comment;	
 			while (line != null) {
 
 				comment = gson.fromJson(line, Comment.class);
@@ -172,7 +178,7 @@ public class Preferences {
 	//save the viewables using gson
 	
 	/* this needs to be fixed, it is bugged */
-	public void saveInCommentFile(String file, Comment comment) {
+	public void saveInCommentFile(String file, CommentTreeElement comment) {
 
 
 		try {

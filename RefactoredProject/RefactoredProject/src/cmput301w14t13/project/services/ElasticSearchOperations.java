@@ -24,14 +24,25 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * @author  mjnichol
+ */
 public class ElasticSearchOperations {
 
+	/**
+	 * @uml.property  name="instance"
+	 * @uml.associationEnd  
+	 */
 	private static ElasticSearchOperations instance = new ElasticSearchOperations();
 	
 	private ElasticSearchOperations() {
 		
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="instance"
+	 */
 	public ElasticSearchOperations getInstance()
 	{
 		return instance;
