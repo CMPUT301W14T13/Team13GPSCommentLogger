@@ -205,7 +205,8 @@ public abstract class Viewable {
 	 * @return A boolean of true if the Viewable has an image and false if it does not.
 	 */
 	public boolean getHasImage(){
-		return this.hasImage;
+		if (this.image!=null) return true;
+		else return false;
 	}
 	
 	/**

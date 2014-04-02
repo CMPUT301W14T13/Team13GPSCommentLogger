@@ -351,10 +351,13 @@ public class CreateSubmissionActivity extends Activity{
 					Log.d("Image Attach", "Image size safe");
 				}
 				else {
-					image = null;
-					Log.d("Image Attach", "Image size unsafe");
-					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
-							Toast.LENGTH_LONG).show();
+
+					//image = null;
+					Log.d("Image Attach", "Image size too big. Resizing.");
+					
+					// Resize Image Here					
+					Toast.makeText(getApplicationContext(), "Image Resized",
+							//Toast.LENGTH_LONG).show();
 				}
 
 			}
@@ -547,7 +550,6 @@ public class CreateSubmissionActivity extends Activity{
 		}
 		return false;
 	}
-
 }
 
 

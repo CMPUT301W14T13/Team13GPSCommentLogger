@@ -8,6 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/commentImage"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_margin="10dp" />
+        </TableRow>
+
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
@@ -98,14 +107,7 @@
             
         </TableRow>
 
-        <TableRow>
-
-            <ImageView
-                android:id="@+id/commentImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
-        </TableRow>
+        
 
         <TableRow
             android:id="@+id/tableRow2"

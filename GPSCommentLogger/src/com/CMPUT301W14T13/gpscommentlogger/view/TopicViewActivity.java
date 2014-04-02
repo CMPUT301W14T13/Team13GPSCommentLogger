@@ -8,6 +8,7 @@ import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -166,6 +167,7 @@ public class TopicViewActivity extends Activity implements FView<CommentLogger>,
 		/* show bitmap */
 		ImageView imageView = (ImageView) findViewById(R.id.commentImage);
 		if (cl.getCurrentTopic().getHasImage()) {
+			Log.d("Image View", cl.getCurrentTopic().getImage().toString());
 			imageView.setImageBitmap(cl.getCurrentTopic().getImage());
 		}
 

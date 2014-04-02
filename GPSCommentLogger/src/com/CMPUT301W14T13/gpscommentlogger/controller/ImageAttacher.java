@@ -30,6 +30,8 @@ import android.widget.Toast;
  * 
  * The code insures that returned images
  * don't surpass the 100 KB size requirement.
+ * 
+ * If an image surpasses 100 KB, it is resized.
  *   
  * @author Monir Imamverdi
  */
@@ -108,9 +110,9 @@ public class ImageAttacher extends Activity
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
-				   Toast.LENGTH_LONG).show();
+				Toast.LENGTH_LONG).show();
 		Log.w("IMAGE ATTACH", "Image too large");
 		return null;
 	}
@@ -126,11 +128,42 @@ public class ImageAttacher extends Activity
 	public boolean sizeCheck (Bitmap image) {
 		// Get size in bytes
 		int size = image.getByteCount();
-		
+
 		// Return true if size is less than 100*1024 bytes
 		if (size < 102401) return true;
 		else return false;
 
+	}
+
+	/**
+	 * If image size is greater than 100 KB,
+	 * this function is called to resize the image
+	 * to 100 KB or less.
+	 * 
+	 * This function only deals images after 
+	 * they are imported into a bitmap object.
+	 */
+
+	public static Bitmap resizeImage (Bitmap image) {
+		// Set width/height requirements
+		int maxSize = 102401;
+
+		int width = image.getWidth();
+		int height = image.getHeight();
+
+		float bitmapRatio = (float) width / (float) height;
+
+		// Handle portrait and landscape images
+		if (bitmapRatio > 0) {
+			width = maxSize;
+			height = (int) (width / bitmapRatio);
+		}
+		else {
+			height = maxSize;
+			width = (int) (width * bitmapRatio);	
+		}
+		
+		return Bitmap.createScaledBitmap(image, width, height, true);
 	}
 
 
