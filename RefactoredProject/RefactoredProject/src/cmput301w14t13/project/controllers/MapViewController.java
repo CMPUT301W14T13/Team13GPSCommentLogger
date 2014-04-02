@@ -11,18 +11,18 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
+import cmput301w14t13.project.models.content.Topic;
+import cmput301w14t13.project.views.TopicView;
 
 
 /**
@@ -101,7 +101,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 		}else {
 			// here we implement new requirement of displaying Topic Thread Location
 			setContentView(R.layout.map_thread_view);
-			CommentTree cl = CommentTree.getInstance();
+			CommentTree commentTree = CommentTree.getInstance();
 			//Topic topic = cl.getCurrentTopic();
 			returnPoint  = new GeoPoint(lat,lon);
 			mapView = (MapView) findViewById(R.id.mapThreadView);
@@ -113,7 +113,8 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapController.setZoom(5);
 			mapController.setCenter(returnPoint);
 			
-			//set topic marker with special icon 
+			//set topic marker with special icon
+			
 			Marker topicMarker = new Marker(mapView);
 			topicMarker.setPosition(returnPoint);
 			topicMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
@@ -121,12 +122,11 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapView.getOverlays().add(topicMarker);
 			mapView.invalidate();
 			
-			ArrayList<CommentTreeElement> commentList = cl.getChildren(this);
-			
-			for(int i=0;i<commentList.size();i++){
-				CommentTreeElement comment = commentList.get(i);
+			ArrayList<CommentTreeElement> commentList = commentTree.getCommentList(this);
+			for(int i=1;i<commentList.size();i++){
+				CommentTreeElement comment = commentList.get(i);			
 				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
-				setMarker(point);		
+				setMarker(point);
 			}
 			
 			MapEventsReceiver receiver = new MapEventsReceiver() {

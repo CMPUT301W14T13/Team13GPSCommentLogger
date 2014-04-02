@@ -49,10 +49,13 @@ public class TopicViewController implements AsyncProcess
 		Intent intent = new Intent(topicView, SelectUsernameController.class);
 		topicView.startActivity(intent);
 	}
+	
 	public void OpenMap(){
+		CommentTree commentTree = CommentTree.getInstance();
+		CommentTreeElement topic = commentTree.getElement(topicView);
 		Intent map = new Intent(topicView, MapViewController.class);
-		map.putExtra("lat", LocationSelection.getInstance().getLocation().getLatitude()); 
-		map.putExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+		map.putExtra("lat", topic.getGPSLocation().getLatitude()); 
+		map.putExtra("lon", topic.getGPSLocation().getLongitude());
 		map.putExtra("canSetMarker", 0);// for editing  location
 		topicView.startActivity(map);
 
