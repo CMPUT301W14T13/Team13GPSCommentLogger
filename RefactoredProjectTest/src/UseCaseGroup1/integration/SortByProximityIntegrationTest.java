@@ -1,4 +1,4 @@
-package UseCaseGroup1;
+package usecasegroup1.integration;
 
 
 import java.util.ArrayList;
@@ -10,22 +10,23 @@ import android.content.Intent;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
+import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
-public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase2<HomeView> {
+public class SortByProximityIntegrationTest extends ActivityInstrumentationTestCase2<HomeView> {
 
 
 	HomeView activity;
 	
-	public SortCommentsByProximityTest() {
+	public SortByProximityIntegrationTest() {
 		super(HomeView.class);
 	}
 
-	@Before
+	
 	public void setUp(){
 		
 		Intent intent = new Intent();
@@ -34,33 +35,12 @@ public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase
 		
 	}
 
-	public void testSortByLocation() throws InterruptedException{
+	public void testSortByCurrentLocation(){
 
 		
-		ArrayList<CommentTreeElement> topics = new ArrayList<CommentTreeElement>();
-		Topic topic = new Topic();
+		ArrayList<CommentTreeElement> topics = CommentTree.getInstance().getChildren(activity);
 		Location originalLocation = LocationSelection.getInstance().getLocation();
-		Location location = new Location(originalLocation);
 
-		double latitude = 53.4;
-		double longitude = -113;
-
-
-		for (int i = 0; i <= 5; i++){
-			topic = new Topic();
-			location = new Location(location);
-			location.setLatitude(latitude);
-			location.setLongitude(longitude);
-
-			topic.setGPSLocation(location);
-			topics.add(topic);
-			latitude += 0.1;
-		}
-
-		
-
-	
-		//sort by current location
 		topics = SortFunctions.sortByCurrentLocation(topics);
 		
 		for (int j = 0; j < topics.size(); j++){
@@ -73,11 +53,18 @@ public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase
 
 		}
 
+	}
+
+
+	public void sortByGivenLocation(){
 		
-		//sort by given location
+		//TODO Have this test use the map UI
+		
+		ArrayList<CommentTreeElement> topics = CommentTree.getInstance().getChildren(activity);	
 		Location givenLocation = new Location("default");
 		givenLocation.setLatitude(39);
 		givenLocation.setLongitude(104);
+		
 		topics = SortFunctions.sortByGivenLocation(topics, givenLocation);
 		
 		for (int j = 0; j < topics.size(); j++){
@@ -89,9 +76,6 @@ public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase
 			}
 
 		}
-		
 	}
-
-
-
+	
 }

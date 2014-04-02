@@ -1,4 +1,4 @@
-package UseCaseGroup1;
+package usecasegroup1.unit;
 
 import java.util.ArrayList;
 
@@ -12,10 +12,10 @@ import cmput301w14t13.project.views.HomeView;
 
 
 @SuppressLint("NewApi")
-public class SortCommentsByTimeTest extends ActivityInstrumentationTestCase2<HomeView> {
+public class SortByTimeUnitTest extends ActivityInstrumentationTestCase2<HomeView> {
 
 
-	public SortCommentsByTimeTest() {
+	public SortByTimeUnitTest() {
 		super(HomeView.class);
 	}
 
@@ -40,13 +40,12 @@ public class SortCommentsByTimeTest extends ActivityInstrumentationTestCase2<Hom
 
 		//Every topic should be newer than the ones after it
 		for (int i = 0; i < topics.size(); i++){
-			for (int j = i; j < topics.size(); j++){
 
-				if (j != topics.size() - 1 && j != i){
-					assertTrue("Comments should be sorted from newest to oldest", topics.get(i).getTimestamp().after(topics.get(j).getTimestamp()));
-				}
-
+			if (i != topics.size() - 1){
+				assertTrue("Comments should be sorted from newest to oldest", topics.get(i).getTimestamp().after(topics.get(i+1).getTimestamp()));
 			}
+
+
 		}
 	}
 
@@ -69,13 +68,12 @@ public class SortCommentsByTimeTest extends ActivityInstrumentationTestCase2<Hom
 
 		//Every topic should be older than the ones after it
 		for (int i = 0; i < topics.size(); i++){
-			for (int j = i; j < topics.size(); j++){
 
-				if (j != topics.size() - 1 && j != i){
-					assertTrue("Comments should be sorted from oldest to newest", topics.get(i).getTimestamp().before(topics.get(j).getTimestamp()));
-				}
-
+			if (i != topics.size() - 1){
+				assertTrue("Comments should be sorted from newest to oldest", topics.get(i).getTimestamp().before(topics.get(i+1).getTimestamp()));
 			}
+
+
 		}
 	}
 

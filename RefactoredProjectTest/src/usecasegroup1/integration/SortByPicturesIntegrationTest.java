@@ -1,4 +1,4 @@
-package UseCaseGroup1;
+package usecasegroup1.integration;
 
 import java.util.ArrayList;
 
@@ -9,52 +9,30 @@ import android.graphics.Bitmap.Config;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
+import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
-public class SortCommentsByPicturesTest extends
+public class SortByPicturesIntegrationTest extends
 ActivityInstrumentationTestCase2<HomeView> {
 
-	public SortCommentsByPicturesTest() {
+	public SortByPicturesIntegrationTest() {
 		super(HomeView.class);
 	}
 
 	
 	
-	public void testSortByPicture() throws InterruptedException{
+	public void testSortByPicture(){
 	
 		HomeView activity;
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		activity = getActivity();
 		
-		
-		ArrayList<CommentTreeElement> topics = new ArrayList<CommentTreeElement>();
-		Topic topic = new Topic();
-		Location originalLocation = LocationSelection.getInstance().getLocation();
-		Location location = new Location(originalLocation);
-
-		double latitude = 53.4;
-		double longitude = -113;
-
-
-		for (int i = 0; i <= 5; i++){
-			topic = new Topic();
-			location = new Location(location);
-			location.setLatitude(latitude);
-			location.setLongitude(longitude);
-			
-			if (i % 2 == 0){
-				topic.setImage(Bitmap.createBitmap(5,i+1, Config.ARGB_8888));
-			}
-			
-			topic.setGPSLocation(location);
-			topics.add(topic);
-			latitude += 0.1;
-		}
+		ArrayList<CommentTreeElement> topics = CommentTree.getInstance().getChildren(activity);
 			
 			
 			topics = SortFunctions.sortByPicture(topics);

@@ -1,4 +1,4 @@
-package UseCaseGroup1;
+package usecasegroup1.unit;
 
 import java.util.ArrayList;
 
@@ -13,9 +13,9 @@ import cmput301w14t13.project.views.HomeView;
 
 
 @SuppressLint("NewApi")
-public class SortCommentsByRelevancyTest extends ActivityInstrumentationTestCase2<HomeView> {
+public class SortByRelevancyUnitTest extends ActivityInstrumentationTestCase2<HomeView> {
 
-	public SortCommentsByRelevancyTest() {
+	public SortByRelevancyUnitTest() {
 		super(HomeView.class);
 	}
 
@@ -23,10 +23,6 @@ public class SortCommentsByRelevancyTest extends ActivityInstrumentationTestCase
 	
 	public void testSortByMostRelevant() throws InterruptedException{
 		
-		HomeView activity;
-		Intent intent = new Intent();
-		setActivityIntent(intent);
-		activity = getActivity();
 		ArrayList<CommentTreeElement> topics = new ArrayList<CommentTreeElement>();
 		Topic topic = new Topic();
 		Location originalLocation = new Location("default");
@@ -34,7 +30,6 @@ public class SortCommentsByRelevancyTest extends ActivityInstrumentationTestCase
 		
 		double latitude = 53.4;
 		double longitude = -113;
-		
 		
 		for (int i = 0; i <= 5; i++){
 			topic = new Topic();
@@ -56,18 +51,29 @@ public class SortCommentsByRelevancyTest extends ActivityInstrumentationTestCase
 
 		
 
+		double range = 50000;
+		boolean pastRange = false;
+		
 		//Every topic should be more relevant (newer and closer) than the ones after it
 		for (int i = 0; i < topics.size(); i++){
-			for (int j = i; j < topics.size(); j++){
 
-				if (j != topics.size() - 1 && j != i && originalLocation.distanceTo(location) <= 50000){
-					double distance = topics.get(i).getGPSLocation().distanceTo(topics.get(j).getGPSLocation());
-					assertTrue("Comments should be newer", topics.get(i).getTimestamp().after(topics.get(j).getTimestamp()));
-					assertTrue("Comments should be closer than ones after it", distance <= 50000);
-					
-				}
-
+			location = topics.get(i).getGPSLocation();
+			
+			if (originalLocation.distanceTo(location) > range){
+				pastRange = true;
 			}
+			
+			if (i != topics.size() - 1 && !pastRange){
+				if(originalLocation.distanceTo(topics.get(i+1).getGPSLocation()) <= range){
+					assertTrue("Comments should be newer", topics.get(i).getTimestamp().after(topics.get(i+1).getTimestamp()));
+				}
+			}
+
+			else if (pastRange){
+				double distance = originalLocation.distanceTo(location);
+				assertFalse("There should be no more topics found within range", distance <= range);
+			} 
+
 		}
 		
 	}
