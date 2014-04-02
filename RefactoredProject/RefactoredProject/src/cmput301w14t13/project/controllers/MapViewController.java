@@ -26,7 +26,7 @@ import android.view.View;
 
 
 /**
- * This Activiy provides the user with a map using OpenStreetMaps for android.
+ * This Activity provides the user with a map using OpenStreetMaps for android.
  * 
  * It is used by CreateSubmissionActivity to edit the user's location, which is 
  * done by tapping on the map where you want to set the location, once tapped
@@ -112,17 +112,25 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapController = (MapController) mapView.getController();
 			mapController.setZoom(5);
 			mapController.setCenter(returnPoint);
+			
+			//set topic marker with special icon
+			Marker topicMarker = new Marker(mapView);
+			topicMarker.setPosition(returnPoint);
+			topicMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+			topicMarker.setIcon(getResources().getDrawable(R.drawable.marker_via));
+			mapView.getOverlays().add(topicMarker);
+			mapView.invalidate();
+			
 			ArrayList<CommentTreeElement> commentList = cl.getChildren(this);
-			final int markerIndex = setMarker(returnPoint);
 			
 			for(int i=0;i<commentList.size();i++){
 				CommentTreeElement comment = commentList.get(i);
 				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
-				int index = setMarker(point);		
+				setMarker(point);		
 			}
 			
 			MapEventsReceiver receiver = new MapEventsReceiver() {
-				int mIndex = markerIndex;
+
 				@Override
 				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
 					// once the user taps, we remove the old marker and place a new one
