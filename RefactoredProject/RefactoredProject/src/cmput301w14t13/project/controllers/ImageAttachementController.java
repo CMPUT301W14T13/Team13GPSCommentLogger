@@ -118,20 +118,49 @@ public class ImageAttachementController extends Activity
 	 * 
 	 * 
 	 * @param image is the image being checked
-	 * @return boolean  true if it's 100 KB or less
+	 * @return boolean:  true if it's 100 KB or less
 	 */
 	@SuppressLint("NewApi")
 	public boolean sizeCheck (Bitmap image) {
 		// Get size in bytes
-		/*
+		
 		int size = image.getByteCount();
 		
 		// Return true if size is less than 100*1024 bytes
 		if (size < 102401) return true;
 		
 		else return false;
-		 */
-		return false;
+	}
+	
+	
+	/**
+	 * If image size is greater than 100 KB,
+	 * this function is called to resize the image
+	 * to 100 KB or less.
+	 * 
+	 * This function only deals images after 
+	 * they are imported into a bitmap object.
+	 */
+	public Bitmap resizeImage (Bitmap image) {
+		// Set width/height requirements
+		int maxSize = 102401;
+
+		int width = image.getWidth();
+		int height = image.getHeight();
+
+		float bitmapRatio = (float) width / (float) height;
+
+		// Handle portrait and landscape images
+		if (bitmapRatio > 0) {
+			width = maxSize;
+			height = (int) (width / bitmapRatio);
+		}
+		else {
+			height = maxSize;
+			width = (int) (width * bitmapRatio);	
+		}
+		
+		return Bitmap.createScaledBitmap(image, width, height, true);
 	}
 
 
