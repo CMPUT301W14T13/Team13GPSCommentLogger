@@ -88,11 +88,13 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 			return super.onOptionsItemSelected(item);
 		}
 	}
+<<<<<<< HEAD
 
+=======
 	public void openMap(View v){
 		controller.OpenMap();
 	}
-
+>>>>>>> 921cd6ef941a0a820c8e4908bd93a9e7cfd4636b
 	public void reply(View v) throws InterruptedException{
 		controller.reply(v);
 	}
