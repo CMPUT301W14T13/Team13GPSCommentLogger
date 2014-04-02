@@ -1,5 +1,6 @@
 package UseCaseGroup1;
 
+
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -16,6 +17,7 @@ import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
 public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase2<HomeView> {
+
 
 	HomeView activity;
 	
@@ -37,7 +39,7 @@ public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase
 		
 		ArrayList<CommentTreeElement> topics = new ArrayList<CommentTreeElement>();
 		Topic topic = new Topic();
-		Location originalLocation = LocationSelection.getLocation();
+		Location originalLocation = LocationSelection.getInstance().getLocation();
 		Location location = new Location(originalLocation);
 
 		double latitude = 53.4;

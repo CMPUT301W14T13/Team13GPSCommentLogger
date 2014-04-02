@@ -1,9 +1,14 @@
 package cmput301w14t13.project.models;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
@@ -15,13 +20,18 @@ import java.util.Scanner;
 import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
+import cmput301w14t13.project.models.tasks.RootSearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
+import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.BitmapSerializer;
 import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.TaskSerializer;
 import cmput301w14t13.project.views.HomeView;
 
 import com.google.gson.Gson;
@@ -38,7 +48,6 @@ public class ServerProxy implements AsyncProcess{
 	
 	public ServerProxy(String filepath, HomeView hv) throws InterruptedException
 	{
-		/* id : Json*/
 		saves = new HashMap<String, String>();
 		favourites = new HashMap<CommentTreeElement, String>();
 		usernames = new ArrayList<String>();
@@ -46,6 +55,7 @@ public class ServerProxy implements AsyncProcess{
 		this.filepath = filepath;
 		this.hv = hv;
 		try {
+			Log.w("DMLoad", "constructor" );
 			load();
 		}
 		catch(FileNotFoundException e)
@@ -67,6 +77,7 @@ public class ServerProxy implements AsyncProcess{
 	{
 		this.usernames.add(newUsername);
 		try {
+			Log.w("DataSaving", "save username" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,6 +88,7 @@ public class ServerProxy implements AsyncProcess{
 	{
 		this.usernames.remove(index);
 		try {
+			Log.w("DataSaving", "remove username" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -93,6 +105,7 @@ public class ServerProxy implements AsyncProcess{
 		this.cachedTasks.add(newTask);
 		DataStorageService.getInstance().getCacheProcessor().alertNew();
 		try {
+			Log.w("DataSaving", "save task" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,6 +116,7 @@ public class ServerProxy implements AsyncProcess{
 	{
 		this.cachedTasks.remove(0);
 		try {
+			Log.w("DataSaving", "remove task" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -124,6 +138,7 @@ public class ServerProxy implements AsyncProcess{
 		
 		saveData(data);
 		try {
+			Log.w("DataSaving", "start save data" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -134,6 +149,7 @@ public class ServerProxy implements AsyncProcess{
 	{
 		saveFavourite(data);
 		try {
+			Log.w("DataSaving", "start save favourites" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -162,12 +178,12 @@ public class ServerProxy implements AsyncProcess{
 	}
 	
 	/**
-	 * This method is called when a user clicks a comment that they have saved as a favourite. It will then display the Topic along with 
-	 * the single comment that they have marked as a favourite. The comment will be displayed as well as all of its replies..
-	 * 
-	 * @param key The comment that we want to see in the context of the topic it was made within.
-	 * @return
-	 */
+	* This method is called when a user clicks a comment that they have saved as a favourite. It will then display the Topic along with 
+	* the single comment that they have marked as a favourite. The comment will be displayed as well as all of its replies..
+	* 
+	* @param key The comment that we want to see in the context of the topic it was made within.
+	* @return
+	*/
 	public CommentTreeElement getTopicOfFavouriteComment(CommentTreeElement key)
 	{
 		String Id = favourites.get(key);
@@ -180,19 +196,17 @@ public class ServerProxy implements AsyncProcess{
 		return topic;
 	}
 	/**
-	 * This method makes sure that when we load a favourited comment to view that it and its children get displayed with the correct
-	 * level of indentation.
-	 * 
-	 * @param level The indentation level of the comment that we are viewing.
-	 * @param comment The favourited comment that we are trying to view. 
-	 */
-	
+	* This method makes sure that when we load a favourited comment to view that it and its children get displayed with the correct
+	* level of indentation.
+	* 
+	* @param level The indentation level of the comment that we are viewing.
+	* @param comment The favourited comment that we are trying to view. 
+	*/
 	private void indentSubtraction(int level, CommentTreeElement comment){
 		comment.setIndentLevel(comment.getIndentLevel() - level);
 		for(CommentTreeElement child : comment.getChildren()){
 			indentSubtraction(level, child);
 		}
-		
 	}
 	
 	public void clearSaves(Root newRoot)
@@ -200,6 +214,7 @@ public class ServerProxy implements AsyncProcess{
 		saves = new HashMap<String, String>();
 		addNewRoot(newRoot);
 		try {
+			Log.w("DataSaving", "clear saves" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -216,6 +231,7 @@ public class ServerProxy implements AsyncProcess{
 	{
 		favourites = new HashMap<CommentTreeElement, String>();
 		try {
+			Log.w("DataSaving", "clear favourites" );
 			save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -224,7 +240,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	public void save() throws IOException
 	{
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer()).registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
 		FileOutputStream fw = hv.getApplicationContext().openFileOutput(filepath, Context.MODE_PRIVATE);
 		PrintStream bw = new PrintStream(fw);
 		bw.println(gson.toJson(saves, HashMap.class));
@@ -244,8 +260,9 @@ public class ServerProxy implements AsyncProcess{
 		File f = new File(filepath);
 		if(!f.exists() || f.isDirectory())throw new FileNotFoundException();
 		
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
-		Type hashmap = new TypeToken<HashMap<String,String>>(){}.getType();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskSerializer()).registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Type hashmapsaves = new TypeToken<HashMap<String,String>>(){}.getType();
+		Type hashmapfavourites = new TypeToken<HashMap<CommentTreeElement,String>>(){}.getType();
 		
 		StringWriter writer = new StringWriter();
 		FileInputStream fr = hv.getApplicationContext().openFileInput(filepath);
@@ -255,11 +272,11 @@ public class ServerProxy implements AsyncProcess{
 		
 		String json = br.nextLine();
 		Log.w("DMLoad", "Saves: " + json);
-		saves = gson.fromJson(json, hashmap);
+		saves = gson.fromJson(json, hashmapsaves);
 		
 		json = br.nextLine();
 		Log.w("DMLoad", "Favourites: " + json);
-		favourites = gson.fromJson(json, hashmap);
+		favourites = gson.fromJson(json, hashmapfavourites);
 
 		json = br.nextLine();
 		Log.w("DMLoad", "Usernames: " + json);
@@ -279,4 +296,5 @@ public class ServerProxy implements AsyncProcess{
 	public synchronized void receiveResult(String result) {
 		notify();
 	}
+
 }

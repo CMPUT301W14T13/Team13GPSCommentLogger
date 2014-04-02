@@ -10,9 +10,9 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.views.HomeView;
 
 
+
 @SuppressLint("NewApi")
 public class SortCommentsByTimeTest extends ActivityInstrumentationTestCase2<HomeView> {
-
 
 
 	public SortCommentsByTimeTest() {

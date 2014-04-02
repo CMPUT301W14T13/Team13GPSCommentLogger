@@ -8,6 +8,10 @@ import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.LocationSelection;
 
 
+import android.location.Location;
+
+
+
 public class SortFunctions
 {
 
@@ -91,13 +95,13 @@ public class SortFunctions
 	 *
 	 * The function returns a list of ordered comments from
 	 * closest to farthest from current location.
-	 *
 	 * @param viewables
 	 * @return ArrayList<Viewable>
 	 */
 	public static ArrayList<CommentTreeElement> sortByCurrentLocation(ArrayList<CommentTreeElement> viewables) {
-		Location location = LocationSelection.getLocation();
-		//LocationSelection.startLocationSelection();
+
+		Location location = LocationSelection.getInstance().getLocation();
+
 		return (sortByGivenLocation(viewables, location));
 	}
 
@@ -160,43 +164,43 @@ public class SortFunctions
 		while (viewables.size() != 0){
 
 
+
 			for (int i = 0; i < viewables.size();){
 
 				if (viewables.get(i).getHasImage()){
-
 
 					pictures.add(viewables.remove(i));
 				}
 				else{
 					noPictures.add(viewables.remove(i));
 				}
-
-
+				
+				
 			}
 
 		}
-
+		
 		pictures.addAll(noPictures);
 		return pictures;
 	}
-
-
+	
+	
 	public static ArrayList<CommentTreeElement> sortByMostRelevant(ArrayList<CommentTreeElement> viewables){
-
+		
 		viewables = sortByCurrentLocation(viewables);
 		/*for (int i = 0; i < viewables.size(); i++){
-System.out.println(viewables.get(i).getTimestamp() + " " + viewables.get(i).getGPSLocation().getLatitude() + " " + viewables.get(i).getGPSLocation().getLongitude());
-}*/
-
+			System.out.println(viewables.get(i).getTimestamp() + " " + viewables.get(i).getGPSLocation().getLatitude() + " " + viewables.get(i).getGPSLocation().getLongitude());
+		}*/
+		
 		ArrayList<CommentTreeElement> mostRelevant = new ArrayList<CommentTreeElement>();
 		ArrayList<CommentTreeElement> leastRelevant = new ArrayList<CommentTreeElement>();
-		Location location;
+		Location location; 
 		int position;
-		Location currentLocation = LocationSelection.getLocation();
-		LocationSelection.startLocationSelection();
-
+		Location currentLocation = LocationSelection.getInstance().getLocation();
+		
 		while (viewables.size() != 0){
-
+			
+		
 
 			for (int i = 0; i < viewables.size();){
 
@@ -204,24 +208,25 @@ System.out.println(viewables.get(i).getTimestamp() + " " + viewables.get(i).getG
 				//System.out.println(currentLocation.distanceTo(location));
 				if (currentLocation.distanceTo(location) <= 50000){
 
-
 					mostRelevant.add(viewables.remove(i));
 				}
 				else{
 					leastRelevant.add(viewables.remove(i));
 				}
 
-
+				
+				
 			}
 
-
+			
 
 		}
-
+		
 		//System.out.println(mostRelevant);
 		mostRelevant = sortByNewest(mostRelevant);
 		mostRelevant.addAll(leastRelevant);
 		return mostRelevant;
+
 	}
 
 }

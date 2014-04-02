@@ -49,7 +49,6 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	}
 	
 	public ArrayList<CommentTreeElement> getCommentList(UpdateInterface updateable){
-		update(updateable);
 		return commentListsInDisplayOrder.elementAt(updateable.getRank().getRank());
 	}
 	
@@ -67,11 +66,19 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		notifyViews();
 	}
 	
+	public void addSortedList(UpdateInterface updateable, ArrayList<CommentTreeElement> sortedList)
+	{
+		int rank = updateable.getRank().getRank();
+		commentListsInDisplayOrder.elementAt(rank).clear();
+		commentListsInDisplayOrder.elementAt(rank).addAll(sortedList);
+		notifyViews();
+	}
+	
 	/**
 	 * updates the commentList to be displayed in a topic. For each topic child,
 	 * it gets the children all the way down and adds them to the comment list.
 	 */
-	private void update(UpdateInterface updateable){
+	public void update(UpdateInterface updateable){
 		int rank = updateable.getRank().getRank();
 		commentListsInDisplayOrder.elementAt(rank).clear();
 		for (CommentTreeElement each : getChildren(updateable)){
