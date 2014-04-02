@@ -1,13 +1,13 @@
 package UseCaseGroup4;
 
 import android.test.ActivityInstrumentationTestCase2;
-import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.HomeView;
 
 public class SetAsFavouriteTest extends
-ActivityInstrumentationTestCase2<TopicView> {
+ActivityInstrumentationTestCase2<HomeView> {
 
 	public SetAsFavouriteTest() {
-		super(TopicView.class);
+		super(HomeView.class);
 	}
 
 }
