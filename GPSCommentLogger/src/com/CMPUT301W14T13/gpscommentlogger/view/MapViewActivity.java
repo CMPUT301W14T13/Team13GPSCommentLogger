@@ -35,8 +35,10 @@ import com.CMPUT301W14T13.gpscommentlogger.model.content.Viewable;
  * Once the user has selected a point for his comment they push the SubmitLocation buton
  * which returns the current points latitude and longitude to CreateSubmissionActivity
  * 
- * This class is also used for our new requirement of displaying all the locations in a Topic thread
- * I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
+ * 
+ * It is used by TopicViewActivity do display all of the replies to the current topic by location markers
+ * In topic view the used clicks the "Map Thread" button and then MapViewActivity takes the replies of the
+ * current topic and displays their locations.
  * 
  * @author navjeetdhaliwal
  *
@@ -98,7 +100,7 @@ public class MapViewActivity extends Activity {
 
 
 		}else {
-			// here we implement new requirement of displaying Topic Thread Location
+			// here we set up to display the locations of all replies to the current topic
 			setContentView(R.layout.map_thread_view);
 			cl = CommentLogger.getInstance();
 			//Topic topic = cl.getCurrentTopic();
@@ -116,19 +118,16 @@ public class MapViewActivity extends Activity {
 			
 			for(int i=0;i<commentList.size();i++){
 				Viewable comment = commentList.get(i);
-				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
-				int index = setMarker(point);		
+				setMarkerWithInfo(comment);
+				
 			}
-			
+			mapView.invalidate();
 			MapEventsReceiver receiver = new MapEventsReceiver() {
 				int mIndex = markerIndex;
 				@Override
 				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
-					// once the user taps, we remove the old marker and place a new one
-					
 					return true;
 				}
-
 				@Override
 				public boolean longPressHelper(IGeoPoint arg0) {
 					// TODO Auto-generated method stub
@@ -143,15 +142,15 @@ public class MapViewActivity extends Activity {
 
 
 	}
+	
 
 	/**
-	 * This activity creates and sets a marker onto the screen at the given location
+	 * This method creates and sets a marker onto the screen at the given location
+	 * CreateSubmissionActivity needs the returnPoint for editing location, because we need only one 
+	 * marker on screen at a time so we use the index to delete the previous marker
 	 * 
-	 * CreateSubmissionActivity needs the returnPoint for editing location
 	 * 
-	 * Our new Requirement does not need returnPoint
-	 * 
-	 * @param point
+	 * @param point, a latitude and longitude pair.
 	 * @return markers Index is used when CreateSubmissionActivity calls MapView Activity and is used
 	 * to remove this current marker if a new one is created.
 	 */
@@ -163,6 +162,20 @@ public class MapViewActivity extends Activity {
 		mapView.invalidate();
 		returnPoint = point;
 		return  mapView.getOverlays().indexOf(marker);
+	}
+	/**
+	 * This Method is sets a marker, representing a Topic/Comment, at a location 
+	 * and adds additional information, such as user name and text
+	 * @param comment, a topic/comment 
+	 */
+	public void setMarkerWithInfo(Viewable comment){
+		GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
+		Marker marker = new Marker(mapView);
+		marker.setPosition(point);
+		marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+		marker.setTitle(comment.getUsername());
+		mapView.getOverlays().add(marker);
+		
 	}
 
 	protected boolean isRouteDisplayed() {
@@ -180,15 +193,17 @@ public class MapViewActivity extends Activity {
 		setResult(RESULT_OK, result);	
 		finish();
 	}
+	
+	/**
+	 * Finishes the mapViewActivity without returning anything
+	 * It is used by the "done" button in Map_thread_view which is used when MapViewActivity is 
+	 * called by Topic View for mapping all the replies to a topic
+	 * 
+	 */
 	public void doneMapThread(){	
 		finish();
 	}
-	@Override
-    public void onDestroy() {
-        super.onDestroy();
-       // CommentLogger cl = CommentLogger.getInstance();
-	}
-        
+
 
 	/**
 	 * This method returns the point that was selected by the user when they chose to 
@@ -202,4 +217,6 @@ public class MapViewActivity extends Activity {
 	public GeoPoint getReturnPoint(){
 		return returnPoint;
 	}
+	
+	
 }
