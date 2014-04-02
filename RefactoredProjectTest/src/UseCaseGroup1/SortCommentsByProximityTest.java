@@ -54,7 +54,6 @@ public class SortCommentsByProximityTest extends ActivityInstrumentationTestCase
 
 			topic.setGPSLocation(location);
 			topics.add(topic);
-			Thread.sleep(1000);
 			latitude += 0.1;
 		}
 

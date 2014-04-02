@@ -53,7 +53,6 @@ ActivityInstrumentationTestCase2<HomeView> {
 			
 			topic.setGPSLocation(location);
 			topics.add(topic);
-			Thread.sleep(1000);
 			latitude += 0.1;
 		}
 			

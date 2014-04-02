@@ -27,7 +27,7 @@ public class SortCommentsByTimeTest extends ActivityInstrumentationTestCase2<Hom
 
 		for (int i = 0; i <= 5; i++){
 			topics.add(new Topic());
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		}
 		
 		topics = SortFunctions.sortByNewest(topics);
@@ -56,7 +56,7 @@ public class SortCommentsByTimeTest extends ActivityInstrumentationTestCase2<Hom
 
 		for (int i = 0; i <= 5; i++){
 			topics.add(new Topic());
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		}
 
 		topics = SortFunctions.sortByOldest(topics);
