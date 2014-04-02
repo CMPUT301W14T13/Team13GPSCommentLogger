@@ -86,7 +86,6 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		}
 	}
 	
-	
 	/**
 	 *
 	 * This function takes in a topic child and then recursively goes down the child comment
@@ -127,11 +126,18 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		return stack.isEmpty();
 	}
 	
+	public CommentTreeElement peek(){
+		return stack.peek();
+	}
+	
+	/* used for non- root pops off the comment tree stack */
 	public synchronized void popFromCommentStack() throws InterruptedException
 	{
 		stack.pop();
 		CommentTreeElement ele = stack.pop();
-		commentListsInDisplayOrder.pop();
+
+		commentListsInDisplayOrder.pop(); /* cached versions of the linearized hierarchy */
+
 		commentListsInDisplayOrder.pop();
 		SearchServerTask task = new TaskFactory(DataStorageService.getInstance()).getNewBrowser(ele.getID());
 		DataStorageService.getInstance().doTask(this, task);

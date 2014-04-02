@@ -183,6 +183,16 @@ public class TopicViewController implements AsyncProcess
 		int tag = (Integer) v.getTag();
 	}
 
+	/**
+	 * This method is called when the user wants to save a Topic so they can view it when offline. It will be added 
+	 * to the favourites save file which is locally stored on the device.
+	 * 
+	 * @param v The current View of the object
+	 */
+	/* You will want to append the new topic to the FavouritesModel class you are writing*/
+	public void saveTopic(View v){
+		
+	}
 	@Override
 	public void receiveResult(String result) {
 		notify();		

@@ -3,7 +3,7 @@ package cmput301w14t13.project.services;
 import java.util.ArrayList;
 
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
-import cmput301w14t13.project.models.CommentTreeProxy;
+import cmput301w14t13.project.models.ServerProxy;
 import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.views.HomeView;
 import android.app.Service;
@@ -41,7 +41,7 @@ public class DataStorageService extends Service
 
 	//data manager for local data storage
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
-	private static CommentTreeProxy offlineDataEntity = null;
+	private static ServerProxy offlineDataEntity = null;
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
 	private static final DataStorageService Instance = new DataStorageService();
 
@@ -56,7 +56,7 @@ public class DataStorageService extends Service
 		if(offlineDataEntity == null)
 		{
 			try {
-				offlineDataEntity = new CommentTreeProxy(
+				offlineDataEntity = new ServerProxy(
 						DATA_STORAGE_LOCATION, hv);
 				cacheProcessor = new CacheProcessor(offlineDataEntity);
 				cacheProcessor.start();
@@ -89,7 +89,7 @@ public class DataStorageService extends Service
 		
 	}
 	
-	public CommentTreeProxy getProxy(){
+	public ServerProxy getProxy(){
 		return offlineDataEntity;
 	}
 	

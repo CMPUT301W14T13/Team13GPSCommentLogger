@@ -69,6 +69,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		
 		try {
 			controller.connect();
+
 			//controller.init();
 			controller.bind();
 			initializeActionBar();
