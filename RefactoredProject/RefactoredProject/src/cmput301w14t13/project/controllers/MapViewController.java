@@ -65,6 +65,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
 			setContentView(R.layout.map_edit_location_view);
+
 			returnPoint = new GeoPoint(lat, lon);
 			mapView = (MapView) findViewById(R.id.mapEditView);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
