@@ -37,7 +37,6 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<HomeVie
 		// check if first child is equal to commentReply
 		assertEquals("Reply is different than commentReply", commentReply, comment.getChildren().get(0));
 		
-		
 	}
 	
 
