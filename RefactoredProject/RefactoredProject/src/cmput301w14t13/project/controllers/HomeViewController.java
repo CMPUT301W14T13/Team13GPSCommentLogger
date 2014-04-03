@@ -180,6 +180,11 @@ public class HomeViewController implements AsyncProcess{
 		homeView.startActivity(favourites);
 	}
 
+	public void selectUsername(){
+		Intent intent = new Intent(homeView, SelectUsernameController.class);
+		homeView.startActivity(intent);
+	}
+	
 	public boolean selectOptions(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_post_thread:
@@ -189,6 +194,9 @@ public class HomeViewController implements AsyncProcess{
 			case R.id.saved:
 				viewFavourites();
 				return true;
+				
+			case R.id.action_select_username:
+				selectUsername();
 				
 			default:
 				return false;
