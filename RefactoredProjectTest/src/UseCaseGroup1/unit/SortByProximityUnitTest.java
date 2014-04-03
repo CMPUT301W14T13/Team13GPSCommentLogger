@@ -1,4 +1,4 @@
-package usecasegroup1.unit;
+package UseCaseGroup1.unit;
 
 
 import java.util.ArrayList;
