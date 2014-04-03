@@ -25,7 +25,7 @@ import cmput301w14t13.project.services.DataStorageService;
  * In this activity, the user can manage their usernames and select their global username to user when creating or editing. The usernames are stored and retrieved using shared preferences.
  * @author  Austin
  */
-public class SelectUsernameController extends Activity implements UpdateInterface, AsyncProcess{
+public class SelectUsernameController extends Activity implements UpdateInterface{
 
 	private ArrayList<String> usernames = new ArrayList<String>();
 	private ListView usernameListView;
@@ -126,19 +126,6 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 		adapter = new UsernameAdapter(this, usernames);
 		usernameListView.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
-	}
-
-
-	@Override
-	public void receiveResult(String result) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public UpdateRank getRank() {
-		return null;
 	}
 
 }

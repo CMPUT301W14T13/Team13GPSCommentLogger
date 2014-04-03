@@ -21,6 +21,11 @@ public class CommentTreeElementSubmission{
 	
 	private CommentTreeElement submission;
 	
+	public CommentTreeElementSubmission(CreateSubmissionView view)
+	{
+		this.view = view;
+	}
+	
 	public CommentTreeElementSubmission(CommentTreeElement ele, CreateSubmissionView view)
 	{
 		this.submission = ele;
@@ -37,6 +42,11 @@ public class CommentTreeElementSubmission{
 	{
 		return submission;
 	}
+	
+	public void setSubmission(CommentTreeElement submission)
+	{
+		this.submission = submission;
+	}
 
 	public Location getGpsLocation()
 	{
@@ -48,6 +58,7 @@ public class CommentTreeElementSubmission{
 	{
 
 		this.gpsLocation = gpsLocation;
+		this.view.update();
 	}
 
 	public Location getUserLocation()
@@ -60,6 +71,7 @@ public class CommentTreeElementSubmission{
 	{
 
 		this.userLocation = userLocation;
+		this.view.update();
 	}
 	
 

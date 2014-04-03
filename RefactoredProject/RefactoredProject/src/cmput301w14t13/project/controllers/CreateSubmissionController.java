@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,6 +24,7 @@ import cmput301w14t13.project.models.content.CommentTreeElementSubmission;
 import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.LocationSelection;
 
 public class CreateSubmissionController
 {
@@ -30,7 +32,7 @@ public class CreateSubmissionController
 	private int constructCode;
 	private int rowNumber;
 	private int submitCode;
-	private ImageAttachementController imageAttacher;
+	private ImageAttacher imageAttacher;
 	private CommentTreeElementSubmission submission;
 	private CreateSubmissionView view;
 
@@ -44,28 +46,9 @@ public class CreateSubmissionController
 	
 	public void initializeLocation() {
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
-
-		lm = (LocationManager) view.getSystemService(Context.LOCATION_SERVICE);
-
-		ll = new LocationListener() {
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {		
-			}			
-			@Override
-			public void onProviderEnabled(String provider) {			
-			}			
-			@Override
-			public void onProviderDisabled(String provider) {			
-			}			
-			@Override
-			public void onLocationChanged(Location location) {
-				submission.setGpsLocation(location);
-				Log.d("locationChange", submission.getGpsLocation().toString());
-			}
-		};
 		
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-		submission.setGpsLocation(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+		submission = new CommentTreeElementSubmission(view);
+		submission.setGpsLocation(LocationSelection.getInstance().getLocation());
 		
 		/* if you cannot get a GPS fix set the values to : 0,0*/
 		if (submission.getGpsLocation() == null){
@@ -123,8 +106,6 @@ public class CreateSubmissionController
 				text.setText(submission.getSubmission().getUsername());
 				extractTextFields();
 		
-				//text = (EditText) findViewById(R.id.coordinates);
-				//text.setText(submission.locationString());
 				break;
 			default:throw new IllegalArgumentException("Illegal ConstructCode");
 		}
@@ -333,21 +314,21 @@ public class CreateSubmissionController
 		
 		if (constructCode == 0){
 			//Add a title if a NEW TOPIC is being made
-			submission = new CommentTreeElementSubmission(new Topic(),view);
+			submission.setSubmission(new Topic());
 		}
 		else if(constructCode == 3)
 		{
 			//A TOPIC is being EDITED
-			submission = new CommentTreeElementSubmission(CommentTree.getInstance().getElement(view),view);
+			submission.setSubmission(CommentTree.getInstance().getElement(view));
 		}
 		else if(constructCode == 1){
 			//A NEW COMMENT is being made
-			submission = new CommentTreeElementSubmission(new Comment(),view);
+			submission.setSubmission(new Comment());
 		}
 		else
 		{
 			//else a COMMENT is being EDITED
-			submission = new CommentTreeElementSubmission(CommentTree.getInstance().getCommentList(view).get(rowNumber),view);
+			submission.setSubmission(CommentTree.getInstance().getCommentList(view).get(rowNumber));
 		}
 		
 		if(submission.getUserLocation() == null){
@@ -376,6 +357,13 @@ public class CreateSubmissionController
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		this.view.startActivityForResult(Intent.createChooser(intent, "Gallery"), CreateSubmissionView.PICK_FROM_FILE);
 	}
+	
+	public void registerImage(Bitmap bitmap)
+	{
+		ImageAttacher attacher = new ImageAttacher(submission, bitmap);
+		attacher.execute();
+	}
+	
 	/**
 	 * Once location button is clicked we check if our user is online, if so we pop up a map 
 	 * to edit location otherwise we open a dialog fragment for offline location editing

@@ -77,7 +77,6 @@ public class CreateSubmissionView extends RankedHierarchicalActivity implements 
 	@Override
 	protected void onResume(){
 		super.onResume();
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
 
 
@@ -102,9 +101,8 @@ public class CreateSubmissionView extends RankedHierarchicalActivity implements 
 
 				Uri selectedImageUri = data.getData();
 
-
 				try {
-					controller.getSubmission().getSubmission().setImage(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri));
+					controller.registerImage((MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri)));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -119,14 +117,6 @@ public class CreateSubmissionView extends RankedHierarchicalActivity implements 
 			}
 		}
 
-	}
-
-
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-		lm.removeUpdates(ll);
-		lm = null;
 	}
 
 	@Override

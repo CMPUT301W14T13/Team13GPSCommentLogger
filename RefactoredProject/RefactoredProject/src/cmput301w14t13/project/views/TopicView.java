@@ -12,11 +12,11 @@ import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
-import cmput301w14t13.project.auxilliary.tools.Preferences;
 import cmput301w14t13.project.controllers.TopicViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.services.DataStorageService;
 
 /* this is our main activity */
 /**
@@ -116,21 +116,18 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	}
 
 	*/
-	public void saveComment(View v){
+	public void favouriteComment(View v){
 		CommentTree ct = CommentTree.getInstance();
-		Toast.makeText(getApplicationContext(), "Comment Saved!",Toast.LENGTH_SHORT).show();
-		Preferences prefs = new Preferences(getApplicationContext());
-		CommentTreeElement comment = (Comment) ct.getCommentList(this).get((Integer) v.getTag());
-		prefs.saveInCommentFile("comments.sav", comment);
+		Toast.makeText(getApplicationContext(), "Comment Favourited!",Toast.LENGTH_SHORT).show();
+		CommentTreeElement comment = ct.getCommentList(this).get((Integer) v.getTag());
+		DataStorageService.getInstance().getProxy().startSaveFavourites(comment);
 	}
 
 	public void saveTopic(View v){
 		CommentTree ct = CommentTree.getInstance();
-		Toast.makeText(getApplicationContext(), "Topic Saved!",Toast.LENGTH_SHORT).show();
-		Preferences prefs = new Preferences(getApplicationContext());
-		CommentTreeElement topic = ct.getElement(this);
-		prefs.saveInTopicFile("topics.sav", topic);
-		
+		Toast.makeText(getApplicationContext(), "Topic Favourited!",Toast.LENGTH_SHORT).show();
+		CommentTreeElement topic = ct.getElement(this);	
+		DataStorageService.getInstance().getProxy().startSaveFavourites(topic);
 	}
 	@Override
 	public void update()

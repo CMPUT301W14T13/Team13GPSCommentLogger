@@ -35,7 +35,7 @@ import android.widget.Toast;
  * @author Monir Imamverdi
  */
 
-public class ImageAttachementController
+public class ImageAttacher
 {
 
 	// Reference: http://stackoverflow.com/questions/2169649/get-pick-an-image-from-androids-built-in-gallery-app-programmatically
@@ -43,51 +43,13 @@ public class ImageAttachementController
 	private static final int PICK_FROM_FILE = 1;
 	private CommentTreeElementSubmission submission;
 	private CreateSubmissionView view;
+	private Bitmap bitmap;
 	
 	
-	public ImageAttachmentController(CommentTreeElementSubmission submission)
+	public ImageAttacher(CommentTreeElementSubmission submission, Bitmap bitmap)
 	{
 		this.submission = submission;
-	}
-	
-	/**
-	 * Start intent for user to select
-	 * image from gallery and return bitmap
-	 * if conditions are satisfied
-	 */
-	public void attachmentIntentStart() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		view.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_FILE);
-	}
-
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == view.RESULT_OK) {
-			if (requestCode == PICK_FROM_FILE) {
-				submission.setBitmap(getBitmap(data.getData()));
-			}
-		}
-	}
-
-	/**
-	 * Helper function returns URI address
-	 * of selected image from gallery
-	 */
-	public String getPath(Uri uri) {
-		if(uri == null) {
-			return null;
-		}
-
-		String[] projection = { MediaStore.Images.Media.DATA };
-		Cursor cursor = view.managedQuery(uri, projection, null, null, null);
-
-		if (cursor != null) {
-			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();return cursor.getString(column_index);
-		}
-
-		return uri.getPath();
+		this.bitmap = bitmap;
 	}
 
 	/**
@@ -96,24 +58,15 @@ public class ImageAttachementController
 	 * only if satisfies size requirement of 100 KB
 	 */
 	@SuppressLint("NewApi") // Suppression can be removed if API target is greater than 12
-	public Bitmap getBitmap (Uri uri) {
-		try {
-			Bitmap bitmap = MediaStore.Images.Media.getBitmap(view.getContentResolver(), uri);
-			if(sizeCheck(bitmap))
-			{
-				return bitmap;
-			}
-			else
-			{
-				return resizeImage(bitmap);
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Bitmap getBitmap () {
+		if(sizeCheck(bitmap))
+		{
+			return bitmap;
 		}
-		return null;
+		else
+		{
+			return resizeImage(bitmap);
+		}
 	}
 	
 
@@ -169,5 +122,10 @@ public class ImageAttachementController
 		}
 		
 		return Bitmap.createScaledBitmap(image, width, height, true);
+	}
+
+	public void execute()
+	{
+		submission.setBitmap(getBitmap());
 	}
 }
