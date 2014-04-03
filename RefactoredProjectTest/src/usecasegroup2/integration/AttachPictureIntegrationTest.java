@@ -10,10 +10,10 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
-public class AttachPictureTest extends
+public class AttachPictureIntegrationTest extends
 ActivityInstrumentationTestCase2<HomeView> {
 
-	public AttachPictureTest() {
+	public AttachPictureIntegrationTest() {
 		super(HomeView.class);
 	}
 

@@ -9,7 +9,11 @@ import android.util.Log;
 
 
 /**
- * This class is responsible for returning the user's  current location. This is done by: 1) By GPS: Starting a location manager, attach a listener to it and request a location update from the location listener. Once a location change is detected, we assign the new location to the variable gpsLocation. 2) By network: fill in----------- This class is used during attaching location to comments,  as well getting current location for sorting purposes.
+ * This class is responsible for returning the user's  current location. This is done by: 1) By GPS: Starting a
+ *  location manager, attach a listener to it and request a location update from the location listener. Once a 
+ *  location change is detected, we assign the new location to the variable gpsLocation. 2) By network: fill 
+ *  in----------- This class is used during attaching location to comments,  as well getting current location 
+ *  for sorting purposes.
  * @returns  Location
  */
 public class LocationSelection

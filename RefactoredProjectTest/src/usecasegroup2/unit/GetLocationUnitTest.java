@@ -11,5 +11,16 @@ ActivityInstrumentationTestCase2<HomeView> {
 	public GetLocationUnitTest() {
 		super(HomeView.class);
 	}
-
+	
+	public void testGetLocationTopic(){
+		/* Initialize the topic */
+		
+		
+	}
+	
+	public void testGetLocationComment(){
+		/* Initialize the comment */
+		
+		
+	}
 }
