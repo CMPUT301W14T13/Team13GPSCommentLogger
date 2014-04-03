@@ -1,177 +1,51 @@
 package cmput301w14t13.project.controllers;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import cmput301w14t13.project.R;
-import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
-import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
-import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
-import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
-import cmput301w14t13.project.models.CommentTree;
-import cmput301w14t13.project.models.content.Comment;
-import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.models.content.Topic;
-import cmput301w14t13.project.models.tasks.ImageUpdateServerTask;
-import cmput301w14t13.project.models.tasks.LocationUpdateServerTask;
-import cmput301w14t13.project.models.tasks.PostNewServerTask;
-import cmput301w14t13.project.models.tasks.TaskFactory;
-import cmput301w14t13.project.models.tasks.TextUpdateServerTask;
-import cmput301w14t13.project.services.DataStorageService;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
+import cmput301w14t13.project.R;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
+import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.Comment;
+import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.models.content.CommentTreeElementSubmission;
+import cmput301w14t13.project.models.content.Topic;
+import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.DataStorageService;
 
+public class CreateSubmissionController
+{
 
-/**
- * This is where the user can construct a new submission or edit a previous one. This activity uses a construct code which tells it how to build the submission, and a submit code which tells it how to submit the submission. It also uses the CheckSubmission function to check if the submission is a valid one. A valid comment must have comment text and a  valid topic must have comment text and a title. The username will default to "Anonymous" if left empty.
- * @author  Austin
- */
-public class CreateSubmissionController extends RankedHierarchicalActivity implements AsyncProcess, UpdateInterface{
-
-	private String username;
-	private String title;
-	private String commentText;
-	private Bitmap image;
-
-	private ImageAttachementController imageAttacher;
-
-	private CommentTreeElement submission;
-	private int constructCode; //0: Creating topic, 1: Creating comment, 2,3: Editing
+	private int constructCode;
 	private int rowNumber;
-	private String currentUsername = "";
-	private int submitCode; //0: Reply to topic, 1: Reply to comment, 2: Edited topic 3: Edited comment
-	private Location gpsLocation;
-	private Location userLocation;
-	private LocationManager lm; 
-	private LocationListener ll;
-	private static final int REQUEST_CODE = 1;
-	private static final int PICK_FROM_FILE = 2;
+	private int submitCode;
+	private ImageAttachementController imageAttacher;
+	private CommentTreeElementSubmission submission;
+	private CreateSubmissionView view;
 
-	@Override
-
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		/* create the location stuff up here */
-
-		constructCode = getIntent().getIntExtra("construct code", -1);
-		submitCode = getIntent().getIntExtra("submit code", -1);
-		rowNumber = getIntent().getIntExtra("row number", -1);
-		
-		initializeLocation();
-		initializeFields();
+	public CreateSubmissionController(CreateSubmissionView view, int constructCode, int submitCode, int rowNumber)
+	{
+		this.view = view;
+		this.constructCode = constructCode;
+		this.submitCode = submitCode;
+		this.rowNumber = rowNumber;
 	}
-
-	@Override
-	protected void onResume(){
-		super.onResume();
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-	}
-
-
-	/**
-	 * extracts a longitude and latitude from MapViewActivity to be used
-	 * in construction the topic. if from some reason a latitude and longitude cannot
-	 * be retrieved it gets the current gps location. Also used to attach
-	 * an image to the submission.
-	 */
-
-
-	@SuppressLint("NewApi")
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE){
-			if (resultCode == RESULT_OK){
-				double latitude = data.getDoubleExtra("lat", gpsLocation.getLatitude());
-				double longitude = data.getDoubleExtra("lon", gpsLocation.getLongitude());
-				userLocation = new Location(gpsLocation);
-				userLocation.setLongitude(longitude);
-				userLocation.setLatitude(latitude);
-			}
-		}
-
-		if (requestCode == PICK_FROM_FILE) {
-			if (resultCode == RESULT_OK){
-
-				Uri selectedImageUri = data.getData();
-
-
-				try {
-					image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-
-				Log.d("Image Attach", "Image received: " + image.toString());
-				ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
-				/*
-				// Check if image satisfies size conditions
-				int imageSize = image.getByteCount();
-				Log.d("Image Attach", "Image size is: " + imageSize);
-
-				if (imageSize < 102401) {
-					attachButton.setImageBitmap(image);
-					Log.d("Image Attach", "Image size safe");
-				}
-				else {
-					image = null;
-					Log.d("Image Attach", "Image size unsafe");
-					Toast.makeText(getApplicationContext(), "Image Size Exceeds 100 KB",
-							Toast.LENGTH_LONG).show();
-				}
-*/
-			}
-		}
-
-	}
-
-
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-		lm.removeUpdates(ll);
-		lm = null;
-	}
-
-	public boolean isOnline() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-			return true;
-		}
-		return false;
-	}
-
-
-	private void initializeLocation() {
+	
+	public void initializeLocation() {
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm = (LocationManager) view.getSystemService(Context.LOCATION_SERVICE);
 
 		ll = new LocationListener() {
 			@Override
@@ -185,68 +59,68 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 			}			
 			@Override
 			public void onLocationChanged(Location location) {
-				gpsLocation = location;
-				Log.d("locationChange", gpsLocation.toString());
+				submission.setGpsLocation(location);
+				Log.d("locationChange", submission.getGpsLocation().toString());
 			}
 		};
 		
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-		gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		submission.setGpsLocation(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 		
 		/* if you cannot get a GPS fix set the values to : 0,0*/
-		if (gpsLocation == null){
-			gpsLocation = new Location("fake");
-			gpsLocation.setLatitude(0);
-			gpsLocation.setLongitude(0);
+		if (submission.getGpsLocation() == null){
+			submission.setGpsLocation(new Location("fake"));
+			submission.getGpsLocation().setLatitude(0);
+			submission.getGpsLocation().setLongitude(0);
 		}
-		userLocation = null;
+		submission.setUserLocation(null);
 	}
 	
-	private void initializeFields() {
+	public void initializeFields() {
 		CommentTree cl = CommentTree.getInstance();
 
 		//get the user's global user name so they don't have to always enter it
-		currentUsername = cl.getCurrentUsername();
+		submission.getSubmission().setUsername(cl.getCurrentUsername());
+		final String currentUsername = cl.getCurrentUsername();
 
 		switch(constructCode){
 
 			case(0): // constructing a new topic
-				setContentView(R.layout.create_topic); //creating a topic
-				getActionBar().setDisplayHomeAsUpEnabled(true);
-				EditText text = (EditText) findViewById(R.id.setTopicUsername);
+				view.setContentView(R.layout.create_topic); //creating a topic
+				view.getActionBar().setDisplayHomeAsUpEnabled(true);
+				EditText text = (EditText) view.findViewById(R.id.setTopicUsername);
 				text.setText(currentUsername);
 				break;
 	
 			case(1): //constructing a new comment
-				setContentView(R.layout.create_comment); //creating a comment
-				text = (EditText) findViewById(R.id.set_comment_username);
+				view.setContentView(R.layout.create_comment); //creating a comment
+				text = (EditText) view.findViewById(R.id.set_comment_username);
 				text.setText(currentUsername);
 				break;
 	
 			//These cases are for editing a comment or topic
 			case(2):
 			case(3):
-				setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
+				view.setContentView(R.layout.create_comment); //editing a comment/topic (uses same layout as creating one)
 			
 			
 				cl = CommentTree.getInstance();
 				if (constructCode == 3){ //CheckSubmission needs to check the title
 		
-					submission = cl.getElement(this);
-					title = submission.getTitle();
+					submission = new CommentTreeElementSubmission(cl.getElement(view), view);
 				}
 				else{
-					submission = cl.getCommentList(this).get(rowNumber);
+					submission = new CommentTreeElementSubmission(cl.getCommentList(view).get(rowNumber), view);
 				}
 		
 				/*
 				 * Set various text fields below from the topic so that they are displayed when editing it
 				 */
-				text = (EditText) findViewById(R.id.set_comment_text);
-				text.setText(submission.getCommentText());
+				text = (EditText) view.findViewById(R.id.set_comment_text);
+				text.setText(submission.getSubmission().getCommentText());
 		
-				text = (EditText) findViewById(R.id.set_comment_username);
-				text.setText(submission.getUsername());
+				text = (EditText) view.findViewById(R.id.set_comment_username);
+				text.setText(submission.getSubmission().getUsername());
 				extractTextFields();
 		
 				//text = (EditText) findViewById(R.id.coordinates);
@@ -278,7 +152,7 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 		extractTextFields();
 		constructSubmission();
 
-		if (checkSubmission(submission)){
+		if (checkSubmission(submission.getSubmission())){
 			int row = rowNumber;
 			CommentTree cl = CommentTree.getInstance();
 			DataStorageService dss = DataStorageService.getInstance();
@@ -287,19 +161,19 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 			switch (submitCode){
 
 			case(0):  //reply to topic
-				cl.addElementToCurrent(submission);
-				factory.requestPost(cl.getElement(this).getID(), submission);
+				cl.addElementToCurrent(submission.getSubmission());
+				factory.requestPost(cl.getElement(view).getID(), submission.getSubmission());
 				break;
 
 			case(1): //reply to comment
-				CommentTreeElement parent = cl.getCommentList(this).get(row);//get the comment being replied to
-				submission.setIndentLevel(parent.getIndentLevel() + 1);//set the indent level of the new comment to be 1 more than the one being replied to
+				CommentTreeElement parent = cl.getCommentList(view).get(row);//get the comment being replied to
+				submission.getSubmission().setIndentLevel(parent.getIndentLevel() + 1);//set the indent level of the new comment to be 1 more than the one being replied to
 				
 				
 				//TODO: For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
-				if (submission.getIndentLevel() <= 5){
-					parent.addChild(submission);
-					factory.requestPost(parent.getID(), submission);
+				if (submission.getSubmission().getIndentLevel() <= 5){
+					parent.addChild(submission.getSubmission());
+					factory.requestPost(parent.getID(), submission.getSubmission());
 				}
 	
 				break;
@@ -307,37 +181,37 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 			case(2)://edit topic
 
 				//TODO: no username update support at the moment
-				cl.getElement(this).setUsername(submission.getUsername());
-				cl.getElement(this).setCommentText(submission.getCommentText());
-				cl.getElement(this).setLocation(submission.getGPSLocation());
-				cl.getElement(this).setImage(submission.getImage());
-				Log.w("UpdateTest", cl.getElement(this).getID());
+				cl.getElement(view).setUsername(submission.getSubmission().getUsername());
+				cl.getElement(view).setCommentText(submission.getSubmission().getCommentText());
+				cl.getElement(view).setLocation(submission.getSubmission().getGPSLocation());
+				cl.getElement(view).setImage(submission.getSubmission().getImage());
+				Log.w("UpdateTest", cl.getElement(view).getID());
 				//TODO: it wasn't anticipated that more than one field would be set at a time
-				factory.requestImageUpdate(submission);
-				factory.requestLocationUpdate(submission);
-				factory.requestTextUpdate(submission);
+				factory.requestImageUpdate(submission.getSubmission());
+				factory.requestLocationUpdate(submission.getSubmission());
+				factory.requestTextUpdate(submission.getSubmission());
 				break;
 
 			case(3): //edit comment
 				
 				//TODO: no username update support at the moment
-				cl.getCommentList(this).get(row).setUsername(submission.getUsername());
-				cl.getCommentList(this).get(row).setCommentText(submission.getCommentText());
-				cl.getCommentList(this).get(row).setGPSLocation(submission.getGPSLocation());
-				cl.getCommentList(this).get(row).setImage(submission.getImage());
+				cl.getCommentList(view).get(row).setUsername(submission.getSubmission().getUsername());
+				cl.getCommentList(view).get(row).setCommentText(submission.getSubmission().getCommentText());
+				cl.getCommentList(view).get(row).setGPSLocation(submission.getSubmission().getGPSLocation());
+				cl.getCommentList(view).get(row).setImage(submission.getSubmission().getImage());
 				
 				//TODO: it wasn't anticipated that more than one field would be set at a time
-				factory.requestImageUpdate(submission);
-				factory.requestLocationUpdate(submission);
-				factory.requestTextUpdate(submission);
+				factory.requestImageUpdate(submission.getSubmission());
+				factory.requestLocationUpdate(submission.getSubmission());
+				factory.requestTextUpdate(submission.getSubmission());
 				break;
 
 			default:
 				Log.d("onActivityResult", "Error adding comment reply");
 			}
 
-			cl.updateCommentList(this); //this will update the comment list being displayed to show the new changes
-			finish();
+			cl.updateCommentList(view); //this will update the comment list being displayed to show the new changes
+			view.finish();
 		}
 	}
 
@@ -357,13 +231,13 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 		extractTextFields();
 		constructSubmission();
 
-		submission_ok = checkSubmission(submission); //check that the submission is valid
+		submission_ok = checkSubmission(submission.getSubmission()); //check that the submission is valid
 		if (submission_ok){
 			CommentTree cl = CommentTree.getInstance();
-			cl.addElementToCurrent(submission);
+			cl.addElementToCurrent(submission.getSubmission());
 			DataStorageService dss = DataStorageService.getInstance();
-			new TaskFactory(dss).requestPost("ROOT", submission);
-			finish();
+			new TaskFactory(dss).requestPost("ROOT", submission.getSubmission());
+			view.finish();
 		}
 
 
@@ -380,11 +254,11 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 	 * @param submission  the topic or comment being checked
 	 * @return  a boolean, true if it's a valid submission, false otherwise
 	 */
-	private boolean checkSubmission(CommentTreeElement submission){
+	public boolean checkSubmission(CommentTreeElement submission){
 
 		boolean submission_ok = true;
 		Toast toast = null;
-		Context context = getApplicationContext();
+		Context context = view.getApplicationContext();
 		String text = ""; 
 		int duration = Toast.LENGTH_LONG;
 
@@ -413,36 +287,36 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 
 	}
 
-	public CommentTreeElement getSubmission(){
-		return this.submission;
+	public CommentTreeElementSubmission getSubmission(){
+		return submission;
 	}
 	
 	//extract the information that the user has entered
-	private void extractTextFields(){
+	public void extractTextFields(){
 
 
 		//Constructing a topic(0)
 		if (constructCode == 0){
 
 			//only get the title if it's a topic
-			EditText text = (EditText) findViewById(R.id.setTitle);
-			title = text.getText().toString().trim();
+			EditText text = (EditText) view.findViewById(R.id.setTitle);
+			submission.getSubmission().setTitle(text.getText().toString().trim());
 
-			text = (EditText) findViewById(R.id.setTopicUsername);
-			username = text.getText().toString().trim();
+			text = (EditText) view.findViewById(R.id.setTopicUsername);
+			submission.getSubmission().setUsername(text.getText().toString().trim());
 
-			text = (EditText) findViewById(R.id.setTopicText);
-			commentText = text.getText().toString().trim();
+			text = (EditText) view.findViewById(R.id.setTopicText);
+			submission.getSubmission().setCommentText(text.getText().toString().trim());
 		}
 
 		//Constructing a comment(1), editing a comment(2), or editing a topic(3)
 		else{
 
-			EditText text = (EditText) findViewById(R.id.set_comment_username);
-			username = text.getText().toString().trim();
+			EditText text = (EditText) view.findViewById(R.id.set_comment_username);
+			submission.getSubmission().setUsername(text.getText().toString().trim());
 
-			text = (EditText) findViewById(R.id.set_comment_text);
-			commentText = text.getText().toString().trim();
+			text = (EditText) view.findViewById(R.id.set_comment_text);
+			submission.getSubmission().setCommentText(text.getText().toString().trim());
 		}
 
 
@@ -454,49 +328,40 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 	 * Constructs the comment/topic to be submitted by checking the
 	 * construct code
 	 */
-	private void constructSubmission(){
+	public void constructSubmission(){
 
 		
 		if (constructCode == 0){
 			//Add a title if a NEW TOPIC is being made
-			submission = new Topic();
-			submission.setTitle(title);
+			submission = new CommentTreeElementSubmission(new Topic(),view);
 		}
 		else if(constructCode == 3)
 		{
 			//A TOPIC is being EDITED
-			submission = CommentTree.getInstance().getElement(this);
+			submission = new CommentTreeElementSubmission(CommentTree.getInstance().getElement(view),view);
 		}
 		else if(constructCode == 1){
 			//A NEW COMMENT is being made
-			submission = new Comment();
+			submission = new CommentTreeElementSubmission(new Comment(),view);
 		}
 		else
 		{
 			//else a COMMENT is being EDITED
-			submission = CommentTree.getInstance().getCommentList(this).get(rowNumber);
+			submission = new CommentTreeElementSubmission(CommentTree.getInstance().getCommentList(view).get(rowNumber),view);
 		}
-
-		submission.setUsername(username); 
-		submission.setCommentText(commentText);
-		if(userLocation == null){
-			submission.setGPSLocation(gpsLocation);
+		
+		if(submission.getUserLocation() == null){
+			submission.getSubmission().setGPSLocation(submission.getGpsLocation());
 		} else {
-			submission.setGPSLocation(userLocation);
+			submission.getSubmission().setGPSLocation(submission.getUserLocation());
 		}
 
 
 		//username defaults to Anonymous if left blank
-		if (username.length() == 0){
-			submission.setAnonymous();
+		if (submission.getSubmission().getUsername().length() == 0){
+			submission.getSubmission().setAnonymous();
 
 		}
-
-		if (image != null) {
-			submission.setImage(image);
-			Log.d("Image Attach", "Image Attached! " + image.toString());
-		}
-
 	}
 
 	/**
@@ -509,7 +374,7 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
+		this.view.startActivityForResult(Intent.createChooser(intent, "Gallery"), CreateSubmissionView.PICK_FROM_FILE);
 	}
 	/**
 	 * Once location button is clicked we check if our user is online, if so we pop up a map 
@@ -517,17 +382,17 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 	 * @param view
 	 */
 	public void openMap(View view) {
-		if(isOnline()){
-			Intent map = new Intent(this, MapViewController.class);
-			map.putExtra("lat", gpsLocation.getLatitude()); 
-			map.putExtra("lon", gpsLocation.getLongitude());
+		if(DataStorageService.getInstance().isOnline()){
+			Intent map = new Intent(this.view, MapViewController.class);
+			map.putExtra("lat", submission.getGpsLocation().getLatitude()); 
+			map.putExtra("lon", submission.getGpsLocation().getLongitude());
 			map.putExtra("canSetMarker", 1);
-			map.putExtra("updateRank", rank.getRank());
-			startActivityForResult(map, REQUEST_CODE); 
+			map.putExtra("updateRank", this.view.getRank().getRank());
+			this.view.startActivityForResult(map, CreateSubmissionView.REQUEST_CODE); 
 		} else {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this.view);
 
-			LayoutInflater inflater = getLayoutInflater();
+			LayoutInflater inflater = this.view.getLayoutInflater();
 			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
 			builder.setView(dialogView);
 			AlertDialog ad = builder.create();
@@ -539,12 +404,12 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 				public void onClick(DialogInterface dialog, int which)
 				{  
 					EditText text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
-					double latitude = Double.parseDouble(text.getText().toString().trim());
+					float latitude = Float.parseFloat(text.getText().toString().trim());
 					text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
-					double longitude = Double.parseDouble(text.getText().toString().trim());
-					userLocation = new Location(gpsLocation);
-					userLocation.setLatitude(latitude);
-					userLocation.setLongitude(longitude);
+					float longitude = Float.parseFloat(text.getText().toString().trim());
+					submission.setUserLocation(new Location("New"));
+					submission.getUserLocation().setLatitude(latitude);
+					submission.getUserLocation().setLongitude(longitude);
 
 				}
 			});
@@ -561,21 +426,5 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 
 	}
 
-	@Override
-	public synchronized void receiveResult(String result) {
-		notify();		
-	}
 
-	@Override
-	public void update() {
-	}
-
-	@Override
-	public UpdateRank getRank() {
-		return rank;
-	}
 }
-
-
-
-

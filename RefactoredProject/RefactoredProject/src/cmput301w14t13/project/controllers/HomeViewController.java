@@ -169,7 +169,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	private void createTopic(){
-		Intent topic = new Intent(homeView, CreateSubmissionController.class);
+		Intent topic = new Intent(homeView, CreateSubmissionView.class);
 		topic.putExtra("construct code", 0);
 		topic.putExtra("updateRank", homeView.getRank().getRank());
 		homeView.startActivity(topic);

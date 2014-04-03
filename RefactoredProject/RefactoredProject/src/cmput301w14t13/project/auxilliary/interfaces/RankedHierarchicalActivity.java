@@ -15,4 +15,9 @@ public abstract class RankedHierarchicalActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		rank = new UpdateRank(getIntent().getIntExtra("updateRank", 0));
 	}
+	
+    public UpdateRank getRank()
+    {
+    	return rank;
+    }
 }

@@ -110,7 +110,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void reply(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		Intent intent = new Intent(topicView, CreateSubmissionView.class);
 		int rowNumber;
 		intent.putExtra("construct code", 1); //construct a comment
 		intent.putExtra("updateRank", topicView.getRank().getRank());
@@ -154,7 +154,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void edit(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		Intent intent = new Intent(topicView, CreateSubmissionView.class);
 		intent.putExtra("updateRank", topicView.getRank().getRank());
 		int rowNumber;
 		

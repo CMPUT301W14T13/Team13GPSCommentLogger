@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cmput301w14t13.project.controllers.CreateSubmissionController"
+            android:name="cmput301w14t13.project.controllers.CreateSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             <meta-data
@@ -56,7 +56,7 @@
         </activity>
         <activity
             android:name="cmput301w14t13.project.controllers.MapViewController"
-            android:parentActivityName="cmput301w14t13.project.controllers.CreateSubmissionController" >
+            android:parentActivityName="cmput301w14t13.project.controllers.CreateSubmissionView" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmput301w14t13.project.controllers.CreateSubmissionController" />

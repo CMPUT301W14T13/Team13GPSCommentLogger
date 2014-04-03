@@ -16,7 +16,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public abstract class CommentTreeElement implements Parcelable{
+public abstract class CommentTreeElement {
 	
 
 	protected String title;
@@ -60,11 +60,6 @@ public abstract class CommentTreeElement implements Parcelable{
 		username = Anonymous;
 		timestamp = new Date();
 		childPosts = new ArrayList<CommentTreeElement>();
-	}
-	
-	public CommentTreeElement(Parcel in)
-	{
-		readFromParcel(in);
 	}
 
 	public CommentTreeElement(String ID, String username, Bitmap picture, Date timestamp,
@@ -317,44 +312,5 @@ public abstract class CommentTreeElement implements Parcelable{
 		this.indentLevel = indent;
 	}
 	
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
-		
-		dest.writeStringArray(new String[]{title,ID, commentText, username, gson.toJson(image), gson.toJson(GPSLocation)});
-		dest.writeInt(indentLevel);
-		dest.writeLongArray(new long[]{timestamp.getTime(), freshness.getTime()});
-		dest.writeList(childPosts);;
-	}
-	
-	private void readFromParcel(Parcel in)
-	{
-		Gson gson = new GsonBuilder().registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
-		
-		String[] stringArgs = new String[6];
-		in.readStringArray(stringArgs);
-		
-		long[] longArgs = new long[2];
-		in.readLongArray(longArgs);
-		
-		title = stringArgs[0];
-		ID = stringArgs[1];
-		commentText = stringArgs[2];
-		Bitmap imageIn = gson.fromJson(stringArgs[4], Bitmap.class);
-		image = imageIn;
-		hasImage = imageIn != null;
-		timestamp = new Date(longArgs[0]);
-		freshness = new Date(longArgs[1]);
-		GPSLocation = gson.fromJson(stringArgs[5], Location.class);
-		childPosts = new ArrayList<CommentTreeElement>();
-		in.readList(childPosts, null);
-		username = stringArgs[3];
-		indentLevel = in.readInt();
-	}
 	
 }
