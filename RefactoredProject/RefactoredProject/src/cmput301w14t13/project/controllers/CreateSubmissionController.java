@@ -359,7 +359,6 @@ public class CreateSubmissionController extends RankedHierarchicalActivity imple
 
 		submission_ok = checkSubmission(submission); //check that the submission is valid
 		if (submission_ok){
-
 			CommentTree cl = CommentTree.getInstance();
 			cl.addElementToCurrent(submission);
 			DataStorageService dss = DataStorageService.getInstance();
