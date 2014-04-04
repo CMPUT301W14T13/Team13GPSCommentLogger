@@ -5,8 +5,6 @@ package UseCaseGroup2;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Ignore;
 
 import android.R;
 import android.annotation.SuppressLint;
@@ -24,6 +22,7 @@ import cmput301w14t13.project.controllers.CreateSubmissionController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 
@@ -32,7 +31,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 
 	HomeView homeView;
 	TopicView topicView;
-	CreateSubmissionController create;
+	CreateSubmissionView create;
 	Intent intent;
 	CommentTree ct = CommentTree.getInstance();
 
@@ -68,7 +67,6 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 		}	
 	}
 
-	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
@@ -121,14 +119,14 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 		homeView = getActivity();
 		assertNotNull(homeView);
 		
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionController.class.getName(), null , false);
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionView.class.getName(), null , false);
 
 
 		Menu menu = homeView.getMenu();
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
 		getInstrumentation().waitForIdleSync();
-		create = (CreateSubmissionController) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		create = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 		
 		
@@ -190,7 +188,6 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 
 	}
 
-	@Ignore
 	public void testMakeComment() throws Throwable{
 
 		homeView = getActivity();
@@ -225,8 +222,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 			}
 		});
 	}
-
-	@Ignore
+	
 	public void testCommentCurrentUsername() throws Throwable{
 
 		intent.putExtra("construct code", 0);

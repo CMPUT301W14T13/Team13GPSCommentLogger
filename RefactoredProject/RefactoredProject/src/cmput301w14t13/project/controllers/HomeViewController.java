@@ -16,6 +16,7 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
@@ -125,11 +126,13 @@ public class HomeViewController implements AsyncProcess{
 		CommentTree ct = CommentTree.getInstance();
         DataStorageService dss = DataStorageService.getInstance();
         Log.w("HVResume","Test");
+        Log.w("TimingTest","test");
         if(CommentTree.getInstance().isEmpty())
         {
             dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
             wait();
         }
+        Log.w("TimingTest","test");
 		ct.addView(homeView);
 		addListListener();
 		ct.updateCommentList(homeView); //updates the topic age in HomeViewActivity for when the user exits this activity
@@ -163,6 +166,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	private void initializeDataServiceConnection() {
+		//Create service connection
 		if(dataServiceConnection == null)
 		{
 			dataServiceConnection = new ServiceConnection() {
@@ -181,6 +185,7 @@ public class HomeViewController implements AsyncProcess{
 			    
 			   };
 			   
+			//Bind service
 	        Intent intent = new Intent(homeView, DataStorageService.class);
 	        homeView.bindService(intent, dataServiceConnection, Context.BIND_AUTO_CREATE);
 		}

@@ -81,7 +81,13 @@ public class ServerProxy implements AsyncProcess{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		saves.put("ROOT", gson.toJson(new Root()));
 	}
+	
 	/**
+	 * Adds a username to the hashmap, usernames, then saves 
+	 * the hashmap, usernames locally
+	 * 
+	 * Used in SelectUsernameController when the user wishes to add a 
+	 * new username to their list of usernames
 	 * 
 	 * @param newUsername
 	 */
@@ -95,7 +101,15 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * removes a username from the hashmap, usernames, then
+	 * saves the hashmap,usernames,\
+	 * 
+	 * Used in SelectUsernameController so the user can remove any username
+	 * they might not want from a list of usernames
+	 * of usernames 
+	 * @param index
+	 */
 	public void removeUsername(int index)
 	{
 		this.usernames.remove(index);
@@ -111,7 +125,15 @@ public class ServerProxy implements AsyncProcess{
 	{
 		return usernames;
 	}
-	
+	/**
+	 * Adds a Task object, newTask, to the list, cachedTasks, then
+	 * saves cachedTasks locally
+	 * 
+	 * Used when a CommentTreeElement has been created or edited
+	 * to add the task in a list of tasks to complete in order
+	 * 
+	 * @param newTask
+	 */
 	public void saveTask(Task newTask)
 	{
 		this.cachedTasks.add(newTask);
@@ -123,7 +145,13 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Removes the first Task object from the, cachedTasks, list
+	 * then saves the, cashedTaks, list
+	 * 
+	 * Used when task has been completed
+	 * 
+	 */
 	public void removeTask()
 	{
 		this.cachedTasks.remove(0);
@@ -140,6 +168,14 @@ public class ServerProxy implements AsyncProcess{
 		return cachedTasks;
 	}
 	
+	/**
+	 * places a CommentTreeElement into the hashmap, saves,
+	 * then saves the hashmap locally
+	 * 
+	 * used when a user views a Topic or Comment
+	 * 
+	 * @param data A CommentTreeElement to be saved
+	 */
 	public void startSaveData(CommentTreeElement data)
 	{
 		Gson togson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
@@ -156,6 +192,7 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * places a CommentTreeElement into the hashmap, favourites,
 	 * then saves the hashmap locally
@@ -188,11 +225,14 @@ public class ServerProxy implements AsyncProcess{
 	{
 		this.favourites.put(data, CommentTree.getInstance().peek().getID());
 	}
+	
 	/**
-	 * gets sdfsd
+	 * Using a String, key, it retrieves the matching json string from the
+	 * hashmap, saves, and converts it from a json string a CommenTreeElement 
+	 * then returns This CommentTreeElement
 	 * 
-	 * @param key
-	 * @return CommentTreeElement a single CommentTreeElement
+	 * @param key A unique ID associated with a CommentTreeElement
+	 * @return CommentTreeElement A single CommentTreeElement
 	 */
 	public CommentTreeElement getData(String key)
 	{

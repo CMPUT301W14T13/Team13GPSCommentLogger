@@ -15,6 +15,7 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
 import android.content.Intent;

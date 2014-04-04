@@ -6,6 +6,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+/**
+ * An activity that can inject its rank into CommentTree
+ * 
+ * CommentTree uses this rank to know which CommentTreeElement list to update
+ * for example in HomeView we would want CommentTree to update the TopicList
+ * 
+ * @author nsd
+ *
+ */
+
 public abstract class RankedHierarchicalActivity extends Activity {
 
 	protected UpdateRank rank;
