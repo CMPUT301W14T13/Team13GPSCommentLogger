@@ -39,6 +39,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
+ * This class saves Comments and Topics Locally on the users phone
+ * It is used to cache recently viewed Topics and comments and to 
+ * save Favourite Topics
+ * 
  * @author  mjnichol
  */
 public class ServerProxy implements AsyncProcess{

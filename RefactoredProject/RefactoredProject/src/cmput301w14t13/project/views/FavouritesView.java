@@ -17,6 +17,15 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
 
+/**
+ * Where the user views Topics they have set as Favorites
+ * Here the user sees a list of all Topics that were set as favorites
+ * and can click those topics to view the comments. If the user is offline
+ * the comments from the most recent cache update will be viewable
+ * 
+ * @author nsd
+ *
+ */
 public class FavouritesView extends RankedHierarchicalActivity implements UpdateInterface
 {
 	
@@ -36,6 +45,7 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 	final private String topicSaves = "topics.sav";
 	final private String commentSaves = "comments.sav";
 	
+	 //loads a list view and populates it with the favorite Topics
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,21 +56,18 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 		
 		Log.d("load_fav",favouritesTopics.toString());	
 	}
-	
 	@Override
 	public void onResume(){
 		super.onResume();
 		CommentTree.getInstance().addView(this);
 		update();
 	}
-	
 	@Override 
 	public void onPause()
 	{
 		super.onPause();
 		CommentTree.getInstance().deleteView(this);
 	}
-	
 	
 	
 	@Override
