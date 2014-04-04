@@ -22,7 +22,10 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.services.DataStorageService;
 
 /**
- * In this activity, the user can manage their usernames and select their global username to user when creating or editing. The usernames are stored and retrieved using shared preferences.
+ * In this activity, the user can manage their usernames and 
+ * select their global username to user when creating or editing. 
+ * The usernames are stored and retrieved using shared preferences.
+ * 
  * @author  Austin
  */
 public class SelectUsernameController extends Activity implements UpdateInterface{

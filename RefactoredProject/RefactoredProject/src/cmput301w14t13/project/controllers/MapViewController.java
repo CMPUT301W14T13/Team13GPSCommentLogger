@@ -38,7 +38,6 @@ import cmput301w14t13.project.views.TopicView;
  * 
  * This class is also used for our new requirement of displaying all the locations in a Topic thread
  *
- * I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
  * 
  * @author navjeetdhaliwal
  *
@@ -100,7 +99,9 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapView.getOverlays().add(mEvent);
 
 
-		}else {
+		} 
+		else {
+			
 			// here we implement new requirement of displaying Topic Thread Location
 			setContentView(R.layout.map_thread_view);
 			CommentTree commentTree = CommentTree.getInstance();
@@ -202,9 +203,12 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
         
 
 	/**
-	 * This method returns the point that was selected by the user when they chose to  edit their comment or topic location using the interactive map provided. This is currently being used as a way to make an integration test to debug this  MapViewActivity.
-	 * @return  the geopoint that was selected by the current marker on the screen.
+	 * This method returns the point that was selected by the user when they chose to 
+	 * edit their comment or topic location using the interactive map provided. 
+	 * This is currently being used as a way to make an integration test to debug this MapViewActivity.
 	 * 
+	 * @return  the geopoint that was selected by the current marker on the screen.
+	 *  
 	 */
 	public GeoPoint getReturnPoint(){
 		return returnPoint;

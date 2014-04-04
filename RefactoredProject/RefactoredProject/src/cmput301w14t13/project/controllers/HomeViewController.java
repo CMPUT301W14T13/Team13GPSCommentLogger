@@ -46,25 +46,35 @@ import android.widget.AdapterView.OnItemClickListener;
  * This controller handles models and UI elements
  * displayed by HomeView. Specifically, this controller
  * populates and updates a list of topics, handles clicks
- * on topics and buttons to start corresponding intents/activities.
+ * on topics and buttons to start corresponding intents/activities,
+ * as well handling sorting options from the drop down menu.
  *
  */
 public class HomeViewController implements AsyncProcess{
 
+	/**
+	 * When an item is clicked, a task is started to
+	 * cache the topic locally for offline reading,
+	 * then a TopicView intent is called.
+	 * 
+	 */
 	private final class OnLinkClickListener implements OnItemClickListener, AsyncProcess {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			
 			Intent viewTopic = new Intent(homeView, TopicView.class);
 			viewTopic.putExtra("updateRank", homeView.getRank().getRank() + 1);
 			CommentTree ct = CommentTree.getInstance();
 			DataStorageService dss = DataStorageService.getInstance();
 			SearchServerTask task = new TaskFactory(dss).getNewBrowser(ct.getChildren(homeView).get(position).getID());
+			
 			try {
 				dss.doTask(this, task);
 				waitForCompletion();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 			ct.pushToCommentStack(task.getObj()); //set the current topic the user is opening
 			dss.getProxy().startSaveData(task.getObj());
 			
@@ -81,6 +91,7 @@ public class HomeViewController implements AsyncProcess{
 		}
 	}
 
+	
 	private boolean isBoundToDataService;
 	private ServiceConnection dataServiceConnection = null;
 	private HomeView homeView;
@@ -175,6 +186,11 @@ public class HomeViewController implements AsyncProcess{
 		}
 	}
 	
+	/**
+	 * Start topic view activity for creating
+	 * a new topic. Called by button click
+	 * listener.
+	 */
 	private void createTopic(){
 		Intent topic = new Intent(homeView, CreateSubmissionView.class);
 		topic.putExtra("construct code", 0);
@@ -182,16 +198,32 @@ public class HomeViewController implements AsyncProcess{
 		homeView.startActivity(topic);
 	}
 
+	/**
+	 * Start favourites view activity to
+	 * view topics and comments favourited by the user.
+	 * Called by button click listener.
+	 */
 	private void viewFavourites(){
 		Intent favourites = new Intent(homeView, FavouritesView.class);
 		homeView.startActivity(favourites);
 	}
 
+	/**
+	 * Start select usernames activity, where
+	 * users can set and select usernames to use
+	 * in the app. Not used in this acivity.
+	 */
 	public void selectUsername(){
 		Intent intent = new Intent(homeView, SelectUsernameController.class);
 		homeView.startActivity(intent);
 	}
 	
+	/**
+	 * Method to handle button clicks on the action bar,
+	 * including: create new topic and view favourites.
+	 * @param item
+	 * @return boolean
+	 */
 	public boolean selectOptions(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_post_thread:
@@ -216,6 +248,14 @@ public class HomeViewController implements AsyncProcess{
 		    homeView.getApplicationContext().unbindService(dataServiceConnection);
 	}
 	
+	/**
+	 * Method starts an map selection activity to get
+	 * a location input from the user. 
+	 * 
+	 * This is called by sort functions when the user 
+	 * selects to sort topics by proximity to a given 
+	 * location.
+	 */
 	public void openMap() {
 		if(NetworkReceiver.isConnected){
 			Intent map = new Intent(homeView, MapViewController.class);
@@ -265,6 +305,17 @@ public class HomeViewController implements AsyncProcess{
 
 		}
 
+	/**
+	 * This function retrieves results from the 
+	 * location selection activity called by
+	 * openMap. The location variable in the controller
+	 * is updated by setting it to the retrieved latitude
+	 * and longitude.
+	 *  
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		if (requestCode == 0){
@@ -279,6 +330,18 @@ public class HomeViewController implements AsyncProcess{
 		}
 	}
 
+	/**
+	 * Method handles item selection from the
+	 * sort drop down menu and calls the corresponding
+	 * sort function, passing to it list of current
+	 * topics, and a context.
+	 * 
+	 * A popup message is displayed to indicate selection to the user.
+	 * 
+	 * @param itemPosition
+	 * @param itemId
+	 * @return
+	 */
 	public boolean onNavigationItemSelected(int itemPosition, long itemId)
 	{
 		// When the given dropdown item is selected, show its contents in the
