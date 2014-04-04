@@ -22,12 +22,13 @@ import java.util.Collection;
 
 
 /**
+ * A subclass of CommentTreeElement that represents all CommentTreeElement's 
+ * that are Replies to Topics or other Comments
  * 
- * @author arweber
+ * Used by CreateSubmisionController to create and edit Comments
+ * and by TopicView to display all replies to Topics and other Comments
+ * @author nsd
  *
- * This is the model for the comments that are not top level. It 
- * implements the viewable interface and the parcelable interface so
- * that comments can be passed between activities properly.
  */
 public class Comment extends CommentTreeElement
 {

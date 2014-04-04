@@ -20,7 +20,11 @@ import cmput301w14t13.project.services.DataStorageService;
 
 /* this is our main activity */
 /**
- * HomeViewActivity is where the user will see a list of topics and various options like adding a topic, viewing saved comments, and sorting topics. From here the user can click on a topic to enter it and view its comments and/or reply to comments
+ * Where the user Views the Topic and all of its replies. The user can 
+ * reply to Topics or Comments, as well as edit them, select a username 
+ * from a list or create a new one,set the current topic or any of its 
+ * replies as favorites, and open a map showing the locations of the Topic
+ * and all its replies
  * @author  Austin
  */
 public class TopicView extends RankedHierarchicalActivity implements UpdateInterface{
