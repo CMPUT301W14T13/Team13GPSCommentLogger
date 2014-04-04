@@ -54,27 +54,5 @@ public class OtherTests extends ActivityInstrumentationTestCase2<HomeView>
 		assertFalse(CommentTree.getInstance().getCommentList(activity).isEmpty());
 	}
 	
-	public void testUpdateInHomeView() throws InterruptedException
-	{
-		Intent intent = new Intent();
-		setActivityIntent(intent);
-		final HomeView activity = getActivity();
-		
-		Thread.sleep(10000);
-		
-		assertNotNull(CommentTree.getInstance().getCommentList(activity));
-		assertFalse(CommentTree.getInstance().getCommentList(activity).isEmpty());
-		activity.runOnUiThread(
-					new Runnable(){
-						@Override
-						public void run(){
-							activity.update();
-						}
-					}
-				);
-		Thread.sleep(1000);
-		assertNotNull(CommentTree.getInstance().getCommentList(activity));
-		assertFalse(CommentTree.getInstance().getCommentList(activity).isEmpty());
-	}
 
 }

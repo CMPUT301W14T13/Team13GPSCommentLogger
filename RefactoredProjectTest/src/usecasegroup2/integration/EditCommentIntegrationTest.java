@@ -19,6 +19,7 @@ import cmput301w14t13.project.controllers.HomeViewController;
 import cmput301w14t13.project.controllers.TopicViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 
@@ -29,7 +30,7 @@ ActivityInstrumentationTestCase2<HomeView> {
 	HomeView homeView;
 	TopicView topicView;
 
-	CreateSubmissionController create;
+	CreateSubmissionView create;
 	HomeViewController homeControl;
 
 	TopicViewController edit;
@@ -64,12 +65,14 @@ ActivityInstrumentationTestCase2<HomeView> {
 		homeView = getActivity();
 		assertNotNull(homeView);
 
+		Thread.sleep(10000);
+		
 		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionController.class.getName(), null , false);
 		Menu menu = homeView.getMenu();
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
 		getInstrumentation().waitForIdleSync();
-		create = (CreateSubmissionController) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		create = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 
 		/* make the comment */
