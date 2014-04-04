@@ -113,8 +113,6 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 	 */
 	public void testMakeTopic() throws Throwable {
 
-
-
 		homeView = getActivity();
 		assertNotNull(homeView);
 		
