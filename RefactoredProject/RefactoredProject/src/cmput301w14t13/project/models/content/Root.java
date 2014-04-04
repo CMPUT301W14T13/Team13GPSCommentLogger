@@ -7,9 +7,13 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 
 /**
- * This is the root view that will display
- * all top level comments.
+ * Subclass of CommentTreeElement, it is used to hold Topics
+ * Used by HomeView to bring up a list of all Topics for the
+ * user to view
+ * 
  */
+
+
 public class Root extends CommentTreeElement{
 	
 	public Root()
