@@ -24,33 +24,33 @@ import android.os.Parcelable;
  */
 
 public abstract class CommentTreeElement {
-	
+
 
 	protected String title;
-	
+
 	protected String ID;
-	
+
 	protected String commentText = "";
 
 	protected Bitmap image;
-	
+
 	protected boolean hasImage;
 
 	protected Date timestamp;
 
 	protected Date freshness;
 
-	
+
 	protected Location GPSLocation;
 	protected ArrayList<CommentTreeElement> childPosts;
-	
+
 	protected String username;
-	
+
 	private int indentLevel = 0;
 
 	protected static final String Anonymous = "Anonymous";
 	protected static final String NewTitle = "New Title";
-	
+
 	public CommentTreeElement()
 	{
 		ID = UUID.randomUUID().toString();
@@ -59,7 +59,7 @@ public abstract class CommentTreeElement {
 		timestamp = new Date();
 		childPosts = new ArrayList<CommentTreeElement>();
 	}
-	
+
 	public CommentTreeElement(String ID)
 	{
 		this.ID =ID;
@@ -79,7 +79,7 @@ public abstract class CommentTreeElement {
 		childPosts = new ArrayList<CommentTreeElement>();
 		this.hasImage = picture != null;
 	}
-	
+
 
 	// Getters and Setters
 	public void setAnonymous() {
@@ -125,17 +125,50 @@ public abstract class CommentTreeElement {
 	public Location getGPSLocation(){
 		return this.GPSLocation;
 	}
-	
+
 	public void setGPSLocation(Location location){
 		this.GPSLocation = location;
 	}
 	public boolean getHasImage(){
 		return this.hasImage;
 	}
-	
+	public void setLocation(Location gpsLocation2){
+		GPSLocation = gpsLocation2;
+	}
+	public Location getLocation(){
+		return this.GPSLocation;
+	}
+	public Date getFreshness(){	
+		return freshness;
+	}
+	public void setFreshness(Date freshness){
+		this.freshness = freshness;
+	}
+	/**
+	 * Goes through all CommentTreeElements children and recursively checks
+	 * the number of children each chid has, then sums them all up. 
+	 * 
+	 * @return the total amount of children this CommentTreeElement has
+	 */
+	public int getNumberOfChildren(){
+		int out = 0;
+		for(CommentTreeElement each : this.childPosts){
+			out += 1 + each.getNumberOfChildren();
+		}
+		return out;
+	}
+	public int getIndentLevel() {		
+		return indentLevel;
+	}
+	public void setIndentLevel(int indent) {
+		this.indentLevel = indent;
+	}
+
+
+
 	// Methods
-	
-	
+
+
 	/**
 	 * Adds a child CommentTreeElement to this CommentTreeElement's childPost list
 	 * The CommentTreeElement added is a reply to this CommentTreeElement
@@ -148,8 +181,8 @@ public abstract class CommentTreeElement {
 	public void addChild(CommentTreeElement post) {
 		childPosts.add(post);
 	}
-		
-	
+
+
 	/**
 	 * Returns a human readable GPS string location.
 	 * Used by 
@@ -157,10 +190,10 @@ public abstract class CommentTreeElement {
 	 * @return The GPS location in string form.
 	 */
 	public String locationString() {
-	    return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
-	    // TODO: Perhaps move this to the view
+		return Location.convert(GPSLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(GPSLocation.getLongitude(), Location.FORMAT_DEGREES);
+		// TODO: Perhaps move this to the view
 	}
-	
+
 	/* gets the difference between two dates and corrects for time resolution */
 	/**
 	 * Returns the difference between two times in a readable manner using the 
@@ -173,84 +206,22 @@ public abstract class CommentTreeElement {
 	 * @return
 	 */
 	public String getDateDiff(Date previous, Date current) {
-	    // TODO: Perhaps move this to the view
-	    long diffInMillies = current.getTime() - previous.getTime();
-	    
-	    if (diffInMillies >= 0 && diffInMillies < 60000)
-	    	return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago");
-	    else if (diffInMillies >= 60000 && diffInMillies < 3600000)
-	    	return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago");
-	    else if (diffInMillies >= 3600000 && diffInMillies < 24*3600000)
-	    	return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago");
-	    else if (diffInMillies >= 24*3600000 && diffInMillies < 24*30*3600000)
-	    	return String.valueOf(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" days ago");
-	    else if (diffInMillies >= 24*30*3600000 && diffInMillies < 24*30*12*3600000)
-	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago");
-	    else
-	    	return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
-	    
-	}
-	
-	public void setLocation(Location gpsLocation2)
-	{
-		GPSLocation = gpsLocation2;
-	}
-	
-	public Location getLocation()
-	{
-		return this.GPSLocation;
-	}
-	
-	/**
-	 * @return
-	 * 
-	 */
-	public Date getFreshness()
-	{
-	
-		return freshness;
+		// TODO: Perhaps move this to the view
+		long diffInMillies = current.getTime() - previous.getTime();
+
+		if (diffInMillies >= 0 && diffInMillies < 60000)
+			return String.valueOf(TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" seconds ago");
+		else if (diffInMillies >= 60000 && diffInMillies < 3600000)
+			return String.valueOf(TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" minutes ago");
+		else if (diffInMillies >= 3600000 && diffInMillies < 24*3600000)
+			return String.valueOf(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" hours ago");
+		else if (diffInMillies >= 24*3600000 && diffInMillies < 24*30*3600000)
+			return String.valueOf(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)).concat(" days ago");
+		else if (diffInMillies >= 24*30*3600000 && diffInMillies < 24*30*12*3600000)
+			return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/31)).concat(" months ago");
+		else
+			return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" years ago");
+
 	}
 
-	
-	/**
-	 * @param freshness
-	 * 
-	 */
-	public void setFreshness(Date freshness)
-	{
-	
-		this.freshness = freshness;
-	}
-	
-	public int getNumberOfChildren()
-	{
-		int out = 0;
-		
-		for(CommentTreeElement each : this.childPosts)
-		{
-			out += 1 + each.getNumberOfChildren();
-		}
-		
-		return out;
-	}
-
-	/**
-	 * @return
-	 * 
-	 */
-	public int getIndentLevel() {
-		
-		return indentLevel;
-	}
-
-	/**
-	 * This sets the indent variable. This value is used in CommentAdapter when displaying a topic's comments and is used to determine how many indent lines will be displayed beside the comment, indicating a reply.
-	 * @param indent  is how far the comment is to be indented when displayed
-	 * 
-	 */
-	public void setIndentLevel(int indent) {
-		this.indentLevel = indent;
-	}
-	
-	
 }
