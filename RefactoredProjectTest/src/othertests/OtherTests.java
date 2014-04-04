@@ -1,8 +1,6 @@
 package othertests;
 
-import static org.junit.Assert.*;
 
-import org.junit.Test;
 
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.views.HomeView;
@@ -54,7 +52,7 @@ public class OtherTests extends ActivityInstrumentationTestCase2<HomeView>
 		assertFalse(CommentTree.getInstance().getCommentList(activity).isEmpty());
 	}
 	
-	public void testUpdateInHomeView() throws InterruptedException
+	public void testUpdateInHomeView2() throws InterruptedException
 	{
 		Intent intent = new Intent();
 		setActivityIntent(intent);

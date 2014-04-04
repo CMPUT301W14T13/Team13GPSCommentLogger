@@ -1,6 +1,5 @@
 package usecasegroup2.unit;
 
-import org.junit.Before;
 
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -25,7 +24,6 @@ public class SetUsernameTest extends ActivityInstrumentationTestCase2<HomeView> 
 	}
 
 
-	@Before
 	public void setUp(){
 		ct = CommentTree.getInstance();
 	}

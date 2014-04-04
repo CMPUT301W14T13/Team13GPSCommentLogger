@@ -2,8 +2,6 @@ package usecasegroup2.integration;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
-
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -21,6 +19,7 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.CreateSubmissionView;;
 
 @SuppressLint("NewApi")
 public class EditCommentIntegrationTest extends
@@ -40,7 +39,6 @@ ActivityInstrumentationTestCase2<HomeView> {
 		super(HomeView.class);
 	}
 
-	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
@@ -69,7 +67,7 @@ ActivityInstrumentationTestCase2<HomeView> {
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
 		getInstrumentation().waitForIdleSync();
-		create = (CreateSubmissionController) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		create = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 
 		/* make the comment */

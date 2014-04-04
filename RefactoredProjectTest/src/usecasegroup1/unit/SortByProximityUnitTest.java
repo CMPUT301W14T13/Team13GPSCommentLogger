@@ -1,9 +1,8 @@
-package UseCaseGroup1.unit;
+package usecasegroup1.unit;
 
 
 import java.util.ArrayList;
 
-import org.junit.Before;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
