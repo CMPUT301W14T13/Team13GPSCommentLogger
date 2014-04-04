@@ -162,7 +162,7 @@ public class ServerProxy implements AsyncProcess{
 	 * 
 	 * used when the user clicks to add a CommentTreeElement to favorites
 	 * 
-	 * @param data
+	 * @param data A CommentTreeElement to be saved
 	 */
 	public void startSaveFavourites(CommentTreeElement data)
 	{
