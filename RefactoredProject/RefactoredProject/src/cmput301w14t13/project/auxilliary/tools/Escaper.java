@@ -47,27 +47,16 @@ import java.util.Set;
 /**
  
  * A utility class that is used to perform JSON escaping so that ", <, >, etc. characters are
- 
  * properly encoded in the JSON string representation before returning to the client code.
- 
  *
- 
  * <p>This class contains a single method to escape a passed in string value:
- 
  * <pre>
- 
  *   String jsonStringValue = "beforeQuote\"afterQuote";
- 
  *   String escapedValue = Escaper.escapeJsonString(jsonStringValue);
- 
  * </pre></p>
- 
  *
- 
  * @author Inderjeet Singh
- 
  * @author Joel Leitch
- 
  */
  
 public class Escaper {

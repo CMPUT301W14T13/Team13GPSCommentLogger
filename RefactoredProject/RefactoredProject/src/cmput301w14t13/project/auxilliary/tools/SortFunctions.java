@@ -11,11 +11,35 @@ import cmput301w14t13.project.services.LocationSelection;
 import android.location.Location;
 
 
-
+/**
+ * This class contains all the sorting functions that are
+ * used to sort both topics and comments within a topic.
+ * 
+ * These functions are called when a selection is made
+ * in the dropdown menu containing sort options inside
+ * home view and topic view.
+ * 
+ * All methods take an ArrayList of topics or comments,
+ * carry out required task of sorting, and return the
+ * same ArrayList type. 
+ */
 public class SortFunctions
 {
 
-
+	/**
+	 * This function sorts topics or comments in order
+	 * of newest to latest. Sorting is done by having 
+	 * two lists: a list of unsorted CommentTreeElements,
+	 * and an ordered list to be populated with the same elements.
+	 * 
+	 * The algorithm takes an item from the unsortetd list, compares
+	 * it to the rest of the list, if its date is newer than the
+	 * others then it's added to the sorted list, else it's dropped
+	 * and the next element in the unsorted list is examined.
+	 * 
+	 * @param ArrayList<CommentTreeElement>
+	 * @return ArrayList<CommentTreeElement>
+	 */
 	public static ArrayList<CommentTreeElement> sortByNewest(ArrayList<CommentTreeElement> viewables){
 
 
@@ -51,6 +75,20 @@ public class SortFunctions
 		return orderedArray;
 	}
 
+	/**
+	 * This function sorts topics or comments in order
+	 * of newest to latest. Sorting is done by having 
+	 * two lists: a list of unsorted CommentTreeElements,
+	 * and an ordered list to be populated with the same elements.
+	 * 
+	 * The algorithm takes an item from the unsortetd list, compares
+	 * it to the rest of the list, if its date is older than the
+	 * others then it's added to the sorted list, else it's dropped
+	 * and the next element in the unsorted list is examined.
+	 * 
+	 * @param ArrayList<CommentTreeElement>
+	 * @return ArrayList<CommentTreeElement>
+	 */
 	public static ArrayList<CommentTreeElement> sortByOldest(ArrayList<CommentTreeElement> viewables){
 
 
@@ -184,7 +222,24 @@ public class SortFunctions
 		return pictures;
 	}
 	
-	
+	/**
+	 * Method sorts comments or topics by what is
+	 * most relevant. Relevance is defined as comments
+	 * or topics that are within 50 KM o the user, sorted
+	 * by newest.
+	 * 
+	 * This method checks all elements in a given ArrayList of
+	 * comments/topics and filters those that are within 50 KM
+	 * of the user's retrieved location into mostRelevant, and 
+	 * the others into leastRelevant.
+	 * 
+	 * The list mostRelevant is then sorted by newest using
+	 * the function sortByNewest (documented in the class),
+	 * then returned. 
+	 * 
+	 * @param ArrayList<CommentTreeElement>
+	 * @return ArrayList<CommentTreeElement>
+	 */
 	public static ArrayList<CommentTreeElement> sortByMostRelevant(ArrayList<CommentTreeElement> viewables){
 		
 		viewables = sortByCurrentLocation(viewables);
@@ -214,11 +269,7 @@ public class SortFunctions
 					leastRelevant.add(viewables.remove(i));
 				}
 
-				
-				
 			}
-
-			
 
 		}
 		

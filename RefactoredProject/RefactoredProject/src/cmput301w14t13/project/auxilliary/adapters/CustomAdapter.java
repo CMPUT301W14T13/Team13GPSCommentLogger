@@ -79,7 +79,7 @@ public class CustomAdapter extends BaseAdapter {
 	
 	/**
 	 * This function looks up empty fields from the layout,
-	 * such as title, username, location, image attachement, age,
+	 * such as title, username, location, image attachment, age,
 	 * and the list of comments (replies to the topic),
 	 * and fills the empty field with the corresponding attributes
 	 * from a topic view. 
