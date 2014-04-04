@@ -1,7 +1,8 @@
 package cmput301w14t13.project.models;
 
 /**
- * Taken from FillerCreepForAndroid: https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FModel.java
+ * Taken from FillerCreepForAndroid: 
+ * https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FModel.java
  * 
  * @author Abram Hindle
  *
