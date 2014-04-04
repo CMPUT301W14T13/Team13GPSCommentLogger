@@ -112,8 +112,18 @@ ActivityInstrumentationTestCase2<HomeView> {
 				topicList.performItemClick(
 					    topicList.getAdapter().getView(0, null, null), 0, 0);
 				
+				/* you are now in the new Activity, so change the parameters */
+				title.setText("title_new");
+				username.setText("User2");
+				commentText.setText("text_new");
+				
+				submitButton.performClick();
+				topics = SortFunctions.sortByNewest(ct.getChildren(homeView));
+				topics.get(0);
 
-				//topicList.performItemClick(topicList.getChildAt(0), 0, topicList.getAdapter().getItemId(0));
+				assertEquals("Titles not the same", topic.getTitle(), title.getText().toString() );
+				assertEquals("Usernames not the same", topic.getUsername(), username.getText().toString());
+				assertEquals("Texts not the same", topic.getCommentText(), commentText.getText().toString());
 				
 				
 			}
