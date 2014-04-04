@@ -68,7 +68,6 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		
 		try {
 			controller.connect();
-
 			//controller.init();
 			controller.bind();
 			initializeActionBar();
@@ -102,16 +101,15 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	}
 	
 	@Override
-	public void onStop(){
-		super.onStop();
-        controller.unbind();
+	public void onPause(){
+		super.onPause();
+		CommentTree.getInstance().deleteView(this);
 	}
 	
 	@Override
-    public void onDestroy() {
-        super.onDestroy();
-        CommentTree ct = CommentTree.getInstance();
-        ct.deleteView(this);
+	public void onDestroy(){
+		super.onDestroy();
+        controller.unbind();
 	}
 	
 	@Override

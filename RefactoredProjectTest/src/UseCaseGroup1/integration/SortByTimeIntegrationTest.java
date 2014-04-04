@@ -1,5 +1,4 @@
 package UseCaseGroup1.integration;
-
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;

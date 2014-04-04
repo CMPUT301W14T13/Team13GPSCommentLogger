@@ -12,10 +12,10 @@ import cmput301w14t13.project.auxilliary.adapters.CustomAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
-import cmput301w14t13.project.auxilliary.tools.Preferences;
 import cmput301w14t13.project.controllers.FavouritesViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.services.DataStorageService;
 
 public class FavouritesView extends RankedHierarchicalActivity implements UpdateInterface
 {
@@ -28,8 +28,6 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 	private Menu menu; //A reference to the options menu
 
 	protected FavouritesViewController controller = new FavouritesViewController(this);
-	
-	private Preferences prefs;  
 
 	private ArrayList<CommentTreeElement> favouritesTopics;
 	
@@ -43,16 +41,10 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favourites_view);
 		favouritesListview = (ListView) findViewById(R.id.favourites_listview);
+
+		favouritesTopics = DataStorageService.getInstance().getProxy().getFavouritesAsArrayList();
 		
-		prefs = new Preferences(getApplicationContext());
-		
-		favouritesTopics = prefs.loadCommentFile(commentSaves);
-		
-		Log.d("load_fav",favouritesTopics.toString());
-		
-		
-		
-		
+		Log.d("load_fav",favouritesTopics.toString());	
 	}
 	
 	@Override
@@ -77,6 +69,7 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 		
 		/* In order to show the topics attach a CustomAdapter */
 		/* We need to be able to show both topics and comments */
+		favouritesTopics = DataStorageService.getInstance().getProxy().getFavouritesAsArrayList();
 		displayAdapter = new CommentAdapter(this, favouritesTopics);
 		favouritesListview.setAdapter(displayAdapter);
 		displayAdapter.notifyDataSetChanged();		
