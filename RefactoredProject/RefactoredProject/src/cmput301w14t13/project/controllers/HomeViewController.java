@@ -219,7 +219,7 @@ public class HomeViewController implements AsyncProcess{
 	public void openMap() {
 		if(NetworkReceiver.isConnected){
 			Intent map = new Intent(homeView, MapViewController.class);
-			//Log.d("CreateSubmissionActivity", locationGetter.getLocation().toString());
+			
 			map.putExtra("lat", LocationSelection.getInstance().getLocation().getLatitude()); 
 			map.putExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
 			map.putExtra("updateRank", homeView.getRank().getRank());
@@ -227,7 +227,7 @@ public class HomeViewController implements AsyncProcess{
 			homeView.startActivityForResult(map, 0);  
 
 		} else {
-			// when we are not connected to any network we open a dialog for user to edit dialog
+			// when we are not connected to any network we open a dialog for user to edit location
 			AlertDialog.Builder builder = new AlertDialog.Builder(homeView);
 
 			LayoutInflater inflater = homeView.getLayoutInflater();

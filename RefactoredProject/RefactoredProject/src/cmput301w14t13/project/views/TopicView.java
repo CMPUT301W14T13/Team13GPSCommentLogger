@@ -21,10 +21,11 @@ import cmput301w14t13.project.services.DataStorageService;
 /* this is our main activity */
 /**
  * Where the user Views the Topic and all of its replies. The user can 
- * reply to Topics or Comments, as well as edit them, select a username 
- * from a list or create a new one,set the current topic or any of its 
- * replies as favorites, and open a map showing the locations of the Topic
- * and all its replies
+ * reply to Topics or Comments, as well as edit them, Sort the Comments 
+ * by different parameters, select a username from a list or create a 
+ * new one,set the current topic or any of its replies as favorites, 
+ * and open a map showing the locations of the Topic and all its replies
+ * 
  * @author  Austin
  */
 public class TopicView extends RankedHierarchicalActivity implements UpdateInterface{
@@ -120,19 +121,32 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	}
 
 	*/
+	
+	/**
+	 * When user clicks the save button in a comment we use DataStorageService to favourite the specified comment
+	 * @param v
+	 */
 	public void favouriteComment(View v){
 		CommentTree ct = CommentTree.getInstance();
 		Toast.makeText(getApplicationContext(), "Comment Favourited!",Toast.LENGTH_SHORT).show();
 		CommentTreeElement comment = ct.getCommentList(this).get((Integer) v.getTag());
 		DataStorageService.getInstance().getProxy().startSaveFavourites(comment);
 	}
-
+	
+	/**
+	 * When user clicks the save button in the Topic we use DataStorageService to favourite the specified topic
+	 * @param v
+	 */
 	public void saveTopic(View v){
 		CommentTree ct = CommentTree.getInstance();
 		Toast.makeText(getApplicationContext(), "Topic Favourited!",Toast.LENGTH_SHORT).show();
 		CommentTreeElement topic = ct.getElement(this);	
 		DataStorageService.getInstance().getProxy().startSaveFavourites(topic);
 	}
+	
+	/**
+	 * Updates the commentListView with the most recent comments made
+	 */
 	@Override
 	public void update()
 	{

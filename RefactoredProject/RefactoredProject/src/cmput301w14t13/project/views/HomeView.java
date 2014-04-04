@@ -55,7 +55,12 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	private CustomAdapter displayAdapter; //adapter to display the topics
 	private Menu menu; //A reference to the options menu
 	protected HomeViewController controller = new HomeViewController(this);
-
+	
+	/**
+	 * This method loads up a ListView onto the screen
+	 * then initializes the controller to handle the list of topics
+	 * to view, as well as clicks on topis and elements
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -129,14 +134,14 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		return (controller.selectOptions(item))?true:super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * @return
-	 * @uml.property  name="menu"
-	 */
 	public Menu getMenu() {
 		return menu;
 	}
 	
+	/**
+	 * Sets up a dropdown list in the actionbar for sorting
+	 * 
+	 */
 	private void initializeActionBar()
 	{
 		// Set up the action bar to show a dropdown list.
@@ -182,6 +187,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		return controller.onNavigationItemSelected(itemPosition, itemId);
 	}
 	
+	
 	public void openMap()
 	{
 		controller.openMap();
@@ -192,7 +198,10 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		controller.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
+	/**
+	 * updates the list view with the most recent list of topics.
+	 */
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();

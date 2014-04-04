@@ -69,7 +69,9 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 		CommentTree.getInstance().deleteView(this);
 	}
 	
-	
+	/**
+	 * updates the listview with the most recent list of favourites
+	 */
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();
