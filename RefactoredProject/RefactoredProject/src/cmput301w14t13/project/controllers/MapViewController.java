@@ -26,10 +26,6 @@ import cmput301w14t13.project.views.TopicView;
 
 
 /**
-<<<<<<< HEAD
- * This Activiy provides the user with a map using OpenStreetMaps for android. It is used by CreateSubmissionActivity to edit the user's location, which is  done by tapping on the map where you want to set the location, once tapped a marker is placed as a visual aid indicating the current point the user has selected for his comment/Topic. Once the user has selected a point for his comment they push the SubmitLocation buton which returns the current points latitude and longitude to CreateSubmissionActivity This class is also used for our new requirement of displaying all the locations in a Topic thread I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
- * @author  navjeetdhaliwal
-=======
  * This Activity provides the user with a map using OpenStreetMaps for android.
  * 
  * It is used by CreateSubmissionActivity to edit the user's location, which is 
@@ -41,11 +37,11 @@ import cmput301w14t13.project.views.TopicView;
  * which returns the current points latitude and longitude to CreateSubmissionActivity
  * 
  * This class is also used for our new requirement of displaying all the locations in a Topic thread
+ *
  * I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
  * 
  * @author navjeetdhaliwal
  *
->>>>>>> a22a39be57f90e3367755d84253515fc7bb897fb
  */
 
 public class MapViewController extends RankedHierarchicalActivity implements UpdateInterface{

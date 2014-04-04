@@ -45,7 +45,13 @@ import android.widget.Toast;
 
 
 /**
- * This is where the user can construct a new submission or edit a previous one. This activity uses a construct code which tells it how to build the submission, and a submit code which tells it how to submit the submission. It also uses the CheckSubmission function to check if the submission is a valid one. A valid comment must have comment text and a  valid topic must have comment text and a title. The username will default to "Anonymous" if left empty.
+ * This is where the user can construct a new submission or edit a previous one.
+ * This activity uses a construct code which tells it how to build the submission,
+ * and a submit code which tells it how to submit the submission. 
+ * It also uses the CheckSubmission function to check if the submission is a valid one.
+ * A valid comment must have comment text and a  valid topic must have comment text and a title. 
+ * The username will default to "Anonymous" if left empty.
+ *
  * @author  Austin
  */
 public class CreateSubmissionView extends RankedHierarchicalActivity implements UpdateInterface{

@@ -15,7 +15,10 @@ import android.app.Activity;
 import android.util.Log;
 
 /**
- * The model for the entire app to modify. It holds the root which contains the list of topics, a comment list which displays every comment made in a topic, the user's global username, a number which is used to grab topics from root, and adapters for updating the lists.
+ * The model for the entire app to modify. It holds the root which contains the list of topics,
+ * a comment list which displays every comment made in a topic, the user's global username, 
+ * a number which is used to grab topics from root, and adapters for updating the lists.
+ * 
  * @author  arweber
  */
 public class CommentTree extends ViewList<UpdateInterface> implements AsyncProcess
