@@ -1,6 +1,6 @@
 package cmput301w14t13.project.models.content;
 
-import cmput301w14t13.project.controllers.CreateSubmissionView;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import android.graphics.Bitmap;
 import android.location.Location;
 

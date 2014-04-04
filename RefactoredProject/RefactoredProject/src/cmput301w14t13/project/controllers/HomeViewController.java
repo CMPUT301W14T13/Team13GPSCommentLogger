@@ -16,6 +16,7 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;

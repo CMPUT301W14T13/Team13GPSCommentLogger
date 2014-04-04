@@ -1,9 +1,10 @@
-package cmput301w14t13.project.controllers;
+package cmput301w14t13.project.auxilliary.tools;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import cmput301w14t13.project.models.content.CommentTreeElementSubmission;
+import cmput301w14t13.project.views.CreateSubmissionView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

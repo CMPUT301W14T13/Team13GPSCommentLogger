@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
+import cmput301w14t13.project.auxilliary.tools.ImageAttacher;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -25,6 +26,7 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.views.CreateSubmissionView;
 
 public class CreateSubmissionController
 {
