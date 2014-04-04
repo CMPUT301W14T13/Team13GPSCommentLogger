@@ -1,4 +1,4 @@
-package UseCaseGroup4;
+package usecasegroup4;
 
 import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;

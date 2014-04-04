@@ -1,4 +1,4 @@
-package UseCaseGroup2;
+package usecasegroup2.unit;
 
 import org.junit.Before;
 

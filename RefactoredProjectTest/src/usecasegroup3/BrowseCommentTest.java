@@ -1,14 +1,14 @@
-package UseCaseGroup2;
+package usecasegroup3;
 
 import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
-public class AttachPictureTest extends
+public class BrowseCommentTest extends
 ActivityInstrumentationTestCase2<HomeView> {
 
-	public AttachPictureTest() {
+	public BrowseCommentTest() {
 		super(HomeView.class);
 	}
 
