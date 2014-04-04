@@ -5,6 +5,7 @@ package UseCaseGroup2;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import android.R;
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
@@ -112,6 +113,8 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 	 * what is actually in the comment
 	 */
 	public void testMakeTopic() throws Throwable {
+
+
 
 		homeView = getActivity();
 		assertNotNull(homeView);

@@ -1,5 +1,6 @@
 package othertests;
 
+
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.views.HomeView;
 
@@ -49,5 +50,5 @@ public class OtherTests extends ActivityInstrumentationTestCase2<HomeView>
 		assertNotNull(CommentTree.getInstance().getCommentList(activity));
 		assertFalse(CommentTree.getInstance().getCommentList(activity).isEmpty());
 	}
-	
+
 }
