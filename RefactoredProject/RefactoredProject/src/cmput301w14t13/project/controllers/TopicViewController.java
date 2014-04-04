@@ -15,6 +15,7 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
 import android.content.Intent;
@@ -110,7 +111,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void reply(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		Intent intent = new Intent(topicView, CreateSubmissionView.class);
 		int rowNumber;
 		intent.putExtra("construct code", 1); //construct a comment
 		intent.putExtra("updateRank", topicView.getRank().getRank());
@@ -154,7 +155,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void edit(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		Intent intent = new Intent(topicView, CreateSubmissionView.class);
 		intent.putExtra("updateRank", topicView.getRank().getRank());
 		int rowNumber;
 		

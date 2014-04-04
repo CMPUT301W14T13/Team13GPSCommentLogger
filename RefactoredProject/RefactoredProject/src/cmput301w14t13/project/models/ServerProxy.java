@@ -247,6 +247,11 @@ public class ServerProxy implements AsyncProcess{
 		}
 	}
 	
+	public ArrayList<CommentTreeElement> getFavouritesAsArrayList()
+	{
+		return new ArrayList<CommentTreeElement>(favourites.keySet());
+	}
+	
 	public void save() throws IOException
 	{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer()).registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();

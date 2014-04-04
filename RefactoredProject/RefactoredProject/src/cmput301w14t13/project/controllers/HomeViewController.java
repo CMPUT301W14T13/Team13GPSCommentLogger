@@ -16,6 +16,7 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
@@ -169,7 +170,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	private void createTopic(){
-		Intent topic = new Intent(homeView, CreateSubmissionController.class);
+		Intent topic = new Intent(homeView, CreateSubmissionView.class);
 		topic.putExtra("construct code", 0);
 		topic.putExtra("updateRank", homeView.getRank().getRank());
 		homeView.startActivity(topic);
@@ -180,6 +181,11 @@ public class HomeViewController implements AsyncProcess{
 		homeView.startActivity(favourites);
 	}
 
+	public void selectUsername(){
+		Intent intent = new Intent(homeView, SelectUsernameController.class);
+		homeView.startActivity(intent);
+	}
+	
 	public boolean selectOptions(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_post_thread:
@@ -189,6 +195,9 @@ public class HomeViewController implements AsyncProcess{
 			case R.id.saved:
 				viewFavourites();
 				return true;
+				
+			case R.id.action_select_username:
+				selectUsername();
 				
 			default:
 				return false;
