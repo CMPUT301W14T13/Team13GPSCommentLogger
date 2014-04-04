@@ -10,7 +10,12 @@ import android.widget.Toast;
 /**
  * This class is constantly listening for changes in the network signal
  * once a change is detected the onReceive method changes the isConnected
- * field to true if we are connected and false if not
+ * field to true if we are connected and false if not.
+ * 
+ * It is Used to determine if an action the user takes needs to be done locally
+ * or through the server. For Example, when creating, editing, Topics or comments,
+ * or editing or getting location we need to know if we have a connection.
+ * 
  * @author nsd
  *
  */

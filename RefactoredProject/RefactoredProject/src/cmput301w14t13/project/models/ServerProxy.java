@@ -41,7 +41,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * This class saves Comments and Topics Locally on the users phone
  * It is used to cache recently viewed Topics and comments and to 
- * save Favourite Topics
+ * save Favorite Topics and Comments
  * 
  * @author  mjnichol
  */
@@ -81,7 +81,10 @@ public class ServerProxy implements AsyncProcess{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		saves.put("ROOT", gson.toJson(new Root()));
 	}
-	
+	/**
+	 * 
+	 * @param newUsername
+	 */
 	public void saveUsername(String newUsername)
 	{
 		this.usernames.add(newUsername);
@@ -104,10 +107,6 @@ public class ServerProxy implements AsyncProcess{
 		}
 	}
 	
-	/**
-	 * @return
-	 * 
-	 */
 	public ArrayList<String> getUsernames()
 	{
 		return usernames;
@@ -157,7 +156,14 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * places a CommentTreeElement into the hashmap, favourites,
+	 * then saves the hashmap locally
+	 * 
+	 * used when the user clicks to add a CommentTreeElement to favorites
+	 * 
+	 * @param data
+	 */
 	public void startSaveFavourites(CommentTreeElement data)
 	{
 		saveFavourite(data);
@@ -178,12 +184,16 @@ public class ServerProxy implements AsyncProcess{
 			saveData(each);
 		}
 	}
-	
 	private void saveFavourite(CommentTreeElement data)
 	{
 		this.favourites.put(data, CommentTree.getInstance().peek().getID());
 	}
-	
+	/**
+	 * gets sdfsd
+	 * 
+	 * @param key
+	 * @return CommentTreeElement a single CommentTreeElement
+	 */
 	public CommentTreeElement getData(String key)
 	{
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
@@ -208,6 +218,7 @@ public class ServerProxy implements AsyncProcess{
 		topic.addChild(key);
 		return topic;
 	}
+	
 	/**
 	* This method makes sure that when we load a favourited comment to view that it and its children get displayed with the correct
 	* level of indentation.
@@ -222,6 +233,13 @@ public class ServerProxy implements AsyncProcess{
 		}
 	}
 	
+	/**
+	 * Replaces the current hashmap, saves, with a new empty hashmap
+	 * then saves this hashmap locally 
+	 * 
+	 * Used when the user wishes to clear their saves or when initializing the server
+	 * @param newRoot
+	 */
 	public void clearSaves(Root newRoot)
 	{
 		saves = new HashMap<String, String>();
@@ -240,6 +258,14 @@ public class ServerProxy implements AsyncProcess{
 		saves.put(root.getID(), gson.toJson(root));
 	}
 	
+	
+	/**
+	 * Replaces the current hashmap, favourites, with an empty hashmap 
+	 * and saves this empty hashmap locally
+	 * 
+	 *  used when the user wishes to clear their favourites or when initializing the server
+	 *  
+	 */
 	public void clearFavourites()
 	{
 		favourites = new HashMap<CommentTreeElement, String>();
@@ -256,6 +282,16 @@ public class ServerProxy implements AsyncProcess{
 		return new ArrayList<CommentTreeElement>(favourites.keySet());
 	}
 	
+	/**
+	 * Saves files locally using Gson to convert Java objects to
+	 * json format and write those json strings into the appropriate file 
+	 * in the device.
+	 * 
+	 * Used to save comments,favorites, and usernames locally onto the device
+	 * when a user wishes to access them offline, or just to have a directory of them
+	 * for easy reference.
+	 * @throws IOException
+	 */
 	public void save() throws IOException
 	{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer()).registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
@@ -272,7 +308,14 @@ public class ServerProxy implements AsyncProcess{
 		bw.close();
 		fw.close();
 	}
-	
+	/**
+	 * Reads json strings from a specified filepath that representing comments,favorites, and usernames then loads
+	 * them into appropriate hashmaps
+	 * 
+	 * Used when user wants to view locally saved content 
+	 * 
+	 * @throws IOException
+	 */
 	public void load() throws IOException
 	{
 		File f = new File(filepath);

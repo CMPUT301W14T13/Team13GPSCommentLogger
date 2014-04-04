@@ -134,8 +134,8 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	}
 	
 	/**
-	 * When user clicks the save button in the Topic we use DataStorageService to favourite the specified topic
-	 * @param v
+	 * When user clicks the save button in the Topic we use DataStorageService to favorite the specified topic
+	 * @param v 
 	 */
 	public void saveTopic(View v){
 		CommentTree ct = CommentTree.getInstance();

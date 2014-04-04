@@ -3,16 +3,15 @@ package cmput301w14t13.project.models;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import android.location.Location;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
-import cmput301w14t13.project.views.HomeView;
-import android.app.Activity;
-import android.util.Log;
 
 /**
  * The model for the entire app to modify. It holds the root which contains the list of topics,
@@ -36,19 +35,14 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		
 	}
 	
-	
 	public static CommentTree getInstance()
 	{
 		return Instance;
 	}
-	
-
 	public void setCurrentUsername(String username){
 		currentUsername = username;
 		notifyViews();
 	}
-	
-
 	public String getCurrentUsername(){
 		return currentUsername;
 	}
@@ -62,7 +56,10 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	}
 	
 	/**
-	 * Function adds a commentTreeElement
+	 * Adds a CommentTreeElement to another CommentTreeElement that is currently
+	 * on top of the CommentTree stack
+	 * 
+	 * Used when adding a comment as a child to the Topic currently on top of the CommentTreeStack
 	 * 
 	 * @param comment
 	 */
@@ -71,13 +68,90 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		notifyViews();
 	}
 	
-	public void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
+	
+	/**
+	 * Replaces the Comment list specified by the injected activity ,updateable, with
+	 * the provided ArrayList, sortedList,
+	 * 
+	 * Used in HomeView to sort Topics by the users current location
+	 * 
+	 * @param updateable The RankedHierarchicalActivity calling this method
+	 */
+	public void sortListByCurrentLocation(RankedHierarchicalActivity updateable){	
+		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByCurrentLocation(getCommentList(updateable));
+		addSortedList(updateable, sortedList);
+	}
+	/**
+	 * Replaces the Comment list specified by the injected activity ,updateable, with
+	 * the provided ArrayList, sortedList,
+	 * 
+	 * Used in HomeView to sort Topics by a Location given by the user
+	 * 
+	 * @param updateable The RankedHierarchicalActivity calling this method
+	 * @param location The Location to be used for sorting
+	 */
+	public void sortListByGivenLocation(RankedHierarchicalActivity updateable, Location location){
+		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByGivenLocation(getCommentList(updateable), location);
+		addSortedList(updateable, sortedList);
+	}
+	/**
+	 * Replaces the Comment list specified by the injected activity ,updateable, with
+	 * the provided ArrayList, sortedList,
+	 * 
+	 * Used in HomeView to sort Topics by a Location given by the user 
+	 * 
+	 * @param updateable The RankedHierarchicalActivity calling this method
+	 */
+	public void sortListByPicture(RankedHierarchicalActivity updateable){
+		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByPicture(getCommentList(updateable));
+		addSortedList(updateable, sortedList);
+	}
+	/**
+	 * Replaces the Comment list specified by the injected activity ,updateable, with
+	 * the provided ArrayList, sortedList,
+	 * 
+	 * Used in HomeView to sort Topics from newest created to oldest created 
+	 * 
+	 * @param updateable The RankedHierarchicalActivity calling this method
+	 */
+	public void sortListByNewest(RankedHierarchicalActivity updateable){
+		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByNewest(getCommentList(updateable));
+		addSortedList(updateable, sortedList);
+	}
+	/**
+	 * Replaces the Comment list specified by the injected activity ,updateable, with
+	 * the provided ArrayList, sortedList,
+	 * 
+	 * Used in HomeView to sort Topics from oldest created to newest created 
+	 * 
+	 * @param updateable The RankedHierarchicalActivity calling this method
+	 */
+	public void sortListByOldest(RankedHierarchicalActivity updateable){
+		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByOldest(getCommentList(updateable));
+		addSortedList(updateable, sortedList);
+	}
+	/**
+	 * Replaces the Comment list specified by the injected activity ,updateable, with
+	 * the provided ArrayList, sortedList,
+	 * 
+	 * Used in HomeView to sort Topics by most relevant to the user 
+	 * 
+	 * @param updateable The RankedHierarchicalActivity calling this method
+	 */
+	public void sortListByMostRelevant(RankedHierarchicalActivity updateable){
+		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByMostRelevant(getCommentList(updateable));
+		addSortedList(updateable, sortedList);
+	}
+	
+	private void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
 	{
 		int rank = updateable.getRank().getRank();
 		commentListsInDisplayOrder.elementAt(rank).clear();
 		commentListsInDisplayOrder.elementAt(rank).addAll(sortedList);
 		notifyViews();
 	}
+	
+	
 	
 	/**
 	 * updates the commentList to be displayed in a topic. For each topic child,
@@ -104,6 +178,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	public void fillTopicChildren(CommentTreeElement comment, RankedHierarchicalActivity updateable){
 		commentListsInDisplayOrder.elementAt(updateable.getRank().getRank()).add(comment);
 		ArrayList<CommentTreeElement> children = comment.getChildren();
+		
 		for (int i = 0; i < children.size(); i++){
 			fillTopicChildren(children.get(i), updateable);
 		}
@@ -135,7 +210,10 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		return stack.peek();
 	}
 	
-	/* used for non- root pops off the comment tree stack */
+	/**
+	 * Pop a CommentTreeElement from the stack
+	 * @throws InterruptedException
+	 */
 	public synchronized void popFromCommentStack() throws InterruptedException
 	{
 		stack.pop();

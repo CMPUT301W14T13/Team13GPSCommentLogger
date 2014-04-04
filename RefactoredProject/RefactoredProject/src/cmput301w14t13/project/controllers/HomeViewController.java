@@ -347,57 +347,55 @@ public class HomeViewController implements AsyncProcess{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
 
-		ArrayList<CommentTreeElement> sortedTopics = CommentTree.getInstance().getCommentList(homeView);
+
 		
 		switch (itemPosition) {
+		//SortByCurrentLocation
 		case 0:
 			
-			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
+			CommentTree.getInstance().sortListByCurrentLocation(homeView);
 			Toast.makeText(homeView.getApplicationContext(), "Proximity to Me",
 					Toast.LENGTH_SHORT).show();
 			break;
-			
+		//SortByGivenLocation	
 		case 1:
 			
 				openMap();
-
-				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
+				CommentTree.getInstance().sortListByGivenLocation(homeView, location);
 				Toast.makeText(homeView.getApplicationContext(), "Proximity to Location",
 						Toast.LENGTH_SHORT).show();
 			
 			
 			break;
-			
+		//SortByPicture	
 		case 2:
 			
-			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
+			CommentTree.getInstance().sortListByPicture(homeView);
 			Toast.makeText(homeView.getApplicationContext(), "Pictures",
 					Toast.LENGTH_SHORT).show();
 			break;
-			
+		//SortByNewest	
 		case 3:
 			
-			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
-			
+			CommentTree.getInstance().sortListByNewest(homeView);
 			Toast.makeText(homeView.getApplicationContext(), "Newest",
 					Toast.LENGTH_SHORT).show();
 			break;
-			
+		//SortByOldest	
 		case 4:
 			
-			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
+			CommentTree.getInstance().sortListByOldest(homeView);
 			Toast.makeText(homeView.getApplicationContext(), "Oldest",
 					Toast.LENGTH_SHORT).show();
 			break;
+		//SortByMostRelevant	
 		case 5:
-			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
+			CommentTree.getInstance().sortListByMostRelevant(homeView);
 			Toast.makeText(homeView.getApplicationContext(), "Relevant",
 					Toast.LENGTH_SHORT).show();
 			break;
 		}
 
-		CommentTree.getInstance().addSortedList(homeView, sortedTopics);
-		
 		return true;
 	}
 
