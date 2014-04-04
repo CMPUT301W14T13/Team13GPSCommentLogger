@@ -31,12 +31,12 @@ import cmput301w14t13.project.views.TopicView;
  * It is used by CreateSubmissionActivity to edit the user's location, which is 
  * done by tapping on the map where you want to set the location, once tapped
  * a marker is placed as a visual aid indicating the current point the user has selected
- * for his comment/Topic.
+ * for his comment/Topic. Once the user has selected a point for his comment they 
+ * push the SubmitLocation button which returns the current points latitude and longitude
+ * to CreateSubmissionActivity
  * 
- * Once the user has selected a point for his comment they push the SubmitLocation buton
- * which returns the current points latitude and longitude to CreateSubmissionActivity
- * 
- * This class is also used for our new requirement of displaying all the locations in a Topic thread
+ * Also Used by TopicView to show a map of locations of the Topic and all of its replies
+ * The User Can view the map and all markers on screen but not move any markers
  *
  * 
  * @author navjeetdhaliwal
@@ -50,7 +50,17 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 
 	private GeoPoint returnPoint;
 	private int canSetMarker;
-
+	/**
+	 * using the CanSetMarker indication the map is set up to either facilitate editing of a users location
+	 * or viewing of locations of a Topic and all of its replies
+	 * 
+	 * If canSetMarker is set, a marker is placed at the current location passed to this activity
+	 * and a MapEventsReceiver is set to change the location of the marker to were ever the user
+	 * taps
+	 * 
+	 * If canSetMarker is set to 0, then the map is populated with the location of the current Topic and all of its replies
+	 * 
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

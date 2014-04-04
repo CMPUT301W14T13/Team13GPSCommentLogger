@@ -8,8 +8,9 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 /**
- * Network receiver constantly checks for network change, once a change
- * has occured we take action inside the onReceive() function.
+ * This class is constantly listening for changes in the network signal
+ * once a change is detected the onReceive method changes the isConnected
+ * field to true if we are connected and false if not
  * @author nsd
  *
  */
@@ -22,18 +23,13 @@ public class NetworkReceiver extends BroadcastReceiver
 	{
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    // if we have or are connecting to the network
-	   
+
 	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
 	    	isConnected = true;
 	    }else {
 	    	isConnected = false;
-	    }
-	    
+	    }	    
 	}
-	
-
-
 }
 
 
