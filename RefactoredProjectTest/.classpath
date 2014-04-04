@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-<<<<<<< HEAD
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/RefactoredProject"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="/cshome/imamverd/CMPUT 301/lib/GSON/gson-2.2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="/cshome/imamverd/CMPUT 301/lib/GSON/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="/cshome/imamverd/CMPUT 301/lib/GSON/gson-2.2.4-sources.jar"/>
-=======
->>>>>>> 2730de37e9beaff81e346da17e621cd6e2e2610c
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RefactoredProject"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
