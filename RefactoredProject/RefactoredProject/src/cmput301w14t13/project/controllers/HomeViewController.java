@@ -41,10 +41,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-
+/**
+ * 
+ * This controller handles models and UI elements
+ * displayed by HomeView. Specifically, this controller
+ * populates and updates a list of topics, handles clicks
+ * on topics and buttons to start corresponding intents/activities.
+ *
+ */
 public class HomeViewController implements AsyncProcess{
 
-	private final class OnLinkClickListener implements OnItemClickListener,AsyncProcess {
+	private final class OnLinkClickListener implements OnItemClickListener, AsyncProcess {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent viewTopic = new Intent(homeView, TopicView.class);
@@ -277,7 +284,6 @@ public class HomeViewController implements AsyncProcess{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
 
-		// ITEM SELECTION ACTIONS DONE HERE
 		ArrayList<CommentTreeElement> sortedTopics = CommentTree.getInstance().getCommentList(homeView);
 		
 		switch (itemPosition) {
@@ -285,7 +291,7 @@ public class HomeViewController implements AsyncProcess{
 			
 			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
 			Toast.makeText(homeView.getApplicationContext(), "Proximity to Me",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 			break;
 			
 		case 1:
@@ -294,7 +300,7 @@ public class HomeViewController implements AsyncProcess{
 
 				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
 				Toast.makeText(homeView.getApplicationContext(), "Proximity to Location",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			
 			
 			break;
@@ -303,7 +309,7 @@ public class HomeViewController implements AsyncProcess{
 			
 			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
 			Toast.makeText(homeView.getApplicationContext(), "Pictures",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 			break;
 			
 		case 3:
@@ -311,19 +317,19 @@ public class HomeViewController implements AsyncProcess{
 			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
 			
 			Toast.makeText(homeView.getApplicationContext(), "Newest",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 			break;
 			
 		case 4:
 			
 			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
 			Toast.makeText(homeView.getApplicationContext(), "Oldest",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 			break;
 		case 5:
 			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
 			Toast.makeText(homeView.getApplicationContext(), "Relevant",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 			break;
 		}
 

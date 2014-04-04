@@ -21,6 +21,11 @@ import cmput301w14t13.project.views.TopicView;
  * */
 
 /**
+ * This controller views topics and comments
+ * that are favourited by the user. This class
+ * handles clicks on the list of favourited topics
+ * or comments.
+ * 
  * @author  mjnichol
  */
 public class FavouritesViewController{
@@ -42,8 +47,10 @@ public class FavouritesViewController{
 	
 	}
 	
-	/* I think this click listener will function as desired. It is more or less a straight copy
-	 * of the homeView listener */
+	/** I think this click listener will function as desired.
+	 * It is more or less a straight copy
+	 * of the homeView listener 
+	 * */
 	private final class OnLinkClickListener implements OnItemClickListener,AsyncProcess {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

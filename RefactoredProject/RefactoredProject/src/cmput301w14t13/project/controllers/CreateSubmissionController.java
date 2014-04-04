@@ -26,6 +26,24 @@ import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.LocationSelection;
 
+
+/**
+ * This controller is used by CreateSubmissionView
+ * in order to change the state of a comment or
+ * topic model that is being created or edited.
+ * 
+ * When the user enters information inside the fields
+ * in the view (eg. title, username, location, text),
+ * that information is bundled and passed to this controller
+ * which in turn updates a CommentTreeElementSubmission
+ * before submitting it to the server. 
+ * 
+ * CommentTreeElementSubmission models have corresponding
+ * views that show the user the state of the model (ie.
+ * displaying current title, username, text, etc.) * 
+ *
+ */
+
 public class CreateSubmissionController
 {
 
