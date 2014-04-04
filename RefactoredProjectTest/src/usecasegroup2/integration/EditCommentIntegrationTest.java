@@ -2,8 +2,6 @@ package usecasegroup2.integration;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
-
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -40,7 +38,6 @@ ActivityInstrumentationTestCase2<HomeView> {
 		super(HomeView.class);
 	}
 
-	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();
@@ -69,10 +66,11 @@ ActivityInstrumentationTestCase2<HomeView> {
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
 		getInstrumentation().waitForIdleSync();
+		/*
 		create = (CreateSubmissionController) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 
-		/* make the comment */
+
 		runTestOnUiThread(new Runnable() {
 
 			@Override
@@ -102,7 +100,7 @@ ActivityInstrumentationTestCase2<HomeView> {
 					e.printStackTrace();
 				}
 
-				/* make sure we have entered the CreateSubmissionController Activity */
+				// make sure we have entered the CreateSubmissionController Activity 
 
 				ArrayList<CommentTreeElement> topics = SortFunctions.sortByNewest(ct.getChildren(homeView));
 				CommentTreeElement topic = topics.get(0);
@@ -116,16 +114,13 @@ ActivityInstrumentationTestCase2<HomeView> {
 
 			}
 		});
-
+		 */
+		
 		/* Now click the comment and edit it */
 		// Instrumentation.ActivityMonitor homeViewMonitor = getInstrumentation().addMonitor(HomeViewController.class.getName(), null , false);
 		// give the topic a second to get pushed to the server 
 
 		/* stop the runnable here */
-
-
-
-
 		runTestOnUiThread(new Runnable() {
 
 			@Override

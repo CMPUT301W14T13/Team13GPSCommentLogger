@@ -5,9 +5,6 @@ package UseCaseGroup2;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Ignore;
-
 import android.R;
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
@@ -69,7 +66,6 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 		}	
 	}
 
-	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();

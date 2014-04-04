@@ -1,7 +1,5 @@
 package usecasegroup2.unit;
 
-import org.junit.Before;
-
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
@@ -15,17 +13,15 @@ import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.views.HomeView;
 
-public class SetUsernameTest extends ActivityInstrumentationTestCase2<HomeView> {
+public class SetUsernameUnitTest extends ActivityInstrumentationTestCase2<HomeView> {
 
 	CommentTree ct;
 	SelectUsernameController selectUsername;
 
-	public SetUsernameTest() {
+	public SetUsernameUnitTest() {
 		super(HomeView.class);
 	}
 
-
-	@Before
 	public void setUp(){
 		ct = CommentTree.getInstance();
 	}
