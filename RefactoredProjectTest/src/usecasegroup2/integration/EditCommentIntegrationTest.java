@@ -98,21 +98,35 @@ ActivityInstrumentationTestCase2<HomeView> {
 				assertEquals("Usernames not the same", topic.getUsername(), username.getText().toString());
 				assertEquals("Texts not the same", topic.getCommentText(), commentText.getText().toString());
 		
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				/* I don't think I am correctly in the activity I think I am */
+				ListView topicList = (ListView) homeView.findViewById(cmput301w14t13.project.R.id.topic_listview);
+				assertNotNull(topicList);
+				
+				/* click the newly created topic */
+				topicList.performItemClick(
+					    topicList.getAdapter().getView(0, null, null), 0, 0);
+				
 
+				//topicList.performItemClick(topicList.getChildAt(0), 0, topicList.getAdapter().getItemId(0));
+				
+				
 			}
 		});
 		
 		/* Now click the comment and edit it */
 		// Instrumentation.ActivityMonitor homeViewMonitor = getInstrumentation().addMonitor(HomeViewController.class.getName(), null , false);
 		// give the topic a second to get pushed to the server 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 		
-		ListView topicList = (ListView) homeView.findViewById(cmput301w14t13.project.R.id.topic_listview);
-		assertNotNull(topicList);
+
+		
+		
 
 	}
 }
