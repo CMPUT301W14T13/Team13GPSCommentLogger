@@ -31,9 +31,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Class responsible for serializing and deserializing
- * objects we need to save and load into JSON objects
- *
+ * Converts CommentTreeElements to JsonObjects and vice versa 
+ * for saving and loading locally
+ * 
  * @param <T>
  */
 public class CommentTreeElementLocalSerializer implements
@@ -43,7 +43,12 @@ public class CommentTreeElementLocalSerializer implements
     private static final String CLASS_DATA = "CLASS_DATA";
 
     /**
-     * Function converts from JSON to given Type
+     * Converts a jsonObject to a Topic,Comment,or Root depending
+     * on what class is specified in the jsonObjects Class Meta Key
+     * 
+     * used when loading from local data storage.
+     * 
+     * @returns CommentTreeElement a Root,Topic, or Comment
      */
     @Override
     public synchronized CommentTreeElement deserialize(JsonElement jsonElement, Type type,
@@ -113,7 +118,11 @@ public class CommentTreeElementLocalSerializer implements
     }
 
     /**
-     * Function converts object of given Type to JSON
+     * Converts a CommentTreeElement to a jsonObject to be saved locally
+     * 
+     * Used when saving Topics or Comments locally  
+     * 
+     * @return JsonElement A JsonObject
      */
     @Override
     public JsonElement serialize(CommentTreeElement object, Type type,

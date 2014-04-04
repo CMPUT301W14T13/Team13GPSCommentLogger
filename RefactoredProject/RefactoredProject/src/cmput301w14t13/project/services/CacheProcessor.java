@@ -5,10 +5,18 @@ import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.ServerProxy;
 import cmput301w14t13.project.models.tasks.Task;
 
-
+/**
+ * Processes stored Tasks that require a web connection to complete
+ * such as creating or editing Topics
+ * 
+ * Stared by DataStorageService and continues to run until the service dies
+ * 
+ * @author nsd
+ *
+ */
 public class CacheProcessor extends Thread {
 
-
+	
 	private class CacheTask extends Thread implements AsyncProcess{
 		
 	
@@ -57,7 +65,15 @@ public class CacheProcessor extends Thread {
 	public void setFlag(boolean bool) {
 		success = bool;	
 	}
-
+	
+	/**
+	 * Grabs the first task off of a list of cached tasks stored in, offlineDataEntity,
+	 * then runs the task, waits for it to complete, then if successful removes
+	 * the task from the list of cached tasks
+	 * 
+	 * run when web connection is established to complete all undone tasks
+	 * 
+	 */
 	@Override
 	public void run() {
 		try

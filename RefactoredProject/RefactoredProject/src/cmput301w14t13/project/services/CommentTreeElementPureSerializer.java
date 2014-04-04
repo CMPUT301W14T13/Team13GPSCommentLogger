@@ -30,9 +30,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Class responsible for serializing and deserializing
- * objects we need to save and load into JSON objects
- *
+ * Recursively converts an entire CommenTreeElement and all its children to a jsonObject
+ * and vice versa
+ * 
  * @param <T>
  */
 public class CommentTreeElementPureSerializer implements
@@ -42,7 +42,13 @@ public class CommentTreeElementPureSerializer implements
     private static final String CLASS_DATA = "CLASS_DATA";
 
     /**
-     * Function converts from JSON to given Type
+     * Converts a json object into a subclass of CommentTreeELement 
+     * depending on the class specified by the json object then 
+     * grabs an array of json representations of the objects children
+     * and recurses through it and converts and adds the CommenTreeElements
+     * as childposts.
+     * 
+     * @return CommentTree Element the converted Topic,Comment,or Root
      */
     @Override
     public synchronized CommentTreeElement deserialize(JsonElement jsonElement, Type type,
@@ -68,7 +74,7 @@ public class CommentTreeElementPureSerializer implements
         	Location GPSLocation = gson.fromJson(viewable.get("GPSLocation").getAsString(), Location.class);;
         	ArrayList<CommentTreeElement> childPosts = new ArrayList<CommentTreeElement>();
         	
-        	TaskFactory factory = new TaskFactory(DataStorageService.getInstance());
+
         	for(final JsonElement each : viewable.get("childPosts").getAsJsonArray())
         	{
         		childPosts.add(gson.fromJson(each, CommentTreeElement.class));
@@ -106,7 +112,10 @@ public class CommentTreeElementPureSerializer implements
     }
 
     /**
-     * Function converts object of given Type to JSON
+     * Recursively converts a CommentTreeElement and its children 
+     * into json representations to be used for local saving
+     * 
+     *
      */
     @Override
     public JsonElement serialize(CommentTreeElement object, Type type,

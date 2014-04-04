@@ -9,7 +9,6 @@ import android.util.Log;
 
 
 /**
-<<<<<<< HEAD
  * Responsible for doing all the set up or listening and updating the users
  * current GPS location
  * 
@@ -17,15 +16,7 @@ import android.util.Log;
  * we Create a Topic or Comment or whenever we sort by location.
  *   
  * @author nsd
- *
-=======
- * This class is responsible for returning the user's  current location. This is done by: 1) By GPS: Starting a
- *  location manager, attach a listener to it and request a location update from the location listener. Once a 
- *  location change is detected, we assign the new location to the variable gpsLocation. 2) By network: fill 
- *  in----------- This class is used during attaching location to comments,  as well getting current location 
- *  for sorting purposes.
- * @returns  Location
->>>>>>> main_refactoring
+ * 
  */
 public class LocationSelection
 {
