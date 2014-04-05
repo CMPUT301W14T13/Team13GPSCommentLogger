@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+<<<<<<< HEAD
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/RefactoredProject"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+<<<<<<< HEAD
+	<classpathentry exported="true" kind="lib" path="C:/Users/Austin/Documents/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Austin/Documents/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Austin/Documents/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
+=======
+	<classpathentry combineaccessrules="false" kind="src" path="/RefactoredProject"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+>>>>>>> origin/ImageAttachment
+=======
+>>>>>>> b84cb94f29889c10d35ac048a82a2cc167639821
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

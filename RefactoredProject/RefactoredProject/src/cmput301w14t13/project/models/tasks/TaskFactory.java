@@ -9,6 +9,7 @@ import cmput301w14t13.project.views.HomeView;
  */
 public class TaskFactory {
 
+
 	private DataStorageService esc;
 	
 	public TaskFactory(DataStorageService esc) {
@@ -30,9 +31,9 @@ public class TaskFactory {
 		esc.getProxy().saveTask(new LocationUpdateServerTask(esc, obj));
 	}
 
-	public MyFavouritesLocalTask getNewFavouriteBrowser(String searchTerm)
+	public MyFavouritesLocalTask getNewFavouriteBrowser(CommentTreeElement ele)
 	{
-		return new MyFavouritesLocalTask(esc, searchTerm);
+		return new MyFavouritesLocalTask(esc, ele);
 	}
 	
 	public MySavesLocalTask getNewSavesBrowser(String searchTerm)

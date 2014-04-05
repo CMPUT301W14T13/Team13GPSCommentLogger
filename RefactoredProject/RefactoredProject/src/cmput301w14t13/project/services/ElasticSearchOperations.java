@@ -24,7 +24,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+
 public class ElasticSearchOperations {
+
 
 	private static ElasticSearchOperations instance = new ElasticSearchOperations();
 	
@@ -96,9 +98,10 @@ public class ElasticSearchOperations {
 			
 			//search for the current serverTask's searchTerm 
 			//in the ID field of the Viewable class
+			Log.w("EscapeTest", newJson);
 			String query = "{\"script\" : \"ctx._source.CLASS_DATA." + fieldName + " = field\", " +
 					"\"params\" : {" +
-				        "\"field\" : \""+ new Escaper(false).escapeJsonString(newJson) +"\"" +
+				        "\"field\" : \""+ newJson + "\"" +
 				    "}}";
 			
 			StringEntity stringentity = new StringEntity(query);
@@ -331,11 +334,6 @@ public class ElasticSearchOperations {
 			//Set the matching viewable as the object of the ServerResult
 			Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentTreeElement>>(){}.getType();
 			ElasticSearchSearchResponse<CommentTreeElement> esResponse = gson.fromJson(json, elasticSearchSearchResponseType);
-			Gson gson2 = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
-			for(CommentTreeElement each : esResponse.getSources())
-			{
-				System.err.println(gson2.toJson(each));
-			}
 			if(esResponse.getHits().size() > 1)throw new IllegalArgumentException("Multiple results...ID should be unique in database.");
 			for (ElasticSearchResponse<CommentTreeElement> r : esResponse.getHits()) {
 				CommentTreeElement output = r.getSource();

@@ -9,41 +9,38 @@ import android.util.Log;
 
 
 /**
- * This class is responsible for returning the user's 
- * current location.
- * 
- * This is done by:
- *  
- * 1) By GPS:
- * 	  Starting a location manager, attach a listener to it
- *    and request a location update from the location listener.
- *    Once a location change is detected, we assign the new location
- *    to the variable gpsLocation.
- * 
- * 2) By network:
- * 	  fill in-----------
- * 
- * 
- * This class is used during attaching location to comments, 
- * as well getting current location for sorting purposes.
- * 
- * @returns Location
+ * This class is responsible for returning the user's  current location. This is done by: 1) By GPS: Starting a
+ *  location manager, attach a listener to it and request a location update from the location listener. Once a 
+ *  location change is detected, we assign the new location to the variable gpsLocation. 2) By network: fill 
+ *  in----------- This class is used during attaching location to comments,  as well getting current location 
+ *  for sorting purposes.
+ * @returns  Location
  */
 public class LocationSelection
 {
 
-	private static LocationListener locationListener;
-	private static LocationManager locationManager; 
-	private static Location gpsLocation;
+	
+	private LocationListener locationListener;
+	private LocationManager locationManager; 
+	private Location gpsLocation = new Location("default");
+	private Context context;
 
-	/**
-	 * Constructor
-	 */
-	static Context activity_context;
 
-  
-	public LocationSelection(Context activity) {
-		this.activity_context = activity;
+	private static final LocationSelection Instance = new LocationSelection();
+	
+	private LocationSelection() {
+
+	}
+	
+	public void registerContext(Context context)
+	{
+		this.context = context;
+	}
+	
+	
+	public static LocationSelection getInstance()
+	{
+		return Instance;
 	}
 
 	/**
@@ -62,10 +59,10 @@ public class LocationSelection
 	
 	/*activityName.getContext()*/
 	
-	public static void startLocationSelection() {
+	public void startLocationSelection() {
 		Log.d("LocationSelection", "Started location manager and listener");
 		
-		locationManager = (LocationManager) activity_context.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		
 		Log.d("LocationSelection", "Location manager is " + locationManager.toString());
 
@@ -102,7 +99,7 @@ public class LocationSelection
 	 * This function is called after a location is retrieved
 	 * and returned, and GPS location pulls are no longer required. 
 	 */
-	public static void stopLocationSelection() {
+	public void stopLocationSelection() {
 		locationManager.removeUpdates(locationListener);
 		Log.d("LocationSelection", "Stopped location manager and listener");
 	}
@@ -143,18 +140,13 @@ public class LocationSelection
 	 * 
 	 * @return Location
 	 */
-	public static Location getLocation() {
-		 
-
-		stopLocationSelection(); // stop location manager and listener
-		
-		Log.d("LocationSelection", "Getting gpsLocation " + gpsLocation.toString());
+	public Location getLocation() {
 		
 		return gpsLocation;
 
 	}
 
-	public static LocationListener getLocationListener(){
+	public LocationListener getLocationListener(){
 		return locationListener;
 	}
 

@@ -4,28 +4,28 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.views.HomeView;
 import android.app.Activity;
 import android.util.Log;
 
 /**
- * The model for the entire app to modify. It holds the root which contains the list
- * of topics, a comment list which displays every comment made in a topic, the user's
- * global username, a number which is used to grab topics from root, and adapters for updating the lists.
- * 
- * @author arweber
- *
+ * The model for the entire app to modify. It holds the root which contains the list of topics, a comment list which displays every comment made in a topic, the user's global username, a number which is used to grab topics from root, and adapters for updating the lists.
+ * @author  arweber
  */
 public class CommentTree extends ViewList<UpdateInterface> implements AsyncProcess
 {
 	private Stack<CommentTreeElement> stack = new Stack<CommentTreeElement>();
 	private Stack<ArrayList<CommentTreeElement>> commentListsInDisplayOrder = new Stack<ArrayList<CommentTreeElement>>(); 
+	
 	private String currentUsername = "Anonymous";
 	
+
 	private static final CommentTree Instance = new CommentTree();
 	
 	private CommentTree()
@@ -33,26 +33,28 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		
 	}
 	
+	
 	public static CommentTree getInstance()
 	{
 		return Instance;
 	}
 	
+
 	public void setCurrentUsername(String username){
 		currentUsername = username;
 		notifyViews();
 	}
 	
+
 	public String getCurrentUsername(){
 		return currentUsername;
 	}
 	
-	public ArrayList<CommentTreeElement> getCommentList(UpdateInterface updateable){
-		update(updateable);
+	public ArrayList<CommentTreeElement> getCommentList(RankedHierarchicalActivity updateable){
 		return commentListsInDisplayOrder.elementAt(updateable.getRank().getRank());
 	}
 	
-	public ArrayList<CommentTreeElement> getChildren(UpdateInterface updateable){
+	public ArrayList<CommentTreeElement> getChildren(RankedHierarchicalActivity updateable){
 		return stack.elementAt(updateable.getRank().getRank()).getChildren();
 	}
 	
@@ -66,18 +68,25 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		notifyViews();
 	}
 	
+	public void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
+	{
+		int rank = updateable.getRank().getRank();
+		commentListsInDisplayOrder.elementAt(rank).clear();
+		commentListsInDisplayOrder.elementAt(rank).addAll(sortedList);
+		notifyViews();
+	}
+	
 	/**
 	 * updates the commentList to be displayed in a topic. For each topic child,
 	 * it gets the children all the way down and adds them to the comment list.
 	 */
-	private void update(UpdateInterface updateable){
+	public void update(RankedHierarchicalActivity updateable){
 		int rank = updateable.getRank().getRank();
 		commentListsInDisplayOrder.elementAt(rank).clear();
 		for (CommentTreeElement each : getChildren(updateable)){
 			fillTopicChildren(each,updateable);
 		}
 	}
-	
 	
 	/**
 	 *
@@ -89,7 +98,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	 * 
 	 * @param comment  the comment whose children are being added
 	 */
-	public void fillTopicChildren(CommentTreeElement comment, UpdateInterface updateable){
+	public void fillTopicChildren(CommentTreeElement comment, RankedHierarchicalActivity updateable){
 		commentListsInDisplayOrder.elementAt(updateable.getRank().getRank()).add(comment);
 		ArrayList<CommentTreeElement> children = comment.getChildren();
 		for (int i = 0; i < children.size(); i++){
@@ -97,7 +106,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		}
 	}
 	
-	public void updateCommentList(UpdateInterface updateable){
+	public void updateCommentList(RankedHierarchicalActivity updateable){
 		update(updateable);
 		notifyViews();
 	}
@@ -119,11 +128,18 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		return stack.isEmpty();
 	}
 	
+	public CommentTreeElement peek(){
+		return stack.peek();
+	}
+	
+	/* used for non- root pops off the comment tree stack */
 	public synchronized void popFromCommentStack() throws InterruptedException
 	{
-		CommentTreeElement ele = stack.pop();
 		stack.pop();
-		commentListsInDisplayOrder.pop();
+		CommentTreeElement ele = stack.pop();
+
+		commentListsInDisplayOrder.pop(); /* cached versions of the linearized hierarchy */
+
 		commentListsInDisplayOrder.pop();
 		SearchServerTask task = new TaskFactory(DataStorageService.getInstance()).getNewBrowser(ele.getID());
 		DataStorageService.getInstance().doTask(this, task);
@@ -136,7 +152,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		notify();
 	}
 	
-	public CommentTreeElement getElement(UpdateInterface updateable)
+	public CommentTreeElement getElement(RankedHierarchicalActivity updateable)
 	{
 		return stack.elementAt(updateable.getRank().getRank());
 	}

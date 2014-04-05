@@ -12,22 +12,21 @@
     <string name="text">Text</string>
     <string name="action_post">New Thread</string>
     <string name="saved">Saved Pages</string>
-    
     <string name="create_topic_label">New Topic</string>
-
-
 
     <!-- <string name="bullet">•</string> -->
 
     <string name="create_reply_label">New Comment</string>
-    
-
     <string name="select_username">Select Username</string>
-
     <string name="submit_location">Submit Location</string>
-
-
     <string name="bullet">\u0020•\u0020</string>
-
+    <string name="sort1">Proximity to Me</string>
+    <string name="sort2">Proximity to Location</string>
+    <string name="sort3">Pictures</string>
+    <string name="sort4">Newest</string>
+    <string name="sort5">Oldest</string>
+    <string name="sort6">Relevant</string>
+    <string name="title_activity_favourites_view_temp">FavouritesViewTemp</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

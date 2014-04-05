@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="ModelContent" size="1377,793" id="cmput301w14t13.project.models.content" metadata="uml2-1.0" initialized="true" tag="1000" key="32303037303533312D31303030205265666163746F72656450726F6A6563742F6D6A6E6963686F6C">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.0" name="BitmapSerializer" location="510,50" size="191,98" id="cmput301w14t13.project.services/BitmapSerializer" runTimeClassModel="deserialize(Lcom.google.gson.JsonElement;Ljava.lang.reflect.Type;Lcom.google.gson.JsonDeserializationContext;),serialize(Landroid.graphics.Bitmap;Ljava.lang.reflect.Type;Lcom.google.gson.JsonSerializationContext;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="83,36">
+      <children xsi:type="editmodel:MethodEditModel" name="deserialize" id="cmput301w14t13.project.services/BitmapSerializer#deserialize(Lcom.google.gson.JsonElement;Ljava.lang.reflect.Type;Lcom.google.gson.JsonDeserializationContext;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="serialize" id="cmput301w14t13.project.services/BitmapSerializer#serialize(Landroid.graphics.Bitmap;Ljava.lang.reflect.Type;Lcom.google.gson.JsonSerializationContext;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Comment" location="81,599" size="113,103" id="cmput301w14t13.project.models.content/Comment" runTimeClassModel="Comment(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;),Comment(Ljava.lang.String;),Comment()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="79,54">
+      <children xsi:type="editmodel:MethodEditModel" name="Comment" id="cmput301w14t13.project.models.content/Comment#Comment(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Comment" id="cmput301w14t13.project.models.content/Comment#Comment()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Comment" id="cmput301w14t13.project.models.content/Comment#Comment(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models.content/Comment-Standard::Derive->cmput301w14t13.project.models.content/CommentTreeElement" source="//@children.1" target="//@children.3" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Derive»" size="45,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="112,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,476"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.4/@sourceConnections.1 //@children.2/@sourceConnections.1" autoLocated="true" id="cmput301w14t13.project.models.content/CommentTreeElement&lt;-cmput301w14t13.project.models.content/Comment" source="//@children.1" target="//@children.3" targetEnd="//@children.1/@sourceConnections.1/@children.1" sourceEnd="//@children.1/@sourceConnections.1/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="82,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="10,499" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Topic" location="465,600" size="79,103" id="cmput301w14t13.project.models.content/Topic" runTimeClassModel="Topic(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;),Topic(Ljava.lang.String;),Topic()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="55,54">
+      <children xsi:type="editmodel:MethodEditModel" name="Topic" id="cmput301w14t13.project.models.content/Topic#Topic(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Topic" id="cmput301w14t13.project.models.content/Topic#Topic(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Topic" id="cmput301w14t13.project.models.content/Topic#Topic()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models.content/Topic-Standard::Derive->cmput301w14t13.project.models.content/CommentTreeElement" source="//@children.2" target="//@children.3" targetEnd="//@children.2/@sourceConnections.0/@children.2" label="//@children.2/@sourceConnections.0/@children.0" sourceEnd="//@children.2/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Derive»" size="45,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="9,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="205,422"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="cmput301w14t13.project.models.content/CommentTreeElement&lt;-cmput301w14t13.project.models.content/Topic" source="//@children.2" target="//@children.1/@sourceConnections.1" targetEnd="//@children.2/@sourceConnections.1/@children.1" sourceEnd="//@children.2/@sourceConnections.1/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="39,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.1/@sourceConnections.1 //@children.4/@sourceConnections.0 //@children.2/@sourceConnections.0" name="CommentTreeElement" location="193,50" size="205,499" id="cmput301w14t13.project.models.content/CommentTreeElement" runTimeClassModel="getDateDiff(Ljava.util.Date;Ljava.util.Date;),locationString(),getNumberOfChildren(),CommentTreeElement(Landroid.os.Parcel;),CommentTreeElement(Ljava.lang.String;),setLocation(Landroid.location.Location;),timestamp,getChildren(),commentText,username,title,CommentTreeElement(),gPSLocation,hasImage,image,setAnonymous(),getLocation(),describeContents(),iD,writeToParcel(Landroid.os.Parcel;I),indentLevel,setChildren(Ljava.util.ArrayList;),freshness,CommentTreeElement(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;),addChild(Lcmput301w14t13.project.models.content.CommentTreeElement;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="129,180">
+      <children xsi:type="editmodel:AttributeEditModel" name="commentText" id="cmput301w14t13.project.models.content/CommentTreeElement#commentText"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="freshness" id="cmput301w14t13.project.models.content/CommentTreeElement#freshness"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="gPSLocation" id="cmput301w14t13.project.models.content/CommentTreeElement#gPSLocation"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="hasImage" id="cmput301w14t13.project.models.content/CommentTreeElement#hasImage"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="iD" id="cmput301w14t13.project.models.content/CommentTreeElement#iD"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="image" id="cmput301w14t13.project.models.content/CommentTreeElement#image"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="indentLevel" id="cmput301w14t13.project.models.content/CommentTreeElement#indentLevel"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="timestamp" id="cmput301w14t13.project.models.content/CommentTreeElement#timestamp"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="title" id="cmput301w14t13.project.models.content/CommentTreeElement#title"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="username" id="cmput301w14t13.project.models.content/CommentTreeElement#username"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="141,270">
+      <children xsi:type="editmodel:MethodEditModel" name="CommentTreeElement" id="cmput301w14t13.project.models.content/CommentTreeElement#CommentTreeElement()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CommentTreeElement" id="cmput301w14t13.project.models.content/CommentTreeElement#CommentTreeElement(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CommentTreeElement" id="cmput301w14t13.project.models.content/CommentTreeElement#CommentTreeElement(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CommentTreeElement" id="cmput301w14t13.project.models.content/CommentTreeElement#CommentTreeElement(Landroid.os.Parcel;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addChild" id="cmput301w14t13.project.models.content/CommentTreeElement#addChild(Lcmput301w14t13.project.models.content.CommentTreeElement;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="describeContents" id="cmput301w14t13.project.models.content/CommentTreeElement#describeContents()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getChildren" id="cmput301w14t13.project.models.content/CommentTreeElement#getChildren()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDateDiff" id="cmput301w14t13.project.models.content/CommentTreeElement#getDateDiff(Ljava.util.Date;Ljava.util.Date;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLocation" id="cmput301w14t13.project.models.content/CommentTreeElement#getLocation()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNumberOfChildren" id="cmput301w14t13.project.models.content/CommentTreeElement#getNumberOfChildren()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="locationString" id="cmput301w14t13.project.models.content/CommentTreeElement#locationString()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setAnonymous" id="cmput301w14t13.project.models.content/CommentTreeElement#setAnonymous()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setChildren" id="cmput301w14t13.project.models.content/CommentTreeElement#setChildren(Ljava.util.ArrayList;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setLocation" id="cmput301w14t13.project.models.content/CommentTreeElement#setLocation(Landroid.location.Location;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="writeToParcel" id="cmput301w14t13.project.models.content/CommentTreeElement#writeToParcel(Landroid.os.Parcel;I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models.content/CommentTreeElement-Standard::Instantiate->cmput301w14t13.project.services/BitmapSerializer" source="//@children.3" target="//@children.0" targetEnd="//@children.3/@sourceConnections.0/@children.2" label="//@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Instantiate»" size="65,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="205,49" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="19,49"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Root" location="300,608" size="76,85" id="cmput301w14t13.project.models.content/Root" runTimeClassModel="Root(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;),Root()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="53,36">
+      <children xsi:type="editmodel:MethodEditModel" name="Root" id="cmput301w14t13.project.models.content/Root#Root(Ljava.lang.String;Ljava.lang.String;Landroid.graphics.Bitmap;Ljava.util.Date;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Root" id="cmput301w14t13.project.models.content/Root#Root()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="cmput301w14t13.project.models.content/Root-Standard::Derive->cmput301w14t13.project.models.content/CommentTreeElement" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.0/@children.2" label="//@children.4/@sourceConnections.0/@children.0" sourceEnd="//@children.4/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Derive»" size="45,13" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="37,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="144,499"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="cmput301w14t13.project.models.content/CommentTreeElement&lt;-cmput301w14t13.project.models.content/Root" source="//@children.4" target="//@children.1/@sourceConnections.1" targetEnd="//@children.4/@sourceConnections.1/@children.1" sourceEnd="//@children.4/@sourceConnections.1/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="38,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=7;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

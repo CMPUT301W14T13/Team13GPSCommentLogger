@@ -1,6 +1,7 @@
 package cmput301w14t13.project.models.tasks;
 
 import android.util.Log;
+import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.DataStorageService;
@@ -26,7 +27,7 @@ public class ImageUpdateServerTask extends Task {
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
-		String jsonString = gson.toJson(this.getObj().getImage());
+		String jsonString = new Escaper(false).escapeJsonString(gson.toJson(this.getObj().getImage()));
 		String fieldName = "image";
 
 		//searchTerm should have the viewable's ID

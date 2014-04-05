@@ -5,81 +5,68 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="16" />
-	
+
     <!-- get access to GPS services -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-	
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-	
         android:theme="@style/AppBaseTheme" >
-        
-		<receiver android:name="cmput301w14t13.project.services.NetworkReceiver" >
-        	<intent-filter>
-            	<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-        	</intent-filter>
-   		 </receiver>
-       
- 
+        <receiver android:name="cmput301w14t13.project.services.NetworkReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity
-
             android:name="cmput301w14t13.project.views.HomeView"
-
             android:label="@string/app_name" >
             <intent-filter>
-               <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="cmput301w14t13.project.controllers.CreateSubmissionController"
+            android:name="cmput301w14t13.project.views.CreateSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmput301w14t13.project.views.HomeView" />
         </activity>
-        
         <activity
             android:name="cmput301w14t13.project.views.TopicView"
-			android:parentActivityName="cmput301w14t13.project.views.HomeView" >
-            
+            android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmput301w14t13.project.views.HomeView" />
         </activity>
-        
-        <activity
-            android:name="cmput301w14t13.project.controllers.SelectUsernameController">
+        <activity android:name="cmput301w14t13.project.controllers.SelectUsernameController" >
         </activity>
-
         <activity
             android:name="cmput301w14t13.project.controllers.MapViewController"
-            android:parentActivityName="cmput301w14t13.project.controllers.CreateSubmissionController">
-            
+            android:parentActivityName="cmput301w14t13.project.views.CreateSubmissionView" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmput301w14t13.project.controllers.CreateSubmissionController" />
-            
         </activity>
-        
+        <activity android:name="cmput301w14t13.project.views.FavouritesView" >
+        </activity>
         <activity
-
-            android:name="cmput301w14t13.project.views.FavouritesView">
+            android:name="cmput301w14t13.project.FavouritesViewTemp"
+            android:label="@string/title_activity_favourites_view_temp" >
         </activity>
-        
     </application>
 
 </manifest>

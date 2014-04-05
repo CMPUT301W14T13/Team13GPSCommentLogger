@@ -15,19 +15,30 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public abstract class CommentTreeElement implements Parcelable{
+
+public abstract class CommentTreeElement {
 	
+
 	protected String title;
+	
 	protected String ID;
+	
 	protected String commentText = "";
+
 	protected Bitmap image;
+	
 	protected boolean hasImage;
+
 	protected Date timestamp;
+
 	protected Date freshness;
 
+	
 	protected Location GPSLocation;
 	protected ArrayList<CommentTreeElement> childPosts;
+	
 	protected String username;
+	
 	private int indentLevel = 0;
 	
 	protected static final String Anonymous = "Anonymous";
@@ -50,11 +61,6 @@ public abstract class CommentTreeElement implements Parcelable{
 		timestamp = new Date();
 		childPosts = new ArrayList<CommentTreeElement>();
 	}
-	
-	public CommentTreeElement(Parcel in)
-	{
-		readFromParcel(in);
-	}
 
 	public CommentTreeElement(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
@@ -75,7 +81,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Obtains the post ID.
-	 * @return the unique post ID of the Viewable object.
+	 * @return  the unique post ID of the Viewable object.
+	 * 
 	 */
 	public String getID(){
 		return this.ID;
@@ -83,7 +90,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Obtains the name of the content poster.
-	 * @return the name of the user that posted the Viewable object.
+	 * @return  the name of the user that posted the Viewable object.
+	 * 
 	 */
 	public String getUsername(){
 		return this.username;
@@ -91,7 +99,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Set the username of the Viewable object.
-	 * @param newUsername the new username to use.  
+	 * @param newUsername  the new username to use.
+	 * 
 	 */
 	public void setUsername(String newName){
 		this.username = newName;
@@ -115,7 +124,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Get the title of the Viewable object
-	 * @return the Viewable's title
+	 * @return  the Viewable's title
+	 * 
 	 */
 	public String getTitle(){
 		return this.title;
@@ -123,7 +133,8 @@ public abstract class CommentTreeElement implements Parcelable{
 
 	/**
 	 * Sets the title for the viewable object.
-	 * @param newTitle The new title for the Viewable object
+	 * @param newTitle  The new title for the Viewable object
+	 * 
 	 */
 	public void setTitle(String newTitle){
 		this.title = newTitle;
@@ -132,7 +143,8 @@ public abstract class CommentTreeElement implements Parcelable{
 
 	/**
 	 * Sets the text within the Viewable object.
-	 * @param commentText The new body text of the Viewable object.
+	 * @param commentText  The new body text of the Viewable object.
+	 * 
 	 */
 	public void setCommentText(String commentText){
 		this.commentText = commentText;
@@ -140,7 +152,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Gets the comment text within the object.
-	 * @return The comment text within the Viewable object.
+	 * @return  The comment text within the Viewable object.
+	 * 
 	 */
 	public String getCommentText(){
 		return this.commentText;
@@ -148,7 +161,8 @@ public abstract class CommentTreeElement implements Parcelable{
 
 	/**
 	 * Sets the Viewable to store the given picture.
-	 * @param picture the picture to be displayed.
+	 * @param picture  the picture to be displayed.
+	 * 
 	 */
 	public void setImage(Bitmap picture){
 		this.image = picture;
@@ -157,7 +171,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Return the image contained within the Viewable.
-	 * @return the image contained within the Viewable.
+	 * @return  the image contained within the Viewable.
+	 * 
 	 */
 	public Bitmap getImage(){
 		return this.image;
@@ -165,7 +180,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Gets the time that the Viewable was created.
-	 * @return the timestamp of the Viewable.
+	 * @return  the timestamp of the Viewable.
+	 * 
 	 */
 	public Date getTimestamp(){
 		return this.timestamp;
@@ -173,7 +189,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Obtains the Viewable object's GPS location.
-	 * @return the GPS location of the viewable
+	 * @return  the GPS location of the viewable
+	 * 
 	 */
 	public Location getGPSLocation(){
 		return this.GPSLocation;
@@ -181,7 +198,8 @@ public abstract class CommentTreeElement implements Parcelable{
 	
 	/**
 	 * Sets the GPS location of the Viewable. 
-	 * @param location The GPS location that the Viewable is associated with.
+	 * @param location  The GPS location that the Viewable is associated with.
+	 * 
 	 */
 	public void setGPSLocation(Location location){
 		this.GPSLocation = location;
@@ -197,7 +215,8 @@ public abstract class CommentTreeElement implements Parcelable{
 		
 	/**
 	 * Tells us if the Viewable has an associated image.
-	 * @return A boolean of true if the Viewable has an image and false if it does not.
+	 * @return  A boolean of true if the Viewable has an image and false if it does not.
+	 * 
 	 */
 	public boolean getHasImage(){
 		return this.hasImage;
@@ -242,6 +261,10 @@ public abstract class CommentTreeElement implements Parcelable{
 		return this.GPSLocation;
 	}
 	
+	/**
+	 * @return
+	 * 
+	 */
 	public Date getFreshness()
 	{
 	
@@ -249,6 +272,10 @@ public abstract class CommentTreeElement implements Parcelable{
 	}
 
 	
+	/**
+	 * @param freshness
+	 * 
+	 */
 	public void setFreshness(Date freshness)
 	{
 	
@@ -267,61 +294,23 @@ public abstract class CommentTreeElement implements Parcelable{
 		return out;
 	}
 
+	/**
+	 * @return
+	 * 
+	 */
 	public int getIndentLevel() {
 		
 		return indentLevel;
 	}
 
 	/**
-	 * This sets the indent variable. This value is used in CommentAdapter
-	 * when displaying a topic's comments and is used to determine how many indent lines
-	 * will be displayed beside the comment, indicating a reply.
+	 * This sets the indent variable. This value is used in CommentAdapter when displaying a topic's comments and is used to determine how many indent lines will be displayed beside the comment, indicating a reply.
+	 * @param indent  is how far the comment is to be indented when displayed
 	 * 
-	 * 
-	 * @param indent is how far the comment is to be indented when displayed
 	 */
 	public void setIndentLevel(int indent) {
 		this.indentLevel = indent;
 	}
 	
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
-		
-		dest.writeStringArray(new String[]{title,ID, commentText, username, gson.toJson(image), gson.toJson(GPSLocation)});
-		dest.writeInt(indentLevel);
-		dest.writeLongArray(new long[]{timestamp.getTime(), freshness.getTime()});
-		dest.writeList(childPosts);;
-	}
-	
-	private void readFromParcel(Parcel in)
-	{
-		Gson gson = new GsonBuilder().registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
-		
-		String[] stringArgs = new String[6];
-		in.readStringArray(stringArgs);
-		
-		long[] longArgs = new long[2];
-		in.readLongArray(longArgs);
-		
-		title = stringArgs[0];
-		ID = stringArgs[1];
-		commentText = stringArgs[2];
-		Bitmap imageIn = gson.fromJson(stringArgs[4], Bitmap.class);
-		image = imageIn;
-		hasImage = imageIn != null;
-		timestamp = new Date(longArgs[0]);
-		freshness = new Date(longArgs[1]);
-		GPSLocation = gson.fromJson(stringArgs[5], Location.class);
-		childPosts = new ArrayList<CommentTreeElement>();
-		in.readList(childPosts, null);
-		username = stringArgs[3];
-		indentLevel = in.readInt();
-	}
 	
 }

@@ -28,6 +28,14 @@
 
 
     <string name="bullet">\u0020•\u0020</string>
+    
+    <string name="sort1">Proximity to Me</string>
+    <string name="sort2">Proximity to Location</string>
+    <string name="sort3">Pictures</string>
+    <string name="sort4">Newest</string>
+    <string name="sort5">Oldest</string>
+    <string name="sort6">Relevant</string>
+    
 
 
 </resources>

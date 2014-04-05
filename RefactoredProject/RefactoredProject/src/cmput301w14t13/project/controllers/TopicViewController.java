@@ -2,6 +2,9 @@ package cmput301w14t13.project.controllers;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
@@ -9,10 +12,15 @@ import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
+import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
+import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
+import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,15 +31,12 @@ import android.widget.TextView;
 
 
 /**
- * TopicViewActivity is where the user can view the topic that they selected
- * from HomeViewActivity. Here they can comment, edit their comments, and
- * select a global username.
- * 
- * @author Austin
- *
+ * TopicViewActivity is where the user can view the topic that they selected from HomeViewActivity. Here they can comment, edit their comments, and select a global username.
+ * @author  Austin
  */
 public class TopicViewController implements AsyncProcess
 {
+
 	private TopicView topicView;
 
 	public TopicViewController(TopicView topicView) {
@@ -41,6 +46,17 @@ public class TopicViewController implements AsyncProcess
 	public void selectUsername(){
 		Intent intent = new Intent(topicView, SelectUsernameController.class);
 		topicView.startActivity(intent);
+	}
+	
+	public void OpenMap(){
+		CommentTree commentTree = CommentTree.getInstance();
+		CommentTreeElement topic = commentTree.getElement(topicView);
+		Intent map = new Intent(topicView, MapViewController.class);
+		map.putExtra("lat", topic.getGPSLocation().getLatitude()); 
+		map.putExtra("lon", topic.getGPSLocation().getLongitude());
+		map.putExtra("canSetMarker", 0);// for editing  location
+		topicView.startActivity(map);
+
 	}
 	
 	/**
@@ -95,7 +111,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void reply(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		Intent intent = new Intent(topicView, CreateSubmissionView.class);
 		int rowNumber;
 		intent.putExtra("construct code", 1); //construct a comment
 		intent.putExtra("updateRank", topicView.getRank().getRank());
@@ -139,7 +155,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void edit(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionController.class);
+		Intent intent = new Intent(topicView, CreateSubmissionView.class);
 		intent.putExtra("updateRank", topicView.getRank().getRank());
 		int rowNumber;
 		
@@ -177,6 +193,16 @@ public class TopicViewController implements AsyncProcess
 		int tag = (Integer) v.getTag();
 	}
 
+	/**
+	 * This method is called when the user wants to save a Topic so they can view it when offline. It will be added 
+	 * to the favourites save file which is locally stored on the device.
+	 * 
+	 * @param v The current View of the object
+	 */
+	/* You will want to append the new topic to the FavouritesModel class you are writing*/
+	public void saveTopic(View v){
+		
+	}
 	@Override
 	public void receiveResult(String result) {
 		notify();		

@@ -87,13 +87,14 @@
         </activity>
 
         <activity
+
             android:name="com.CMPUT301W14T13.gpscommentlogger.view.MapViewActivity"
-            android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.CreateTopicActivity">
+            android:parentActivityName="com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity">
             
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.CMPUT301W14T13.gpscommentlogger.view.CreateSubmissionActivity" />
-            
+
         </activity>
         
         <activity

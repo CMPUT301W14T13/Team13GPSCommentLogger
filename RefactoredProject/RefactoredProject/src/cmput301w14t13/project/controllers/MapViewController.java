@@ -1,5 +1,7 @@
 package cmput301w14t13.project.controllers;
 
+import java.util.ArrayList;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -9,17 +11,26 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 
-import cmput301w14t13.project.R;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
+import cmput301w14t13.project.R;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
+import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.models.content.Topic;
+import cmput301w14t13.project.views.TopicView;
 
 
 /**
- * This Activiy provides the user with a map using OpenStreetMaps for android.
+<<<<<<< HEAD
+ * This Activiy provides the user with a map using OpenStreetMaps for android. It is used by CreateSubmissionActivity to edit the user's location, which is  done by tapping on the map where you want to set the location, once tapped a marker is placed as a visual aid indicating the current point the user has selected for his comment/Topic. Once the user has selected a point for his comment they push the SubmitLocation buton which returns the current points latitude and longitude to CreateSubmissionActivity This class is also used for our new requirement of displaying all the locations in a Topic thread I WILL WRITE MORE JAVADOC HERE LATER!create new xml for requirement
+ * @author  navjeetdhaliwal
+=======
+ * This Activity provides the user with a map using OpenStreetMaps for android.
  * 
  * It is used by CreateSubmissionActivity to edit the user's location, which is 
  * done by tapping on the map where you want to set the location, once tapped
@@ -34,39 +45,35 @@ import android.view.View;
  * 
  * @author navjeetdhaliwal
  *
+>>>>>>> a22a39be57f90e3367755d84253515fc7bb897fb
  */
 
-public class MapViewController extends Activity {
+public class MapViewController extends RankedHierarchicalActivity implements UpdateInterface{
 
-	public MapController mapController;
-	public MapView mapView;
-	public GeoPoint returnPoint;
-	public int canSetMarker;
+	private MapController mapController;
+	private MapView mapView;
+
+	private GeoPoint returnPoint;
+	private int canSetMarker;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// problem with this action bar is Mapview has multiple parents
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = getIntent();
-		loadFromIntent(intent);
-
-	}
-	
-
-	public void loadFromIntent(Intent intent) {
 		double lat = intent.getDoubleExtra("lat", 53.5333);
 		double lon = intent.getDoubleExtra("lon",-113.5000);
 		canSetMarker = intent.getIntExtra("canSetMarker", 0);
 
-		returnPoint = new GeoPoint(lat, lon);
+		
 		
 		// Here is the initialization if user is editing location
 		if(canSetMarker == 1){
 			setContentView(R.layout.map_edit_location_view);
-			mapView = (MapView) findViewById(R.id.mapview);
+
+			returnPoint = new GeoPoint(lat, lon);
+			mapView = (MapView) findViewById(R.id.mapEditView);
 			mapView.setTileSource(TileSourceFactory.MAPNIK);
 			mapView.setBuiltInZoomControls(true);
 			mapView.setMultiTouchControls(true);
@@ -99,7 +106,57 @@ public class MapViewController extends Activity {
 
 		}else {
 			// here we implement new requirement of displaying Topic Thread Location
+			setContentView(R.layout.map_thread_view);
+			CommentTree commentTree = CommentTree.getInstance();
+			//Topic topic = cl.getCurrentTopic();
+			returnPoint  = new GeoPoint(lat,lon);
+			mapView = (MapView) findViewById(R.id.mapThreadView);
+			mapView.setTileSource(TileSourceFactory.MAPNIK);
+			mapView.setBuiltInZoomControls(true);
+			mapView.setMultiTouchControls(true);
+			mapView.setClickable(false);
+			mapController = (MapController) mapView.getController();
+			mapController.setZoom(5);
+			mapController.setCenter(returnPoint);
+			
+			//set topic marker with special icon
+			
+			Marker topicMarker = new Marker(mapView);
+			topicMarker.setPosition(returnPoint);
+			topicMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+			topicMarker.setIcon(getResources().getDrawable(R.drawable.marker_via));
+			mapView.getOverlays().add(topicMarker);
+			mapView.invalidate();
+			
+			ArrayList<CommentTreeElement> commentList = commentTree.getCommentList(this);
+			for(int i=1;i<commentList.size();i++){
+				CommentTreeElement comment = commentList.get(i);			
+				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
+				setMarker(point);
+			}
+			
+			MapEventsReceiver receiver = new MapEventsReceiver() {
+
+				@Override
+				public boolean singleTapUpHelper(IGeoPoint tapLocation) {
+					// once the user taps, we remove the old marker and place a new one
+					
+					return true;
+				}
+
+				@Override
+				public boolean longPressHelper(IGeoPoint arg0) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+			MapEventsOverlay mEvent = new MapEventsOverlay(this, receiver);
+			mapView.getOverlays().add(mEvent);
 		}
+
+
+
+
 	}
 
 	/**
@@ -135,21 +192,37 @@ public class MapViewController extends Activity {
 		Intent result = new Intent();
 		result.putExtra("lat", returnPoint.getLatitude());
 		result.putExtra("lon", returnPoint.getLongitude());
-		setResult(MapViewController.RESULT_OK, result);	
+		setResult(RESULT_OK, result);	
 		finish();
 	}
+	public void doneMapThread(View v){
+		finish();
+	}
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+       // CommentLogger cl = CommentLogger.getInstance();
+	}
+        
 
 	/**
-	 * This method returns the point that was selected by the user when they chose to 
-	 * edit their comment or topic location using the interactive map provided.
+	 * This method returns the point that was selected by the user when they chose to  edit their comment or topic location using the interactive map provided. This is currently being used as a way to make an integration test to debug this  MapViewActivity.
+	 * @return  the geopoint that was selected by the current marker on the screen.
 	 * 
-	 * This is currently being used as a way to make an integration test to debug this 
-	 * MapViewActivity.
-	 * 
-	 * @return the geopoint that was selected by the current marker on the screen.
 	 */
 	public GeoPoint getReturnPoint(){
 		return returnPoint;
 	}
 
+	@Override
+	public void update()
+	{
+
+	}
+
+	@Override
+	public UpdateRank getRank()
+	{
+		return rank;
+	}
 }

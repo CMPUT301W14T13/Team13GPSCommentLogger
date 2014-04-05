@@ -7,13 +7,19 @@ import cmput301w14t13.project.auxilliary.adapters.CustomAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
+import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.controllers.HomeViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ActionBar.OnNavigationListener;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.location.Location;
@@ -23,28 +29,33 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /* this is our main activity */
 /**
- * HomeViewActivity is where the user will see a list of topics and various options
- * like adding a topic, viewing saved comments, and sorting topics. From here the user can
- * click on a topic to enter it and view its comments and/or reply to comments
- *
- * @author Austin
- *
+ * HomeViewActivity is where the user will see a list of topics and various options like adding a topic, viewing saved comments, and sorting topics. From here the user can click on a topic to enter it and view its comments and/or reply to comments
+ * @author  Austin
  */
-public class HomeView extends RankedHierarchicalActivity implements UpdateInterface{
+public class HomeView extends RankedHierarchicalActivity implements UpdateInterface, OnNavigationListener {
 
+	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	
 	private ListView topicListview;
+
 	private CustomAdapter displayAdapter; //adapter to display the topics
+
 	private Menu menu; //A reference to the options menu
+
 	protected HomeViewController controller = new HomeViewController(this);
 
 	@Override
@@ -57,11 +68,25 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		
 		try {
 			controller.connect();
-			controller.init();
+			//controller.init();
 			controller.bind();
+			initializeActionBar();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		/*try
+		{
+			controller.bind();
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}*/
 	}
 
 
@@ -76,17 +101,15 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	}
 	
 	@Override
-	public void onStop(){
-		super.onStop();
-        controller.unbind();
+	public void onPause(){
+		super.onPause();
+		CommentTree.getInstance().deleteView(this);
 	}
 	
 	@Override
-    public void onDestroy() {
-        super.onDestroy();
-        CommentTree ct = CommentTree.getInstance();
-		ct.popRoot();
-        ct.deleteView(this);
+	public void onDestroy(){
+		super.onDestroy();
+        controller.unbind();
 	}
 	
 	@Override
@@ -108,25 +131,86 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		return (controller.selectOptions(item))?true:super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="menu"
+	 */
 	public Menu getMenu() {
 		return menu;
 	}
+	
+	private void initializeActionBar()
+	{
+		// Set up the action bar to show a dropdown list.
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
+		// Set up the dropdown list navigation in the action bar.
+		actionBar.setListNavigationCallbacks(
+				// Specify a SpinnerAdapter to populate the dropdown list.
+				new ArrayAdapter<String>(actionBar.getThemedContext(),
+						android.R.layout.simple_list_item_1,
+						android.R.id.text1, new String[] {
+					getString(R.string.sort1),
+					getString(R.string.sort2),
+					getString(R.string.sort3),
+					getString(R.string.sort4),
+					getString(R.string.sort5),
+					getString(R.string.sort6),
+				}), this);
+	}
+
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Restore the previously serialized current dropdown position.
+		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+			getActionBar().setSelectedNavigationItem(
+					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// Serialize the current dropdown position.
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
+				.getSelectedNavigationIndex());
+	}
+	
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		return controller.onNavigationItemSelected(itemPosition, itemId);
+	}
+	
+	public void openMap()
+	{
+		controller.openMap();
+	}
+		
+	@SuppressLint("NewApi")
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		controller.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();
-		Log.w("UpdateHomeView", Boolean.toString(ct.getElement(this) == null));
-		Log.w("UpdateHomeView", ct.getElement(this).toString());
-		Log.w("UpdateHomeView", ct.getChildren(this).toString());
-		displayAdapter = new CustomAdapter(this, ct.getChildren(this));
+		displayAdapter = new CustomAdapter(this, ct.getCommentList(this));
 		topicListview.setAdapter(displayAdapter);
-		CommentTree.getInstance().getCommentList(this);
 		displayAdapter.notifyDataSetChanged();		
 	}
 
 	public ListView getListView()
 	{
 		return topicListview;
+	}
+	
+	public void setListView(ListView topicListview)
+	{
+		this.topicListview = topicListview;
 	}
 
 	@Override

@@ -14,16 +14,20 @@ import cmput301w14t13.project.views.HomeView;
 
 public class ViewList<V extends UpdateInterface> {
     private ArrayList<V> views;
-	private HomeView hv;
+
+	private HomeView hv = null;
 
     public ViewList() {
         views = new ArrayList<V>();
     }
-    
-    public void registerUIThread(HomeView hv)
-    {
-    	this.hv = hv;
-    }
+	
+	public void registerUIThread(HomeView hv)
+	{
+		if(this.hv == null)
+		{
+			this.hv = hv;
+		}
+	}
 
     public void addView(V view) {
         if (!views.contains(view)) {
@@ -39,10 +43,8 @@ public class ViewList<V extends UpdateInterface> {
         for (final V view : views) {
             hv.runOnUiThread(new Runnable()
 			{
-
 				public void run()
 				{
-
 					view.update();
 				}
 			});

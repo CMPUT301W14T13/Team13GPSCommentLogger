@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>RefactoredProjectTest</name>
-	<comment></comment>
+	<comment>@key 32303037303533312D31303030205265666163746F72656450726F6A656374546573742F6D6A6E6963686F6C </comment>
 	<projects>
 		<project>RefactoredProject</project>
 	</projects>
@@ -26,9 +26,15 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.soyatec.additional.Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>com.soyatec.additional.Nature</nature>
 	</natures>
 </projectDescription>
