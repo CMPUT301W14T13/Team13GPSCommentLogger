@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import cmput301w14t13.project.R;
 import cmput301w14t13.project.controllers.SelectUsernameController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
@@ -79,12 +80,30 @@ public class BrowseCommentRepliesTest extends ActivityInstrumentationTestCase2<H
 
 					View v = commentList.getAdapter().getView(i, null, null);
 
-
+					
 					username = (TextView) v.findViewById(cmput301w14t13.project.R.id.comment_username);
 					image = (ImageView) v.findViewById(cmput301w14t13.project.R.id.commentImage);	
 					coordinates = (TextView) v.findViewById(cmput301w14t13.project.R.id.comment_coordinates);	
 					commentText = (TextView) v.findViewById(cmput301w14t13.project.R.id.commentText);	
+					View[] indentViews = new View[] {
+							v.findViewById(cmput301w14t13.project.R.id.left_indent1),
+							v.findViewById(cmput301w14t13.project.R.id.left_indent2),
+							v.findViewById(cmput301w14t13.project.R.id.left_indent3),
+							v.findViewById(cmput301w14t13.project.R.id.left_indent4),
+							v.findViewById(cmput301w14t13.project.R.id.left_indent5),
 
+					};
+					
+					if (comments.get(i).getIndentLevel() > 0){
+						assertNotNull(indentViews[i-1]);
+					}
+					
+					assertNotNull(username);
+					assertNotNull(image);
+					assertNotNull(coordinates);
+					assertNotNull(commentText);
+					
+					
 					assertNotNull(username.getText().toString());
 
 
