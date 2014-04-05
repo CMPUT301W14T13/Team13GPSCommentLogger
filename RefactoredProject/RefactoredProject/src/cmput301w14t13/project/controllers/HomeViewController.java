@@ -16,10 +16,10 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
-import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -174,8 +174,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	private void createTopic(){
-		Intent topic = new Intent(homeView, CreateSubmissionView.class);
-		topic.putExtra("construct code", 0);
+		Intent topic = new Intent(homeView, CreateTopicSubmissionView.class);
 		topic.putExtra("updateRank", homeView.getRank().getRank());
 		homeView.startActivity(topic);
 	}

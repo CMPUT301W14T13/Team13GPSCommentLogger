@@ -1,4 +1,4 @@
-package cmput301w14t13.project.services;
+package cmput301w14t13.project.services.elasticsearch;
 
 import java.util.Collection;
 

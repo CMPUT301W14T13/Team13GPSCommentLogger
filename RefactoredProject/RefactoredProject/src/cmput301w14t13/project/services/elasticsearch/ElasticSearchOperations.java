@@ -1,4 +1,4 @@
-package cmput301w14t13.project.services;
+package cmput301w14t13.project.services.elasticsearch;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +19,8 @@ import android.util.Log;
 import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.Task;
+import cmput301w14t13.project.services.serialization.BitmapSerializer;
+import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

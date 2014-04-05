@@ -1,4 +1,4 @@
-package cmput301w14t13.project.services;
+package cmput301w14t13.project.services.serialization;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.util.Base64;
 import android.util.Log;
-
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
@@ -21,6 +20,7 @@ import cmput301w14t13.project.models.tasks.PostNewServerTask;
 import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.models.tasks.TextUpdateServerTask;
+import cmput301w14t13.project.services.DataStorageService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

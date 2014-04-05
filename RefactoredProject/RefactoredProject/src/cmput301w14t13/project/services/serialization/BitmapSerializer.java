@@ -1,4 +1,4 @@
-package cmput301w14t13.project.services;
+package cmput301w14t13.project.services.serialization;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;

@@ -1,4 +1,4 @@
-package cmput301w14t13.project.services;
+package cmput301w14t13.project.services.serialization;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +17,7 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.models.tasks.MySavesLocalTask;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.DataStorageService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
