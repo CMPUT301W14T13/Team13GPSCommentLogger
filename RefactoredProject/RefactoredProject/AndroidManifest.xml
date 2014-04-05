@@ -38,7 +38,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cmput301w14t13.project.views.CreateSubmissionView"
+            android:name="cmput301w14t13.project.views.submissions.CreateTopicSubmissionView"
+            android:label="@string/create_topic_label"
+            android:parentActivityName="cmput301w14t13.project.views.HomeView" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmput301w14t13.project.views.HomeView" />
+        </activity>
+        <activity
+            android:name="cmput301w14t13.project.views.submissions.EditTopicSubmissionView"
+            android:label="@string/create_topic_label"
+            android:parentActivityName="cmput301w14t13.project.views.HomeView" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmput301w14t13.project.views.HomeView" />
+        </activity>
+        <activity
+            android:name="cmput301w14t13.project.views.submissions.EditCommentSubmissionView"
+            android:label="@string/create_topic_label"
+            android:parentActivityName="cmput301w14t13.project.views.HomeView" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmput301w14t13.project.views.HomeView" />
+        </activity>
+        <activity
+            android:name="cmput301w14t13.project.views.submissions.ReplyToCommentSubmissionView"
+            android:label="@string/create_topic_label"
+            android:parentActivityName="cmput301w14t13.project.views.HomeView" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmput301w14t13.project.views.HomeView" />
+        </activity>
+        <activity
+            android:name="cmput301w14t13.project.submissions.ReplyToTopicSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             <meta-data
@@ -52,16 +84,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmput301w14t13.project.views.HomeView" />
         </activity>
-        <activity android:name="cmput301w14t13.project.controllers.SelectUsernameController" >
+        <activity 
+            android:name="cmput301w14t13.project.controllers.SelectUsernameController" >
         </activity>
         <activity
-            android:name="cmput301w14t13.project.controllers.MapViewController"
-            android:parentActivityName="cmput301w14t13.project.views.CreateSubmissionView" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="cmput301w14t13.project.controllers.CreateSubmissionController" />
+            android:name="cmput301w14t13.project.controllers.MapViewController">
         </activity>
-        <activity android:name="cmput301w14t13.project.views.FavouritesView" >
+        <activity
+            android:name="cmput301w14t13.project.controllers.ImageAttachmentController">
+        </activity>
+        <activity 
+            android:name="cmput301w14t13.project.views.FavouritesView" >
         </activity>
         <activity
             android:name="cmput301w14t13.project.FavouritesViewTemp"

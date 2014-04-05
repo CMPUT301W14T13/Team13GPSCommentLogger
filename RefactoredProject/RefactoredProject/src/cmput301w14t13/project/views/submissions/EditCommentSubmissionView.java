@@ -11,6 +11,8 @@ public class EditCommentSubmissionView extends CommentSubmissionView {
 		super.onCreate(savedInstanceState);
 		int rowNumber = getIntent().getIntExtra("row number", -1);
 		controller = new EditCommentSubmissionController(this, rowNumber);
+		
+		controller.initialize();
 	}
 
 }

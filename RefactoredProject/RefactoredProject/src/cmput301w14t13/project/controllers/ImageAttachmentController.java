@@ -41,6 +41,7 @@ public class ImageAttachmentController extends Activity
 {
 
 	private CommentTreeElementSubmission submission;
+	private boolean started = false;
 	private static final int PICK_FROM_FILE = 2;
 	
 	// Reference: http://stackoverflow.com/questions/2169649/get-pick-an-image-from-androids-built-in-gallery-app-programmatically	
@@ -54,16 +55,20 @@ public class ImageAttachmentController extends Activity
 	@Override
 	protected void onResume()
 	{
-		Log.d("Image Attach", "Starting Image Attachment Intent");
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
-	}
-	
-	public ImageAttachmentController(CommentTreeElementSubmission submission)
-	{
-		this.submission = submission;
+		super.onResume();
+		if(!started)
+		{
+			Log.d("Image Attach", "Starting Image Attachment Intent");
+			started = true;
+			Intent intent = new Intent();
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
+		}
+		else
+		{
+			this.finish();
+		}
 	}
 
 	/**

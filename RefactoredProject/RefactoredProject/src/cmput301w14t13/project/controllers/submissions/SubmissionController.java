@@ -30,7 +30,10 @@ public abstract class SubmissionController {
 	public SubmissionController(SubmissionView view) {
 		this.view = view;
 		this.submission = new CommentTreeElementSubmission(view);
-		
+	}
+	
+	public void initialize()
+	{
 		constructSubmissionData();
 		initializeLocation();
 		initializeFields();

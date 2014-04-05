@@ -7,6 +7,7 @@ import cmput301w14t13.project.controllers.submissions.SubmissionController;
 import cmput301w14t13.project.controllers.submissions.TopicSubmissionController;
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 
 public abstract class SubmissionView extends RankedHierarchicalActivity implements UpdateInterface{
@@ -16,9 +17,27 @@ public abstract class SubmissionView extends RankedHierarchicalActivity implemen
 	@Override
 	public void update()
 	{
-		Log.d("Image Attach", "Image received: " + controller.getSubmission().getSubmission().getImage().toString());
-		ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
-		attachButton.setImageBitmap(controller.getSubmission().getSubmission().getImage());
+		if(controller.getSubmission().getSubmission().getHasImage())
+		{
+			Log.d("Image Attach", "Image received: " + controller.getSubmission().getSubmission().getImage().toString());
+			ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
+			attachButton.setImageBitmap(controller.getSubmission().getSubmission().getImage());
+		}
+	}
+	
+	public void attachImage(View v)
+	{
+		controller.attachImage(v);
+	}
+	
+	public void openMap(View v)
+	{
+		controller.openMap(v);
+	}
+	
+	public void submitTopic(View v) throws InterruptedException
+	{
+		controller.submit(v);
 	}
 
 }

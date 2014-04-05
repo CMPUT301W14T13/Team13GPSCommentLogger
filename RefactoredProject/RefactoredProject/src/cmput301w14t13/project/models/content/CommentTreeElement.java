@@ -27,7 +27,7 @@ public abstract class CommentTreeElement {
 
 	protected Bitmap image;
 	
-	protected boolean hasImage;
+	protected boolean hasImage = false;
 
 	protected Date timestamp;
 

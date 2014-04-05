@@ -10,5 +10,6 @@ public class EditTopicSubmissionView extends TopicSubmissionView {
 		super.onCreate(savedInstanceState);		
 		controller = new EditTopicSubmissionController(this);
 
+		controller.initialize();
 	}
 }

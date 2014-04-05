@@ -1,5 +1,6 @@
 package cmput301w14t13.project.controllers.submissions;
 
+import android.util.Log;
 import android.widget.EditText;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.models.CommentTree;
@@ -16,6 +17,7 @@ public class CreateTopicSubmissionController extends TopicSubmissionController {
 
 	@Override
 	protected void constructSubmissionData() {
+		Log.w("Test constructor","constructSubmissionData reached");
 		submission.setSubmission(new Topic());
 	}
 

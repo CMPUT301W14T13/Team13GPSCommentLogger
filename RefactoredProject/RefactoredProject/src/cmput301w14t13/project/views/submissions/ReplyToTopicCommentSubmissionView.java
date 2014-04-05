@@ -10,6 +10,8 @@ public class ReplyToTopicCommentSubmissionView extends CommentSubmissionView {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		controller = new ReplyToTopicCommentSubmissionController(this);
+		
+		controller.initialize();
 	}	
 	
 }

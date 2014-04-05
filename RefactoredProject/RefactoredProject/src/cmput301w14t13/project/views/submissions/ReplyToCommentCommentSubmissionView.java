@@ -11,5 +11,7 @@ public class ReplyToCommentCommentSubmissionView extends CommentSubmissionView {
 		super.onCreate(savedInstanceState);
 		int rowNumber = getIntent().getIntExtra("row number", -1);
 		controller = new ReplyToCommentCommentSubmissionController(this, rowNumber);
+		
+		controller.initialize();
 	}
 }
