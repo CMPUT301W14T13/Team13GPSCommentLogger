@@ -44,12 +44,34 @@ public class CreateSubmissionController
 		this.constructCode = constructCode;
 		this.submitCode = submitCode;
 		this.rowNumber = rowNumber;
+		constructSubmissionData();
 	}
 	
+	private void constructSubmissionData() {
+		submission = new CommentTreeElementSubmission(view);
+		
+		if (constructCode == 0){
+			//Add a title if a NEW TOPIC is being made
+			submission.setSubmission(new Topic());
+		}
+		else if(constructCode == 3)
+		{
+			//A TOPIC is being EDITED
+			submission.setSubmission(CommentTree.getInstance().getElement(view));
+		}
+		else if(constructCode == 1){
+			//A NEW COMMENT is being made
+			submission.setSubmission(new Comment());
+		}
+		else
+		{
+			//else a COMMENT is being EDITED
+			submission.setSubmission(CommentTree.getInstance().getCommentList(view).get(rowNumber));
+		}
+	}
+
 	public void initializeLocation() {
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
-		
-		submission = new CommentTreeElementSubmission(view);
 		submission.setGpsLocation(LocationSelection.getInstance().getLocation());
 		
 		/* if you cannot get a GPS fix set the values to : 0,0*/
@@ -312,27 +334,6 @@ public class CreateSubmissionController
 	 * construct code
 	 */
 	public void constructSubmission(){
-
-		
-		if (constructCode == 0){
-			//Add a title if a NEW TOPIC is being made
-			submission.setSubmission(new Topic());
-		}
-		else if(constructCode == 3)
-		{
-			//A TOPIC is being EDITED
-			submission.setSubmission(CommentTree.getInstance().getElement(view));
-		}
-		else if(constructCode == 1){
-			//A NEW COMMENT is being made
-			submission.setSubmission(new Comment());
-		}
-		else
-		{
-			//else a COMMENT is being EDITED
-			submission.setSubmission(CommentTree.getInstance().getCommentList(view).get(rowNumber));
-		}
-		
 		if(submission.getUserLocation() == null){
 			submission.getSubmission().setGPSLocation(submission.getGpsLocation());
 		} else {

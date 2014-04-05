@@ -59,14 +59,10 @@ public class CreateSubmissionView extends RankedHierarchicalActivity implements 
 	private CreateSubmissionController controller;
 
 	@Override
-
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		/* create the location stuff up here */
-
-		int constructCode = getIntent().getIntExtra("construct code", -1);
-		int submitCode = getIntent().getIntExtra("submit code", -1);
 		int rowNumber = getIntent().getIntExtra("row number", -1);
 		
 		controller = new CreateSubmissionController(this, constructCode, submitCode, rowNumber);
@@ -74,12 +70,6 @@ public class CreateSubmissionView extends RankedHierarchicalActivity implements 
 		controller.initializeLocation();
 		controller.initializeFields();
 	}
-
-	@Override
-	protected void onResume(){
-		super.onResume();
-	}
-
 
 	/**
 	 * extracts a longitude and latitude from MapViewActivity to be used
@@ -124,12 +114,6 @@ public class CreateSubmissionView extends RankedHierarchicalActivity implements 
 	public void update() {
 	}
 
-
-	@Override
-	public UpdateRank getRank() {
-		return rank;
-	}
-	
 }
 
 

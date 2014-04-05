@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.content;
 
+import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.views.CreateSubmissionView;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -15,18 +16,18 @@ import android.location.Location;
  * **/
 public class CommentTreeElementSubmission{
 
-	private CreateSubmissionView view;
+	private UpdateInterface view;
 	private Location gpsLocation;
 	private Location userLocation;
 	
 	private CommentTreeElement submission;
 	
-	public CommentTreeElementSubmission(CreateSubmissionView view)
+	public CommentTreeElementSubmission(UpdateInterface view)
 	{
 		this.view = view;
 	}
 	
-	public CommentTreeElementSubmission(CommentTreeElement ele, CreateSubmissionView view)
+	public CommentTreeElementSubmission(CommentTreeElement ele, UpdateInterface view)
 	{
 		this.submission = ele;
 		this.view = view;
