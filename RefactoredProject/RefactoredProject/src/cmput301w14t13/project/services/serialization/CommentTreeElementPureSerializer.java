@@ -1,4 +1,4 @@
-package cmput301w14t13.project.services;
+package cmput301w14t13.project.services.serialization;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,9 +14,9 @@ import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.content.Topic;
-import cmput301w14t13.project.models.tasks.MySavesLocalTask;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.DataStorageService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,36 +31,38 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Converts CommentTreeElements to JsonObjects and vice versa 
- * for saving and loading locally
+ * Recursively converts an entire CommenTreeElement and all its children to a jsonObject
+ * and vice versa 
  * 
- * @param <T>
+ * @author nsd
+ *
  */
-public class CommentTreeElementLocalSerializer implements
+public class CommentTreeElementPureSerializer implements
         JsonSerializer<CommentTreeElement>, JsonDeserializer<CommentTreeElement>,AsyncProcess {
 
     private static final String CLASS_META_KEY = "CLASS_META_KEY";
     private static final String CLASS_DATA = "CLASS_DATA";
 
     /**
-     * Converts a jsonObject to a Topic,Comment,or Root depending
-     * on what class is specified in the jsonObjects Class Meta Key
+     * Converts a json object into a subclass of CommentTreeELement 
+     * depending on the class specified by the json object then 
+     * grabs an array of json representations of the objects children
+     * and recurses through it and converts and adds the CommenTreeElements
+     * as childposts.
      * 
-     * used when loading from local data storage.
-     * 
-     * @returns CommentTreeElement a Root,Topic, or Comment
+     * @return CommentTree Element the converted Topic,Comment,or Root
      */
     @Override
     public synchronized CommentTreeElement deserialize(JsonElement jsonElement, Type type,
             JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-        Log.w("LocalDeserialization", "Type: " + type);
-        Log.w("LocalDeserialization", "JSONOBJ : " + jsonElement);
+        Log.w("ServerDeserialization", "Type: " + type);
+        Log.w("ServerDeserialization", "JSONOBJ : " + jsonElement);
         String className = jsonObj.get(CLASS_META_KEY).getAsString();
-        Log.w("LocalDeserialization", "Class type: " + className);
+        Log.w("ServerDeserialization", "Class type: " + className);
         try {
-        	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+        	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementPureSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
         	
         	JsonObject viewable = jsonObj.get(CLASS_DATA).getAsJsonObject();
         	
@@ -74,14 +76,10 @@ public class CommentTreeElementLocalSerializer implements
         	Location GPSLocation = gson.fromJson(viewable.get("GPSLocation").getAsString(), Location.class);;
         	ArrayList<CommentTreeElement> childPosts = new ArrayList<CommentTreeElement>();
         	
-        	TaskFactory factory = new TaskFactory(DataStorageService.getInstance());
+
         	for(final JsonElement each : viewable.get("childPosts").getAsJsonArray())
         	{
-        		String eachID = each.getAsJsonPrimitive().getAsString();
-        		MySavesLocalTask task = new MySavesLocalTask(DataStorageService.getInstance(), eachID);
-        		DataStorageService.getInstance().doTask(this,task);
-        		wait();
-        		childPosts.add(task.getObj());
+        		childPosts.add(gson.fromJson(each, CommentTreeElement.class));
         	}
         	
         	CommentTreeElement instance = null;
@@ -111,24 +109,22 @@ public class CommentTreeElementLocalSerializer implements
         } catch (IllegalArgumentException e)
 		{
 			e.printStackTrace();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
 		}
         return null;
     }
 
     /**
-     * Converts a CommentTreeElement to a jsonObject to be saved locally
+     * Creates  Json object and hands it information from the CommentTreeElement
+     * (E.g. text, username, location), then recurses through its children to do the same
      * 
-     * Used when saving Topics or Comments locally  
+     * returns the Json object containing representation of The CommentTreeElement and its children
      * 
-     * @return JsonElement A JsonObject
+     *@return JsonObject The converted CommentTreeElement and its children
      */
     @Override
     public JsonElement serialize(CommentTreeElement object, Type type,
             JsonSerializationContext jsonSerializationContext) {
-        
-    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementPureSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
     	
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty(CLASS_META_KEY,
@@ -146,7 +142,7 @@ public class CommentTreeElementLocalSerializer implements
         
         final JsonArray childArray = new JsonArray();
         for (final CommentTreeElement each : object.getChildren()) {
-            childArray.add(new JsonPrimitive(each.getID()));
+            childArray.add(new JsonPrimitive(gson.toJson(each)));
         }
         
         viewableJson.add("childPosts", childArray);

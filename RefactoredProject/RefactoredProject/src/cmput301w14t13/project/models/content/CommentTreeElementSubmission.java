@@ -1,6 +1,6 @@
 package cmput301w14t13.project.models.content;
 
-import cmput301w14t13.project.views.CreateSubmissionView;
+import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import android.graphics.Bitmap;
 import android.location.Location;
 
@@ -15,31 +15,19 @@ import android.location.Location;
  * **/
 public class CommentTreeElementSubmission{
 
-	private CreateSubmissionView view;
+	private UpdateInterface view;
 	private Location gpsLocation;
 	private Location userLocation;
 	
 	private CommentTreeElement submission;
-	/**
-	 * Constructs a new CommentTreeElementSubmission with a specified view
-	 * Used by CreateSubmissionController to create a brand new CommentTreeElement
-	 * connected to a view, CreateSubmissionView
-	 * 
-	 * @param view the view displaying the CommentTreeElementSubmission's information
-	 */
-	public CommentTreeElementSubmission(CreateSubmissionView view)
+	
+	public CommentTreeElementSubmission(UpdateInterface view)
 	{
 		this.view = view;
 	}
-	/**
-	 * Creates a CommentTreeElementSubmission from an existing CommentTreeElement
-	 * and a specific view
-	 * Used by CreateSubmissionController when editing an existing CommentTreeElement
-	 * 
-	 * @param ele An existing CommentTreeElement
-	 * @param view A View to to display the CommentTreeElement
-	 */
-	public CommentTreeElementSubmission(CommentTreeElement ele, CreateSubmissionView view)
+	
+	public CommentTreeElementSubmission(CommentTreeElement ele, UpdateInterface view)
+
 	{
 		this.submission = ele;
 		this.view = view;

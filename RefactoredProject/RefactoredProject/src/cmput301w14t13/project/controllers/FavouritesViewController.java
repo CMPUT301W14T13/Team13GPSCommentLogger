@@ -7,8 +7,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
+import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.TopicView;
 
@@ -60,7 +62,15 @@ public class FavouritesViewController{
 			/* We will want to switch out some of the below with the new Favourites model (that is to act as a stand in for the CommentTree) */
 			CommentTree ct = CommentTree.getInstance();
 			DataStorageService dss = DataStorageService.getInstance();
-			SearchServerTask task = new TaskFactory(dss).getNewBrowser(ct.getChildren(favouritesView).get(position).getID());
+			Task task;
+			if(NetworkReceiver.isConnected)
+			{
+				task = new TaskFactory(dss).getNewBrowser(ct.getChildren(favouritesView).get(position).getID());
+			}
+			else
+			{
+				task = new TaskFactory(dss).getNewSavesBrowser(ct.getChildren(favouritesView).get(position).getID());
+			}
 			try {
 				dss.doTask(this, task);
 				waitForCompletion();

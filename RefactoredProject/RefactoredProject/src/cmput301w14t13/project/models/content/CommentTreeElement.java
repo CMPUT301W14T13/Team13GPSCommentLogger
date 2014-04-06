@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import cmput301w14t13.project.services.BitmapSerializer;
+import cmput301w14t13.project.services.serialization.BitmapSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +34,7 @@ public abstract class CommentTreeElement {
 
 	protected Bitmap image;
 
-	protected boolean hasImage;
+	protected boolean hasImage = false;
 
 	protected Date timestamp;
 
@@ -153,7 +153,7 @@ public abstract class CommentTreeElement {
 		this.GPSLocation = location;
 	}
 	public boolean getHasImage(){
-		return this.hasImage;
+		return image != null;
 	}
 	public void setLocation(Location gpsLocation2){
 		GPSLocation = gpsLocation2;

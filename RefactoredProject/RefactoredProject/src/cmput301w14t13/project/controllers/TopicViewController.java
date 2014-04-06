@@ -12,11 +12,14 @@ import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
-import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
-import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.LocationSelection;
-import cmput301w14t13.project.views.CreateSubmissionView;
+import cmput301w14t13.project.services.serialization.CommentTreeElementLocalSerializer;
+import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.submissions.EditCommentSubmissionView;
+import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
+import cmput301w14t13.project.views.submissions.ReplyToCommentCommentSubmissionView;
+import cmput301w14t13.project.views.submissions.ReplyToTopicCommentSubmissionView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -128,24 +131,21 @@ public class TopicViewController implements AsyncProcess
 	 * @throws InterruptedException when an incorrect id is found
 	 */
 	public void reply(View v) throws InterruptedException{
-		
-		Intent intent = new Intent(topicView, CreateSubmissionView.class);
-		int rowNumber;
-		intent.putExtra("construct code", 1); //construct a comment
-		intent.putExtra("updateRank", topicView.getRank().getRank());
-		
-		 switch (v.getId()) {
+		Intent intent;
+		switch (v.getId()) {
 		 
 	         case R.id.topic_reply_button:
 	        	 
-	        	 intent.putExtra("submit code", 0); //replying to a topic
+	        	 intent = new Intent(topicView, ReplyToTopicCommentSubmissionView.class);
+	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
 	        	 topicView.startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_reply_button:
 	        	 
-	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
-	        	 intent.putExtra("submit code", 1); //replying to a comment
+	        	 intent = new Intent(topicView, ReplyToCommentCommentSubmissionView.class);
+	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
+	        	 int rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
 	        	 intent.putExtra("row number", rowNumber);
 	        	 topicView.startActivity(intent); //replying to a comment
 	        	 break;
@@ -173,26 +173,21 @@ public class TopicViewController implements AsyncProcess
 	 */
 	public void edit(View v) throws InterruptedException{
 		
-		Intent intent = new Intent(topicView, CreateSubmissionView.class);
-		intent.putExtra("updateRank", topicView.getRank().getRank());
-		int rowNumber;
-		
-				
+		Intent intent;
 		 switch (v.getId()) {
 		 
 	         case R.id.topic_edit_button:
 	        
-	        	 intent.putExtra("construct code", 3); // constructing an edited topic
-	        	 intent.putExtra("submit code", 2);  //editing a topic
+	        	 intent = new Intent(topicView, EditTopicSubmissionView.class);
+	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
 	        	 topicView.startActivity(intent); 
 	             break;
 	             
 	         case R.id.comment_edit_button:
 	        	 
-	        	 rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	
-	        	 intent.putExtra("construct code", 2); //constructing an edited comment
-	        	 intent.putExtra("submit code", 3); //editing a comment
+	        	 intent = new Intent(topicView, EditCommentSubmissionView.class);
+	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
+	        	 int rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
 	        	 intent.putExtra("row number", rowNumber);
 	        	 topicView.startActivity(intent); 
 	        	 break;

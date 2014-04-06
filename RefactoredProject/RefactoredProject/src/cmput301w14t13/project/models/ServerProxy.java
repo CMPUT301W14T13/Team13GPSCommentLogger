@@ -28,10 +28,10 @@ import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.tasks.RootSearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
-import cmput301w14t13.project.services.BitmapSerializer;
-import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.DataStorageService;
-import cmput301w14t13.project.services.TaskSerializer;
+import cmput301w14t13.project.services.serialization.BitmapSerializer;
+import cmput301w14t13.project.services.serialization.CommentTreeElementLocalSerializer;
+import cmput301w14t13.project.services.serialization.TaskSerializer;
 import cmput301w14t13.project.views.HomeView;
 
 import com.google.gson.Gson;

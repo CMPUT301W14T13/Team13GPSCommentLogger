@@ -1,5 +1,5 @@
- package cmput301w14t13.project.services;
 
+package cmput301w14t13.project.services.serialization;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
@@ -16,6 +16,7 @@ import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.DataStorageService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -2,9 +2,9 @@ package cmput301w14t13.project.models.tasks;
 
 import android.util.Log;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.DataStorageService;
-import cmput301w14t13.project.services.ElasticSearchOperations;
+import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
+import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
