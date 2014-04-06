@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="saveTopic"
-                android:text="save" />
+                android:text="Save" />
                         <Button
                 android:id="@+id/map_thread"
                 style="?android:attr/buttonStyleSmall"

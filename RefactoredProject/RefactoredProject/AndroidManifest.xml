@@ -101,18 +101,18 @@
             android:name="cmput301w14t13.project.FavouritesViewTemp"
             android:label="@string/title_activity_favourites_view_temp" >
         </activity>
-<<<<<<< HEAD
+
         <activity
             android:name="cmput301w14t13.project.views.HelpView"
             android:label="@string/title_activity_help_view" >
         </activity>
-=======
+
         <service
 		  android:name="DataStorageService"
 		  android:process=":dss_process" 
 		  >
 		</service> 
->>>>>>> d147cf33a3561bc35260f5409c5f2075b691e629
+
     </application>
 
 </manifest>
