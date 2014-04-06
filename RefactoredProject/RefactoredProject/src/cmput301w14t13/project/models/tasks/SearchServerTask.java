@@ -5,7 +5,8 @@ import cmput301w14t13.project.services.ElasticSearchOperations;
 
 /**
 * Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-* This class's method searches for a Viewable based on its ID field
+* A Subclass of Task specifically to search the server for a CommentTreeElement
+* using its unique ID
 */
 
 public class SearchServerTask extends Task {

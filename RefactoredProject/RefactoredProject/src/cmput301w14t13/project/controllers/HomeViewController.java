@@ -254,8 +254,9 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	/**
-	 * Method starts an map selection activity to get
-	 * a location input from the user. 
+	 * Method starts MapViewController if online or
+	 * opens a dialog fragment if offline to get
+	 * a location input from the user.  
 	 * 
 	 * This is called by sort functions when the user 
 	 * selects to sort topics by proximity to a given 
@@ -319,7 +320,7 @@ public class HomeViewController implements AsyncProcess{
 	 *  
 	 * @param requestCode
 	 * @param resultCode
-	 * @param data
+	 * @param data The Intent from the activity returning a result
 	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -343,7 +344,7 @@ public class HomeViewController implements AsyncProcess{
 	 * 
 	 * A popup message is displayed to indicate selection to the user.
 	 * 
-	 * @param itemPosition
+	 * @param itemPosition To determine which option user chose
 	 * @param itemId
 	 * @return
 	 */

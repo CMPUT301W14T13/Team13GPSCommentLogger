@@ -11,9 +11,9 @@ import com.google.gson.GsonBuilder;
 
 /**
  * Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
- * This class's method searches for the ID and updates
- * the version in the elasticSearch versioning system 
- * to the new state provided by the client
+* A Subclass of Task specifically to update a CommentTreeElements Text
+* it finds the appropriate CommentTreeElement to update using a unique ID
+* then updates the CommentTreeElements text field
  */
 
 public class TextUpdateServerTask extends Task {

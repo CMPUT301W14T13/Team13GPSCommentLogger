@@ -7,9 +7,8 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 
 /**
- * Subclass of CommentTreeElement, it is used to hold Topics
- * Used by HomeView to bring up a list of all Topics for the
- * user to view
+ * Subclass of CommentTreeElement, it is used to hold a list of Topics
+ * Used by HomeView to bring up a list of all Topics for viewing
  * 
  */
 

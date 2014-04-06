@@ -5,7 +5,9 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.views.HomeView;
 
 /**
- * Class creates Task objects
+ * Creates task specific to what is needed, E.g. posting to server 
+ * updating image, or updating location
+ *  
  */
 public class TaskFactory {
 

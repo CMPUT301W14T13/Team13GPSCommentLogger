@@ -7,6 +7,10 @@ import cmput301w14t13.project.services.ElasticSearchOperations;
 import cmput301w14t13.project.views.HomeView;
 
 /**
+ * A subclass of SearchServerTask made specifically to grab 
+ * the Root from server for Homeview to display Topics
+ * 
+ * Used when HomeView displays the list of Topics
  * @author  mjnichol
  */
 public class RootSearchServerTask extends SearchServerTask
@@ -19,7 +23,12 @@ public class RootSearchServerTask extends SearchServerTask
 		super(esc, "ROOT");
 		this.hva = hva;
 	}
-	
+	/**
+	 * Grabs the root from the Server then pushes it to 
+	 * the CommentTree's Stack and updates HomeView
+	 * returns a success or failure string based on whether
+	 * or not it grabbed a null CommentTreeElement
+	 */
 	@Override
 	public String doTask() throws InterruptedException {
 		this.obj = ElasticSearchOperations.retrieveViewable(this, esc.getURL());

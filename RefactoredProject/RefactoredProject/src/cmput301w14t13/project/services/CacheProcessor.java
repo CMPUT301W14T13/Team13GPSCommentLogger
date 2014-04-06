@@ -56,7 +56,12 @@ public class CacheProcessor extends Thread {
 
 	private ServerProxy offlineDataEntity;
 	private boolean success;
-	
+	/**
+	 * Creates a Cache processor and hands it ServerProxy 
+	 * which has a stack of Tasks to be Completed 
+	 * 
+	 * @param offlineDataEntity the ServerProxy with a list of tasks to be completed
+	 */
 	public CacheProcessor(ServerProxy offlineDataEntity) {
 		super();
 		this.offlineDataEntity = offlineDataEntity;

@@ -31,7 +31,10 @@ import android.widget.TextView;
 
 
 /**
- * TopicViewActivity is where the user can view the topic that they selected from HomeViewActivity. Here they can comment, edit their comments, and select a global username.
+ * TopicViewActivity is where the user can view the topic that they selected from 
+ * HomeViewActivity. Here they can comment, edit their comments, and select a global
+ * username.
+ * 
  * @author  Austin
  */
 public class TopicViewController implements AsyncProcess
@@ -48,6 +51,15 @@ public class TopicViewController implements AsyncProcess
 		topicView.startActivity(intent);
 	}
 	
+	/**
+	 * Method starts MapViewController if online or
+	 * opens a dialog fragment if offline to get
+	 * a location input from the user.  
+	 * 
+	 * This is called by sort functions when the user 
+	 * selects to sort topics by proximity to a given 
+	 * location.
+	 */
 	public void OpenMap(){
 		CommentTree commentTree = CommentTree.getInstance();
 		CommentTreeElement topic = commentTree.getElement(topicView);
@@ -60,7 +72,13 @@ public class TopicViewController implements AsyncProcess
 	}
 	
 	/**
-	 * Sets the various text fields in the topic 
+	 * This method fills up the various fields in TopicView
+	 * with the proper information from the topic such as 
+	 * username, location, Title, etc.
+	 * 
+	 * It is used When TopicView starts to show the user all 
+	 * the correct information from the current Topic
+	 * 
 	 */
 	public void fillTopicLayout(){
 		

@@ -11,9 +11,9 @@ import com.google.gson.GsonBuilder;
 
 /**
 * Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-* This class's method searches for the ID and updates
-* the version in the elasticSearch versioning system 
-* to the new state provided by the client
+* A Subclass of Task specifically to update a CommentTreeElements Location
+* it finds the appropriate CommentTreeElement to update using a unique ID
+* then updates the CommentTreeElements location field
 */
 
 public class LocationUpdateServerTask extends Task {
@@ -21,7 +21,17 @@ public class LocationUpdateServerTask extends Task {
 	public LocationUpdateServerTask(DataStorageService esc, CommentTreeElement obj) {
 		super(esc, obj.getID(), obj);
 	}
-
+	
+	/**
+	 * Creates a task with the specific purpose of updating a CommentTreeElements
+	 * location, locally and/or on the server
+	 * 
+	 * Used when a user updates a Topic or Comment's location (e.g. adding or changing 
+	 * its location) to then update the local and Server versions of the CommentTreeElement
+	 * 
+	 * @param esc The DataStorage service where the task is run
+	 * @param obj The CommentTree Element to be updated
+	 */
 	@Override
 	public String doTask() throws InterruptedException {
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();

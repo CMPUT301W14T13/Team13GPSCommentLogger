@@ -50,7 +50,13 @@ public abstract class CommentTreeElement {
 
 	protected static final String Anonymous = "Anonymous";
 	protected static final String NewTitle = "New Title";
-
+	
+	/**
+	 * Used to construct a CommentTreeElement with no fields initially filled in
+	 * Used When the user clicks the create new Topic button in HomeView
+	 * or the "Reply" button in TopicView
+	 *  
+	 */
 	public CommentTreeElement()
 	{
 		ID = UUID.randomUUID().toString();
@@ -59,7 +65,12 @@ public abstract class CommentTreeElement {
 		timestamp = new Date();
 		childPosts = new ArrayList<CommentTreeElement>();
 	}
-
+	/**
+	 * Used to construct a CommentTreeElement with a specific ID
+	 * 
+	 * 
+	 * @param ID
+	 */
 	public CommentTreeElement(String ID)
 	{
 		this.ID =ID;
@@ -68,6 +79,18 @@ public abstract class CommentTreeElement {
 		timestamp = new Date();
 		childPosts = new ArrayList<CommentTreeElement>();
 	}
+	
+	/**
+	 * Constructs a CommentTreeELement with all of its Fields filled in.
+	 * Used when loading Topics or Comments from local saves or the server
+	 * when all the fields are already filled.
+	 * 
+	 * @param ID A unique identifier different for all CommentTreeElements
+	 * @param username
+	 * @param picture
+	 * @param timestamp 
+	 * @param commentText
+	 */
 
 	public CommentTreeElement(String ID, String username, Bitmap picture, Date timestamp,
 			String commentText) {
@@ -144,6 +167,7 @@ public abstract class CommentTreeElement {
 	public void setFreshness(Date freshness){
 		this.freshness = freshness;
 	}
+	
 	/**
 	 * Goes through all CommentTreeElements children and recursively checks
 	 * the number of children each chid has, then sums them all up. 
@@ -194,11 +218,10 @@ public abstract class CommentTreeElement {
 		// TODO: Perhaps move this to the view
 	}
 
-	/* gets the difference between two dates and corrects for time resolution */
 	/**
 	 * Returns the difference between two times in a readable manner using the 
 	 * most relevant format E.g. seconds, minutes, hours, days
-	 * Used inside TopicView and Homeview to show the user how old a Topic or 
+	 * Used inside TopicView and HomeView to show the user how old a Topic or 
 	 * Comment is.
 	 * 
 	 * @param previous. the date the Topic or Comment was Created 

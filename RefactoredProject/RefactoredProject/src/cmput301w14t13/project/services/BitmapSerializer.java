@@ -17,10 +17,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Converts bitmap images into jsonObjects to be saved locally and on 
- * the server
- * 
- * used whenever a image is saved
+ * Converts a Bitmap image to a json string for storage
+ * Used whenever a CommentTreeElement is created with an
+ * image or an image is added or changed after its creation
  * 
  * @author nsd
  *
@@ -51,8 +50,9 @@ public class BitmapSerializer implements JsonSerializer<Bitmap>, JsonDeserialize
 		return  jsonObject;
 	}
 
-	//deserialization method taken from http://stackoverflow.com/questions/5243547/decode-byte-array-to-bitmap-that-has-been-compressed-in-java
 	/**
+	 * deserialization method taken from http://stackoverflow.com/questions/5243547/decode-byte-array-to-bitmap-that-has-been-compressed-in-java
+	 * 
 	 * Converts a JsonElement to a Bitmap image then
 	 * returns the image
 	 * 

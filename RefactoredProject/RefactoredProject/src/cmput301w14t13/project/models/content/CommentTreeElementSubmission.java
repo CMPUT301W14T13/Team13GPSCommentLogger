@@ -20,18 +20,37 @@ public class CommentTreeElementSubmission{
 	private Location userLocation;
 	
 	private CommentTreeElement submission;
-	
+	/**
+	 * Constructs a new CommentTreeElementSubmission with a specified view
+	 * Used by CreateSubmissionController to create a brand new CommentTreeElement
+	 * connected to a view, CreateSubmissionView
+	 * 
+	 * @param view the view displaying the CommentTreeElementSubmission's information
+	 */
 	public CommentTreeElementSubmission(CreateSubmissionView view)
 	{
 		this.view = view;
 	}
-	
+	/**
+	 * Creates a CommentTreeElementSubmission from an existing CommentTreeElement
+	 * and a specific view
+	 * Used by CreateSubmissionController when editing an existing CommentTreeElement
+	 * 
+	 * @param ele An existing CommentTreeElement
+	 * @param view A View to to display the CommentTreeElement
+	 */
 	public CommentTreeElementSubmission(CommentTreeElement ele, CreateSubmissionView view)
 	{
 		this.submission = ele;
 		this.view = view;
 	}
-	
+	/**
+	 * Adds a bitmap Image to the CommentTreeElement then updates the view
+	 * to show the bitmap
+	 * Used when attaching an image to a CommentTreeElement when creating or editing one.
+	 * 
+	 * @param bitmap The image to be attached, already converted to a bitmap
+	 */
 	public void setBitmap(Bitmap bitmap)
 	{
 		this.submission.setImage(bitmap);

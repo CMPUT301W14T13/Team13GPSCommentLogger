@@ -385,8 +385,9 @@ public class CreateSubmissionController
 	}
 	
 	/**
-	 * Once location button is clicked we check if our user is online, if so we pop up a map 
-	 * to edit location otherwise we open a dialog fragment for offline location editing
+	 * Used to open a Mapview for the user to select a location for their Topic or Comment
+	 * If offline, mapView is unavailable, we open a dialog fragment for the user to edit thier locaiton 
+	 * 
 	 * @param view
 	 */
 	public void openMap(View view) {

@@ -10,7 +10,7 @@ import android.widget.ListView;
  * An activity that can inject its rank into CommentTree
  * 
  * CommentTree uses this rank to know which CommentTreeElement list to update
- * for example in HomeView we would want CommentTree to update the TopicList
+ * for example in HomeView we would want CommentTree to update the list of topics
  * 
  * @author nsd
  *

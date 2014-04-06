@@ -11,17 +11,30 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
-* Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-* This class's method searches for the ID and updates
-* the version in the elasticSearch versioning system 
-* to the new state provided by the client
+* Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java\
+* A Subclass of Task specifically to update a CommentTreeElements Image
+* it finds the appropriate CommentTreeElement to update using a unique ID
+* then updates the CommentTreeElements image field
 */
 public class ImageUpdateServerTask extends Task {
-
+	
+	/**
+	 * Creates a task with the specific purpose of updating a CommentTreeElements
+	 * image, locally and on the server
+	 * 
+	 * Used when a user updates a Topic or Comment's image (e.g. adding or changing 
+	 * its image) to then update the local and Server versions of the CommentTreeElement
+	 * 
+	 * @param esc The DataStorage service where the task is run
+	 * @param obj The CommentTree Element to be updated
+	 */
 	public ImageUpdateServerTask(DataStorageService esc, CommentTreeElement obj) {
 		super(esc, obj.getID(), obj);
 	}
-
+	/**
+	 * Searches, with ElastiSearch, for the CommentTreeElement using its unique ID then
+	 * updates its image with the new image
+	 */
 	@Override
 	public String doTask() throws InterruptedException {	
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();

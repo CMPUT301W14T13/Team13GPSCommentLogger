@@ -31,9 +31,10 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Recursively converts an entire CommenTreeElement and all its children to a jsonObject
- * and vice versa
+ * and vice versa 
  * 
- * @param <T>
+ * @author nsd
+ *
  */
 public class CommentTreeElementPureSerializer implements
         JsonSerializer<CommentTreeElement>, JsonDeserializer<CommentTreeElement>,AsyncProcess {
@@ -112,10 +113,12 @@ public class CommentTreeElementPureSerializer implements
     }
 
     /**
-     * Recursively converts a CommentTreeElement and its children 
-     * into json representations to be used for local saving
+     * Creates  Json object and hands it information from the CommentTreeElement
+     * (E.g. text, username, location), then recurses through its children to do the same
      * 
-     *
+     * returns the Json object containing representation of The CommentTreeElement and its children
+     * 
+     *@return JsonObject The converted CommentTreeElement and its children
      */
     @Override
     public JsonElement serialize(CommentTreeElement object, Type type,

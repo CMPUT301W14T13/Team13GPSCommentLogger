@@ -5,6 +5,7 @@ import cmput301w14t13.project.services.DataStorageService;
 
 
 /**
+ * An Abstract class 
  * Tasks contain server execution commands (eg. server object request) that are passed to controllers.
  */
 

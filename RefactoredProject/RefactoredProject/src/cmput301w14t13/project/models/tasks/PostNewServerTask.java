@@ -6,7 +6,8 @@ import cmput301w14t13.project.services.ElasticSearchOperations;
 
 /**
 * Modified from https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-* This class's method adds a given Viewable to server
+* A Subclass of Task specifically to Post a new CommentTreeElement
+* to the server
 */
 
 public class PostNewServerTask extends Task {
@@ -14,7 +15,12 @@ public class PostNewServerTask extends Task {
 	public PostNewServerTask(DataStorageService esc, String parentID, CommentTreeElement obj) {
 		super(esc, parentID, obj);
 	}
-
+	/**
+	 * We add the new CommentTreeElement to the server 
+	 * then update its parent with the new object, for
+	 * Topics the parent is Root, for Comments the parent
+	 * is Topic, the User cannot post a Root 
+	 */
 	@Override
 	public String doTask() throws InterruptedException {
 		//searchTerm should have the parent's ID

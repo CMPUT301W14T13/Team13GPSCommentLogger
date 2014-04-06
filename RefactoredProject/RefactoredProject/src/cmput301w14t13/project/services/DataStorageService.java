@@ -19,7 +19,11 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 
-
+/**
+ * Responsible for running 
+ * @author nsd
+ *
+ */
 public class DataStorageService extends Service
 {
 

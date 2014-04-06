@@ -28,16 +28,14 @@ import cmput301w14t13.project.views.TopicView;
 /**
  * This Activity provides the user with a map using OpenStreetMaps for android.
  * 
- * It is used by CreateSubmissionActivity to edit the user's location, which is 
- * done by tapping on the map where you want to set the location, once tapped
- * a marker is placed as a visual aid indicating the current point the user has selected
- * for his comment/Topic. Once the user has selected a point for his comment they 
- * push the SubmitLocation button which returns the current points latitude and longitude
- * to CreateSubmissionActivity
+ * It is used to Edit a Users Location when connection is available, the user simply
+ * places a marker where they wish to set a location and clicks submit location to set
+ * the Topic or Comments location. This is done in CreateSubmissionView by clicking the 
+ * edit location imageButton.
  * 
- * Also Used by TopicView to show a map of locations of the Topic and all of its replies
- * The User Can view the map and all markers on screen but not move any markers
- *
+ * It us also used to Map the locations of a Topics Thread(its replies) as well as the 
+ * topics location itself. This is Done in TopicView by clicking the "Map Thread" button
+ * 
  * 
  * @author navjeetdhaliwal
  *

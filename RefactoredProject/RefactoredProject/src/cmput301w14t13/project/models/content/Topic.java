@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- *  * This class is for top level comments, a subclass of CommentTreeElement.
+ * This class is for top level comments, a subclass of CommentTreeElement.
  * Used by CreateSubmissionControler to create and edit a Topic
  * and by HomeView and TopicView to display Topics
  * @author nsd
