@@ -1,13 +1,19 @@
 package usecasegroup2.integration;
 
 import android.annotation.SuppressLint;
+import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
+import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
-public class EditLocationIntegrationTest extends
-ActivityInstrumentationTestCase2<HomeView> {
+public class EditLocationIntegrationTest extends ActivityInstrumentationTestCase2<HomeView> {
 
+	
+	HomeView homeView;
+	CreateSubmissionView submit;
+	
 	public EditLocationIntegrationTest() {
 		super(HomeView.class);
 	}
@@ -66,4 +72,25 @@ ActivityInstrumentationTestCase2<HomeView> {
 			});
 		}
 		*/
+	
+	
+	public void testEditTopicLocation(){
+		
+		getActivity();
+		
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionView.class.getName(), null , false);
+
+
+		Menu menu = homeView.getMenu();
+		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
+
+		getInstrumentation().waitForIdleSync();
+		submit = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		assertNotNull(submit);
+		
+		
+		
+	}
+	
+	
 }
