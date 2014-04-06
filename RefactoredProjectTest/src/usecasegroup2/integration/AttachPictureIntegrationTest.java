@@ -1,7 +1,6 @@
 package usecasegroup2.integration;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.test.ActivityInstrumentationTestCase2;

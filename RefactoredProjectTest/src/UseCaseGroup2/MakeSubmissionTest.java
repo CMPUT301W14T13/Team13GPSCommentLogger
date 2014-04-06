@@ -1,12 +1,10 @@
-package UseCaseGroup2;
+package usecasegroup2;
 
 
 
 import java.util.ArrayList;
 import java.util.Date;
 
-
-import android.R;
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -18,7 +16,6 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
-import cmput301w14t13.project.controllers.CreateSubmissionController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -67,6 +64,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 		}	
 	}
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		intent = new Intent();

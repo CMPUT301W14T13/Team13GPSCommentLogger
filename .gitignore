@@ -29,5 +29,6 @@ proguard/
 *.iws
 .idea/
 
+.classpath
 #metadata from eclipse
 .metadata/

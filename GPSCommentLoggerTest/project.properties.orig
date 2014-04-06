@@ -13,12 +13,15 @@
 # Project target.
 
 <<<<<<< HEAD
-target=Google Inc.:Google APIs:18
+target=android-11
+target=android-11
+target=android-11
+target=android-11
 =======
 target=android-14
 target=android-14
 target=android-14
 target=android-14
->>>>>>> main_refactoring
+>>>>>>> 29709a6d0ee7e93e3fac9c07f1545ce9274c7eca
 
 
