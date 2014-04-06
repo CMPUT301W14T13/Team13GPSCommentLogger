@@ -24,7 +24,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-
+/**
+ * Posting to server or grabing from server, or editing objects
+ * in the server. 
+ * 
+ * @author nsd
+ *
+ */
 public class ElasticSearchOperations {
 
 
@@ -38,7 +44,14 @@ public class ElasticSearchOperations {
 	{
 		return instance;
 	}
-	
+	/**
+	 * Deletes Everything from the server, then returns a string
+	 * for determining whether or not everything has been deleted
+	 * Used when Starting or Restarting the Server
+	 * 
+	 * @param WEB_URL The Servers url
+	 * @return returnValue a string of what is left in the server
+	 */
 	public static String deleteAll(String WEB_URL){
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
@@ -47,7 +60,6 @@ public class ElasticSearchOperations {
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(WEB_URL);
-		
 		String returnValue = "";
 		
 		try
@@ -74,7 +86,19 @@ public class ElasticSearchOperations {
 		}
 		return returnValue;
 	}
-	
+	/**
+	 * Searches the server for the Correct CommentTreeElement,which was converted to a jsonObject, using 
+	 * a unique ID, id, then updates the field indicated by , fieldName. 
+	 * 
+	 * Used when a user makes a change to an already existing CommentTreeElement 
+	 * 
+	 * @param id a unique ID given to CommentTreeElements for searching purposes
+	 * @param currentTask  NOT USED 
+	 * @param fieldName the field of CommentTreeElement to be updated
+	 * @param newJson NOT SURE
+	 * @param WEB_URL the Servers url
+	 * @return returnValue used to determine success
+	 */
 	public static String updateField(String id, Task currentTask, String fieldName, String newJson, String WEB_URL){
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
@@ -186,7 +210,14 @@ public class ElasticSearchOperations {
 		}
 		return returnValue;
 	}
-	
+	/**
+	 * Posts a CommentTreeElement to the Server
+	 * Used when the user creates a new CommentTreeElement
+	 * 
+	 * @param currentTask the task executing this method
+	 * @param WEB_URL The servers url
+	 * @return returnValue a string used for determining success
+	 */
 	public static String postNewViewable(Task currentTask, String WEB_URL)
 	{
 		//hierarchyAdapter changes serializer rules for first arg
@@ -235,7 +266,15 @@ public class ElasticSearchOperations {
 		}
 		return returnValue;
 	}
-	
+	/**
+	 * Searches the Server for the 
+	 * 
+	 * 
+	 * 
+	 * @param currentTask
+	 * @param WEB_URL
+	 * @return
+	 */
 	public static String findESIDByID(Task currentTask, String WEB_URL)
 	{
 		String id = "";
@@ -348,11 +387,9 @@ public class ElasticSearchOperations {
 		
 		return null;
 	}
-	
-
-	//Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-	
+		
 	/**
+	 * Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
 	 * get the http response and return json string
 	 */
 	private static String getEntityContent(HttpResponse response) throws IOException {
