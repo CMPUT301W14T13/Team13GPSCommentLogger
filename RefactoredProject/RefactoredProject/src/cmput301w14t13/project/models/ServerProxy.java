@@ -74,7 +74,7 @@ public class ServerProxy implements AsyncProcess{
 	}
 
 	private synchronized void getCleanRoot() throws InterruptedException {
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).create();
 		saves.put("ROOT", gson.toJson(new Root()));
 	}
 	
@@ -112,7 +112,7 @@ public class ServerProxy implements AsyncProcess{
 	public void saveTask(Task newTask)
 	{
 		this.cachedTasks.add(newTask);
-		DataStorageService.getInstance().getCacheProcessor().alertNew();
+		DataStorageService.getInstance().getCacheProcessor().alertNewOrOnline();
 		try {
 			Log.w("DataSaving", "save task" );
 			save();
@@ -139,8 +139,8 @@ public class ServerProxy implements AsyncProcess{
 	
 	public void startSaveData(CommentTreeElement data)
 	{
-		Gson togson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
-		Gson fromgson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
+		Gson togson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).create();
+		Gson fromgson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).create();
 		Root root = (Root)fromgson.fromJson(saves.get("ROOT"), CommentTreeElement.class);
 		root.addChild(data);
 		this.saves.put("ROOT", togson.toJson(root));
@@ -167,7 +167,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	private void saveData(CommentTreeElement data)
 	{
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).create();
 		this.saves.put(data.getID(), gson.toJson(data));
 		for(CommentTreeElement each : data.getChildren())
 		{
@@ -182,7 +182,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	public CommentTreeElement getData(String key)
 	{
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).create();
 		return gson.fromJson(saves.get(key), CommentTreeElement.class);
 	}
 	
@@ -232,7 +232,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	private void addNewRoot(Root root)
 	{
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).create();
 		saves.put(root.getID(), gson.toJson(root));
 	}
 	
@@ -254,7 +254,7 @@ public class ServerProxy implements AsyncProcess{
 	
 	public void save() throws IOException
 	{
-		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer()).registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer(hv)).registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
 		FileOutputStream fw = hv.getApplicationContext().openFileOutput(filepath, Context.MODE_PRIVATE);
 		PrintStream bw = new PrintStream(fw);
 		bw.println(gson.toJson(saves, HashMap.class));
@@ -274,7 +274,7 @@ public class ServerProxy implements AsyncProcess{
 		File f = new File(filepath);
 		if(!f.exists() || f.isDirectory())throw new FileNotFoundException();
 		
-		Gson gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskSerializer()).registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskSerializer(hv)).registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer(hv)).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		Type hashmapsaves = new TypeToken<HashMap<String,String>>(){}.getType();
 		Type hashmapfavourites = new TypeToken<HashMap<CommentTreeElement,String>>(){}.getType();
 		

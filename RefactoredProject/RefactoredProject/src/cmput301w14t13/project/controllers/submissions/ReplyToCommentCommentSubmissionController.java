@@ -45,7 +45,7 @@ public class ReplyToCommentCommentSubmissionController extends
 		//TODO: For the moment, don't add any comments if their indent is beyond what is in comment_view.xml. Can be dealt with later.
 		if (submission.getSubmission().getIndentLevel() <= 5){
 			parent.addChild(submission.getSubmission());
-			factory.requestPost(parent.getID(), submission.getSubmission());
+			factory.requestPost(parent.getID(), submission.getSubmission(),view);
 		}
 	}
 

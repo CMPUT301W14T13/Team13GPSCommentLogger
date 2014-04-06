@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
@@ -11,8 +12,8 @@ import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 
 public class PostNewServerTask extends Task {
 
-	public PostNewServerTask(DataStorageService esc, String parentID, CommentTreeElement obj) {
-		super(esc, parentID, obj);
+	public PostNewServerTask(DataStorageService esc, String parentID, CommentTreeElement obj, RankedHierarchicalActivity activity) {
+		super(esc, parentID, obj, activity);
 	}
 
 	@Override

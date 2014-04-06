@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
 
@@ -15,14 +16,16 @@ public abstract class Task
 
 	protected String searchTerm;
 	
+	protected RankedHierarchicalActivity activity;
 	
 	protected DataStorageService esc;
 	
-	public Task(DataStorageService esc, String searchTerm, CommentTreeElement obj)
+	public Task(DataStorageService esc, String searchTerm, CommentTreeElement obj, RankedHierarchicalActivity activity)
 	{
 		this.searchTerm = searchTerm;
 		this.obj = obj;
 		this.esc = esc;
+		this.activity = activity;
 	}
 	
 
@@ -35,5 +38,11 @@ public abstract class Task
 	}
 	
 	public abstract String doTask() throws InterruptedException;
+
+
+	public RankedHierarchicalActivity getActivity()
+	{
+		return activity;
+	}
 
 }

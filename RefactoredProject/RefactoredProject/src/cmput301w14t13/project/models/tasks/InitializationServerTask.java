@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
@@ -11,8 +12,8 @@ import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 
 public class InitializationServerTask extends Task {
 
-	public InitializationServerTask(DataStorageService esc) {
-		super(esc, null,  new Root());
+	public InitializationServerTask(DataStorageService esc, RankedHierarchicalActivity activity) {
+		super(esc, null,  new Root(), activity);
 	}
 
 	@Override

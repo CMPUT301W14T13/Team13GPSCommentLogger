@@ -1,5 +1,6 @@
 package cmput301w14t13.project.services;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.CommentTree;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 public class NetworkReceiver extends BroadcastReceiver
 {
 	public static boolean isConnected = false;
+	private static RankedHierarchicalActivity activity;
 
     public static void initialState(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -29,7 +31,7 @@ public class NetworkReceiver extends BroadcastReceiver
 	
 	@Override
 	public void onReceive(Context context, Intent intent)
-	{
+	{ 
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		Log.w("IsOnline",Boolean.toString(netInfo != null && netInfo.isConnectedOrConnecting()));
@@ -47,8 +49,9 @@ public class NetworkReceiver extends BroadcastReceiver
 		    			Toast toast = Toast.makeText(context, text, duration);
 		    			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
 		    			toast.show();
-						CommentTree.getInstance().refresh();
+						CommentTree.getInstance().refresh(activity);
 	    			}
+	    			DataStorageService.getInstance().getCacheProcessor().alertNewOrOnline();
 				} catch (InterruptedException e)
 				{
 					e.printStackTrace();
@@ -67,7 +70,7 @@ public class NetworkReceiver extends BroadcastReceiver
 		    			Toast toast = Toast.makeText(context, text, duration);
 		    			toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
 		    			toast.show();
-						CommentTree.getInstance().refresh();
+						CommentTree.getInstance().refresh(activity);
 	    			}
 				} catch (InterruptedException e)
 				{
@@ -76,6 +79,18 @@ public class NetworkReceiver extends BroadcastReceiver
 	    	}
 	    }
 	    
+	}
+
+	public static RankedHierarchicalActivity getActivity()
+	{
+
+		return activity;
+	}
+
+	public static void setActivity(RankedHierarchicalActivity activity)
+	{
+
+		NetworkReceiver.activity = activity;
 	}
 	
 

@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.services.DataStorageService;
@@ -14,9 +15,9 @@ public class RootSearchServerTask extends SearchServerTask
 
 	private HomeView hva;
 	
-	public RootSearchServerTask(DataStorageService esc, HomeView hva)
+	public RootSearchServerTask(DataStorageService esc, HomeView hva, RankedHierarchicalActivity activity)
 	{
-		super(esc, "ROOT");
+		super(esc, "ROOT", activity);
 		this.hva = hva;
 	}
 	
@@ -24,7 +25,7 @@ public class RootSearchServerTask extends SearchServerTask
 	public String doTask() throws InterruptedException {
 		this.obj = ElasticSearchOperations.retrieveViewable(this, esc.getURL());
 		final Root newRoot = (Root)this.obj;
-		CommentTree.getInstance().pushToCommentStack(newRoot);
+		CommentTree.getInstance().pushToCommentStack(newRoot, hva);
 		hva.runOnUiThread(new Runnable(){
 			@Override
 			public void run()

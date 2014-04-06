@@ -20,4 +20,6 @@ public abstract class RankedHierarchicalActivity extends Activity {
     {
     	return rank;
     }
+    
+    
 }

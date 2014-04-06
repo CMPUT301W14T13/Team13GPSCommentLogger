@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 
@@ -10,8 +11,8 @@ import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 
 public class SearchServerTask extends Task {
 
-	public SearchServerTask(DataStorageService esc, String searchTerm) {
-		super(esc, searchTerm, null);
+	public SearchServerTask(DataStorageService esc, String searchTerm, RankedHierarchicalActivity activity) {
+		super(esc, searchTerm, null, activity);
 	}
 
 	@Override

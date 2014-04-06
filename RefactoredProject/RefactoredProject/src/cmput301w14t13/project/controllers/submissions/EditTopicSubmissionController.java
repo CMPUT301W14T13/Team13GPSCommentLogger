@@ -51,9 +51,9 @@ public class EditTopicSubmissionController extends TopicSubmissionController {
 		Log.w("UpdateTest", cl.getElement(view).getID());
 		
 		//TODO: it wasn't anticipated that more than one field would be set at a time
-		factory.requestImageUpdate(submission.getSubmission());
-		factory.requestLocationUpdate(submission.getSubmission());
-		factory.requestTextUpdate(submission.getSubmission());
+		factory.requestImageUpdate(submission.getSubmission(),view);
+		factory.requestLocationUpdate(submission.getSubmission(),view);
+		factory.requestTextUpdate(submission.getSubmission(),view);
 	}
 
 	@Override

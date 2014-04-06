@@ -58,11 +58,11 @@ public class FavouritesViewController{
 			Task task;
 			if(NetworkReceiver.isConnected)
 			{
-				task = new TaskFactory(dss).getNewBrowser(ct.getChildren(favouritesView).get(position).getID());
+				task = new TaskFactory(dss).getNewBrowser(ct.getChildren(favouritesView).get(position).getID(),favouritesView);
 			}
 			else
 			{
-				task = new TaskFactory(dss).getNewSavesBrowser(ct.getChildren(favouritesView).get(position).getID());
+				task = new TaskFactory(dss).getNewSavesBrowser(ct.getChildren(favouritesView).get(position).getID(),favouritesView);
 			}
 			try {
 				dss.doTask(this, task);
@@ -70,7 +70,7 @@ public class FavouritesViewController{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			ct.pushToCommentStack(task.getObj()); //set the current topic the user is opening
+			ct.pushToCommentStack(task.getObj(),favouritesView); //set the current topic the user is opening
 			dss.getProxy().startSaveData(task.getObj());
 			
 			

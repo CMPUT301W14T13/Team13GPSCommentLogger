@@ -1,6 +1,7 @@
 package cmput301w14t13.project.models.tasks;
 
 import android.util.Log;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
@@ -18,13 +19,13 @@ import com.google.gson.GsonBuilder;
 
 public class TextUpdateServerTask extends Task {
 
-	public TextUpdateServerTask(DataStorageService esc, CommentTreeElement obj) {
-		super(esc, obj.getID(), obj);
+	public TextUpdateServerTask(DataStorageService esc, CommentTreeElement obj, RankedHierarchicalActivity activity) {
+		super(esc, obj.getID(), obj, activity);
 	}
 
 	@Override
 	public String doTask() throws InterruptedException {
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
 		String fieldName = "commentText";

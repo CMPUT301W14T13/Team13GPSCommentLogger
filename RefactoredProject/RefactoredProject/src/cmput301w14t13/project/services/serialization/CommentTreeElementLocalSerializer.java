@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.util.Log;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
@@ -42,6 +43,12 @@ public class CommentTreeElementLocalSerializer implements
 
     private static final String CLASS_META_KEY = "CLASS_META_KEY";
     private static final String CLASS_DATA = "CLASS_DATA";
+    private RankedHierarchicalActivity activity;
+    
+    public CommentTreeElementLocalSerializer(RankedHierarchicalActivity activity)
+    {
+    	this.activity = activity;
+    }
 
     /**
      * Function converts from JSON to given Type
@@ -74,7 +81,7 @@ public class CommentTreeElementLocalSerializer implements
         	for(final JsonElement each : viewable.get("childPosts").getAsJsonArray())
         	{
         		String eachID = each.getAsJsonPrimitive().getAsString();
-        		MySavesLocalTask task = new MySavesLocalTask(DataStorageService.getInstance(), eachID);
+        		MySavesLocalTask task = new MySavesLocalTask(DataStorageService.getInstance(), eachID,activity);
         		DataStorageService.getInstance().doTask(this,task);
         		wait();
         		childPosts.add(task.getObj());

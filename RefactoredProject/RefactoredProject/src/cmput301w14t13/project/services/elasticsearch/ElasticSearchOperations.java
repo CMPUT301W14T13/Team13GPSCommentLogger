@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.Task;
@@ -31,6 +32,7 @@ public class ElasticSearchOperations {
 
 
 	private static ElasticSearchOperations instance = new ElasticSearchOperations();
+	private static RankedHierarchicalActivity activity;
 	
 	private ElasticSearchOperations() {
 		
@@ -41,11 +43,15 @@ public class ElasticSearchOperations {
 		return instance;
 	}
 	
+	public static void registerContext(RankedHierarchicalActivity activity2){
+		activity = activity2;
+	}
+	
 	public static String deleteAll(String WEB_URL){
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(WEB_URL);
@@ -81,7 +87,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -138,7 +144,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -195,7 +201,7 @@ public class ElasticSearchOperations {
 		//to custom serialization class rules
 		//specified by the user in the second arg
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		HttpClient client = new DefaultHttpClient();
 		//HttpPost autogenerates keys
@@ -245,7 +251,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();
@@ -299,7 +305,7 @@ public class ElasticSearchOperations {
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
 		//specified by the user in the second arg
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SSSS").registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).create();
 		
 		//Add _search tag to search the elasticSearch data storage system
 		HttpClient client = new DefaultHttpClient();

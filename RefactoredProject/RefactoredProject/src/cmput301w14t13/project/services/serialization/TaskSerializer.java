@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.util.Base64;
 import android.util.Log;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
@@ -37,6 +38,12 @@ public class TaskSerializer implements JsonSerializer<Task>, JsonDeserializer<Ta
 {
 	private static final String TASK_META_KEY = "TASK_META_KEY";
 	private static final String TASK_DATA = "TASK_DATA";
+    private RankedHierarchicalActivity activity;
+    
+    public TaskSerializer(RankedHierarchicalActivity activity)
+    {
+    	this.activity = activity;
+    }
 	
 	//serialization method taken from http://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
 	@Override
@@ -81,19 +88,19 @@ public class TaskSerializer implements JsonSerializer<Task>, JsonDeserializer<Ta
         	
         	if(className.contains("ImageUpdateServerTask"))
         	{
-        		instance = new ImageUpdateServerTask(dss, ele);
+        		instance = new ImageUpdateServerTask(dss, ele,activity);
         	}
         	else if(className.contains("LocationUpdateServerTask"))
         	{
-        		instance = new LocationUpdateServerTask(dss, ele);
+        		instance = new LocationUpdateServerTask(dss, ele,activity);
         	}
         	else if(className.contains("TextUpdateServerTask"))
         	{
-        		instance = new TextUpdateServerTask(dss, ele);
+        		instance = new TextUpdateServerTask(dss, ele,activity);
         	}
         	else if(className.contains("PostNewServerTask"))
         	{
-        		instance = new PostNewServerTask(dss, searchTerm, ele);
+        		instance = new PostNewServerTask(dss, searchTerm, ele,activity);
         	}
         	else
         	{

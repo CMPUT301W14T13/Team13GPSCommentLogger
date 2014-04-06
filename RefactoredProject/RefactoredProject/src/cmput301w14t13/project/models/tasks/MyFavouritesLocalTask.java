@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
@@ -12,8 +13,8 @@ import cmput301w14t13.project.services.DataStorageService;
  */
 public class MyFavouritesLocalTask extends Task {
 
-	public MyFavouritesLocalTask(DataStorageService esc, CommentTreeElement ele) {
-		super(esc, null, ele);
+	public MyFavouritesLocalTask(DataStorageService esc, CommentTreeElement ele, RankedHierarchicalActivity activity) {
+		super(esc, null, ele, activity);
 	}
 
 	

@@ -1,5 +1,6 @@
 package cmput301w14t13.project.models.tasks;
 
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
@@ -18,13 +19,13 @@ import com.google.gson.GsonBuilder;
 
 public class LocationUpdateServerTask extends Task {
 
-	public LocationUpdateServerTask(DataStorageService esc, CommentTreeElement obj) {
-		super(esc, obj.getID(), obj);
+	public LocationUpdateServerTask(DataStorageService esc, CommentTreeElement obj, RankedHierarchicalActivity activity) {
+		super(esc, obj.getID(), obj, activity);
 	}
 
 	@Override
 	public String doTask() throws InterruptedException {
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer(activity)).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
 		String jsonString = new Escaper(false).escapeJsonString(gson.toJson(this.getObj().getGPSLocation()));

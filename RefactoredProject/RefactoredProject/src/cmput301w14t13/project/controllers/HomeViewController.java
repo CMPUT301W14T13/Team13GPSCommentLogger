@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
+import cmput301w14t13.project.auxilliary.other.NavigationItems;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -18,6 +19,7 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
+import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
@@ -57,11 +59,11 @@ public class HomeViewController implements AsyncProcess{
 			Task task;
 			if(NetworkReceiver.isConnected)
 			{
-				task = new TaskFactory(dss).getNewBrowser(ct.getChildren(homeView).get(position).getID());
+				task = new TaskFactory(dss).getNewBrowser(ct.getChildren(homeView).get(position).getID(),homeView);
 			}
 			else
 			{
-				task = new TaskFactory(dss).getNewSavesBrowser(ct.getChildren(homeView).get(position).getID());
+				task = new TaskFactory(dss).getNewSavesBrowser(ct.getChildren(homeView).get(position).getID(),homeView);
 			}
 			try {
 				dss.doTask(this, task);
@@ -69,7 +71,7 @@ public class HomeViewController implements AsyncProcess{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			ct.pushToCommentStack(task.getObj()); //set the current topic the user is opening
+			ct.pushToCommentStack(task.getObj(), homeView); //set the current topic the user is opening
 			dss.getProxy().startSaveData(task.getObj());
 			
 			homeView.startActivity(viewTopic);
@@ -105,6 +107,7 @@ public class HomeViewController implements AsyncProcess{
 		
         DataStorageService.getInstance().registerContext(homeView);
         CommentTree.getInstance().registerUIThread(homeView);
+        ElasticSearchOperations.registerContext(homeView);
 	}
 	
 	public void bind() throws InterruptedException
@@ -124,16 +127,17 @@ public class HomeViewController implements AsyncProcess{
         {
         	if(NetworkReceiver.isConnected)
         	{
-        		dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
+        		dss.doTask(this, new TaskFactory(dss).getRoot(homeView, homeView));
                 wait();
         	}
         	else
         	{
-        		MySavesLocalTask task = new TaskFactory(dss).getNewSavesBrowser("ROOT");
+        		MySavesLocalTask task = new TaskFactory(dss).getNewSavesBrowser("ROOT", homeView);
         		dss.doTask(this, task);
                 wait();
-                CommentTree.getInstance().pushToCommentStack(task.getObj());
+                CommentTree.getInstance().pushToCommentStack(task.getObj(), homeView);
         	}
+
         }
         Log.w("TimingTest","test");
 		ct.addView(homeView);
@@ -148,7 +152,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 
 	private synchronized void initialize(DataStorageService dss) throws InterruptedException {
-		InitializationServerTask initTask = new TaskFactory(dss).getNewInitializer();
+		InitializationServerTask initTask = new TaskFactory(dss).getNewInitializer(homeView);
         dss.doTask(this, initTask);
         wait();
         dss.getProxy().clearFavourites();
@@ -302,60 +306,13 @@ public class HomeViewController implements AsyncProcess{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
 
-		// ITEM SELECTION ACTIONS DONE HERE
-		ArrayList<CommentTreeElement> sortedTopics = CommentTree.getInstance().getCommentList(homeView);
-		
-		switch (itemPosition) {
-		case 0:
-			
-			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Proximity to Me",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 1:
-			
-				openMap();
-
-				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
-				Toast.makeText(homeView.getApplicationContext(), "Proximity to Location",
-						Toast.LENGTH_LONG).show();
-			
-			
-			break;
-			
-		case 2:
-			
-			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Pictures",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 3:
-			
-			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
-			
-			Toast.makeText(homeView.getApplicationContext(), "Newest",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 4:
-			
-			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Oldest",
-					Toast.LENGTH_LONG).show();
-			break;
-		case 5:
-			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Relevant",
-					Toast.LENGTH_LONG).show();
-			break;
+		if(itemPosition == 1)
+		{	
+			openMap();
 		}
-
-		CommentTree.getInstance().addSortedList(homeView, sortedTopics);
+		
+		CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), homeView, location);
 		
 		return true;
 	}
-
-
 }

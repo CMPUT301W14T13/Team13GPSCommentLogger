@@ -35,7 +35,7 @@ public class CreateTopicSubmissionController extends TopicSubmissionController {
 		DataStorageService dss = DataStorageService.getInstance();
 		TaskFactory factory = new TaskFactory(dss);
 		cl.addElementToCurrent(submission.getSubmission());
-		factory.requestPost(cl.getElement(view).getID(), submission.getSubmission());
+		factory.requestPost(cl.getElement(view).getID(), submission.getSubmission(),view);
 	}
 
 	@Override

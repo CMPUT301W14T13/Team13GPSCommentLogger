@@ -6,6 +6,7 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.views.submissions.ReplyToCommentCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.ReplyToTopicCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.TopicSubmissionView;
 
@@ -34,7 +35,7 @@ public class ReplyToTopicCommentSubmissionController extends
 		DataStorageService dss = DataStorageService.getInstance();
 		TaskFactory factory = new TaskFactory(dss);
 		cl.addElementToCurrent(submission.getSubmission());
-		factory.requestPost(cl.getElement(view).getID(), submission.getSubmission());
+		factory.requestPost(cl.getElement(view).getID(), submission.getSubmission(), view);
 	}
 
 	@Override
