@@ -1,10 +1,12 @@
 package cmput301w14t13.project.models.tasks;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import cmput301w14t13.project.auxilliary.tools.Escaper;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
+import cmput301w14t13.project.services.serialization.BitmapSerializer;
 import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
 
 import com.google.gson.Gson;
@@ -24,7 +26,7 @@ public class ImageUpdateServerTask extends Task {
 
 	@Override
 	public String doTask() throws InterruptedException {	
-		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementServerSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
 		
 		//the object of the current serverTask is the viewable to be serialized
 		String jsonString = new Escaper(false).escapeJsonString(gson.toJson(this.getObj().getImage()));

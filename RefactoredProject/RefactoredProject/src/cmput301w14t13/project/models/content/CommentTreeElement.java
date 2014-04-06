@@ -219,7 +219,7 @@ public abstract class CommentTreeElement {
 	 * 
 	 */
 	public boolean getHasImage(){
-		return this.hasImage;
+		return image != null;
 	}
 	
 	/**

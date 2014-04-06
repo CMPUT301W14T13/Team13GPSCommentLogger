@@ -63,7 +63,7 @@
                 android:value="cmput301w14t13.project.views.HomeView" />
         </activity>
         <activity
-            android:name="cmput301w14t13.project.views.submissions.ReplyToCommentSubmissionView"
+            android:name="cmput301w14t13.project.views.submissions.ReplyToCommentCommentSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             <meta-data
@@ -71,7 +71,7 @@
                 android:value="cmput301w14t13.project.views.HomeView" />
         </activity>
         <activity
-            android:name="cmput301w14t13.project.views.submissions.ReplyToTopicSubmissionView"
+            android:name="cmput301w14t13.project.views.submissions.ReplyToTopicCommentSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
             <meta-data
