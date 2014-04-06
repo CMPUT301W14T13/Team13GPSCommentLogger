@@ -8,10 +8,13 @@ import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
+import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.views.HomeView;
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -88,6 +91,14 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		}
 	}
 	
+	public void updateTop(){
+		int rank = stack.size()-1;
+		commentListsInDisplayOrder.elementAt(rank).clear();
+		for (CommentTreeElement each : stack.elementAt(rank).getChildren()){
+			fillTopicChildren(each,rank);
+		}
+	}
+	
 	/**
 	 *
 	 * This function takes in a topic child and then recursively goes down the child comment
@@ -106,6 +117,14 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		}
 	}
 	
+	public void fillTopicChildren(CommentTreeElement comment, int rank){
+		commentListsInDisplayOrder.elementAt(rank).add(comment);
+		ArrayList<CommentTreeElement> children = comment.getChildren();
+		for (int i = 0; i < children.size(); i++){
+			fillTopicChildren(children.get(i), rank);
+		}
+	}
+	
 	public void updateCommentList(RankedHierarchicalActivity updateable){
 		update(updateable);
 		notifyViews();
@@ -115,6 +134,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	{
 		stack.push(comment);
 		commentListsInDisplayOrder.push(new ArrayList<CommentTreeElement>());
+		updateTop();
 		notifyViews();
 	}
 	
@@ -132,16 +152,44 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		return stack.peek();
 	}
 	
+	public synchronized void refresh() throws InterruptedException
+	{
+		CommentTreeElement ele = stack.pop();
+		commentListsInDisplayOrder.pop(); /* cached versions of the linearized hierarchy */
+		Task task;
+		DataStorageService dss = DataStorageService.getInstance();
+		Log.w("REFRESH", ele.getID());
+		if(NetworkReceiver.isConnected)
+		{
+			task = new TaskFactory(dss).getNewBrowser(ele.getID());
+		}
+		else
+		{
+			task = new TaskFactory(dss).getNewSavesBrowser(ele.getID());
+		}
+		DataStorageService.getInstance().doTask(this, task);
+		wait();
+		pushToCommentStack(task.getObj());
+	}
+	
 	/* used for non- root pops off the comment tree stack */
-	public synchronized void popFromCommentStack() throws InterruptedException
+	public synchronized void popFromCommentStack(Context cxt) throws InterruptedException
 	{
 		stack.pop();
 		CommentTreeElement ele = stack.pop();
 
 		commentListsInDisplayOrder.pop(); /* cached versions of the linearized hierarchy */
-
 		commentListsInDisplayOrder.pop();
-		SearchServerTask task = new TaskFactory(DataStorageService.getInstance()).getNewBrowser(ele.getID());
+		
+		Task task;
+		if(NetworkReceiver.isConnected)
+		{
+			task = new TaskFactory(DataStorageService.getInstance()).getNewBrowser(ele.getID());
+		}
+		else
+		{
+			task = new TaskFactory(DataStorageService.getInstance()).getNewSavesBrowser(ele.getID());
+		}
 		DataStorageService.getInstance().doTask(this, task);
 		wait();
 		pushToCommentStack(task.getObj());

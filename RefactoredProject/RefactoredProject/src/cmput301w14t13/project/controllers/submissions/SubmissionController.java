@@ -18,6 +18,7 @@ import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.CommentTreeElementSubmission;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.services.SubmissionMediator;
 import cmput301w14t13.project.views.submissions.SubmissionView;
 
@@ -148,7 +149,7 @@ public abstract class SubmissionController {
 	 * @param view
 	 */
 	public void openMap(View view) {
-		if(DataStorageService.getInstance().isOnline()){
+		if(NetworkReceiver.isConnected){
 			Intent map = new Intent(this.view, MapViewController.class);
 			map.putExtra("lat", submission.getGpsLocation().getLatitude()); 
 			map.putExtra("lon", submission.getGpsLocation().getLongitude());

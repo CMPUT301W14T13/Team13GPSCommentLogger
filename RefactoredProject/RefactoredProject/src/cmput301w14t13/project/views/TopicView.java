@@ -55,7 +55,7 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 		super.onDestroy();
 		try
 		{
-			CommentTree.getInstance().popFromCommentStack();
+			CommentTree.getInstance().popFromCommentStack(this);
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
