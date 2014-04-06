@@ -123,7 +123,7 @@ public class ImageAttachmentController extends Activity
 	 */
 	private Bitmap resizeImage (Bitmap image) {
 		// Set width/height requirements
-		int maxSize = (int)Math.sqrt(102400);
+		int maxSize = 102401;
 
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -140,11 +140,7 @@ public class ImageAttachmentController extends Activity
 			width = (int) (width * bitmapRatio);	
 		}
 		
-		Bitmap newBitmap = Bitmap.createScaledBitmap(image, width, height, true);
-		if (image!= newBitmap){
-		     image.recycle();
-		}
-		return newBitmap;
+		return Bitmap.createScaledBitmap(image, width, height, true);
 	}
 	
 	@SuppressLint("NewApi")
@@ -152,7 +148,7 @@ public class ImageAttachmentController extends Activity
 		if (resultCode == RESULT_OK){
 			Uri selectedImageUri = data.getData();
 			try {
-				submission.setBitmap(getBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri)));
+				submission.setBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

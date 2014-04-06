@@ -21,7 +21,6 @@ public abstract class SubmissionView extends RankedHierarchicalActivity implemen
 		{
 			Log.d("Image Attach", "Image received: " + controller.getSubmission().getSubmission().getImage().toString());
 			ImageButton attachButton = (ImageButton) findViewById(R.id.imageButton1); // set attach button to image selected
-			Log.d("Image Attach", Boolean.toString(attachButton == null));
 			attachButton.setImageBitmap(controller.getSubmission().getSubmission().getImage());
 		}
 	}
@@ -36,7 +35,7 @@ public abstract class SubmissionView extends RankedHierarchicalActivity implemen
 		controller.openMap(v);
 	}
 	
-	public void submit(View v) throws InterruptedException
+	public void submitTopic(View v) throws InterruptedException
 	{
 		controller.submit(v);
 	}

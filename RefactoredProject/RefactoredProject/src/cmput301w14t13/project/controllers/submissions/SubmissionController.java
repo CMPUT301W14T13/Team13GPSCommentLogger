@@ -36,9 +36,9 @@ public abstract class SubmissionController {
 	public void initialize()
 	{
 		constructSubmissionData();
+		initializeLocation();
 		initializeFields();
 		initializeLayout();
-		initializeLocation();
 	}
 
 	protected abstract void constructSubmissionData();
