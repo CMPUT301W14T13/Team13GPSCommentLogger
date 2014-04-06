@@ -2,7 +2,7 @@ package cmput301w14t13.project.models.tasks;
 
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
-import cmput301w14t13.project.services.ElasticSearchOperations;
+import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 
 /**
 * Modified from https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java

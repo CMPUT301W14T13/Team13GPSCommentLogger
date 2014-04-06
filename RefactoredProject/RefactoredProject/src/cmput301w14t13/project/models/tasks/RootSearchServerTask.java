@@ -3,7 +3,7 @@ package cmput301w14t13.project.models.tasks;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.services.DataStorageService;
-import cmput301w14t13.project.services.ElasticSearchOperations;
+import cmput301w14t13.project.services.elasticsearch.ElasticSearchOperations;
 import cmput301w14t13.project.views.HomeView;
 
 /**

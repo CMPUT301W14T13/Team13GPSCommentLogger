@@ -9,18 +9,20 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.tasks.InitializationServerTask;
+import cmput301w14t13.project.models.tasks.MySavesLocalTask;
 import cmput301w14t13.project.models.tasks.RootSearchServerTask;
 import cmput301w14t13.project.models.tasks.SearchServerTask;
+import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
-import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -53,7 +55,15 @@ public class HomeViewController implements AsyncProcess{
 			viewTopic.putExtra("updateRank", homeView.getRank().getRank() + 1);
 			CommentTree ct = CommentTree.getInstance();
 			DataStorageService dss = DataStorageService.getInstance();
-			SearchServerTask task = new TaskFactory(dss).getNewBrowser(ct.getChildren(homeView).get(position).getID());
+			Task task;
+			if(NetworkReceiver.isConnected)
+			{
+				task = new TaskFactory(dss).getNewBrowser(ct.getChildren(homeView).get(position).getID());
+			}
+			else
+			{
+				task = new TaskFactory(dss).getNewSavesBrowser(ct.getChildren(homeView).get(position).getID());
+			}
 			try {
 				dss.doTask(this, task);
 				waitForCompletion();
@@ -110,10 +120,21 @@ public class HomeViewController implements AsyncProcess{
         DataStorageService dss = DataStorageService.getInstance();
         Log.w("HVResume","Test");
         Log.w("TimingTest","test");
+        NetworkReceiver.initialState(homeView);
         if(CommentTree.getInstance().isEmpty())
         {
-            dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
-            wait();
+        	if(NetworkReceiver.isConnected)
+        	{
+        		dss.doTask(this, new TaskFactory(dss).getRoot(homeView));
+                wait();
+        	}
+        	else
+        	{
+        		MySavesLocalTask task = new TaskFactory(dss).getNewSavesBrowser("ROOT");
+        		dss.doTask(this, task);
+                wait();
+                CommentTree.getInstance().pushToCommentStack(task.getObj());
+        	}
         }
         Log.w("TimingTest","test");
 		ct.addView(homeView);
@@ -175,8 +196,7 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	private void createTopic(){
-		Intent topic = new Intent(homeView, CreateSubmissionView.class);
-		topic.putExtra("construct code", 0);
+		Intent topic = new Intent(homeView, CreateTopicSubmissionView.class);
 		topic.putExtra("updateRank", homeView.getRank().getRank());
 		homeView.startActivity(topic);
 	}

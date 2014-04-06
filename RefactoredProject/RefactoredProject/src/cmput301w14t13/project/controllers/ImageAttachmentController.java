@@ -1,11 +1,11 @@
-package cmput301w14t13.project.auxilliary.tools;
+package cmput301w14t13.project.controllers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import cmput301w14t13.project.R;
 import cmput301w14t13.project.models.content.CommentTreeElementSubmission;
-import cmput301w14t13.project.views.CreateSubmissionView;
-
+import cmput301w14t13.project.services.SubmissionMediator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -36,21 +37,38 @@ import android.widget.Toast;
  * @author Monir Imamverdi
  */
 
-public class ImageAttacher
+public class ImageAttachmentController extends Activity
 {
 
-	// Reference: http://stackoverflow.com/questions/2169649/get-pick-an-image-from-androids-built-in-gallery-app-programmatically
-
-	private static final int PICK_FROM_FILE = 1;
 	private CommentTreeElementSubmission submission;
-	private CreateSubmissionView view;
-	private Bitmap bitmap;
+	private boolean started = false;
+	private static final int PICK_FROM_FILE = 2;
 	
+	// Reference: http://stackoverflow.com/questions/2169649/get-pick-an-image-from-androids-built-in-gallery-app-programmatically	
 	
-	public ImageAttacher(CommentTreeElementSubmission submission, Bitmap bitmap)
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		submission = SubmissionMediator.getSubmission();
+	}
+	
+	@Override
+	protected void onResume()
 	{
-		this.submission = submission;
-		this.bitmap = bitmap;
+		super.onResume();
+		if(!started)
+		{
+			Log.d("Image Attach", "Starting Image Attachment Intent");
+			started = true;
+			Intent intent = new Intent();
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			startActivityForResult(Intent.createChooser(intent, "Gallery"), PICK_FROM_FILE);
+		}
+		else
+		{
+			this.finish();
+		}
 	}
 
 	/**
@@ -59,7 +77,7 @@ public class ImageAttacher
 	 * only if satisfies size requirement of 100 KB
 	 */
 	@SuppressLint("NewApi") // Suppression can be removed if API target is greater than 12
-	public Bitmap getBitmap () {
+	private Bitmap getBitmap (Bitmap bitmap) {
 		if(sizeCheck(bitmap))
 		{
 			return bitmap;
@@ -83,7 +101,7 @@ public class ImageAttacher
 	 * @return boolean:  true if it's 100 KB or less
 	 */
 	@SuppressLint("NewApi")
-	public boolean sizeCheck (Bitmap image) {
+	private boolean sizeCheck (Bitmap image) {
 		// Get size in bytes
 		
 		int size = image.getByteCount();
@@ -103,9 +121,9 @@ public class ImageAttacher
 	 * This function only deals images after 
 	 * they are imported into a bitmap object.
 	 */
-	public Bitmap resizeImage (Bitmap image) {
+	private Bitmap resizeImage (Bitmap image) {
 		// Set width/height requirements
-		int maxSize = 102401;
+		int maxSize = (int)Math.sqrt(102400);
 
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -122,11 +140,24 @@ public class ImageAttacher
 			width = (int) (width * bitmapRatio);	
 		}
 		
-		return Bitmap.createScaledBitmap(image, width, height, true);
+		Bitmap newBitmap = Bitmap.createScaledBitmap(image, width, height, true);
+		if (image!= newBitmap){
+		     image.recycle();
+		}
+		return newBitmap;
 	}
-
-	public void execute()
-	{
-		submission.setBitmap(getBitmap());
+	
+	@SuppressLint("NewApi")
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK){
+			Uri selectedImageUri = data.getData();
+			try {
+				submission.setBitmap(getBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri)));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
