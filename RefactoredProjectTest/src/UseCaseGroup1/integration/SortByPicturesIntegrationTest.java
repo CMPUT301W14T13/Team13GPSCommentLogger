@@ -4,15 +4,10 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.models.content.Topic;
-import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")

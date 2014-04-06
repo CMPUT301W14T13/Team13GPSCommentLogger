@@ -24,6 +24,7 @@ public class SortByProximityIntegrationTest extends ActivityInstrumentationTestC
 	}
 
 	
+	@Override
 	public void setUp(){
 		
 		Intent intent = new Intent();

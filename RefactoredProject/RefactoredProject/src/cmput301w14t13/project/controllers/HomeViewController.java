@@ -18,6 +18,7 @@ import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.FavouritesView;
+import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
@@ -190,6 +191,17 @@ public class HomeViewController implements AsyncProcess{
 		homeView.startActivity(intent);
 	}
 	
+	/**
+	 * This function starts the activity
+	 * for the help page. It is called
+	 * when it's clicked from the options
+	 * menu inside HomeView
+	 */
+	public void helpPage() {
+		Intent intent = new Intent(homeView, HelpView.class);
+		homeView.startActivity(intent);
+	}
+	
 	public boolean selectOptions(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_post_thread:
@@ -202,6 +214,9 @@ public class HomeViewController implements AsyncProcess{
 				
 			case R.id.action_select_username:
 				selectUsername();
+				
+			case R.id.action_help:
+				helpPage();
 				
 			default:
 				return false;

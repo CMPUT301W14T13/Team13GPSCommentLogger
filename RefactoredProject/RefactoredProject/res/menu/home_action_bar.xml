@@ -11,9 +11,12 @@
           android:title="@string/action_post"
           android:showAsAction="ifRoom" />
     	
-     <item android:id="@+id/action_select_username"
-          
+     <item android:id="@+id/action_select_username"        
           android:title="@string/select_username"
+          android:showAsAction="ifRoom" />
+     
+     <item android:id="@+id/action_help"        
+          android:title="@string/help"
           android:showAsAction="ifRoom" />
 
 </menu>

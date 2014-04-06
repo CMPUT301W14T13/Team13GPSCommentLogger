@@ -16,6 +16,7 @@ import cmput301w14t13.project.services.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.views.CreateSubmissionView;
+import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.TopicView;
 import android.app.Activity;
 import android.content.Intent;
@@ -45,6 +46,17 @@ public class TopicViewController implements AsyncProcess
 
 	public void selectUsername(){
 		Intent intent = new Intent(topicView, SelectUsernameController.class);
+		topicView.startActivity(intent);
+	}
+	
+	/**
+	 * This function starts the activity
+	 * for the help page. It is called
+	 * when it's clicked from the options
+	 * menu inside HomeView
+	 */
+	public void helpPage() {
+		Intent intent = new Intent(topicView, HelpView.class);
 		topicView.startActivity(intent);
 	}
 	

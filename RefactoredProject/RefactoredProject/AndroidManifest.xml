@@ -67,6 +67,10 @@
             android:name="cmput301w14t13.project.FavouritesViewTemp"
             android:label="@string/title_activity_favourites_view_temp" >
         </activity>
+        <activity
+            android:name="cmput301w14t13.project.views.HelpView"
+            android:label="@string/title_activity_help_view" >
+        </activity>
     </application>
 
 </manifest>
