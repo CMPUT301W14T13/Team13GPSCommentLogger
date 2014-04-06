@@ -3,7 +3,9 @@ package UseCaseGroup2;
 import org.junit.Before;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -23,8 +25,9 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<HomeVie
 		ct = CommentTree.getInstance();
 	}
 	
-	public void testSetReply() {
-		// set up two comments, one will be parents and one will be child
+	public void testReplyComment() {
+		
+		// set up two comments, one will be parent and one will be child
 		CommentTreeElement comment = new Comment();
 		CommentTreeElement commentReply = new Comment();
 		
@@ -36,6 +39,18 @@ public class ReplyToCommentTest extends ActivityInstrumentationTestCase2<HomeVie
 		
 		// check if first child is equal to commentReply
 		assertEquals("Reply is different than commentReply", commentReply, comment.getChildren().get(0));
+		
+	}
+	
+	public void testReplyCommentActivity() throws Throwable {
+		
+		Intent intent = new Intent();
+		setActivityIntent(intent);
+		HomeView homeView = getActivity();
+		assertNotNull(homeView);
+		
+		Menu menu = homeView.getMenu();
+		
 		
 	}
 	
