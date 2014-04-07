@@ -50,9 +50,7 @@
             android:name="cmput301w14t13.project.views.submissions.EditTopicSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="cmput301w14t13.project.views.HomeView" />
+           
         </activity>
         <activity
             android:name="cmput301w14t13.project.views.submissions.EditCommentSubmissionView"
@@ -66,9 +64,7 @@
             android:name="cmput301w14t13.project.views.submissions.ReplyToCommentSubmissionView"
             android:label="@string/create_topic_label"
             android:parentActivityName="cmput301w14t13.project.views.HomeView" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="cmput301w14t13.project.views.HomeView" />
+            
         </activity>
         <activity
             android:name="cmput301w14t13.project.views.submissions.ReplyToTopicSubmissionView"
