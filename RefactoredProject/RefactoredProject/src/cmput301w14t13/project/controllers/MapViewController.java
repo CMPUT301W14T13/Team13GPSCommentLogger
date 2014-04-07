@@ -171,14 +171,16 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 	}
 
 	/**
-	 * This activity creates and sets a marker onto the screen at the given location
+	 * Sets a green marker at the GeoPoint, point, then refreshes
+	 * the map to show the newly placed marker, returnPoint is used
+	 * when the user is editing location to return the current markers
+	 * location
+	 * When editing location only one marker is on the screen at a time
+	 * for mapping a thread multiple markers are on the screen and returnPoint
+	 * is not needed
 	 * 
-	 * CreateSubmissionActivity needs the returnPoint for editing location
-	 * 
-	 * Our new Requirement does not need returnPoint
-	 * 
-	 * @param point
-	 * @return markers Index is used when CreateSubmissionActivity calls MapView Activity and is used
+	 * @param point The Geopoint of the marker,
+	 * @return markerIndex Index is used when CreateSubmissionActivity calls MapView Activity and is used
 	 * to remove this current marker if a new one is created.
 	 */
 	public  int setMarker(GeoPoint point){
@@ -195,8 +197,11 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 		return false;
 	}
 	/**
-	 * Submits the location of the current marker on the screen 
-	 * back to the activity that called this activity.
+	 * Sets an intent and adds returnPoints latitude
+	 * and longitude, then finishes the activity
+	 * used whenever the user is setting a location
+	 * to send a location back to the activity calling 
+	 * this activity.
 	 * @param v 
 	 */
 	public void submitLocation(View v){
@@ -206,6 +211,13 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 		setResult(RESULT_OK, result);	
 		finish();
 	}
+	/**
+	 * Ends the activity without sending a location
+	 * back, used whenever the user is mapping a Topic
+	 * thread, we dont need to send any information back
+	 * on the activities finish
+	 * @param v
+	 */
 	public void doneMapThread(View v){
 		finish();
 	}
