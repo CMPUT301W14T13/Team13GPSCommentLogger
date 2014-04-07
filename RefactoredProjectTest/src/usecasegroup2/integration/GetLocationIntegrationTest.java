@@ -14,7 +14,8 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.views.HomeView;
-import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
+import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
+import cmput301w14t13.project.views.submissions.SubmissionView;
 
 @SuppressLint("NewApi")
 public class GetLocationIntegrationTest extends
@@ -22,7 +23,7 @@ ActivityInstrumentationTestCase2<HomeView> {
 
 	
 	HomeView homeView;
-	EditTopicSubmissionView create;
+	SubmissionView create;
 	CommentTree ct;
 	
 	public GetLocationIntegrationTest() {
@@ -38,7 +39,7 @@ ActivityInstrumentationTestCase2<HomeView> {
 		homeView = getActivity();
 		assertNotNull(homeView);
 		
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(EditTopicSubmissionView.class.getName(), null , false);
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateTopicSubmissionView.class.getName(), null , false);
 
 		
 		
@@ -46,7 +47,7 @@ ActivityInstrumentationTestCase2<HomeView> {
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
 		getInstrumentation().waitForIdleSync();
-		create = (EditTopicSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		create = (CreateTopicSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 		
 		
