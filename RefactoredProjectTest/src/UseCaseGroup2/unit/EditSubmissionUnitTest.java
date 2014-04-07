@@ -7,10 +7,10 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.views.HomeView;
 
 @SuppressLint("NewApi")
-public class EditCommentUnitTest extends
+public class EditSubmissionUnitTest extends
 ActivityInstrumentationTestCase2<HomeView> {
 
-	public EditCommentUnitTest() {
+	public EditSubmissionUnitTest() {
 		super(HomeView.class);
 	}
 

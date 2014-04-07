@@ -66,13 +66,7 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 		}	
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		intent = new Intent();
-		setActivityIntent(intent);
-
-	}
+	
 
 	/**
 	 * test to check that comment fields are correctly set
