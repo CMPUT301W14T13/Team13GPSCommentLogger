@@ -198,7 +198,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();
-		displayAdapter = new CustomAdapter(this, ct.getCommentList(this));
+		displayAdapter = new CustomAdapter(this, ct.getChildren(this));
 		topicListview.setAdapter(displayAdapter);
 		displayAdapter.notifyDataSetChanged();		
 	}
