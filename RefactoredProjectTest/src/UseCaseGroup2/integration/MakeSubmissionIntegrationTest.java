@@ -32,7 +32,6 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 	HomeView homeView;
 	TopicView topicView;
 	SubmissionView create;
-	Intent intent;
 	CommentTree ct = CommentTree.getInstance();
 
 	public MakeSubmissionIntegrationTest() {

@@ -15,12 +15,19 @@ import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.views.HomeView;
+import cmput301w14t13.project.views.TopicView;
 import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
+import cmput301w14t13.project.views.submissions.ReplyToTopicCommentSubmissionView;
+import cmput301w14t13.project.views.submissions.SubmissionView;
 
 @SuppressLint("NewApi")
-public class EditCommentIntegrationTest extends
-ActivityInstrumentationTestCase2<HomeView> {
+public class EditCommentIntegrationTest extends ActivityInstrumentationTestCase2<HomeView> {
 
+	HomeView homeView;
+	TopicView topicView;
+	SubmissionView create;
+	CommentTree ct = CommentTree.getInstance();
+	
 	public EditCommentIntegrationTest() {
 		super(HomeView.class);
 	}
@@ -42,90 +49,81 @@ ActivityInstrumentationTestCase2<HomeView> {
 	// write the integration test for editing a comment!
 	@UiThreadTest
 	public void testEditTopic() throws Throwable{
-		Intent intent = new Intent();
-		setActivityIntent(intent);
-		HomeView homeView = getActivity();
-		assertNotNull(homeView);
+		homeView = getActivity();
 
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(EditTopicSubmissionView.class.getName(), null , false);
-		Menu menu = homeView.getMenu();
-		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(TopicView.class.getName(), null , false);
 
-		final EditTopicSubmissionView create = (EditTopicSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				ListView topicList = (ListView) homeView.findViewById(cmput301w14t13.project.R.id.topic_listview);
+				topicList.performItemClick(topicList.getChildAt(0), 0,
+						topicList.getAdapter().getItemId(0));
+			}
+
+		});
+
+
+		getInstrumentation().waitForIdleSync();
+		topicView = (TopicView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		assertNotNull(topicView);
+
+		submissionMonitor = getInstrumentation().addMonitor(ReplyToTopicCommentSubmissionView.class.getName(), null , false);
+
+
+
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				Button editButton = (Button) topicView.findViewById(cmput301w14t13.project.R.id.topic_edit_button);
+				assertNotNull(editButton);
+
+
+				editButton.performClick();
+
+			}
+
+		});
+
+
+		getInstrumentation().waitForIdleSync();
+		create = (ReplyToTopicCommentSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 
-		/* make the comment */
-		// Create the Topic 
-		EditText title = (EditText) create.findViewById(cmput301w14t13.project.R.id.setTitle);
-		EditText username = (EditText) create.findViewById(cmput301w14t13.project.R.id.setTopicUsername);
-		EditText commentText = (EditText) create.findViewById(cmput301w14t13.project.R.id.setTopicText);	
-		Button submitButton = (Button) create.findViewById(cmput301w14t13.project.R.id.submit);
 
-		assertNotNull(title);
-		assertNotNull(username);
-		assertNotNull(commentText);
-		assertNotNull(submitButton);
+		runTestOnUiThread(new Runnable() {
 
-		title.setText("title");
-		username.setText("User1");
-		commentText.setText("text");
+			@Override
+			public void run() {
 
-		submitButton.performClick();
+				EditText username = (EditText) create.findViewById(cmput301w14t13.project.R.id.set_comment_username);
+				EditText commentText = (EditText) create.findViewById(cmput301w14t13.project.R.id.set_comment_text);
+				Button submitButton = (Button) create.findViewById(cmput301w14t13.project.R.id.submit);
 
-		// give the topic a second to get pushed to the server 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+				assertNotNull(username);
+				assertNotNull(commentText);
+				assertNotNull(submitButton);
 
-		/* make sure we have entered the CreateSubmissionController Activity */
+				username.setText("User1");
+				commentText.setText("text");
 
-		ArrayList<CommentTreeElement> topics = SortFunctions.sortByNewest(CommentTree.getInstance().getChildren(homeView));
-		CommentTreeElement topic = topics.get(0);
+				submitButton.performClick();
 
-		assertEquals("Titles not the same", topic.getTitle(), title.getText().toString() );
-		assertEquals("Usernames not the same", topic.getUsername(), username.getText().toString());
-		assertEquals("Texts not the same", topic.getCommentText(), commentText.getText().toString());
+				int size = ct.getCommentList(topicView).size();
+				CommentTreeElement comment = ct.getCommentList(topicView).get(size-1);
+
+				assertEquals("Usernames not the same", comment.getUsername(), username.getText().toString());
+				assertEquals("Texts not the same", comment.getCommentText(), commentText.getText().toString());
+			}
+
+		});
 
 
-		/* Now click the comment and edit it */
-		// Instrumentation.ActivityMonitor homeViewMonitor = getInstrumentation().addMonitor(HomeViewController.class.getName(), null , false);
-		// give the topic a second to get pushed to the server 
-
-		/* stop the runnable here */
-
-		/* I don't think I am correctly in the activity I think I am */
-		homeView = getActivity();
-		homeView.update();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		ListView topicList = (ListView) homeView.findViewById(cmput301w14t13.project.R.id.topic_listview);
-		assertNotNull(topicList);
-
-		/* click the newly created topic */
-		topicList.performItemClick(
-				topicList.getAdapter().getView(0, null, null), 0, 0);
-
-		/* you are now in the new Activity, so change the parameters */
-/*
-		title.setText("title_new");
-		username.setText("User2");
-		commentText.setText("text_new");
-
-		submitButton.performClick();
-		topics = SortFunctions.sortByNewest(ct.getChildren(homeView));
-		topics.get(0);
-
-		assertEquals("Titles not the same", topic.getTitle(), title.getText().toString() );
-		assertEquals("Usernames not the same", topic.getUsername(), username.getText().toString());
-		assertEquals("Texts not the same", topic.getCommentText(), commentText.getText().toString());
-*/
-
-		homeView.finish();
+		topicView.finish();
 	}
 }
 
