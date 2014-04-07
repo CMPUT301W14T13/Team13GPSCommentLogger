@@ -56,6 +56,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 	private GeoPoint returnPoint;
 	private int canSetMarker;
 
+	private static TopicView topicView;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -128,8 +129,8 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapView.getOverlays().add(topicMarker);
 			mapView.invalidate();
 			
-			ArrayList<CommentTreeElement> commentList = commentTree.getCommentList(this);
-			for(int i=1;i<commentList.size();i++){
+			ArrayList<CommentTreeElement> commentList = commentTree.getCommentList(topicView);
+			for(int i=0;i<commentList.size();i++){
 				CommentTreeElement comment = commentList.get(i);			
 				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
 				setMarker(point);
@@ -225,4 +226,9 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 	{
 		return rank;
 	}
+	
+	public static void setTopicView(TopicView view){
+		topicView = view;
+	}
+	
 }

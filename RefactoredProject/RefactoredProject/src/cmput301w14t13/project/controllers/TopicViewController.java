@@ -70,6 +70,7 @@ public class TopicViewController implements AsyncProcess
 		map.putExtra("lat", topic.getGPSLocation().getLatitude()); 
 		map.putExtra("lon", topic.getGPSLocation().getLongitude());
 		map.putExtra("canSetMarker", 0);// for editing  location
+		MapViewController.setTopicView(topicView);
 		topicView.startActivity(map);
 
 	}

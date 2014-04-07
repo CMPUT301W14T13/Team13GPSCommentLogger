@@ -47,7 +47,7 @@ public class ServerProxy implements AsyncProcess{
 	private String filepath;
 
 	private HomeView hv;
-	Context context;
+	
 	SharedPreferences prefs;
 	SharedPreferences.Editor editor;
 
@@ -398,7 +398,7 @@ public class ServerProxy implements AsyncProcess{
 
 	public void initializePrefs(Context context){
 		
-		this.context = context;
+		
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         editor = prefs.edit();
 		
