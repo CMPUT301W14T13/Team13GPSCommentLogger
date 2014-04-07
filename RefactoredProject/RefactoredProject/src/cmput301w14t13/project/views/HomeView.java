@@ -193,13 +193,20 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		
 		switch (itemPosition) {
 		case 0:
+			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
+			Toast.makeText(this, "Relevant",
+					Toast.LENGTH_LONG).show();
+			break;
+		
+		
+		case 1:
 			
 			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
 			Toast.makeText(this, "Proximity to Me",
 					Toast.LENGTH_LONG).show();
 			break;
 			
-		case 1:
+		case 2:
 			
 				openMap();
 
@@ -210,14 +217,14 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 			
 			break;
 			
-		case 2:
+		case 3:
 			
 			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
 			Toast.makeText(this, "Pictures",
 					Toast.LENGTH_LONG).show();
 			break;
 			
-		case 3:
+		case 4:
 			
 			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
 			
@@ -225,15 +232,10 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 					Toast.LENGTH_LONG).show();
 			break;
 			
-		case 4:
+		case 5:
 			
 			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
 			Toast.makeText(this, "Oldest",
-					Toast.LENGTH_LONG).show();
-			break;
-		case 5:
-			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
-			Toast.makeText(this, "Relevant",
 					Toast.LENGTH_LONG).show();
 			break;
 		}
@@ -241,6 +243,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		CommentTree.getInstance().addSortedList(this, sortedTopics);
 		
 		return true;
+		
 	}
 	
 	public void openMap()
