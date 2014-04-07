@@ -112,7 +112,11 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	public void fillTopicChildren(CommentTreeElement comment, RankedHierarchicalActivity updateable){
 		commentListsInDisplayOrder.elementAt(updateable.getRank().getRank()).add(comment);
 		ArrayList<CommentTreeElement> children = comment.getChildren();
+		
 		for (int i = 0; i < children.size(); i++){
+		
+			children.get(i).setIndentLevel(comment.getIndentLevel() + 1);
+			
 			fillTopicChildren(children.get(i), updateable);
 		}
 	}
