@@ -49,47 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="107dp" >
 
-        <TextView
-            android:id="@+id/comment_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Username" />
-
-        <ImageButton
-        android:id="@+id/comment_reply_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
-        android:onClick="reply"
-        android:src="@drawable/reply"
-        android:text="Reply" />
-
-        <Button
-            android:id="@+id/comment_edit_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/comment_reply_button"
-            android:layout_alignBottom="@+id/comment_reply_button"
-            android:layout_toLeftOf="@+id/comment_reply_button"
-            android:onClick="edit"
-            android:text="Edit" />
-
-        
-
-        <TextView
-            android:id="@+id/commentText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/comment_edit_button"
-            android:layout_alignParentLeft="true"
-            android:text="Comment" />
-
         <ImageView
             android:id="@+id/commentImage"
             android:layout_width="wrap_content"
@@ -101,13 +60,14 @@
             android:layout_below="@+id/commentText" />
 
         <TextView
-            android:id="@+id/comment_coordinates"
+            android:id="@+id/commentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/commentImage"
-            android:text="coord"
-            android:textColor="#666666" />
+            android:layout_alignLeft="@+id/comment_coordinates"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/comment_coordinates"
+            android:layout_toLeftOf="@+id/comment_edit_button"
+            android:text="Comment" />
 
         <Button
             android:id="@+id/saveComment"
@@ -116,9 +76,46 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/comment_coordinates"
             android:onClick="saveComment"
             android:text="Save" />
+
+        <Button
+            android:id="@+id/comment_reply_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/saveComment"
+            android:onClick="reply"
+            android:text="Reply" />
+
+        <Button
+            android:id="@+id/comment_edit_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/comment_reply_button"
+            android:onClick="edit"
+            android:text="Edit" />
+
+        <TextView
+            android:id="@+id/comment_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Username"
+            android:textColor="@android:color/holo_green_dark" />
+
+        <TextView
+            android:id="@+id/comment_coordinates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/comment_username"
+            android:text="coord"
+            android:textColor="#666666" />
 
     </RelativeLayout>
 
@@ -129,6 +126,5 @@
     
 
     
-
 
 
