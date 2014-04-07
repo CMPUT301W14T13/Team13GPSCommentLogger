@@ -39,14 +39,18 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 		setContentView(R.layout.username_view);
 		
 		final CommentTree cl = CommentTree.getInstance();
+		usernameListView = (ListView) findViewById(R.id.usernamesList);
 		
-		usernames = DataStorageService.getInstance().getProxy().getUsernames(); //get the list of usernames
+		DataStorageService.getInstance().getProxy().initializePrefs(this);
+		
+		usernames = DataStorageService.getInstance().getProxy().getArray(); //get the list of usernames
 
 		//get the user's global username and display it
 		text = (TextView) findViewById(R.id.currentUsernameTextView);
 		text.setText("Current username: " + cl.getCurrentUsername());
 
-		update();
+		adapter = new UsernameAdapter(this, usernames);
+		usernameListView.setAdapter(adapter);
 
 		usernameListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -98,6 +102,7 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 		}
 		
 		editText.setText(""); //clear the text field
+		update();
 	}
 
 	/**
@@ -108,7 +113,8 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 	 */
 	public void remove(View v){
 		int tag = (Integer) v.getTag();
-		DataStorageService.getInstance().getProxy().removeUsername(tag);;
+		DataStorageService.getInstance().getProxy().removeUsername(tag);
+		update();
 	};
 
 
@@ -120,11 +126,9 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 	public void update()
 	{
 		//set the adapter to display the list of usernames
-		usernameListView = (ListView) findViewById(R.id.usernamesList);
 		usernames.clear();
-		usernames.addAll(DataStorageService.getInstance().getProxy().getUsernames());
-		adapter = new UsernameAdapter(this, usernames);
-		usernameListView.setAdapter(adapter);
+		DataStorageService.getInstance().getProxy().saveArray();
+		usernames.addAll(DataStorageService.getInstance().getProxy().getArray());
 		adapter.notifyDataSetChanged();
 	}
 

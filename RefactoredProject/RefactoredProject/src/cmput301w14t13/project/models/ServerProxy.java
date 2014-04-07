@@ -1,14 +1,9 @@
 package cmput301w14t13.project.models;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
@@ -18,16 +13,18 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
-import cmput301w14t13.project.models.tasks.RootSearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
-import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.serialization.BitmapSerializer;
 import cmput301w14t13.project.services.serialization.CommentTreeElementLocalSerializer;
@@ -45,12 +42,16 @@ public class ServerProxy implements AsyncProcess{
 	private HashMap<String, String> saves;
 	private HashMap<CommentTreeElement, String> favourites;
 
-	private ArrayList<String> usernames;
+	private ArrayList<String> usernames = new ArrayList<String>();
 	private ArrayList<Task> cachedTasks;
 	private String filepath;
 
 	private HomeView hv;
-	
+	Context context;
+	SharedPreferences prefs;
+	SharedPreferences.Editor editor;
+
+
 	public ServerProxy(String filepath, HomeView hv) throws InterruptedException
 	{
 		saves = new HashMap<String, String>();
@@ -77,7 +78,7 @@ public class ServerProxy implements AsyncProcess{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		saves.put("ROOT", gson.toJson(new Root()));
 	}
-	
+
 	public void saveUsername(String newUsername)
 	{
 		this.usernames.add(newUsername);
@@ -88,7 +89,7 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void removeUsername(int index)
 	{
 		this.usernames.remove(index);
@@ -99,16 +100,22 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * @return
 	 * 
 	 */
 	public ArrayList<String> getUsernames()
 	{
+		try {
+			loadUsernames();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return usernames;
 	}
-	
+
 	public void saveTask(Task newTask)
 	{
 		this.cachedTasks.add(newTask);
@@ -120,7 +127,7 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void removeTask()
 	{
 		this.cachedTasks.remove(0);
@@ -131,12 +138,12 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ArrayList<Task> getTasks()
 	{
 		return cachedTasks;
 	}
-	
+
 	public void startSaveData(CommentTreeElement data)
 	{
 		Gson togson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
@@ -144,7 +151,7 @@ public class ServerProxy implements AsyncProcess{
 		Root root = (Root)fromgson.fromJson(saves.get("ROOT"), CommentTreeElement.class);
 		root.addChild(data);
 		this.saves.put("ROOT", togson.toJson(root));
-		
+
 		saveData(data);
 		try {
 			Log.w("DataSaving", "start save data" );
@@ -153,7 +160,7 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void startSaveFavourites(CommentTreeElement data)
 	{
 		saveFavourite(data);
@@ -164,7 +171,7 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void saveData(CommentTreeElement data)
 	{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
@@ -174,25 +181,25 @@ public class ServerProxy implements AsyncProcess{
 			saveData(each);
 		}
 	}
-	
+
 	private void saveFavourite(CommentTreeElement data)
 	{
 		this.favourites.put(data, CommentTree.getInstance().peek().getID());
 	}
-	
+
 	public CommentTreeElement getData(String key)
 	{
 		Gson gson = new GsonBuilder().registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		return gson.fromJson(saves.get(key), CommentTreeElement.class);
 	}
-	
+
 	/**
-	* This method is called when a user clicks a comment that they have saved as a favourite. It will then display the Topic along with 
-	* the single comment that they have marked as a favourite. The comment will be displayed as well as all of its replies..
-	* 
-	* @param key The comment that we want to see in the context of the topic it was made within.
-	* @return
-	*/
+	 * This method is called when a user clicks a comment that they have saved as a favourite. It will then display the Topic along with 
+	 * the single comment that they have marked as a favourite. The comment will be displayed as well as all of its replies..
+	 * 
+	 * @param key The comment that we want to see in the context of the topic it was made within.
+	 * @return
+	 */
 	public CommentTreeElement getTopicOfFavouriteComment(CommentTreeElement key)
 	{
 		String Id = favourites.get(key);
@@ -205,19 +212,19 @@ public class ServerProxy implements AsyncProcess{
 		return topic;
 	}
 	/**
-	* This method makes sure that when we load a favourited comment to view that it and its children get displayed with the correct
-	* level of indentation.
-	* 
-	* @param level The indentation level of the comment that we are viewing.
-	* @param comment The favourited comment that we are trying to view. 
-	*/
+	 * This method makes sure that when we load a favourited comment to view that it and its children get displayed with the correct
+	 * level of indentation.
+	 * 
+	 * @param level The indentation level of the comment that we are viewing.
+	 * @param comment The favourited comment that we are trying to view. 
+	 */
 	private void indentSubtraction(int level, CommentTreeElement comment){
 		comment.setIndentLevel(comment.getIndentLevel() - level);
 		for(CommentTreeElement child : comment.getChildren()){
 			indentSubtraction(level, child);
 		}
 	}
-	
+
 	public void clearSaves(Root newRoot)
 	{
 		saves = new HashMap<String, String>();
@@ -229,13 +236,13 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void addNewRoot(Root root)
 	{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).create();
 		saves.put(root.getID(), gson.toJson(root));
 	}
-	
+
 	public void clearFavourites()
 	{
 		favourites = new HashMap<CommentTreeElement, String>();
@@ -246,12 +253,12 @@ public class ServerProxy implements AsyncProcess{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ArrayList<CommentTreeElement> getFavouritesAsArrayList()
 	{
 		return new ArrayList<CommentTreeElement>(favourites.keySet());
 	}
-	
+
 	public void save() throws IOException
 	{
 		Gson gson = new GsonBuilder().registerTypeHierarchyAdapter(Task.class, new TaskSerializer()).registerTypeHierarchyAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer()).create();
@@ -268,26 +275,25 @@ public class ServerProxy implements AsyncProcess{
 		bw.close();
 		fw.close();
 	}
-	
-	public void load() throws IOException
-	{
+
+	public void loadUsernames() throws IOException{
 		File f = new File(filepath);
 		if(!f.exists() || f.isDirectory())throw new FileNotFoundException();
-		
+
 		Gson gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskSerializer()).registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
 		Type hashmapsaves = new TypeToken<HashMap<String,String>>(){}.getType();
 		Type hashmapfavourites = new TypeToken<HashMap<CommentTreeElement,String>>(){}.getType();
-		
+
 		StringWriter writer = new StringWriter();
 		FileInputStream fr = hv.getApplicationContext().openFileInput(filepath);
 		IOUtils.copy(fr, writer);
 		String theString = writer.toString();
 		Scanner br = new Scanner(theString);
-		
+
 		String json = br.nextLine();
 		Log.w("DMLoad", "Saves: " + json);
 		saves = gson.fromJson(json, hashmapsaves);
-		
+
 		json = br.nextLine();
 		Log.w("DMLoad", "Favourites: " + json);
 		favourites = gson.fromJson(json, hashmapfavourites);
@@ -296,12 +302,50 @@ public class ServerProxy implements AsyncProcess{
 		Log.w("DMLoad", "Usernames: " + json);
 		Type arrayListStringType = new TypeToken<ArrayList<String>>(){}.getType();
 		usernames = gson.fromJson(json,  arrayListStringType);
-		
+
 		json = br.nextLine();
 		Log.w("DMLoad", "CachedTasks: " + json);
 		Type arrayListTaskType = new TypeToken<ArrayList<Task>>(){}.getType();
 		cachedTasks = gson.fromJson(json, arrayListTaskType);
-		
+
+		br.close();
+		fr.close();
+
+	}
+
+	public void load() throws IOException
+	{
+		File f = new File(filepath);
+		if(!f.exists() || f.isDirectory())throw new FileNotFoundException();
+
+		Gson gson = new GsonBuilder().registerTypeAdapter(Task.class, new TaskSerializer()).registerTypeAdapter(CommentTreeElement.class, new CommentTreeElementLocalSerializer()).registerTypeAdapter(Bitmap.class, new BitmapSerializer()).create();
+		Type hashmapsaves = new TypeToken<HashMap<String,String>>(){}.getType();
+		Type hashmapfavourites = new TypeToken<HashMap<CommentTreeElement,String>>(){}.getType();
+
+		StringWriter writer = new StringWriter();
+		FileInputStream fr = hv.getApplicationContext().openFileInput(filepath);
+		IOUtils.copy(fr, writer);
+		String theString = writer.toString();
+		Scanner br = new Scanner(theString);
+
+		String json = br.nextLine();
+		Log.w("DMLoad", "Saves: " + json);
+		saves = gson.fromJson(json, hashmapsaves);
+
+		json = br.nextLine();
+		Log.w("DMLoad", "Favourites: " + json);
+		favourites = gson.fromJson(json, hashmapfavourites);
+
+		json = br.nextLine();
+		Log.w("DMLoad", "Usernames: " + json);
+		Type arrayListStringType = new TypeToken<ArrayList<String>>(){}.getType();
+		usernames = gson.fromJson(json,  arrayListStringType);
+
+		json = br.nextLine();
+		Log.w("DMLoad", "CachedTasks: " + json);
+		Type arrayListTaskType = new TypeToken<ArrayList<Task>>(){}.getType();
+		cachedTasks = gson.fromJson(json, arrayListTaskType);
+
 		br.close();
 		fr.close();
 	}
@@ -311,4 +355,53 @@ public class ServerProxy implements AsyncProcess{
 		notify();
 	}
 
+	/**
+	 * Converts the provided ArrayList<String>
+	 * into a JSONArray and saves it as a single
+	 * string in the apps shared preferences
+	 * @param array ArrayList<String> containing the list items
+	 */
+	public void saveArray() {
+		JSONArray jArray = new JSONArray(usernames);
+		editor.remove("buttonArray");
+		editor.putString("buttonArray", jArray.toString());
+		editor.commit();
+	}
+
+	/**
+	 * Loads a JSONArray from shared preferences
+	 * and converts it to an ArrayList<String>
+	 * @return ArrayList<String> containing the saved values from the JSONArray
+	 */
+	public ArrayList<String> getArray() {
+		ArrayList<String> array = new ArrayList<String>();
+		String jArrayString = prefs.getString("buttonArray", "cr5315AI");
+		if (jArrayString.matches("cr5315AI")) return getDefaultArray();
+		else {
+			try {
+				JSONArray jArray = new JSONArray(jArrayString);
+				for (int i = 0; i < jArray.length(); i++) {
+					array.add(jArray.getString(i));
+				}
+				return array;
+			} catch (JSONException e) {
+				return getDefaultArray();
+			}
+		}
+	}
+	// Get the default list if there isn't anything saved
+	private ArrayList<String> getDefaultArray() {
+		ArrayList<String> array = new ArrayList<String>();
+
+		return array;
+	}
+
+	public void initializePrefs(Context context){
+		
+		this.context = context;
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = prefs.edit();
+		
+		
+	}
 }
