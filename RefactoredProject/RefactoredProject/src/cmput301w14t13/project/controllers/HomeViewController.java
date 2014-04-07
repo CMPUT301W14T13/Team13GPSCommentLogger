@@ -1,5 +1,30 @@
 package cmput301w14t13.project.controllers;
 
+
+import java.util.ArrayList;
+
+import cmput301w14t13.project.R;
+import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
+import cmput301w14t13.project.auxilliary.tools.SortFunctions;
+import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.CommentTreeElement;
+import cmput301w14t13.project.models.content.Root;
+import cmput301w14t13.project.models.tasks.InitializationServerTask;
+import cmput301w14t13.project.models.tasks.MySavesLocalTask;
+import cmput301w14t13.project.models.tasks.RootSearchServerTask;
+import cmput301w14t13.project.models.tasks.SearchServerTask;
+import cmput301w14t13.project.models.tasks.Task;
+import cmput301w14t13.project.models.tasks.TaskFactory;
+import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.DataStorageService.LocalBinder;
+import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.services.NetworkReceiver;
+import cmput301w14t13.project.views.FavouritesView;
+import cmput301w14t13.project.views.HelpView;
+import cmput301w14t13.project.views.HomeView;
+import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -205,10 +230,23 @@ public class HomeViewController implements AsyncProcess{
 	}
 	
 	/**
+
 	 * Start topic view activity for creating
 	 * a new topic. Called by button click
 	 * listener.
+	 *
+
+	 * This function starts the activity
+	 * for the help page. It is called
+	 * when it's clicked from the options
+	 * menu inside HomeView
 	 */
+	public void helpPage() {
+		Intent intent = new Intent(homeView, HelpView.class);
+		homeView.startActivity(intent);
+	}
+	
+
 	private void createTopic(){
 		Intent topic = new Intent(homeView, CreateTopicSubmissionView.class);
 		topic.putExtra("updateRank", homeView.getRank().getRank());
@@ -253,6 +291,11 @@ public class HomeViewController implements AsyncProcess{
 				
 			case R.id.action_select_username:
 				selectUsername();
+				return true;
+				
+			case R.id.action_help:
+				helpPage();
+				return true;
 				
 			default:
 				return false;
@@ -323,6 +366,7 @@ public class HomeViewController implements AsyncProcess{
 
 		}
 
+
 	/**
 	 * This function retrieves results from the 
 	 * location selection activity called by
@@ -360,7 +404,7 @@ public class HomeViewController implements AsyncProcess{
 	 * @param itemId
 	 * @return
 	 */
-	public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	/*public boolean onNavigationItemSelected(int itemPosition, long itemId)
 	{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
@@ -370,5 +414,6 @@ public class HomeViewController implements AsyncProcess{
 		}
 		CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), homeView, location);
 		return true;
-	}
+	}*/
+
 }

@@ -12,6 +12,7 @@ import cmput301w14t13.project.controllers.HomeViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
+import cmput301w14t13.project.services.LocationSelection;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -55,12 +56,18 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	private CustomAdapter displayAdapter; //adapter to display the topics
 	private Menu menu; //A reference to the options menu
 	protected HomeViewController controller = new HomeViewController(this);
+
 	
 	/**
 	 * This method loads up a ListView onto the screen
 	 * then initializes the controller to handle the list of topics
 	 * to view, as well as clicks on topis and elements
 	 */
+
+
+	Location location = new Location("default");
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -164,7 +171,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 				}), this);
 	}
 
-
+	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Restore the previously serialized current dropdown position.
@@ -183,8 +190,67 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	
 
 	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		return controller.onNavigationItemSelected(itemPosition, itemId);
+	public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	{
+		// When the given dropdown item is selected, show its contents in the
+		// container view.
+
+		// ITEM SELECTION ACTIONS DONE HERE
+		ArrayList<CommentTreeElement> sortedTopics = CommentTree.getInstance().getChildren(this);
+		
+		switch (itemPosition) {
+		case 0:
+			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
+			Toast.makeText(this, "Relevant",
+					Toast.LENGTH_LONG).show();
+			break;
+		
+		
+		case 1:
+			
+			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
+			Toast.makeText(this, "Proximity to Me",
+					Toast.LENGTH_LONG).show();
+			break;
+			
+		case 2:
+			
+				openMap();
+
+				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
+				Toast.makeText(this, "Proximity to Location",
+						Toast.LENGTH_LONG).show();
+			
+			
+			break;
+			
+		case 3:
+			
+			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
+			Toast.makeText(this, "Pictures",
+					Toast.LENGTH_LONG).show();
+			break;
+			
+		case 4:
+			
+			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
+			
+			Toast.makeText(this, "Newest",
+					Toast.LENGTH_LONG).show();
+			break;
+			
+		case 5:
+			
+			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
+			Toast.makeText(this, "Oldest",
+					Toast.LENGTH_LONG).show();
+			break;
+		}
+
+		CommentTree.getInstance().addSortedList(this, sortedTopics);
+		
+		return true;
+		
 	}
 	
 	
@@ -195,8 +261,18 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		
 	@SuppressLint("NewApi")
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		controller.onActivityResult(requestCode, resultCode, data);
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == 0){
+			if (resultCode == Activity.RESULT_OK){
+				double latitude = data.getDoubleExtra("lat", LocationSelection.getInstance().getLocation().getLatitude());
+				double longitude = data.getDoubleExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+				location = new Location("default");
+				location.setLongitude(longitude);
+				location.setLatitude(latitude);
+
+			}
+		}
 	}
 
 	/**
@@ -205,7 +281,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	@Override
 	public void update() {
 		CommentTree ct = CommentTree.getInstance();
-		displayAdapter = new CustomAdapter(this, ct.getCommentList(this));
+		displayAdapter = new CustomAdapter(this, ct.getChildren(this));
 		topicListview.setAdapter(displayAdapter);
 		displayAdapter.notifyDataSetChanged();		
 	}

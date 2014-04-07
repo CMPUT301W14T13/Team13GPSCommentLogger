@@ -15,6 +15,7 @@ import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.serialization.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
+import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.TopicView;
 import cmput301w14t13.project.views.submissions.EditCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
@@ -63,6 +64,18 @@ public class TopicViewController implements AsyncProcess
 	 * selects to sort topics by proximity to a given 
 	 * location.
 	 */
+
+	/**
+	 * This function starts the activity
+	 * for the help page. It is called
+	 * when it's clicked from the options
+	 * menu inside HomeView
+	 */
+	public void helpPage() {
+		Intent intent = new Intent(topicView, HelpView.class);
+		topicView.startActivity(intent);
+	}
+
 	public void OpenMap(){
 		CommentTree commentTree = CommentTree.getInstance();
 		CommentTreeElement topic = commentTree.getElement(topicView);
@@ -70,10 +83,11 @@ public class TopicViewController implements AsyncProcess
 		map.putExtra("lat", topic.getGPSLocation().getLatitude()); 
 		map.putExtra("lon", topic.getGPSLocation().getLongitude());
 		map.putExtra("canSetMarker", 0);// for editing  location
+		MapViewController.setTopicView(topicView);
 		topicView.startActivity(map);
 
 	}
-	
+
 	/**
 	 * This method fills up the various fields in TopicView
 	 * with the proper information from the topic such as 
@@ -84,37 +98,37 @@ public class TopicViewController implements AsyncProcess
 	 * 
 	 */
 	public void fillTopicLayout(){
-		
+
 		CommentTreeElement currentTopic = CommentTree.getInstance().getElement(topicView);
-		
+
 		TextView text = (TextView) topicView.findViewById(R.id.topic_username);
 		text.setText(currentTopic.getUsername());
-		
+
 		text = (TextView) topicView.findViewById(R.id.topic_comment);
 		text.setText(currentTopic.getCommentText());
-		
+
 		text = (TextView) topicView.findViewById(R.id.topic_title);
 		text.setText(currentTopic.getTitle());
-		
+
 		/* having trouble getting the coordinates, why is this?*/
 		text = (TextView) topicView.findViewById(R.id.coordinates);
 		text.setText(currentTopic.locationString());
-		
+
 		Date post_time = currentTopic.getTimestamp();
 		text = (TextView) topicView.findViewById(R.id.age);
 		text.setText(currentTopic.getDateDiff(post_time, new Date()));
-		
+
 		text = (TextView) topicView.findViewById(R.id.number_of_comments);
 		text.setText(String.valueOf(currentTopic.getNumberOfChildren()) + " comments");
-		
+
 		/* show bitmap */
 		ImageView imageView = (ImageView) topicView.findViewById(R.id.commentImage);
 		if (CommentTree.getInstance().getElement(topicView).getHasImage()) {
 			imageView.setImageBitmap(CommentTree.getInstance().getElement(topicView).getImage());
 		}
-		
+
 	}
-	
+
 	/**
 	 * When the user hits a reply button, it can either be a reply to the topic
 	 * or a reply to a comment. Since there is a separate button for each comment,
@@ -133,30 +147,30 @@ public class TopicViewController implements AsyncProcess
 	public void reply(View v) throws InterruptedException{
 		Intent intent;
 		switch (v.getId()) {
-		 
-	         case R.id.topic_reply_button:
-	        	 
-	        	 intent = new Intent(topicView, ReplyToTopicCommentSubmissionView.class);
-	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
-	        	 topicView.startActivity(intent); 
-	             break;
-	             
-	         case R.id.comment_reply_button:
-	        	 
-	        	 intent = new Intent(topicView, ReplyToCommentCommentSubmissionView.class);
-	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
-	        	 int rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
-	        	 intent.putExtra("row number", rowNumber);
-	        	 topicView.startActivity(intent); //replying to a comment
-	        	 break;
-	        	 
-	         default:
-	 			throw new InterruptedException("Invalid button press");
-		 }
-		 
-		
+
+			case R.id.topic_reply_button:
+
+				intent = new Intent(topicView, ReplyToTopicCommentSubmissionView.class);
+				intent.putExtra("updateRank", topicView.getRank().getRank());
+				topicView.startActivity(intent); 
+				break;
+
+			case R.id.comment_reply_button:
+
+				intent = new Intent(topicView, ReplyToCommentCommentSubmissionView.class);
+				intent.putExtra("updateRank", topicView.getRank().getRank());
+				int rowNumber = (Integer) v.getTag(); //get the row number of the comment being replied to
+				intent.putExtra("row number", rowNumber);
+				topicView.startActivity(intent); //replying to a comment
+				break;
+
+			default:
+				throw new InterruptedException("Invalid button press");
+		}
+
+
 	}
-	
+
 	/**
 	 * When the user hits an edit button, they can either be editing the topic
 	 * or editing a comment. Since there is a separate button for each comment,
@@ -172,34 +186,34 @@ public class TopicViewController implements AsyncProcess
 	 * @throws InterruptedException when an incorrect id is found
 	 */
 	public void edit(View v) throws InterruptedException{
-		
+
 		Intent intent;
-		 switch (v.getId()) {
-		 
-	         case R.id.topic_edit_button:
-	        
-	        	 intent = new Intent(topicView, EditTopicSubmissionView.class);
-	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
-	        	 topicView.startActivity(intent); 
-	             break;
-	             
-	         case R.id.comment_edit_button:
-	        	 
-	        	 intent = new Intent(topicView, EditCommentSubmissionView.class);
-	     		 intent.putExtra("updateRank", topicView.getRank().getRank());
-	        	 int rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
-	        	 intent.putExtra("row number", rowNumber);
-	        	 topicView.startActivity(intent); 
-	        	 break;
-	        	 
-	         default:
-	 			throw new InterruptedException("Invalid button press");
-		 }
-		 
-		
+		switch (v.getId()) {
+
+			case R.id.topic_edit_button:
+
+				intent = new Intent(topicView, EditTopicSubmissionView.class);
+				intent.putExtra("updateRank", topicView.getRank().getRank());
+				topicView.startActivity(intent); 
+				break;
+
+			case R.id.comment_edit_button:
+
+				intent = new Intent(topicView, EditCommentSubmissionView.class);
+				intent.putExtra("updateRank", topicView.getRank().getRank());
+				int rowNumber = (Integer) v.getTag(); //get the row number of the comment being edited
+				intent.putExtra("row number", rowNumber);
+				topicView.startActivity(intent); 
+				break;
+
+			default:
+				throw new InterruptedException("Invalid button press");
+		}
+
+
 	}
 
-	
+
 	//Called when the image in a comment is clicked
 	//Need to expand the image or something here
 	public void viewImage(View v){
@@ -214,7 +228,7 @@ public class TopicViewController implements AsyncProcess
 	 */
 	/* You will want to append the new topic to the FavouritesModel class you are writing*/
 	public void saveTopic(View v){
-		
+
 	}
 	@Override
 	public void receiveResult(String result) {

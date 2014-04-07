@@ -1,5 +1,6 @@
 package cmput301w14t13.project.controllers.submissions;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +38,7 @@ public abstract class SubmissionController {
 	protected SubmissionView view;
 	protected CommentTreeElementSubmission submission;
 	protected static final int REQUEST_CODE = 1; 
+	Location location = new Location("default"); 
 	
 	public SubmissionController(SubmissionView view) {
 		this.view = view;
@@ -224,5 +226,7 @@ public abstract class SubmissionController {
 			ad.show();
 		}
 	}
+	
+	
 
 }

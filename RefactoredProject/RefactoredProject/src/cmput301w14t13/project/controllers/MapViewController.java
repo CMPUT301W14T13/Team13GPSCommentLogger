@@ -33,8 +33,10 @@ import cmput301w14t13.project.views.TopicView;
  * the Topic or Comments location. This is done in CreateSubmissionView by clicking the 
  * edit location imageButton.
  * 
- * It us also used to Map the locations of a Topics Thread(its replies) as well as the 
+ * It is also used to Map the locations of a Topics Thread(its replies) as well as the 
  * topics location itself. This is Done in TopicView by clicking the "Map Thread" button
+ * Once the user has selected a point for his comment they push the SubmitLocation button
+ * which returns the current points latitude and longitude to CreateSubmissionActivity
  * 
  * 
  * @author navjeetdhaliwal
@@ -48,6 +50,7 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 
 	private GeoPoint returnPoint;
 	private int canSetMarker;
+	
 	/**
 	 * using the CanSetMarker indication the map is set up to either facilitate editing of a users location
 	 * or viewing of locations of a Topic and all of its replies
@@ -59,6 +62,9 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 	 * If canSetMarker is set to 0, then the map is populated with the location of the current Topic and all of its replies
 	 * 
 	 */
+
+	private static TopicView topicView;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,8 +139,8 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 			mapView.getOverlays().add(topicMarker);
 			mapView.invalidate();
 			
-			ArrayList<CommentTreeElement> commentList = commentTree.getCommentList(this);
-			for(int i=1;i<commentList.size();i++){
+			ArrayList<CommentTreeElement> commentList = commentTree.getCommentList(topicView);
+			for(int i=0;i<commentList.size();i++){
 				CommentTreeElement comment = commentList.get(i);			
 				GeoPoint point = new GeoPoint(comment.getGPSLocation().getLatitude(), comment.getGPSLocation().getLongitude());
 				setMarker(point);
@@ -233,4 +239,9 @@ public class MapViewController extends RankedHierarchicalActivity implements Upd
 	{
 		return rank;
 	}
+	
+	public static void setTopicView(TopicView view){
+		topicView = view;
+	}
+	
 }

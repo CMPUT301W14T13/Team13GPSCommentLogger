@@ -150,11 +150,11 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		addSortedList(updateable, sortedList);
 	}
 
-	private void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
+	public void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
 	{
 		int rank = updateable.getRank().getRank();
-		commentListsInDisplayOrder.elementAt(rank).clear();
-		commentListsInDisplayOrder.elementAt(rank).addAll(sortedList);
+		getChildren(updateable).clear();
+		getChildren(updateable).addAll(sortedList);
 		notifyViews();
 	}
 
@@ -195,6 +195,9 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		ArrayList<CommentTreeElement> children = comment.getChildren();
 
 		for (int i = 0; i < children.size(); i++){
+		
+			children.get(i).setIndentLevel(comment.getIndentLevel() + 1);
+			
 			fillTopicChildren(children.get(i), updateable);
 		}
 	}
