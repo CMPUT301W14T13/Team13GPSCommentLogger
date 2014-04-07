@@ -17,9 +17,10 @@ import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
+import cmput301w14t13.project.views.submissions.TopicSubmissionView;
 
 
 
@@ -28,7 +29,7 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 
 	HomeView homeView;
 	TopicView topicView;
-	CreateSubmissionView create;
+	TopicSubmissionView create;
 	Intent intent;
 	CommentTree ct = CommentTree.getInstance();
 
@@ -117,14 +118,14 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 		homeView = getActivity();
 		assertNotNull(homeView);
 
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionView.class.getName(), null , false);
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(TopicSubmissionView.class.getName(), null , false);
 
 
 		Menu menu = homeView.getMenu();
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
 		getInstrumentation().waitForIdleSync();
-		create = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		create = (TopicSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 
 

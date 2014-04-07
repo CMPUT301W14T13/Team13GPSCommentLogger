@@ -12,14 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
-import cmput301w14t13.project.controllers.CreateSubmissionController;
-import cmput301w14t13.project.controllers.HomeViewController;
-import cmput301w14t13.project.controllers.TopicViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.HomeView;
-import cmput301w14t13.project.views.TopicView;
+import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
 
 @SuppressLint("NewApi")
 public class EditCommentIntegrationTest extends
@@ -51,11 +47,11 @@ ActivityInstrumentationTestCase2<HomeView> {
 		HomeView homeView = getActivity();
 		assertNotNull(homeView);
 
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionView.class.getName(), null , false);
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(EditTopicSubmissionView.class.getName(), null , false);
 		Menu menu = homeView.getMenu();
 		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
 
-		final CreateSubmissionView create = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		final EditTopicSubmissionView create = (EditTopicSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
 
 		/* make the comment */
