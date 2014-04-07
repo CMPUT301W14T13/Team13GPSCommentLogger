@@ -47,23 +47,7 @@
         
     </TableRow>
 
-    <!-- Row 2: votes -->
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-        
-        <TextView
-            android:id="@+id/votes"
-            android:layout_weight="1"
-            android:gravity="left"
-
-            android:textSize="20dp"
-            android:text="@string/votes"
-            android:textColor="#243160" />
-        
-    </TableRow>
 
     <!-- Row 3: coord, age, # of comments -->
 

@@ -1,16 +1,120 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cmput301w14t13.project.HelpView$PlaceholderFragment" >
+    
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Help Page" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home View"
+                android:textStyle="bold" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The home view displays all topics available from the server. You can sort them by selecting an option from the drop down menu (see: Sorting). Click on a topic that you are interested in to view its content and replies. You can start your own topic from the home view by pressing the plus button on the top bar. (See: Creating a Topic/Replying) You can view all the topics and comments you have favourited by pressing the star button on the top bar. (See: Favourites View)\n" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Topic View"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The topic view displays the topic and all details associated with it (time posted, gps location, number of comments). You can also see all the comments that are replies to the topic and contribute with your own reply. From the topic view you can:\n\nEdit the topic: You can edit the title, username, text, or even the location and image attachment of the topic.\n\nReply to the topic with a comment: Create a new comment with any username, attach a picture if you want, and reply to the topic.\n\nSave it as a favourite: If you hit the “save” button, the topic will be saved in your favourites list and will be kept updated. (See: Favourites View).\n\nMap the location of all the comments: Clicking “Map Thread” will display a map showing the location of all the comments in the topic.\n\nSelect a username: Clicking “Select Username” will allow you to set or edit usernames that you can use when making topics or comments.\n" 
+				/>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Creating a Topic/Replying"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="When creating a topic or replying to a topic with a comment, you can choose your username, write text, give it a location, and attach a picture. If you’re creating a new topic, you can give a title.\n" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sorting"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To sort items when viewing topics or comments, press the drop down menu and select one of the options available:\n" 
+                />
+            
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Image Attachement"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You can select any image from your phone gallery and attach it to a comment or a new topic.\n" 
+                />
+            
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location Attachement"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select any point on the map and press the submit button to attach it to your comment or new topic. You can zoom in and out with the buttons at the bottom of the map.\n" 
+                />
+            
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favouites View"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Here you can view all the topics and comments that you saved as a favourite. Topics and comments saved here will be updated whenever they are changed automatically." />
+        </LinearLayout>
+
+    </ScrollView>
+    
+</LinearLayout>
+        

@@ -73,7 +73,7 @@ public class CommentAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View vi = convertView;
-		ImageButton replyButton;
+		Button replyButton;
 		Button editButton;
 		CommentTreeElement comment = this.getItem(position);
 		ViewHolder holder = null;
@@ -100,7 +100,7 @@ public class CommentAdapter extends BaseAdapter {
 			imageView.setImageBitmap(comment.getImage());
 		}
 		
-		replyButton = (ImageButton) vi.findViewById(R.id.comment_reply_button);
+		replyButton = (Button) vi.findViewById(R.id.comment_reply_button);
 		replyButton.setTag(position); //gives a unique tag for identifying comments
 
 		editButton = (Button) vi.findViewById(R.id.comment_edit_button);
