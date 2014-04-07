@@ -21,7 +21,17 @@ import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.services.SubmissionMediator;
 import cmput301w14t13.project.views.submissions.SubmissionView;
-
+/**
+ * abstract Class used for Creating and editting our Topics
+ * and Comments, sets up the view necessary for the user
+ * to input the information required, then checks the user 
+ * submitted information for validity and then submits the 
+ * new information in a method appropriate with what the user 
+ * is doing (e.g. Creating or editing)
+ * 
+ * @author nsd
+ *
+ */
 public abstract class SubmissionController {
 
 	protected SubmissionView view;
@@ -32,7 +42,16 @@ public abstract class SubmissionController {
 		this.view = view;
 		this.submission = new CommentTreeElementSubmission(view);
 	}
-	
+	/**
+	 * Constructs the CommentTreeElementSubmission with either a 
+	 * existing CommentTreeElement when editting or a new 
+	 * CommentTreeElement when Creating a Comment or Topic
+	 * Then initializes the Fields for user input when Creating 
+	 * or editing Topics or Comments then constructs the layout
+	 * for the user to see 
+	 * finally sets up an initial location 
+	 * 
+	 */
 	public void initialize()
 	{
 		constructSubmissionData();
@@ -42,7 +61,16 @@ public abstract class SubmissionController {
 	}
 
 	protected abstract void constructSubmissionData();
-
+	
+	/**
+	 * sets up the initial gps location and user locaiton
+	 * gps location is grabbed from LocationSelections which
+	 * gets it from the gps. If LocationSelection returns a null
+	 * (gps has not provided us with a location) we set the location
+	 * to a default location. User Location is set to null and changes
+	 * when/if the user sets their own location
+	 * 
+	 */
 	protected void initializeLocation() {
 		//mapLocation does not have listener attached so it only changes when mapActivity returns a result
 		submission.setGpsLocation(LocationSelection.getInstance().getLocation());
@@ -55,11 +83,12 @@ public abstract class SubmissionController {
 		}
 		submission.setUserLocation(null);
 	}
-	
+
 	protected void initializeFields() {
 		//get the user's global user name so they don't have to always enter it
 		submission.getSubmission().setUsername(CommentTree.getInstance().getCurrentUsername());
 	}
+
 	
 	protected abstract void initializeLayout();
 
@@ -114,8 +143,7 @@ public abstract class SubmissionController {
 	}
 
 	/**
-	 * Constructs the comment/topic to be submitted by checking the
-	 * construct code
+	 * constructs our Submission from user inputted information
 	 */
 	protected void constructSubmission(){
 		if(submission.getUserLocation() == null){
@@ -133,9 +161,14 @@ public abstract class SubmissionController {
 	}
 
 	/**
-	 * Start intent for user to select
-	 * image from gallery and return bitmap
-	 * if conditions are satisfied
+	 * Starts ImageAttachmentController to handle the 
+	 * attaching of a image to the Topic or comment
+	 * The AttachmentController opens a gallery for 
+	 * the user to select from their library of photos
+	 * then handles everything necessary to convert the 
+	 * image into a valid bitmap before attaching the image
+	 * to the Topic or Comment
+	 * 
 	 */
 	public void attachImage(View view) {
 		SubmissionMediator.setSubmission(submission);
@@ -144,8 +177,10 @@ public abstract class SubmissionController {
 	}
 	
 	/**
-	 * Once location button is clicked we check if our user is online, if so we pop up a map 
-	 * to edit location otherwise we open a dialog fragment for offline location editing
+	 * Used for User input of location, if online a map is 
+	 * given for the user to place a marker at his desired 
+	 * location, if offline a dialog fragment pops up for
+	 * manual input of location
 	 * @param view
 	 */
 	public void openMap(View view) {

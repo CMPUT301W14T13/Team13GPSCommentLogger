@@ -27,6 +27,14 @@ import cmput301w14t13.project.services.SubmissionMediator;
 import cmput301w14t13.project.views.submissions.CommentSubmissionView;
 import cmput301w14t13.project.views.submissions.TopicSubmissionView;
 
+/**
+ * Extends SubmissionController for Creating and editting Comments
+ * Checks submission if the user input is valid and the topic is ready to be 
+ * submitted, used when Creating and editing Comments
+ * 
+ * @author nsd
+ *
+ */
 public abstract class CommentSubmissionController extends SubmissionController {
 	
 	public CommentSubmissionController(CommentSubmissionView view) {

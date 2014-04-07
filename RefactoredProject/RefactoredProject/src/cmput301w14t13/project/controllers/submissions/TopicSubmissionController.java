@@ -25,7 +25,13 @@ import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.SubmissionMediator;
 import cmput301w14t13.project.views.submissions.TopicSubmissionView;
-
+/**
+ * Extends SubmissionController for Creating and editting our Topics
+ * Checks submission if the user input is valid and the topic is ready to be 
+ * submitted, used when Creating and editing Topics
+ * @author nsd
+ *
+ */
 public abstract class TopicSubmissionController extends SubmissionController{
 	
 	public TopicSubmissionController(TopicSubmissionView view) {

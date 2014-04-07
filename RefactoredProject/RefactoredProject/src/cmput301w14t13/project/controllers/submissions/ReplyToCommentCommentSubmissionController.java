@@ -9,7 +9,17 @@ import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.views.submissions.ReplyToCommentCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.TopicSubmissionView;
-
+/**
+ * Extends SubmissionController, responsible for handling
+ * creating of Comments in reply to other Comments
+ * initializes the proper fields for user input, extracts
+ * user inputed information from the text fields and processes
+ * submission to be sent to the server, delegates checking
+ * if the submission is valid to the CommentSubmissionController
+ *  
+ * @author nsd
+ *
+ */
 public class ReplyToCommentCommentSubmissionController extends
 		CommentSubmissionController {
 
@@ -31,7 +41,11 @@ public class ReplyToCommentCommentSubmissionController extends
 		EditText text = (EditText) view.findViewById(R.id.set_comment_username);
 		text.setText(CommentTree.getInstance().getCurrentUsername());
 	}
-
+	/**
+	 * saves a local copy of the comment as a reply to the correct parent
+	 * and then sends a post request to the server with the correct parent id
+	 * and the submission itself
+	 */
 	@Override
 	protected void processSubmit() {
 		CommentTree cl = CommentTree.getInstance();
@@ -48,7 +62,10 @@ public class ReplyToCommentCommentSubmissionController extends
 			factory.requestPost(parent.getID(), submission.getSubmission());
 		}
 	}
-
+	/**
+	 * extracts user inputted information from the text fields 
+	 * when user clicks the submit button
+	 */
 	@Override
 	protected void extractTextFields() {
 		EditText text = (EditText) view.findViewById(R.id.set_comment_username);
