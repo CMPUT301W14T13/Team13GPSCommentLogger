@@ -1,0 +1,137 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="10dp" >
+
+    <TextView
+        android:id="@+id/topic_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:text="Title"
+        android:textColor="#000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/coordinates"
+        android:layout_alignBottom="@+id/coordinates"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/coordinates"
+        android:ellipsize="marquee"
+        android:gravity="left"
+        android:singleLine="true"
+        android:text="age"
+        android:textColor="#666666" />
+
+    <TextView
+        android:id="@+id/number_of_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/age"
+        android:layout_alignBottom="@+id/age"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/age"
+        android:gravity="left"
+        android:text="#comments"
+        android:textColor="#666666" />
+
+    <ImageView
+        android:id="@+id/commentImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/number_of_comments"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/topic_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/commentImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Comment" />
+
+    <Button
+        android:id="@+id/topic_edit_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/topic_comment"
+        android:onClick="edit"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/topic_reply_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/topic_comment"
+        android:layout_toRightOf="@+id/topic_edit_button"
+        android:onClick="reply"
+        android:text="Reply" />
+
+    <Button
+        android:id="@+id/topicSaveButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/topic_reply_button"
+        android:layout_alignBottom="@+id/topic_reply_button"
+        android:layout_toRightOf="@+id/topic_reply_button"
+        android:onClick="saveTopic"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/map_thread"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/topicSaveButton"
+        android:layout_alignBottom="@+id/topicSaveButton"
+        android:layout_toRightOf="@+id/topicSaveButton"
+        android:onClick="openMap"
+        android:text="Map Thread" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/topic_edit_button"
+        android:background="@android:color/darker_gray" />
+    
+    <ListView
+        android:id="@+id/comment_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/topic_reply_button" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/coordinates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/topic_title"
+        android:ellipsize="marquee"
+        android:gravity="left"
+        android:text="coord"
+        android:textColor="#666666" />
+
+    <TextView
+        android:id="@+id/topic_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/number_of_comments"
+        android:layout_alignParentRight="true"
+        android:ellipsize="marquee"
+        android:paddingLeft="10dp"
+        android:text="Username" />
+
+</RelativeLayout>
