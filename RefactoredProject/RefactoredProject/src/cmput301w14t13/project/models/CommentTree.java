@@ -74,8 +74,8 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	public void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
 	{
 		int rank = updateable.getRank().getRank();
-		commentListsInDisplayOrder.elementAt(rank).clear();
-		commentListsInDisplayOrder.elementAt(rank).addAll(sortedList);
+		getChildren(updateable).clear();
+		getChildren(updateable).addAll(sortedList);
 		notifyViews();
 	}
 	
