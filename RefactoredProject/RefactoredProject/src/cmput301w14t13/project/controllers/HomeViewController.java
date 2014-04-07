@@ -298,79 +298,9 @@ public class HomeViewController implements AsyncProcess{
 
 		}
 
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if (requestCode == 0){
-			if (resultCode == Activity.RESULT_OK){
-				double latitude = data.getDoubleExtra("lat", LocationSelection.getInstance().getLocation().getLatitude());
-				double longitude = data.getDoubleExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
-				location = new Location("default");
-				location.setLongitude(longitude);
-				location.setLatitude(latitude);
+	
 
-			}
-		}
-	}
-
-	public boolean onNavigationItemSelected(int itemPosition, long itemId)
-	{
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
-
-		// ITEM SELECTION ACTIONS DONE HERE
-		ArrayList<CommentTreeElement> sortedTopics = CommentTree.getInstance().getCommentList(homeView);
-		
-		switch (itemPosition) {
-		case 0:
-			
-			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Proximity to Me",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 1:
-			
-				openMap();
-
-				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
-				Toast.makeText(homeView.getApplicationContext(), "Proximity to Location",
-						Toast.LENGTH_LONG).show();
-			
-			
-			break;
-			
-		case 2:
-			
-			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Pictures",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 3:
-			
-			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
-			
-			Toast.makeText(homeView.getApplicationContext(), "Newest",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 4:
-			
-			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Oldest",
-					Toast.LENGTH_LONG).show();
-			break;
-		case 5:
-			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
-			Toast.makeText(homeView.getApplicationContext(), "Relevant",
-					Toast.LENGTH_LONG).show();
-			break;
-		}
-
-		CommentTree.getInstance().addSortedList(homeView, sortedTopics);
-		
-		return true;
-	}
+	
 
 
 }

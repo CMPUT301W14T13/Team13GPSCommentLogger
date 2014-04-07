@@ -37,7 +37,7 @@ import cmput301w14t13.project.views.TopicView;
  * a marker is placed as a visual aid indicating the current point the user has selected
  * for his comment/Topic.
  * 
- * Once the user has selected a point for his comment they push the SubmitLocation buton
+ * Once the user has selected a point for his comment they push the SubmitLocation button
  * which returns the current points latitude and longitude to CreateSubmissionActivity
  * 
  * This class is also used for our new requirement of displaying all the locations in a Topic thread

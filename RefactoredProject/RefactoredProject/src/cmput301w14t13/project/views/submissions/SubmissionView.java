@@ -5,7 +5,10 @@ import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.controllers.submissions.SubmissionController;
 import cmput301w14t13.project.controllers.submissions.TopicSubmissionController;
+import cmput301w14t13.project.services.LocationSelection;
 import android.app.Activity;
+import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -41,4 +44,18 @@ public abstract class SubmissionView extends RankedHierarchicalActivity implemen
 		controller.submit(v);
 	}
 
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == 1){
+			if (resultCode == RESULT_OK){
+				double latitude = data.getDoubleExtra("lat", LocationSelection.getInstance().getLocation().getLatitude());
+				double longitude = data.getDoubleExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+				Location location = new Location("default");
+				location.setLongitude(longitude);
+				location.setLatitude(latitude);
+				controller.getSubmission().setGpsLocation(location);
+			}
+		}
+	}
 }
