@@ -1,6 +1,4 @@
-package usecasegroup2;
-
-
+package usecasegroup2.integration;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,8 +21,10 @@ import cmput301w14t13.project.views.CreateSubmissionView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 
+
+
 @SuppressLint("NewApi")
-public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeView> {
+public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCase2<HomeView> {
 
 	HomeView homeView;
 	TopicView topicView;
@@ -32,7 +32,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 	Intent intent;
 	CommentTree ct = CommentTree.getInstance();
 
-	public MakeSubmissionTest() {
+	public MakeSubmissionIntegrationTest() {
 		super(HomeView.class);
 	}
 
@@ -116,7 +116,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 
 		homeView = getActivity();
 		assertNotNull(homeView);
-		
+
 		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateSubmissionView.class.getName(), null , false);
 
 
@@ -126,8 +126,8 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 		getInstrumentation().waitForIdleSync();
 		create = (CreateSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
 		assertNotNull(create);
-		
-		
+
+
 		runTestOnUiThread(new Runnable() {
 
 			@Override
@@ -149,7 +149,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 
 				submitButton.performClick();
 
-				
+
 				ArrayList<CommentTreeElement> topics = SortFunctions.sortByNewest(ct.getChildren(homeView));
 				CommentTreeElement topic = topics.get(0);
 
@@ -220,7 +220,7 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 			}
 		});
 	}
-	
+
 	public void testCommentCurrentUsername() throws Throwable{
 
 		intent.putExtra("construct code", 0);
@@ -244,4 +244,6 @@ public class MakeSubmissionTest extends ActivityInstrumentationTestCase2<HomeVie
 
 	}
 }
+
+
 
