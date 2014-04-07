@@ -6,6 +6,11 @@
           android:title="@string/select_username"
           android:showAsAction="ifRoom" />
     
+    <item
+        android:id="@+id/action_help"
+        android:showAsAction="ifRoom"
+        android:title="@string/help"/>
+    
     
     	
 

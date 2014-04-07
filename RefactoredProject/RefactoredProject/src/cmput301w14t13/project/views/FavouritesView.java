@@ -2,13 +2,15 @@ package cmput301w14t13.project.views;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
-import cmput301w14t13.project.auxilliary.adapters.CustomAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateRank;
@@ -59,6 +61,32 @@ public class FavouritesView extends RankedHierarchicalActivity implements Update
 	{
 		super.onPause();
 		CommentTree.getInstance().deleteView(this);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.favourites_action_bar, menu);
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+
+		case R.id.action_help:
+			Intent intent = new Intent(getBaseContext(), HelpView.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getBaseContext().startActivity(intent);
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	

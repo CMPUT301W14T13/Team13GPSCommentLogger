@@ -81,9 +81,15 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
+			
 		case R.id.action_select_username:
 			controller.selectUsername();
 			return true;
+			
+		case R.id.action_help:
+			controller.helpPage();
+			return true;
+			
 		default:
 			return super.onOptionsItemSelected(item);
 		}

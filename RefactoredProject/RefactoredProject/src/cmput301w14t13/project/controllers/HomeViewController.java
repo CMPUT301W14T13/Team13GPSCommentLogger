@@ -19,6 +19,7 @@ import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.views.FavouritesView;
+import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
@@ -194,6 +195,17 @@ public class HomeViewController implements AsyncProcess{
 		}
 	}
 	
+	/**
+	 * This function starts the activity
+	 * for the help page. It is called
+	 * when it's clicked from the options
+	 * menu inside HomeView
+	 */
+	public void helpPage() {
+		Intent intent = new Intent(homeView, HelpView.class);
+		homeView.startActivity(intent);
+	}
+	
 	private void createTopic(){
 		Intent topic = new Intent(homeView, CreateTopicSubmissionView.class);
 		topic.putExtra("updateRank", homeView.getRank().getRank());
@@ -222,6 +234,9 @@ public class HomeViewController implements AsyncProcess{
 				
 			case R.id.action_select_username:
 				selectUsername();
+				
+			case R.id.action_help:
+				helpPage();
 				
 			default:
 				return false;
