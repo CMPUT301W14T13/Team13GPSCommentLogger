@@ -27,8 +27,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Posting to server or grabing from server, or editing objects
- * in the server. 
+ * Responsible for handling all elastic search operations between the device 
+ * and the server 
+ * E.g. pushing Topics or Comments to the server when user creates a Topic 
+ * or Comment. pushing changes in a Topics or Comments field to the server copy of the Topic when 
+ * user edits a Topic or Comment 
  * 
  * @author nsd
  *
@@ -52,7 +55,7 @@ public class ElasticSearchOperations {
 	 * Used when Starting or Restarting the Server
 	 * 
 	 * @param WEB_URL The Servers url
-	 * @return returnValue a string of what is left in the server
+	 * @return returnValue Returns if operation was successful or not 
 	 */
 	public static String deleteAll(String WEB_URL){
 		//hierarchyAdapter changes serializer rules for first arg
@@ -88,6 +91,7 @@ public class ElasticSearchOperations {
 		}
 		return returnValue;
 	}
+	
 	/**
 	 * Searches the server for the Correct CommentTreeElement,which was converted to a jsonObject, using 
 	 * a unique ID, id, then updates the field indicated by , fieldName. 
@@ -157,7 +161,14 @@ public class ElasticSearchOperations {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param id
+	 * @param listName
+	 * @param currentTask
+	 * @param WEB_URL
+	 * @return
+	 */
 	public static String addToList(String id, String listName, Task currentTask, String WEB_URL){
 		//hierarchyAdapter changes serializer rules for first arg
 		//to custom serialization class rules
@@ -212,6 +223,7 @@ public class ElasticSearchOperations {
 		}
 		return returnValue;
 	}
+	
 	/**
 	 * Posts a CommentTreeElement to the Server
 	 * Used when the user creates a new CommentTreeElement
@@ -269,8 +281,6 @@ public class ElasticSearchOperations {
 		return returnValue;
 	}
 	/**
-	 * Searches the Server for the 
-	 * 
 	 * 
 	 * 
 	 * @param currentTask
@@ -332,7 +342,16 @@ public class ElasticSearchOperations {
 		
 		return id;
 	}
-	
+	/**
+	 * Retrieves a CommentTreeElement from the server 
+	 * 
+	 * Used whenever we need to grab Topics or Comments from the server
+	 * like refreshing our topic list when we come online
+	 * 
+	 * @param currentTask the task calling this method
+	 * @param WEB_URL the servers web address
+	 * @return
+	 */
 	public static CommentTreeElement retrieveViewable(Task currentTask, String WEB_URL)
 	{
 		//hierarchyAdapter changes serializer rules for first arg
@@ -392,7 +411,8 @@ public class ElasticSearchOperations {
 		
 	/**
 	 * Modified form https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
-	 * get the http response and return json string
+	 * Converts the http response of the server into a json string
+	 * to be used when grabbing from server.
 	 */
 	private static String getEntityContent(HttpResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(

@@ -3,21 +3,21 @@ package cmput301w14t13.project.models;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.location.Location;
+import android.util.Log;
+import auxilliary.other.NavigationItems;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
 import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.views.HomeView;
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 /**
  * The model for the entire app to modify. It holds the root which contains the list of topics,
@@ -30,17 +30,18 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 {
 	private Stack<CommentTreeElement> stack = new Stack<CommentTreeElement>();
 	private Stack<ArrayList<CommentTreeElement>> commentListsInDisplayOrder = new Stack<ArrayList<CommentTreeElement>>(); 
-	
+
 	private String currentUsername = "Anonymous";
-	
+	private NavigationItems currentNavigationItem = NavigationItems.Relevant;
+	private Location location = new Location("default");
 
 	private static final CommentTree Instance = new CommentTree();
-	
+
 	private CommentTree()
 	{
-		
+
 	}
-	
+
 	public static CommentTree getInstance()
 	{
 		return Instance;
@@ -52,15 +53,15 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	public String getCurrentUsername(){
 		return currentUsername;
 	}
-	
+
 	public ArrayList<CommentTreeElement> getCommentList(RankedHierarchicalActivity updateable){
 		return commentListsInDisplayOrder.elementAt(updateable.getRank().getRank());
 	}
-	
+
 	public ArrayList<CommentTreeElement> getChildren(RankedHierarchicalActivity updateable){
 		return stack.elementAt(updateable.getRank().getRank()).getChildren();
 	}
-	
+
 	/**
 	 * Adds a CommentTreeElement to another CommentTreeElement that is currently
 	 * on top of the CommentTree stack
@@ -73,8 +74,8 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		stack.peek().addChild(ele);
 		notifyViews();
 	}
-	
-	
+
+
 	/**
 	 * Replaces the Comment list specified by the injected activity ,updateable, with
 	 * the provided ArrayList, sortedList,
@@ -148,7 +149,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		ArrayList<CommentTreeElement> sortedList = SortFunctions.sortByMostRelevant(getCommentList(updateable));
 		addSortedList(updateable, sortedList);
 	}
-	
+
 	private void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
 	{
 		int rank = updateable.getRank().getRank();
@@ -156,9 +157,9 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		commentListsInDisplayOrder.elementAt(rank).addAll(sortedList);
 		notifyViews();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * updates the commentList to be displayed in a topic. For each topic child,
 	 * it gets the children all the way down and adds them to the comment list.
@@ -170,7 +171,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 			fillTopicChildren(each,updateable);
 		}
 	}
-	
+
 	public void updateTop(){
 		int rank = stack.size()-1;
 		commentListsInDisplayOrder.elementAt(rank).clear();
@@ -178,7 +179,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 			fillTopicChildren(each,rank);
 		}
 	}
-	
+
 	/**
 	 *
 	 * This function takes in a topic child and then recursively goes down the child comment
@@ -192,12 +193,12 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	public void fillTopicChildren(CommentTreeElement comment, RankedHierarchicalActivity updateable){
 		commentListsInDisplayOrder.elementAt(updateable.getRank().getRank()).add(comment);
 		ArrayList<CommentTreeElement> children = comment.getChildren();
-		
+
 		for (int i = 0; i < children.size(); i++){
 			fillTopicChildren(children.get(i), updateable);
 		}
 	}
-	
+
 	public void fillTopicChildren(CommentTreeElement comment, int rank){
 		commentListsInDisplayOrder.elementAt(rank).add(comment);
 		ArrayList<CommentTreeElement> children = comment.getChildren();
@@ -205,12 +206,12 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 			fillTopicChildren(children.get(i), rank);
 		}
 	}
-	
+
 	public void updateCommentList(RankedHierarchicalActivity updateable){
 		update(updateable);
 		notifyViews();
 	}
-	
+
 	public void pushToCommentStack(CommentTreeElement comment)
 	{
 		stack.push(comment);
@@ -218,21 +219,21 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		updateTop();
 		notifyViews();
 	}
-	
+
 	public void popRoot()
 	{
 		stack.pop();
 	}
-	
+
 	public boolean isEmpty()
 	{
 		return stack.isEmpty();
 	}
-	
+
 	public CommentTreeElement peek(){
 		return stack.peek();
 	}
-	
+
 
 	public synchronized void refresh() throws InterruptedException
 	{
@@ -253,7 +254,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		wait();
 		pushToCommentStack(task.getObj());
 	}
-	
+
 	/* used for non- root pops off the comment tree stack */
 	public synchronized void popFromCommentStack(Context cxt) throws InterruptedException
 	{
@@ -262,7 +263,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 
 		commentListsInDisplayOrder.pop(); /* cached versions of the linearized hierarchy */
 		commentListsInDisplayOrder.pop();
-		
+
 		Task task;
 		if(NetworkReceiver.isConnected)
 		{
@@ -281,10 +282,72 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	public synchronized void receiveResult(String result) {
 		notify();
 	}
-	
+
 	public CommentTreeElement getElement(RankedHierarchicalActivity updateable)
 	{
 		return stack.elementAt(updateable.getRank().getRank());
 	}
-	
+
+
+
+	public void sortElements(NavigationItems item, RankedHierarchicalActivity view, Location location)
+	{
+		ArrayList<CommentTreeElement> sortedTopics = getCommentList(view);
+		switch (item) {
+			case ProximityToMe:
+
+				sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
+				if(view instanceof HomeView){
+					currentNavigationItem = NavigationItems.ProximityToMe;
+					this.location = location;
+				}
+				break;
+
+			case ProximityToLocation:
+				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);			
+				if(view instanceof HomeView){
+					currentNavigationItem = NavigationItems.ProximityToLocation;
+					this.location = location;
+				}
+				break;
+
+			case Pictures:
+				sortedTopics = SortFunctions.sortByPicture(sortedTopics);
+				if(view instanceof HomeView){
+					currentNavigationItem = NavigationItems.Pictures;
+					this.location = location;
+				}
+				break;
+			case Newest:
+
+				sortedTopics = SortFunctions.sortByNewest(sortedTopics);
+				if(view instanceof HomeView){
+					currentNavigationItem = NavigationItems.Newest;
+					this.location = location;
+				}
+				break;
+
+			case Oldest:
+
+				sortedTopics = SortFunctions.sortByOldest(sortedTopics);
+				if(view instanceof HomeView){
+					currentNavigationItem = NavigationItems.Oldest;
+					this.location = location;
+				}
+				break;
+			case Relevant:
+				sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
+				if(view instanceof HomeView){
+					currentNavigationItem = NavigationItems.Relevant;
+					this.location = location;
+				}
+				break;
+		}
+		ActionBar actionBar = view.getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		//actionBar.setListNavigationCallbacks(view.adapter, this);
+		actionBar.setSelectedNavigationItem(item.getValue());
+		addSortedList(view, sortedTopics);
+	}
+
 }

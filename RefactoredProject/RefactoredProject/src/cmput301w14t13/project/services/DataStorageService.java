@@ -20,7 +20,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 /**
- * Responsible for running 
+ * Responsible for running all tasks, such as posting to server,
+ * grabbing from server, and editing objects in the server
+ * 
+ * Used Whenever online and Creating new Topics or Comments to push them to server
+ * or for editing comments or Topics to push the changes to server 
+ * 
  * @author nsd
  *
  */
@@ -47,18 +52,20 @@ public class DataStorageService extends Service
 
 	//data manager for local data storage
 	private static final String DATA_STORAGE_LOCATION = "data.sav";
-
 	private static ServerProxy offlineDataEntity = null;
 	private static final String WEB_URL = "http://cmput301.softwareprocess.es:8080/cmput301w14t13/viewables/";
-
 	private static final DataStorageService Instance = new DataStorageService();
-
 	private static CacheProcessor cacheProcessor;
 	
 	private DataStorageService()
 	{
 	}
-	
+	/**
+	 * Creates a new ServerProxy with a, DATA_STORAGE_LOCATION, on the phone
+	 * for offline caching as well as setting up a cacheprocessor to cache tasks
+	 * to be completed when connected to server 
+	 * @param hv HomeView activity 
+	 */
 	public void registerContext(final HomeView hv)
 	{
 		if(offlineDataEntity == null)

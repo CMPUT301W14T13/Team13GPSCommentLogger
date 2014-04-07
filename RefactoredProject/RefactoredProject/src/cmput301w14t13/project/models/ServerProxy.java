@@ -137,7 +137,7 @@ public class ServerProxy implements AsyncProcess{
 	public void saveTask(Task newTask)
 	{
 		this.cachedTasks.add(newTask);
-		DataStorageService.getInstance().getCacheProcessor().alertNew();
+		DataStorageService.getInstance().getCacheProcessor().alertNewOrOnline();
 		try {
 			Log.w("DataSaving", "save task" );
 			save();

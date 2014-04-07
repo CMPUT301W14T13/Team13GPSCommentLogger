@@ -2,6 +2,7 @@ package cmput301w14t13.project.services;
 
 import android.util.Log;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
+import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.ServerProxy;
 import cmput301w14t13.project.models.tasks.Task;
 
@@ -27,7 +28,6 @@ public class CacheProcessor extends Thread {
 			super();
 			this.cp = cp;
 		}
-		
 		@Override
 		public void run() {
 			Task task = offlineDataEntity.getTasks().get(0);
@@ -87,6 +87,7 @@ public class CacheProcessor extends Thread {
 			{
 				while(!offlineDataEntity.getTasks().isEmpty())
 				{
+					if(!NetworkReceiver.isConnected) break;
 					CacheTask task = new CacheTask(this);
 					task.start();
 					task.join();
@@ -96,7 +97,7 @@ public class CacheProcessor extends Thread {
 						offlineDataEntity.removeTask();
 					}
 				}
-				waitForNew();
+				waitForNewOrOnline();
 			}
 		}
 		catch(InterruptedException ex)
@@ -105,11 +106,11 @@ public class CacheProcessor extends Thread {
 		}
 	}
 
-	private synchronized void waitForNew() throws InterruptedException {
+	private synchronized void waitForNewOrOnline() throws InterruptedException {
 		wait();		
 	}
 
-	public synchronized void alertNew()
+	public synchronized void alertNewOrOnline()
 	{
 		notify();
 	}

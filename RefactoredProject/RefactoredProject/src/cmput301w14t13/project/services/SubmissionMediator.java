@@ -2,6 +2,11 @@ package cmput301w14t13.project.services;
 
 import cmput301w14t13.project.models.content.CommentTreeElementSubmission;
 
+/**
+ * ASK KYO 
+ * @author nsd
+ *
+ */
 public class SubmissionMediator {
 	
 	private static CommentTreeElementSubmission submission;

@@ -1,17 +1,29 @@
 package cmput301w14t13.project.controllers;
 
-import java.util.ArrayList;
-
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.location.Location;
+import android.os.IBinder;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ListView;
+import auxilliary.other.NavigationItems;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
-import cmput301w14t13.project.auxilliary.tools.SortFunctions;
 import cmput301w14t13.project.models.CommentTree;
-import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.tasks.InitializationServerTask;
 import cmput301w14t13.project.models.tasks.MySavesLocalTask;
-import cmput301w14t13.project.models.tasks.RootSearchServerTask;
-import cmput301w14t13.project.models.tasks.SearchServerTask;
 import cmput301w14t13.project.models.tasks.Task;
 import cmput301w14t13.project.models.tasks.TaskFactory;
 import cmput301w14t13.project.services.DataStorageService;
@@ -22,27 +34,6 @@ import cmput301w14t13.project.views.FavouritesView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * 
@@ -373,58 +364,11 @@ public class HomeViewController implements AsyncProcess{
 	{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
-
-
-		
-		switch (itemPosition) {
-		//SortByCurrentLocation
-		case 0:
-			
-			CommentTree.getInstance().sortListByCurrentLocation(homeView);
-			Toast.makeText(homeView.getApplicationContext(), "Proximity to Me",
-					Toast.LENGTH_SHORT).show();
-			break;
-		//SortByGivenLocation	
-		case 1:
-			
-				openMap();
-				CommentTree.getInstance().sortListByGivenLocation(homeView, location);
-				Toast.makeText(homeView.getApplicationContext(), "Proximity to Location",
-						Toast.LENGTH_SHORT).show();
-			
-			
-			break;
-		//SortByPicture	
-		case 2:
-			
-			CommentTree.getInstance().sortListByPicture(homeView);
-			Toast.makeText(homeView.getApplicationContext(), "Pictures",
-					Toast.LENGTH_SHORT).show();
-			break;
-		//SortByNewest	
-		case 3:
-			
-			CommentTree.getInstance().sortListByNewest(homeView);
-			Toast.makeText(homeView.getApplicationContext(), "Newest",
-					Toast.LENGTH_SHORT).show();
-			break;
-		//SortByOldest	
-		case 4:
-			
-			CommentTree.getInstance().sortListByOldest(homeView);
-			Toast.makeText(homeView.getApplicationContext(), "Oldest",
-					Toast.LENGTH_SHORT).show();
-			break;
-		//SortByMostRelevant	
-		case 5:
-			CommentTree.getInstance().sortListByMostRelevant(homeView);
-			Toast.makeText(homeView.getApplicationContext(), "Relevant",
-					Toast.LENGTH_SHORT).show();
-			break;
+		if(itemPosition == 1)
+		{	
+			openMap();
 		}
-
+		CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), homeView, location);
 		return true;
 	}
-
-
 }

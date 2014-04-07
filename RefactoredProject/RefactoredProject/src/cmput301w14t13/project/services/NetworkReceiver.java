@@ -32,7 +32,13 @@ public class NetworkReceiver extends BroadcastReceiver
         Log.w("IsOnline",Boolean.toString(netInfo != null && netInfo.isConnectedOrConnecting()));
         isConnected = netInfo != null && netInfo.isConnected();
     }
-	
+	/**
+	 * Upon receiving a network change, we check if we are online or offline
+	 * if online, we tell user they are on online mode and we refresh the CommentTree
+	 * with the latest Topics and Comments
+	 * of offline, we tell the user they are on offline mode and refresh the CommentTree to show
+	 * the latest grabbed Topics or Comments on the CommentTree
+	 */
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
@@ -57,6 +63,7 @@ public class NetworkReceiver extends BroadcastReceiver
 		    			toast.show();
 						CommentTree.getInstance().refresh();
 	    			}
+	    			DataStorageService.getInstance().getCacheProcessor().alertNewOrOnline();
 				} catch (InterruptedException e)
 				{
 					e.printStackTrace();

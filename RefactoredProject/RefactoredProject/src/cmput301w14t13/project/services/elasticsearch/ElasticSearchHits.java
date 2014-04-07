@@ -3,8 +3,13 @@ package cmput301w14t13.project.services.elasticsearch;
 import java.util.Collection;
 
 /**
- * Holder for elastic search results.
- * @param  <T >
+ * Holder for elastic search results that come from 
+ * the server
+ * 
+ * Used whenever we grab from server
+ * @author nsd
+ *
+ * @param <T>
  */
 public class ElasticSearchHits<T> {
 	

@@ -6,7 +6,8 @@ import java.util.Collection;
 //Taken From https://github.com/rayzhangcl/ESDemo/tree/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei
 
 /**
- * Holder or internet response objects of elastic search
+ * Holder for the servers response to an elastic search operation
+ * 
  * @param  <T >
  */
 public class ElasticSearchSearchResponse<T> {

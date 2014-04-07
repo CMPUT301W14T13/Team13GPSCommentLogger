@@ -1,5 +1,7 @@
 package cmput301w14t13.project.models.tasks;
 
+import android.app.Activity;
+import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
 
@@ -38,3 +40,5 @@ public abstract class Task
 	public abstract String doTask() throws InterruptedException;
 
 }
+
+

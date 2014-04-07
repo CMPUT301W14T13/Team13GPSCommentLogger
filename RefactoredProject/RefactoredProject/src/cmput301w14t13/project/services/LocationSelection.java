@@ -126,22 +126,6 @@ public class LocationSelection
 		
 	}
 
-
-	/**
-	 * This function is responsible for
-	 * returning the user's current location.
-	 * 
-	 * This function will check for GPS and network
-	 * location availability. Preference is given
-	 * to returning a more accurate GPS location,
-	 * otherwise a network location is returned.
-	 * 
-	 * The function will
-	 * stop location manager and listener,
-	 * returns current network/GPS location.
-	 * 
-	 * @return Location
-	 */
 	public Location getLocation() {
 		
 		return gpsLocation;
