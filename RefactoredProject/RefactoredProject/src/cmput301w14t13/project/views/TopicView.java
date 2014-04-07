@@ -33,7 +33,7 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.topic_view_old);  
+		setContentView(R.layout.topic_view);  
 	}
 
 	@Override
