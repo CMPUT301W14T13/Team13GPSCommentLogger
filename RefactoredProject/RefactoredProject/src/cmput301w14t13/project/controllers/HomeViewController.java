@@ -234,9 +234,11 @@ public class HomeViewController implements AsyncProcess{
 				
 			case R.id.action_select_username:
 				selectUsername();
+				return true;
 				
 			case R.id.action_help:
 				helpPage();
+				return true;
 				
 			default:
 				return false;
