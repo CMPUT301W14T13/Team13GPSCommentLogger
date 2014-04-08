@@ -35,7 +35,7 @@ public class BrowseCommentRepliesTest extends ActivityInstrumentationTestCase2<H
 		homeView = getActivity();
 		assertNotNull(homeView);
 
-		Thread.sleep(10000);
+		//Thread.sleep(10000);
 
 		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(TopicView.class.getName(), null , false);
 

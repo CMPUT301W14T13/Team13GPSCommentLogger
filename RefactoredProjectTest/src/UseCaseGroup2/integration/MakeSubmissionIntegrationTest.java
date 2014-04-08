@@ -5,7 +5,6 @@ import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.location.Location;
@@ -15,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import cmput301w14t13.project.auxilliary.tools.SortFunctions;
+import cmput301w14t13.project.controllers.HomeViewController;
 import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
@@ -33,7 +33,8 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 	TopicView topicView;
 	SubmissionView create;
 	CommentTree ct = CommentTree.getInstance();
-
+	protected HomeViewController controller;
+	
 	public MakeSubmissionIntegrationTest() {
 		super(HomeView.class);
 	}
@@ -108,10 +109,11 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 	 */
 	public void testMakeTopic() throws Throwable {
 
-
-
+		
 		homeView = getActivity();
 		assertNotNull(homeView);
+		controller = new HomeViewController(homeView);
+		controller.init();
 		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateTopicSubmissionView.class.getName(), null , false);
 
 
@@ -138,7 +140,7 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 				assertNotNull(commentText);
 				assertNotNull(submitButton);
 
-				title.setText("title");
+				title.setText("Junit Test");
 				username.setText("User1");
 				commentText.setText("text");
 
@@ -191,9 +193,58 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 
 	public void testMakeComment() throws Throwable{
 
-		homeView = getActivity();
 
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(TopicView.class.getName(), null , false);
+
+		homeView = getActivity();
+		assertNotNull(homeView);
+		controller = new HomeViewController(homeView);
+		controller.init();
+		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(CreateTopicSubmissionView.class.getName(), null , false);
+		ct.setCurrentUsername("Set username test");
+
+		Menu menu = homeView.getMenu();
+		menu.performIdentifierAction(cmput301w14t13.project.R.id.action_post_thread, 0);
+
+		getInstrumentation().waitForIdleSync();
+		create = (CreateTopicSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
+		assertNotNull(create);
+
+
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				EditText title = (EditText) create.findViewById(cmput301w14t13.project.R.id.setTitle);
+				EditText username = (EditText) create.findViewById(cmput301w14t13.project.R.id.setTopicUsername);
+				EditText commentText = (EditText) create.findViewById(cmput301w14t13.project.R.id.setTopicText);	
+				Button submitButton = (Button) create.findViewById(cmput301w14t13.project.R.id.submit);
+
+				assertNotNull(title);
+				assertNotNull(username);
+				assertNotNull(commentText);
+				assertNotNull(submitButton);
+
+				title.setText("Junit Test");
+				username.setText("User1");
+				commentText.setText("text");
+
+				submitButton.performClick();
+
+
+				ArrayList<CommentTreeElement> topics = SortFunctions.sortByNewest(ct.getChildren(homeView));
+				CommentTreeElement topic = topics.get(0);
+
+				assertEquals("Titles not the same", topic.getTitle(), title.getText().toString() );
+				assertEquals("Usernames not the same", topic.getUsername(), username.getText().toString());
+				assertEquals("Texts not the same", topic.getCommentText(), commentText.getText().toString());
+
+
+			}
+		});
+		
+		
+		submissionMonitor = getInstrumentation().addMonitor(TopicView.class.getName(), null , false);
 
 
 		runTestOnUiThread(new Runnable() {
@@ -201,6 +252,7 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 			@Override
 			public void run() {
 				ListView topicList = (ListView) homeView.findViewById(cmput301w14t13.project.R.id.topic_listview);
+				assertNotNull(topicList);
 				topicList.performItemClick(topicList.getChildAt(0), 0,
 						topicList.getAdapter().getItemId(0));
 			}
@@ -223,8 +275,6 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 
 				Button replyButton = (Button) topicView.findViewById(cmput301w14t13.project.R.id.topic_reply_button);
 				assertNotNull(replyButton);
-
-
 				replyButton.performClick();
 
 			}
@@ -249,9 +299,11 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 				assertNotNull(username);
 				assertNotNull(commentText);
 				assertNotNull(submitButton);
-
+				
+				assertEquals("Username should be current username", ct.getCurrentUsername(), username.getText().toString());
+				
 				username.setText("User1");
-				commentText.setText("text");
+				commentText.setText("Junit test comment");
 
 				submitButton.performClick();
 
@@ -270,72 +322,7 @@ public class MakeSubmissionIntegrationTest extends ActivityInstrumentationTestCa
 
 
 
-	public void testCommentCurrentUsername() throws Throwable{
-
-		ct.setCurrentUsername("Austin test");
-		homeView = getActivity();
-
-		Instrumentation.ActivityMonitor submissionMonitor = getInstrumentation().addMonitor(TopicView.class.getName(), null , false);
-
-
-		runTestOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				ListView topicList = (ListView) homeView.findViewById(cmput301w14t13.project.R.id.topic_listview);
-				topicList.performItemClick(topicList.getChildAt(0), 0,
-						topicList.getAdapter().getItemId(0));
-			}
-
-		});
-
-
-		getInstrumentation().waitForIdleSync();
-		topicView = (TopicView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
-		assertNotNull(topicView);
-
-		submissionMonitor = getInstrumentation().addMonitor(ReplyToTopicCommentSubmissionView.class.getName(), null , false);
-
-
-
-		runTestOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-
-				Button replyButton = (Button) topicView.findViewById(cmput301w14t13.project.R.id.topic_reply_button);
-				assertNotNull(replyButton);
-
-
-				replyButton.performClick();
-
-			}
-
-		});
-
-
-		getInstrumentation().waitForIdleSync();
-		create = (ReplyToTopicCommentSubmissionView) getInstrumentation().waitForMonitorWithTimeout(submissionMonitor, 5000);
-		assertNotNull(create);
-
-
-		runTestOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-
-				EditText username = (EditText) create.findViewById(cmput301w14t13.project.R.id.set_comment_username);
-
-				assertNotNull(username);
-
-				assertEquals("Username should be current username", ct.getCurrentUsername(), username.getText().toString());
-			}
-
-		});
-
-		create.finish();
-		topicView.finish();
-	}
+	
 }
 
 

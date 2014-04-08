@@ -52,13 +52,15 @@ ActivityInstrumentationTestCase2<HomeView> {
 				assertNotNull(addUsername);
 				assertNotNull(addButton);
 				assertNotNull(usernameList);
-				assertTrue("Listview should be empty", usernameList.getAdapter().getCount() == 0);
+				
 
 				addUsername.setText("Austin");
 				addButton.performClick();
 				addUsername.setText("Austin2");
 				addButton.performClick();
 
+				
+				
 				usernameList.performItemClick(usernameList.getChildAt(0), 0,
 						usernameList.getAdapter().getItemId(0));
 
@@ -70,6 +72,10 @@ ActivityInstrumentationTestCase2<HomeView> {
 
 				assertEquals("Current username wasn't set", "Austin2", ct.getCurrentUsername());
 
+				/*Button deleteButton = (Button) selectUsername.findViewById(cmput301w14t13.project.R.id.deleteButton);
+				deleteButton.performClick();
+				deleteButton.performClick();*/
+				
 			}
 		});
 	}
