@@ -56,7 +56,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="When creating a topic or replying to a topic with a comment, you can choose your username, write text, give it a location, and attach a picture. If you’re creating a new topic, you can give a title.\n" />
+                android:text="When creating a topic or replying to a topic with a comment, you can choose your username, write text, give it a location, and attach a picture. If you’re creating a new topic, you can give it a title.\n" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -69,13 +69,25 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To sort items when viewing topics or comments, press the drop down menu and select one of the options available:\n" />
+                android:text="To sort items when viewing topics or comments, press the drop down menu and select one of the options available:
+
+\n\nRelevant: this will display topics that are both new and close to you
+
+\n\nProximity to Me: this will display topics and comments closest to you
+
+\n\nProximity to Location: this will display topics and comments closest to a location of your choice
+
+\n\nPictures: this will display topics and comments closest to you that have pictures attached
+
+\n\nNewest: this will display topics and comments in order of newest to oldest created
+
+\n\nOldest: this will display topics and comments in order of oldest to newest created\n" />
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Image Attachement"
+                android:text="Image Attachment"
                 android:textStyle="bold" />
 
             <TextView
@@ -88,7 +100,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location Attachement"
+                android:text="Location Attachment"
                 android:textStyle="bold" />
 
             <TextView
@@ -101,15 +113,54 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Favouites View"
+                android:text="Favourites View"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Here you can view all the topics and comments that you saved as a favourite. Topics and comments saved here will be updated whenever they are changed automatically." />
-        </LinearLayout>
+                android:text="Here you can view all the topics and comments that you saved as a favourite. Topics and comments saved here will be updated whenever they are changed automatically.\n" />
+        
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What does the -Map Thread- button do?"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The map thread button shows you a map and displays a marker for every comment location in the current topic, indicating where that comment was posted or what location it is referencing. The different coloured marker is where the topic was posted.\n" />
+       
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="But I don't want my location posted for everyone to see!"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Locations are a very important part of the app, but it is understandable to not want locations such as your home displayed for everyone to see. There are two options to remedy this. The first is to turn off the gps on your phone which will set your default location to (0,0), the middle of the ocean. The second way is to edit your location when creating a topic or comment by clicking the marker icon and then selecting a random location on the map.\n" />
+           
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I accidentally submitted a comment with a location I didn't want"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go to where your comment was posted and click the edit button. Select the marker to open the map and select a new location. Once submitted, this will overwrite the previous location associated with the comment." />
+            </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
