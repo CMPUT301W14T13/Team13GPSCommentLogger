@@ -513,6 +513,13 @@ public class ServerProxy implements AsyncProcess{
 		return array;
 	}
 
+	/**
+	 * Sets up the preferences to prepare for saving and loading of
+	 * usernames. This is only initialized in SelectUsernameController
+	 * since that is where the usernames are managed
+	 * 
+	 * @param context  The context of SelectUsernameController
+	 */
 	public void initializePrefs(Context context){
 		
 		

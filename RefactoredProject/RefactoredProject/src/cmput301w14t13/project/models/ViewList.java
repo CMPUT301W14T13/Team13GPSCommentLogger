@@ -6,7 +6,6 @@ package cmput301w14t13.project.models;
  * 
  * @author Abram Hindle
  *
- * @param <M>
  */
 import java.util.ArrayList;
 
@@ -30,16 +29,31 @@ public class ViewList<V extends UpdateInterface> {
 		}
 	}
 
+	/**
+	 * Adds a view so that it can be notified when the model changes
+	 * 
+	 * @param view  The view that was created such as HomeView or TopicView
+	 */
     public void addView(V view) {
         if (!views.contains(view)) {
             views.add(view);
         }
     }
 
+    /**
+	 * Deletes a view so that it can be no longer notified when the model changes
+	 * 
+	 * @param view  The view that was destroyed such as HomeView or TopicView
+	 */
     public void deleteView(V view) {
         views.remove(view);
     }
 
+    /**
+     * Called whenever there is a change in the model. This will call the update
+     * methods of these views so that they may update themselves with the newest
+     * data from the model
+     */
     public void notifyViews() {
         for (final V view : views) {
             hv.runOnUiThread(new Runnable()

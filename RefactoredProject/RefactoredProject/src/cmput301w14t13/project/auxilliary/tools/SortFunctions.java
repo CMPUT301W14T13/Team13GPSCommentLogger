@@ -225,7 +225,7 @@ public class SortFunctions
 	/**
 	 * Method sorts comments or topics by what is
 	 * most relevant. Relevance is defined as comments
-	 * or topics that are within 50 KM o the user, sorted
+	 * or topics that are within 50 KM of the user, sorted
 	 * by newest.
 	 * 
 	 * This method checks all elements in a given ArrayList of
@@ -243,9 +243,6 @@ public class SortFunctions
 	public static ArrayList<CommentTreeElement> sortByMostRelevant(ArrayList<CommentTreeElement> viewables){
 		
 		viewables = sortByCurrentLocation(viewables);
-		/*for (int i = 0; i < viewables.size(); i++){
-			System.out.println(viewables.get(i).getTimestamp() + " " + viewables.get(i).getGPSLocation().getLatitude() + " " + viewables.get(i).getGPSLocation().getLongitude());
-		}*/
 		
 		ArrayList<CommentTreeElement> mostRelevant = new ArrayList<CommentTreeElement>();
 		ArrayList<CommentTreeElement> leastRelevant = new ArrayList<CommentTreeElement>();
@@ -260,7 +257,6 @@ public class SortFunctions
 			for (int i = 0; i < viewables.size();){
 
 				location = viewables.get(i).getGPSLocation();
-				//System.out.println(currentLocation.distanceTo(location));
 				if (currentLocation.distanceTo(location) <= 50000){
 
 					mostRelevant.add(viewables.remove(i));
@@ -273,7 +269,6 @@ public class SortFunctions
 
 		}
 		
-		//System.out.println(mostRelevant);
 		mostRelevant = sortByNewest(mostRelevant);
 		mostRelevant.addAll(leastRelevant);
 		return mostRelevant;

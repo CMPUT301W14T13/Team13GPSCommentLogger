@@ -42,22 +42,64 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 
 	}
 
+	/**
+	 * Singleton for our model. Use this when you need access to the methods 
+	 * within CommentTree that will modify the model of the app such as adding
+	 * topics and comments.
+	 * @return the instance of the model
+	 */
 	public static CommentTree getInstance()
 	{
 		return Instance;
 	}
+	
+	/**
+	 * Sets the global username to be used throughout the app. With this set,
+	 * topics and comments will automatically have their username field set to
+	 * this name unless changed during the creation of the topic or comment. This
+	 * username is set in SelectUsernameController by the user.
+	 * 
+	 * 
+	 * @param username  the username that you would like to use globally
+	 * throughout the app
+	 */
 	public void setCurrentUsername(String username){
 		currentUsername = username;
 		notifyViews();
 	}
+	
+	/**
+	 * Used during creation of a topic or comment to automatically
+	 * set the EditText field to the global username.
+	 * 
+	 * @return  the global username being used currently
+	 */
 	public String getCurrentUsername(){
 		return currentUsername;
 	}
 
+	
+	/**
+	 * Gets the comment list of the current topic being viewed so it can be displayed
+	 * to the user. This is obtained in TopicView
+	 * 
+	 * @param updateable  The current topic view being viewed. This view is then used
+	 * to obtain its respective list of comments
+	 * 
+	 * @return  the topic's list of comments to be displayed to the user in TopicView
+	 */
 	public ArrayList<CommentTreeElement> getCommentList(RankedHierarchicalActivity updateable){
 		return commentListsInDisplayOrder.elementAt(updateable.getRank().getRank());
 	}
 
+	
+	/**
+	 * Gets the topics to be displayed to the user. The list of topics are only displayed
+	 * in HomeView, so only a HomeView should be passed in here.
+	 * 
+	 * @param updateable  the HomeView where the topics are to be displayed
+	 * @return  The list of topics to be displayed
+	 */
 	public ArrayList<CommentTreeElement> getChildren(RankedHierarchicalActivity updateable){
 		return stack.elementAt(updateable.getRank().getRank()).getChildren();
 	}
@@ -150,6 +192,15 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		addSortedList(updateable, sortedList);
 	}
 
+	
+	/**
+	 * This sets the current list of topics to the sorted list being passed in. The reason for this is so
+	 * the topics are still in sorted order after leaving HomeView, such as when viewing a topic and then
+	 * returning.
+	 * 
+	 * @param updateable  The view whose children are to be set to be sortedList
+	 * @param sortedList  The sorted list to set the children of HomeView to
+	 */
 	public void addSortedList(RankedHierarchicalActivity updateable, ArrayList<CommentTreeElement> sortedList)
 	{
 		int rank = updateable.getRank().getRank();
@@ -210,6 +261,13 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		}
 	}
 
+	
+	/**
+	 * Updates the comment list of the TopicView being currently viewed. This is done
+	 * to update any changes to the commentList immediately
+	 * 
+	 * @param updateable  The view whose comment list is to be updated
+	 */
 	public void updateCommentList(RankedHierarchicalActivity updateable){
 		update(updateable);
 		notifyViews();
@@ -238,6 +296,16 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 	}
 
 
+	/**
+	 * Refreshes the HomeView or TopicView depending on whether or not there is a 
+	 * detected internet connection. If there is an internet connection then the 
+	 * topics will be pulled from the server and update with the latest changes. If there
+	 * is no connection then the user will be switched to an offline mode where they can
+	 * view anything they have looked at before their disconnection. Anything they look at
+	 * is cached locally.
+	 * 
+	 * @throws InterruptedException
+	 */
 	public synchronized void refresh() throws InterruptedException
 	{
 		CommentTreeElement ele = stack.pop();
@@ -286,6 +354,14 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 		notify();
 	}
 
+	
+	/**
+	 * Get the current topic being viewed. This is used in TopicView so that the
+	 * current topic being viewed can then be modified or updated.
+	 * 
+	 * @param updateable  the view of the topic being looked at
+	 * @return  the topic
+	 */
 	public CommentTreeElement getElement(RankedHierarchicalActivity updateable)
 	{
 		return stack.elementAt(updateable.getRank().getRank());

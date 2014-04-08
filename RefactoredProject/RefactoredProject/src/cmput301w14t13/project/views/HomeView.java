@@ -259,6 +259,9 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		controller.openMap();
 	}
 		
+	/**
+	 * Used to get the location chosen during the sortByGivenLocation function
+	 */
 	@SuppressLint("NewApi")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)

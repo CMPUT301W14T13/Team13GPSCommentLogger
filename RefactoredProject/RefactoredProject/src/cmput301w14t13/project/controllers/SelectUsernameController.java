@@ -125,6 +125,9 @@ public class SelectUsernameController extends Activity implements UpdateInterfac
 		finish();
 	}
 
+	/**
+	 * Clear the adapter, get the latest usernames, and update the adapter
+	 */
 	@Override
 	public void update()
 	{

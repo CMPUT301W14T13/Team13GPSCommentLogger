@@ -29,22 +29,40 @@ public abstract class SubmissionView extends RankedHierarchicalActivity implemen
 		}
 	}
 	
+	/**
+	 * Start image attachment activity
+	 * 
+	 * @param v the view of the button that was clicked
+	 */
 	public void attachImage(View v)
 	{
 		controller.attachImage(v);
 	}
 	
+	/**
+	 * Start location selection activity
+	 * 
+	 * @param v the view of the button that was clicked
+	 */
 	public void openMap(View v)
 	{
 		controller.openMap(v);
 	}
 	
+	/**
+	 * Start the submit process
+	 * 
+	 * @param v the view of the button that was clicked
+	 */
 	public void submit(View v) throws InterruptedException
 	{
 		controller.submit(v);
 	}
 
 	
+	/**
+	 * Gets the location selected from the map activity to attach to a topic/comment
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		if (requestCode == 1){
