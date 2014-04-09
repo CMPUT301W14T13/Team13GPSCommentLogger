@@ -371,7 +371,7 @@ public class CommentTree extends ViewList<UpdateInterface> implements AsyncProce
 
 	public void sortElements(NavigationItems item, RankedHierarchicalActivity view, Location location)
 	{
-		ArrayList<CommentTreeElement> sortedTopics = getCommentList(view);
+		ArrayList<CommentTreeElement> sortedTopics = getChildren(view);
 		switch (item) {
 			case ProximityToMe:
 

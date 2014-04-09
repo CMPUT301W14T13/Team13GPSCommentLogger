@@ -13,6 +13,7 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.LocationSelection;
+import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.services.serialization.CommentTreeElementLocalSerializer;
 import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.views.HelpView;
@@ -22,16 +23,22 @@ import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
 import cmput301w14t13.project.views.submissions.ReplyToCommentCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.ReplyToTopicCommentSubmissionView;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import auxilliary.other.NavigationItems;
 
 
 /**
@@ -46,6 +53,8 @@ public class TopicViewController implements AsyncProcess
 
 	private TopicView topicView;
 
+	Location location = new Location("default");
+	
 	public TopicViewController(TopicView topicView) {
 		this.topicView = topicView;
 	}
@@ -235,4 +244,65 @@ public class TopicViewController implements AsyncProcess
 		notify();		
 	}
 
+	
+	public void openMap() {
+		if(NetworkReceiver.isConnected){
+			Intent map = new Intent(topicView, MapViewController.class);
+			
+			map.putExtra("lat", LocationSelection.getInstance().getLocation().getLatitude()); 
+			map.putExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+			map.putExtra("updateRank", topicView.getRank().getRank());
+			map.putExtra("canSetMarker", 1);// for editing  location
+			topicView.startActivityForResult(map, 0);  
+
+		} else {
+			// when we are not connected to any network we open a dialog for user to edit location
+			AlertDialog.Builder builder = new AlertDialog.Builder(topicView);
+
+			LayoutInflater inflater = topicView.getLayoutInflater();
+			final View dialogView = inflater.inflate(R.layout.offline_location_dialog, null);
+			builder.setView(dialogView);
+			AlertDialog ad = builder.create();
+			ad.setTitle("Select Location");
+			ad.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
+					new DialogInterface.OnClickListener()
+					{	
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{  
+							EditText text = (EditText) dialogView.findViewById(R.id.offlineLatitude);
+							double latitude = Double.parseDouble(text.getText().toString().trim());
+							text = (EditText) dialogView.findViewById(R.id.offlineLongitude);
+							double longitude = Double.parseDouble(text.getText().toString().trim());
+							location = new Location("default");
+							location.setLatitude(latitude);
+							location.setLongitude(longitude);
+							
+						}
+					});
+
+			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					//do nothing
+				}
+			});
+			ad.show();
+			
+		}
+	}
+
+		
+	public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	{
+		// When the given dropdown item is selected, show its contents in the
+		// container view.
+		if(itemPosition == 2)
+		{	
+			openMap();
+		}
+		CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), topicView, location);
+		return true;
+	}
+	
 }

@@ -10,12 +10,13 @@ package auxilliary.other;
  */
 
 public enum NavigationItems {
-	ProximityToMe(0),
-	ProximityToLocation(1),
-	Pictures(2),
-	Newest(3),
-	Oldest(4),
-	Relevant(5);
+	Relevant(0),
+	ProximityToMe(1),
+	ProximityToLocation(2),
+	Pictures(3),
+	Newest(4),
+	Oldest(5);
+	
 	
     private final int value;
     private NavigationItems(int value) {

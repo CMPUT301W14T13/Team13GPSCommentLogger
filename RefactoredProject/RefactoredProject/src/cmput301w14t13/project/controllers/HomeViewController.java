@@ -404,16 +404,16 @@ public class HomeViewController implements AsyncProcess{
 	 * @param itemId
 	 * @return
 	 */
-	/*public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	public boolean onNavigationItemSelected(int itemPosition, long itemId)
 	{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
-		if(itemPosition == 1)
+		if(itemPosition == 2)
 		{	
 			openMap();
 		}
 		CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), homeView, location);
 		return true;
-	}*/
+	}
 
 }

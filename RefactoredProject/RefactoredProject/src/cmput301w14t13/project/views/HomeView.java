@@ -57,7 +57,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	private Menu menu; //A reference to the options menu
 	protected HomeViewController controller = new HomeViewController(this);
 
-	
+
 	/**
 	 * This method loads up a ListView onto the screen
 	 * then initializes the controller to handle the list of topics
@@ -66,16 +66,16 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 
 
 	Location location = new Location("default");
-	
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_view);
-		
+
 		//set up adapter and listview
 		topicListview = (ListView) findViewById(R.id.topic_listview);
-		
+
 		try {
 			controller.connect();
 			//controller.init();
@@ -85,7 +85,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onStart()
 	{
@@ -109,28 +109,28 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onPause(){
 		super.onPause();
 		CommentTree.getInstance().deleteView(this);
 	}
-	
+
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-        controller.unbind();
+		controller.unbind();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.home_action_bar, menu);
-		
+
 		this.menu = menu;
-		
+
 		return super.onCreateOptionsMenu(menu);
 
 	}
@@ -144,7 +144,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 	public Menu getMenu() {
 		return menu;
 	}
-	
+
 	/**
 	 * Sets up a dropdown list in the actionbar for sorting
 	 * 
@@ -171,7 +171,7 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 				}), this);
 	}
 
-	
+
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Restore the previously serialized current dropdown position.
@@ -187,120 +187,68 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
 				.getSelectedNavigationIndex());
 	}
-	
+
 
 	@Override
+
 	public boolean onNavigationItemSelected(int itemPosition, long itemId)
 	{
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
-
-		// ITEM SELECTION ACTIONS DONE HERE
-		ArrayList<CommentTreeElement> sortedTopics = CommentTree.getInstance().getChildren(this);
-		
-		switch (itemPosition) {
-		case 0:
-			sortedTopics = SortFunctions.sortByMostRelevant(sortedTopics);
-			Toast.makeText(this, "Relevant",
-					Toast.LENGTH_LONG).show();
-			break;
-		
-		
-		case 1:
-			
-			sortedTopics = SortFunctions.sortByCurrentLocation(sortedTopics);
-			Toast.makeText(this, "Proximity to Me",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 2:
-			
-				openMap();
-
-				sortedTopics = SortFunctions.sortByGivenLocation(sortedTopics, location);
-				Toast.makeText(this, "Proximity to Location",
-						Toast.LENGTH_LONG).show();
-			
-			
-			break;
-			
-		case 3:
-			
-			sortedTopics = SortFunctions.sortByPicture(sortedTopics);
-			Toast.makeText(this, "Pictures",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 4:
-			
-			sortedTopics = SortFunctions.sortByNewest(sortedTopics);
-			
-			Toast.makeText(this, "Newest",
-					Toast.LENGTH_LONG).show();
-			break;
-			
-		case 5:
-			
-			sortedTopics = SortFunctions.sortByOldest(sortedTopics);
-			Toast.makeText(this, "Oldest",
-					Toast.LENGTH_LONG).show();
-			break;
-		}
-
-		CommentTree.getInstance().addSortedList(this, sortedTopics);
-		
+		controller.onNavigationItemSelected(itemPosition, itemId);
 		return true;
-		
 	}
-	
-	
-	public void openMap()
-	{
-		controller.openMap();
-	}
-		
-	/**
-	 * Used to get the location chosen during the sortByGivenLocation function
-	 */
-	@SuppressLint("NewApi")
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if (requestCode == 0){
-			if (resultCode == Activity.RESULT_OK){
-				double latitude = data.getDoubleExtra("lat", LocationSelection.getInstance().getLocation().getLatitude());
-				double longitude = data.getDoubleExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
-				location = new Location("default");
-				location.setLongitude(longitude);
-				location.setLatitude(latitude);
 
-			}
+
+
+
+
+
+public void openMap()
+{
+	controller.openMap();
+}
+
+/**
+ * Used to get the location chosen during the sortByGivenLocation function
+ */
+@SuppressLint("NewApi")
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data)
+{
+	if (requestCode == 0){
+		if (resultCode == Activity.RESULT_OK){
+			double latitude = data.getDoubleExtra("lat", LocationSelection.getInstance().getLocation().getLatitude());
+			double longitude = data.getDoubleExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+			location = new Location("default");
+			location.setLongitude(longitude);
+			location.setLatitude(latitude);
+
 		}
 	}
+}
 
-	/**
-	 * updates the list view with the most recent list of topics.
-	 */
-	@Override
-	public void update() {
-		CommentTree ct = CommentTree.getInstance();
-		displayAdapter = new CustomAdapter(this, ct.getChildren(this));
-		topicListview.setAdapter(displayAdapter);
-		displayAdapter.notifyDataSetChanged();		
-	}
+/**
+ * updates the list view with the most recent list of topics.
+ */
+@Override
+public void update() {
+	CommentTree ct = CommentTree.getInstance();
+	displayAdapter = new CustomAdapter(this, ct.getChildren(this));
+	topicListview.setAdapter(displayAdapter);
+	displayAdapter.notifyDataSetChanged();		
+}
 
-	public ListView getListView()
-	{
-		return topicListview;
-	}
-	
-	public void setListView(ListView topicListview)
-	{
-		this.topicListview = topicListview;
-	}
+public ListView getListView()
+{
+	return topicListview;
+}
 
-	@Override
-	public UpdateRank getRank() {
-		return rank;
-	}
+public void setListView(ListView topicListview)
+{
+	this.topicListview = topicListview;
+}
+
+@Override
+public UpdateRank getRank() {
+	return rank;
+}
 }

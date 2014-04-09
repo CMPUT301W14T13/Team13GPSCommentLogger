@@ -1,10 +1,17 @@
 package cmput301w14t13.project.views;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.ActionBar.OnNavigationListener;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import cmput301w14t13.project.R;
@@ -17,6 +24,7 @@ import cmput301w14t13.project.models.CommentTree;
 import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.DataStorageService;
+import cmput301w14t13.project.services.LocationSelection;
 
 /* this is our main activity */
 /**
@@ -28,7 +36,7 @@ import cmput301w14t13.project.services.DataStorageService;
  * 
  * @author  Austin
  */
-public class TopicView extends RankedHierarchicalActivity implements UpdateInterface{
+public class TopicView extends RankedHierarchicalActivity implements UpdateInterface, OnNavigationListener{
 
 	private ListView commentListview;
 
@@ -36,9 +44,13 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 
 	private TopicViewController controller = new TopicViewController(this);
 
+	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	Location location = new Location("default");
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.topic_view);  
+		initializeActionBar();
 	}
 
 	@Override
@@ -100,6 +112,54 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 		}
 	}
 
+	private void initializeActionBar()
+	{
+		// Set up the action bar to show a dropdown list.
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+		// Set up the dropdown list navigation in the action bar.
+		actionBar.setListNavigationCallbacks(
+				// Specify a SpinnerAdapter to populate the dropdown list.
+				new ArrayAdapter<String>(actionBar.getThemedContext(),
+						android.R.layout.simple_list_item_1,
+						android.R.id.text1, new String[] {
+					getString(R.string.sort1),
+					getString(R.string.sort2),
+					getString(R.string.sort3),
+					getString(R.string.sort4),
+					getString(R.string.sort5),
+					getString(R.string.sort6),
+				}), this);
+	}
+
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Restore the previously serialized current dropdown position.
+		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+			getActionBar().setSelectedNavigationItem(
+					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// Serialize the current dropdown position.
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
+				.getSelectedNavigationIndex());
+	}
+
+
+	@Override
+
+	public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	{
+		controller.onNavigationItemSelected(itemPosition, itemId);
+		return true;
+	}
+	
 	public void openMap(View v){
 		controller.OpenMap();
 	}
@@ -170,5 +230,20 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 		return rank;
 	}
 
+	@SuppressLint("NewApi")
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == 0){
+			if (resultCode == Activity.RESULT_OK){
+				double latitude = data.getDoubleExtra("lat", LocationSelection.getInstance().getLocation().getLatitude());
+				double longitude = data.getDoubleExtra("lon", LocationSelection.getInstance().getLocation().getLongitude());
+				location = new Location("default");
+				location.setLongitude(longitude);
+				location.setLatitude(latitude);
+
+			}
+		}
+	}
 
 }
