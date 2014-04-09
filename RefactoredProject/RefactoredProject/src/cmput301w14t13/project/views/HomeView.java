@@ -41,6 +41,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import auxilliary.other.NavigationItems;
 
 /* this is our main activity */
 /**
@@ -193,8 +194,16 @@ public class HomeView extends RankedHierarchicalActivity implements UpdateInterf
 
 	public boolean onNavigationItemSelected(int itemPosition, long itemId)
 	{
-		controller.onNavigationItemSelected(itemPosition, itemId);
-		return true;
+		// When the given dropdown item is selected, show its contents in the
+				// container view.
+				if(itemPosition == 2)
+				{	
+					openMap();
+				}
+				else{
+					CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), this, location);
+				}
+				return true;
 	}
 
 
@@ -222,6 +231,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent data)
 			location.setLongitude(longitude);
 			location.setLatitude(latitude);
 
+			CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(2), this, location);
 		}
 	}
 }

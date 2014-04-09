@@ -1,44 +1,29 @@
 package cmput301w14t13.project.controllers;
-import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import auxilliary.other.NavigationItems;
 import cmput301w14t13.project.R;
-import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
-import cmput301w14t13.project.auxilliary.interfaces.UpdateInterface;
 import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.models.content.Topic;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
-import cmput301w14t13.project.services.serialization.CommentTreeElementLocalSerializer;
-import cmput301w14t13.project.services.serialization.CommentTreeElementServerSerializer;
 import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.TopicView;
 import cmput301w14t13.project.views.submissions.EditCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.EditTopicSubmissionView;
 import cmput301w14t13.project.views.submissions.ReplyToCommentCommentSubmissionView;
 import cmput301w14t13.project.views.submissions.ReplyToTopicCommentSubmissionView;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.Location;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import auxilliary.other.NavigationItems;
 
 
 /**
@@ -297,6 +282,7 @@ public class TopicViewController implements AsyncProcess
 	{
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
+		
 		if(itemPosition == 2)
 		{	
 			openMap();

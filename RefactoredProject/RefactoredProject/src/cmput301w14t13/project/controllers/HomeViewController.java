@@ -1,30 +1,6 @@
 package cmput301w14t13.project.controllers;
 
 
-import java.util.ArrayList;
-
-import cmput301w14t13.project.R;
-import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
-import cmput301w14t13.project.auxilliary.tools.SortFunctions;
-import cmput301w14t13.project.models.CommentTree;
-import cmput301w14t13.project.models.content.CommentTreeElement;
-import cmput301w14t13.project.models.content.Root;
-import cmput301w14t13.project.models.tasks.InitializationServerTask;
-import cmput301w14t13.project.models.tasks.MySavesLocalTask;
-import cmput301w14t13.project.models.tasks.RootSearchServerTask;
-import cmput301w14t13.project.models.tasks.SearchServerTask;
-import cmput301w14t13.project.models.tasks.Task;
-import cmput301w14t13.project.models.tasks.TaskFactory;
-import cmput301w14t13.project.services.DataStorageService;
-import cmput301w14t13.project.services.DataStorageService.LocalBinder;
-import cmput301w14t13.project.services.LocationSelection;
-import cmput301w14t13.project.services.NetworkReceiver;
-import cmput301w14t13.project.views.FavouritesView;
-import cmput301w14t13.project.views.HelpView;
-import cmput301w14t13.project.views.HomeView;
-import cmput301w14t13.project.views.TopicView;
-import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -46,6 +22,7 @@ import auxilliary.other.NavigationItems;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.CommentTree;
+import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.Root;
 import cmput301w14t13.project.models.tasks.InitializationServerTask;
 import cmput301w14t13.project.models.tasks.MySavesLocalTask;
@@ -56,6 +33,7 @@ import cmput301w14t13.project.services.DataStorageService.LocalBinder;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
 import cmput301w14t13.project.views.FavouritesView;
+import cmput301w14t13.project.views.HelpView;
 import cmput301w14t13.project.views.HomeView;
 import cmput301w14t13.project.views.TopicView;
 import cmput301w14t13.project.views.submissions.CreateTopicSubmissionView;

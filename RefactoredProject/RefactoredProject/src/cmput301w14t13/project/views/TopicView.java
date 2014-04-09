@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import auxilliary.other.NavigationItems;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.adapters.CommentAdapter;
 import cmput301w14t13.project.auxilliary.interfaces.RankedHierarchicalActivity;
@@ -156,8 +157,15 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 
 	public boolean onNavigationItemSelected(int itemPosition, long itemId)
 	{
-		controller.onNavigationItemSelected(itemPosition, itemId);
-		return true;
+		// When the given dropdown item is selected, show its contents in the
+				// container view.
+				
+				if(itemPosition == 2)
+				{	
+					controller.openMap();
+				}
+				CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(itemPosition), this, location);
+				return true;
 	}
 	
 	public void openMap(View v){
@@ -241,7 +249,7 @@ public class TopicView extends RankedHierarchicalActivity implements UpdateInter
 				location = new Location("default");
 				location.setLongitude(longitude);
 				location.setLatitude(latitude);
-
+				CommentTree.getInstance().sortElements(NavigationItems.fromOrdinal(2), this, location);
 			}
 		}
 	}
