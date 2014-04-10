@@ -160,7 +160,7 @@ public abstract class SubmissionController {
 			submission.getSubmission().setAnonymous();
 
 		}
-		submission.getSubmission().setTimestamp();
+		
 	}
 
 	/**
