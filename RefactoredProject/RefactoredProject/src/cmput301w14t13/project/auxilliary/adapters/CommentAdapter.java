@@ -133,7 +133,7 @@ public class CommentAdapter extends BaseAdapter {
 		String num = comment.getDateDiff(post_time, new Date()).substring(0, 1);
 		int time = Integer.parseInt(num);
 		
-		if (time > 1){
+		if (time > 1 || time == 0){
 			holder.age.setText(comment.getDateDiff(post_time, new Date()) + "s ago");
 		}
 		else{

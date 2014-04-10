@@ -124,7 +124,7 @@ public class TopicViewController implements AsyncProcess
 
 		text = (TextView) topicView.findViewById(R.id.number_of_comments);
 		int count = currentTopic.getNumberOfChildren();
-		if (count > 1){
+		if (count > 1 || count == 0){
 			text.setText(String.valueOf(currentTopic.getNumberOfChildren()) + " comments");
 		}
 		else{

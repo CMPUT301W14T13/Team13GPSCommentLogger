@@ -117,7 +117,7 @@ public class CustomAdapter extends BaseAdapter {
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
 		
 		int count = topic.getNumberOfChildren();
-		if (count > 1){
+		if (count > 1 || count == 0){
 			text.setText(count + " comments");
 		}
 		else{
