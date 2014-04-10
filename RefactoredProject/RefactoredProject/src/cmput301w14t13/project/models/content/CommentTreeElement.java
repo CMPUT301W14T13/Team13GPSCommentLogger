@@ -246,5 +246,10 @@ public abstract class CommentTreeElement {
 			return String.valueOf((long) Math.ceil(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS)/365)).concat(" year");
 
 	}
+	
+	public void setTimestamp(){
+		this.timestamp = new Date();
+		
+	}
 
 }
