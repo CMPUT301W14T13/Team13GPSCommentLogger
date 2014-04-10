@@ -128,7 +128,18 @@ public class CommentAdapter extends BaseAdapter {
 		holder.username.setText("Reply from: " + String.valueOf(comment.getUsername()));
 		holder.commentText.setText(String.valueOf(comment.getCommentText()));
 		holder.coordinates.setText("Posted from: " + comment.locationString());
-		holder.age.setText(comment.getDateDiff(comment.getTimestamp(), new Date()));
+		
+		Date post_time = comment.getTimestamp();
+		String num = comment.getDateDiff(post_time, new Date()).substring(0, 1);
+		int time = Integer.parseInt(num);
+		
+		if (time > 1){
+			holder.age.setText(comment.getDateDiff(post_time, new Date()) + "s ago");
+		}
+		else{
+			holder.age.setText(comment.getDateDiff(post_time, new Date()) + " ago");
+		}
+		
 		
 		return vi;
 	}

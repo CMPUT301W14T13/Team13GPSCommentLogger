@@ -4,69 +4,66 @@
     android:layout_height="match_parent"
     android:padding="5dp" >
 
-
     <View
         android:id="@+id/left_indent1"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="4dp" 
-        android:background="@android:color/black"/>
-	
+        android:layout_marginRight="4dp"
+        android:background="@android:color/black" />
+
     <View
         android:id="@+id/left_indent2"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="4dp" 
-        android:background="@android:color/black"/>
+        android:layout_marginRight="4dp"
+        android:background="@android:color/black" />
 
     <View
         android:id="@+id/left_indent3"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="4dp" 
-        android:background="@android:color/black"/>
+        android:layout_marginRight="4dp"
+        android:background="@android:color/black" />
 
     <View
         android:id="@+id/left_indent4"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="4dp" 
-        android:background="@android:color/black"/>
+        android:layout_marginRight="4dp"
+        android:background="@android:color/black" />
 
     <View
         android:id="@+id/left_indent5"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="4dp" 
-        android:background="@android:color/black"/>
+        android:layout_marginRight="4dp"
+        android:background="@android:color/black" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="107dp" >
+        android:layout_height="match_parent"
+        android:layout_weight="0.82" >
 
         <ImageView
             android:id="@+id/commentImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/commentText"
             android:contentDescription="description"
-            android:onClick="viewImage"
-            android:scaleType="centerCrop"
-            android:layout_below="@+id/commentText" />
+            android:onClick="viewImage"/>
 
         <TextView
             android:id="@+id/commentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/comment_coordinates"
-            android:layout_alignParentBottom="true"
             android:layout_below="@+id/comment_coordinates"
-            android:layout_toLeftOf="@+id/comment_edit_button"
             android:text="Comment" />
 
         <Button
@@ -74,8 +71,8 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/commentImage"
             android:onClick="saveComment"
             android:text="Save" />
 
@@ -84,8 +81,8 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/saveComment"
+             android:layout_below="@+id/commentImage"
             android:onClick="reply"
             android:text="Reply" />
 
@@ -94,9 +91,9 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/comment_reply_button"
             android:onClick="edit"
+             android:layout_below="@+id/commentImage"
             android:text="Edit" />
 
         <TextView
@@ -124,15 +121,6 @@
             android:layout_above="@+id/commentText"
             android:layout_alignParentRight="true"
             android:text="age" />
-
     </RelativeLayout>
 
 </LinearLayout>
-
-    
-
-    
-
-    
-
-

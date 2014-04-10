@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ import auxilliary.other.NavigationItems;
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.auxilliary.interfaces.AsyncProcess;
 import cmput301w14t13.project.models.CommentTree;
-import cmput301w14t13.project.models.content.Comment;
 import cmput301w14t13.project.models.content.CommentTreeElement;
 import cmput301w14t13.project.services.LocationSelection;
 import cmput301w14t13.project.services.NetworkReceiver;
@@ -110,13 +110,41 @@ public class TopicViewController implements AsyncProcess
 
 		Date post_time = currentTopic.getTimestamp();
 		text = (TextView) topicView.findViewById(R.id.age);
-		text.setText(currentTopic.getDateDiff(post_time, new Date()));
+		
+		String num = currentTopic.getDateDiff(post_time, new Date()).substring(0, 1);
+		int time = Integer.parseInt(num);
+		
+		if (time > 1){
+			text.setText(currentTopic.getDateDiff(post_time, new Date()) + "s ago");
+		}
+		else{
+			text.setText(currentTopic.getDateDiff(post_time, new Date()) + " ago");
+		}
+		
 
 		text = (TextView) topicView.findViewById(R.id.number_of_comments);
-		text.setText(String.valueOf(currentTopic.getNumberOfChildren()) + " comments");
+		int count = currentTopic.getNumberOfChildren();
+		if (count > 1){
+			text.setText(String.valueOf(currentTopic.getNumberOfChildren()) + " comments");
+		}
+		else{
+			text.setText(String.valueOf(currentTopic.getNumberOfChildren()) + " comment");
+		}
+		
 
+		Button editButton = (Button) topicView.findViewById(R.id.topic_edit_button);
+		
+		CommentTree ct = CommentTree.getInstance();
+		CommentTreeElement topic = ct.getElement(topicView);
+		if (!ct.getCurrentUsername().equals(topic.getUsername())){
+			editButton.setVisibility(View.INVISIBLE);
+		}	
+		else{
+			editButton.setVisibility(View.VISIBLE);
+		}
+		
 		/* show bitmap */
-		ImageView imageView = (ImageView) topicView.findViewById(R.id.commentImage);
+		ImageView imageView = (ImageView) topicView.findViewById(R.id.topicCommentImage);
 		if (CommentTree.getInstance().getElement(topicView).getHasImage()) {
 			imageView.setImageBitmap(CommentTree.getInstance().getElement(topicView).getImage());
 		}

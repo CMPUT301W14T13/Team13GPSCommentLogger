@@ -103,11 +103,27 @@ public class CustomAdapter extends BaseAdapter {
 		/* get the comment age */
 		text = (TextView) vi.findViewById(R.id.age);
 		Date post_time = topic.getTimestamp();
-		text.setText(topic.getDateDiff(post_time, new Date()));
+		String num = topic.getDateDiff(post_time, new Date()).substring(0, 1);
+		int time = Integer.parseInt(num);
+		
+		if (time > 1){
+			text.setText(topic.getDateDiff(post_time, new Date()) + "s ago");
+		}
+		else{
+			text.setText(topic.getDateDiff(post_time, new Date()) + " ago");
+		}
 	
 		/* count the number of comments in the topic*/
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
-		text.setText(topic.getNumberOfChildren() + " comments");
+		
+		int count = topic.getNumberOfChildren();
+		if (count > 1){
+			text.setText(count + " comments");
+		}
+		else{
+			text.setText(count + " comment");
+		}
+		
 		
 		/* show bitmap */
 		ImageView imageView = (ImageView) vi.findViewById(R.id.topicImage);

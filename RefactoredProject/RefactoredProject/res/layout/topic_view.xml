@@ -27,20 +27,8 @@
         android:text="age"
         android:textColor="#666666" />
 
-    <TextView
-        android:id="@+id/number_of_comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/age"
-        android:layout_alignBottom="@+id/age"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/age"
-        android:gravity="left"
-        android:text="#comments"
-        android:textColor="#666666" />
-
     <ImageView
-        android:id="@+id/commentImage"
+        android:id="@+id/topicCommentImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/number_of_comments"
@@ -51,7 +39,7 @@
         android:id="@+id/topic_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/commentImage"
+        android:layout_below="@+id/topicCommentImage"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
@@ -133,5 +121,15 @@
         android:ellipsize="marquee"
         android:paddingLeft="10dp"
         android:text="Username" />
+
+    <TextView
+        android:id="@+id/number_of_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/topic_title"
+        android:gravity="left"
+        android:text="#comments"
+        android:textColor="#666666" />
 
 </RelativeLayout>
