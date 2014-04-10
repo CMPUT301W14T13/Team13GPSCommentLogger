@@ -112,9 +112,15 @@ public class TopicViewController implements AsyncProcess
 		text = (TextView) topicView.findViewById(R.id.age);
 		
 		String num = currentTopic.getDateDiff(post_time, new Date()).substring(0, 1);
-		int time = Integer.parseInt(num);
 		
-		if (time > 1){
+		String temp = currentTopic.getDateDiff(post_time, new Date()).substring(1, 2);
+		
+		if (!temp.equals(" ")){
+			num += temp;
+		}
+		
+		int time = Integer.parseInt(num.trim());
+		if (time != 1){
 			text.setText(currentTopic.getDateDiff(post_time, new Date()) + "s ago");
 		}
 		else{
@@ -124,7 +130,7 @@ public class TopicViewController implements AsyncProcess
 
 		text = (TextView) topicView.findViewById(R.id.number_of_comments);
 		int count = currentTopic.getNumberOfChildren();
-		if (count > 1 || count == 0){
+		if (count != 1){
 			text.setText(String.valueOf(currentTopic.getNumberOfChildren()) + " comments");
 		}
 		else{

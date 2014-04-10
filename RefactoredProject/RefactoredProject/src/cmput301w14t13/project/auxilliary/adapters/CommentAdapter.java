@@ -131,9 +131,16 @@ public class CommentAdapter extends BaseAdapter {
 		
 		Date post_time = comment.getTimestamp();
 		String num = comment.getDateDiff(post_time, new Date()).substring(0, 1);
-		int time = Integer.parseInt(num);
 		
-		if (time > 1 || time == 0){
+		String temp = comment.getDateDiff(post_time, new Date()).substring(1, 2);
+		
+		if (!temp.equals(" ")){
+			num += temp;
+			
+		}
+		
+		int time = Integer.parseInt(num.trim()); 
+		if (time != 1){
 			holder.age.setText(comment.getDateDiff(post_time, new Date()) + "s ago");
 		}
 		else{

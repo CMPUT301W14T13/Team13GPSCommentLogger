@@ -2,10 +2,7 @@ package cmput301w14t13.project.auxilliary.adapters;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
-import cmput301w14t13.project.R;
-import cmput301w14t13.project.models.content.CommentTreeElement;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import cmput301w14t13.project.R;
+import cmput301w14t13.project.models.content.CommentTreeElement;
 
 /**
  * This is a custom adapter to display the list of topics (aka. top level comments)
@@ -104,9 +103,14 @@ public class CustomAdapter extends BaseAdapter {
 		text = (TextView) vi.findViewById(R.id.age);
 		Date post_time = topic.getTimestamp();
 		String num = topic.getDateDiff(post_time, new Date()).substring(0, 1);
-		int time = Integer.parseInt(num);
+		String temp = topic.getDateDiff(post_time, new Date()).substring(1, 2);
 		
-		if (time > 1){
+		if (!temp.equals(" ")){
+			num += temp;
+		}
+		int time = Integer.parseInt(num.trim());
+		
+		if (time != 1){
 			text.setText(topic.getDateDiff(post_time, new Date()) + "s ago");
 		}
 		else{
@@ -117,7 +121,7 @@ public class CustomAdapter extends BaseAdapter {
 		text = (TextView) vi.findViewById(R.id.number_of_comments);
 		
 		int count = topic.getNumberOfChildren();
-		if (count > 1 || count == 0){
+		if (count != 1){
 			text.setText(count + " comments");
 		}
 		else{
