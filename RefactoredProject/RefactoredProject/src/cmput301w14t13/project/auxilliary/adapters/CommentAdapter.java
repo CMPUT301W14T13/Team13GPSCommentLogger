@@ -1,5 +1,6 @@
 package cmput301w14t13.project.auxilliary.adapters;
 import java.util.ArrayList;
+import java.util.Date;
 
 import cmput301w14t13.project.R;
 import cmput301w14t13.project.models.CommentTree;
@@ -87,6 +88,7 @@ public class CommentAdapter extends BaseAdapter {
 			holder.username = (TextView) vi.findViewById(R.id.comment_username);
 			holder.commentText = (TextView) vi.findViewById(R.id.commentText);
 			holder.coordinates = (TextView) vi.findViewById(R.id.comment_coordinates);
+			holder.age = (TextView) vi.findViewById(R.id.comment_age);
 			vi.setTag(holder);
 
 		} else {
@@ -126,6 +128,7 @@ public class CommentAdapter extends BaseAdapter {
 		holder.username.setText("Reply from: " + String.valueOf(comment.getUsername()));
 		holder.commentText.setText(String.valueOf(comment.getCommentText()));
 		holder.coordinates.setText("Posted from: " + comment.locationString());
+		holder.age.setText(comment.getDateDiff(comment.getTimestamp(), new Date()));
 		
 		return vi;
 	}
@@ -146,7 +149,7 @@ public class CommentAdapter extends BaseAdapter {
 		public TextView commentText;
 		public int indentLevel;
 		public TextView coordinates;
-
+		public TextView age;
 	}
 
 	
